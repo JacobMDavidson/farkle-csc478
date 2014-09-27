@@ -22,9 +22,9 @@ public class DieComponent extends JLabel {
 	
 	// Create constants for drawing the die
 	private static final int BORDER_GAP = 3;
-    private static final Border SELECTED_BORDER = 
+    private static final Border HELD_BORDER = 
           BorderFactory.createLineBorder(Color.red, BORDER_GAP);
-    private static final Border UNSELECTED_BORDER = 
+    private static final Border UNHELD_BORDER = 
           BorderFactory.createEmptyBorder(BORDER_GAP, BORDER_GAP, BORDER_GAP, BORDER_GAP);        
 	private static final int OUT_FRAME = 55;
     private static final int ARC = 8;
@@ -45,8 +45,10 @@ public class DieComponent extends JLabel {
     }
 	
 	public void roll() {
-		value = random.nextInt(6) + 1;
-		this.repaint();
+		if(isHeld == false) {
+			value = random.nextInt(6) + 1;
+			this.repaint();
+		}
 	}
     
     
@@ -143,4 +145,14 @@ public class DieComponent extends JLabel {
 		this.value = value;
 	}
 	
+	public void setHeld(boolean isHeld) {
+		this.isHeld = isHeld;
+		Border border = isHeld ? HELD_BORDER : UNHELD_BORDER;
+		this.setBorder(border);
+		this.repaint();
+	}
+	
+	public boolean isHeld() {
+		return this.isHeld;
+	}
 }

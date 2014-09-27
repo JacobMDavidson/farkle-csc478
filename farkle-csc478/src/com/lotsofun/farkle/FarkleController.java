@@ -45,7 +45,7 @@ public class FarkleController implements ActionListener, MouseListener {
     @Override
     public void mousePressed(MouseEvent arg0) {
         DieComponent d = (DieComponent) arg0.getSource();
-        d.roll();
+        d.setHeld(!d.isHeld());
         farkle.getScores()[9].setText("" + ((DieComponent) arg0.getSource()).getValue());
     }
     
