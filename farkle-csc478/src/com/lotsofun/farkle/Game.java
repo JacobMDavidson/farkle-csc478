@@ -1,187 +1,261 @@
 package com.lotsofun.farkle;
 
-enum gameModes {SINGLE, MULTIPLAYER}
-enum gameStates {NEW_TURN, ROLL_PREVAILDATE, ROLL_POSTVALIDATE, BONUS_TURN}
+import java.util.List;
 
 public class Game {
 
 
-	public int heldDiceCount, unheldDiceCount, numberOfPlayers = 1, currentPlayer = 0;
-	public gameModes gameMode;
-	public gameStates gameState;
+	public int numberOfPlayers = 1, currentPlayer = 0;
+	public GameMode gameMode;
+	public GameState gameState;
 	public Die[] dice;
 	public Player[] players;
-	
-	public Game ()
-	{
-		newGame();
-	}
-	
-	void newGame()
-	{
-		heldDiceCount = 0;
-		unheldDiceCount = 6;
-		gameMode = gameModes.SINGLE;
-		dice = new Die[6];
-		for (int i = 0; i < 6; i++)
-		{
-			dice[i] = new Die();
-		}
-		players = new Player[numberOfPlayers];
-		for (int i = 0; i < numberOfPlayers; i++)
-		{
-			players[i] = new Player();
-			players[i].playerNumber = i;
-			players[i].currentPlayer = false;
-		}
-		players[currentPlayer].currentPlayer = true;
-	}
-	
-	
-	
-	/*validate()  - score held/unheld dice
-	// iterate through held dice and see if the combination
-	// is contained in a map of possible scores
+	public FarkleController controller;
 
-	String selection = “”;
-
-	if (game.state == ROLL_PREVALIDATE)
-	{ // score unheld dice
-		selection = getUnheldDice()
-		iterate through map
-		{
-			if selection.contains(map value) // if any valid score
-				game.state = ROLL_POSTVALIDATE // not farkle
-				game.unheldDice = 6
-				break
-		}
-
-			if(game.state != ROLL_POSTVALIDATE)	
-			farkle() 
-			// else farkle
-	}
-	else
-	{
-		selection = getHeldDice
-		score = map.get(selection) // get combo score
-		if(score > 0)
-		{
-			rollScore.put(rollNumber, score) // set rollScore to score
-			// this allows the score to be reevaluated anytime // any die changes state
-			if(unheldDiceCount == 0)
+	
+	/**
+	 * Constructor:
+	 * Creates a new Game object, passes
+	 * the GameMode and a reference
+	 * to the controller
+	 * @param GameMode gMode
+	 * @param FarkleController controller
+	 */
+	public Game(GameMode gMode, FarkleController controller) {
+		this.gameMode = gMode;
+		this.controller = controller;
+		if(gameMode == GameMode.SINGLEPLAYER) {
+			numberOfPlayers = 1;
+			players = new Player[numberOfPlayers];
+			for (int i = 0; i < numberOfPlayers; i++)
 			{
-				game.state = BONUS_TURN
+				players[i] = new Player(i);
+				players[i].currentPlayer = true;
+				players[i].turnNumber = 1;
 			}
-			enable roll button
-			if(rollScore >= 300)
-				enable bank button
-			else
-			disable bank button
-//	}
-	else
-		disable bank button
-}*/
-
-	/*
-	farkle()
-		turnScore[turnNumber] = 0
-		change state to NEW_TURN
-		call reset()
-	*/
+		}
+		this.gameState = GameState.NEW_TURN;
+	}
 	
-	void farkle ()
+		
+	/**
+	 * Jake's shiny new scoring method with a few
+	 * modifications to accommodate a Straight
+	 * and a Full House 
+	 * 
+	 * TODO: Jake, would you mind commenting this?
+	 * 
+	 * @param roll
+	 * @return
+	 */
+	public int calculateScore(List<Integer> roll)
 	{
+		int calculatedScore = 0;
+		
+		// Flag to check for a straight
+		boolean isStraight = true;
+		
+		// Flag to check for a full house
+		boolean isFullHouse = true;
+		
+		// This array stores the count of each die in the roll. Index 0 represents a die
+		// with value 1, etc.
+		int[] countedDie = new int[6];
+		
+		// Determine the value of each die in the roll and add to the total count
+		// for each die value in countedDie
+		for (int value : roll)
+		{
+			// decrement value to get the proper die index
+			countedDie[--value]++;
+		}
+		
+		// Calculate the score for the list of die
+		for(int i = 0; i < countedDie.length; i++)
+		{
+			int currentCount = countedDie[i];
+			
+			if(currentCount != 1)
+				isStraight = false;
+			
+			if(currentCount != 2 && currentCount != 0)
+				isFullHouse = false;
+			
+			
+			
+			switch(i)
+			{
+				case 0:
+					if(currentCount > 0 && currentCount < 3)
+					{
+						calculatedScore += currentCount * 100;
+					}
+					else if(currentCount >= 3)
+					{
+						calculatedScore += 1000 * Math.pow(2 , (currentCount - 3));
+					}
+					break;
+				case 4:
+					if(currentCount > 0 && currentCount < 3)
+					{
+						calculatedScore += currentCount * 50;
+					}
+					else if(currentCount >= 3)
+					{
+						calculatedScore += 500 * Math.pow(2 , (currentCount - 3));
+					}
+					break;
+				default:
+					if(currentCount >= 3)
+					{
+						calculatedScore += (i + 1) * 100 * Math.pow(2 , (currentCount - 3));
+					}
+					else if(isStraight == true && i == 5 && roll.size() == 6)
+					{
+						calculatedScore = 1500;
+					}
+					else if(isFullHouse == true && i == 5 && roll.size() == 6)
+					{
+						calculatedScore = 750;
+					}
+					
+			}
+		}
+		return calculatedScore;
+	}
+	
+	
+	/**
+	 * Set this turn's score to 0
+	 * and end the current player's turn
+	 */
+	public void farkle ()
+	{
+		controller.setTurnScore(currentPlayer, players[currentPlayer].getTurnNumber(), 0);
 		players[currentPlayer].endTurn(true);
 		currentPlayer = getNextPlayer();
+		processHold(0);
 	}
 	
-	/*
-	roll()
-	rollNumber++
-	disable roll button
-	disable bank button
-	call roll on all dice
-	game.state = ROLL_PREVALIDATE
-	validate()
-	*/
-
-	/*
-	bank()
-	Increment player turn
-	set turnScore[turnNumber] = sum of all rollScores
-	increment activePlayer.turn
-	change state to NEW_TURN
-	reset()
-	*/
-	void bank()
+	/**
+	 * Set this turn's score to the
+	 * total of all rolls and
+	 * end the current player's turn
+	 * @return
+	 */
+	public int bank()
 	{
-		players[currentPlayer].endTurn(false);
+		controller.setTurnScore(currentPlayer, getCurrentPlayer().getTurnNumber(), getRollScores());
+		getCurrentPlayer().endTurn(false);
+		return getCurrentPlayer().getGameScore();
 	}
+
 	
-	/*
-	reset()
-	enable roll button
-	if(game.gameMode = SINGLE_PLAYER && game.activePlayer.getTurnCount >= 10)
-		endGame()
-	//TODO: Add multiplayer check
-
-		if(game.state != BONUS_TURN)
-		reset rollScore to 0
-		reset turnScore to 0
-		reset rollCount to 0
-
-		String getUnheldDice()
-			get value from all dice with state of FREE
-			sort ascending
-			
-
-		String getHeldDice()
-			get value from all dice with state of HELD
-			sort ascending
-			*/
-	void reset ()
+	/**
+	 * Get the integer index of the next player
+	 * @return
+	 */
+	public int getNextPlayer()
 	{
-		heldDiceCount = 0;
-		unheldDiceCount = 6;
-		if ((gameMode == gameModes.SINGLE) && (players[currentPlayer].turnNumber >= 10))
-		{
-			//endGame();
+		// If gameMode is Multiplayer, we need 1 or 0
+		if(gameMode == GameMode.MULTIPLAYER) {
+			return (currentPlayer == 0) ? 1 : 0;
+		} else {
+			//gameMode is Singleplayer so it's always 0
+			return 0;
 		}
 	}
 	
-	int getNextPlayer ()
-	{
-		int retVal = 0;
-		if (currentPlayer != players.length - 1)
-		{
-			retVal = currentPlayer+1;
-		}
-		return retVal;
+	/**
+	 * Add the provided score to the 
+	 * map of roll scores for the current turn
+	 * @param score
+	 */
+	public void processHold(int score) {
+		Player player = getCurrentPlayer();
+		player.scoreRoll(score);
 	}
 	
-	String getHeldDice()
-	{
-		String retVal = "";
-		for(int i = 0; i < 6; i++)
-		{
-			if (dice[i].dieState == rollState.HELD)
-			{
-				retVal += Integer.toString(dice[i].faceValue);
-			}
-		}
-		return retVal;
+	/**
+	 * Increment the current roll
+	 * number of this player
+	 * 
+	 * TODO: Could probably be more elegant
+	 */
+	public void processRoll() {
+		Player player = getCurrentPlayer();
+		player.setRollNumber(player.getRollNumber() + 1);
 	}
 	
-	String getUnheldDice()
-	{
-		String retVal = "";
-		for(int i = 0; i < 6; i++)
-		{
-			if (dice[i].dieState == rollState.FREE)
-			{
-				retVal += Integer.toString(dice[i].faceValue);
-			}
-		}
-		return retVal;
+	/**
+	 * Increment the current turn 
+	 * value for the current player
+	 */
+	public void processTurn() {
+		Player player = getCurrentPlayer();
+		player.nextTurn();
+	}
+	
+	/**
+	 * Get the total score of all
+	 * the rolls for this turn
+	 * @return
+	 */
+	public int getRollScores() {
+		Player player = getCurrentPlayer();
+		return player.getRollScores();
+	}
+
+	/*A Crap-ton of get/sets
+	 * TODO: Do we need all these variables?
+	 * */
+	
+	
+	public int getNumberOfPlayers() {
+		return numberOfPlayers;
+	}
+
+	public void setNumberOfPlayers(int numberOfPlayers) {
+		this.numberOfPlayers = numberOfPlayers;
+	}
+
+	public Player getCurrentPlayer() {
+		return players[currentPlayer];
+	}
+
+	public void setCurrentPlayer(int currentPlayer) {
+		this.currentPlayer = currentPlayer;
+	}
+
+	public GameMode getGameMode() {
+		return gameMode;
+	}
+
+	public void setGameMode(GameMode gameMode) {
+		this.gameMode = gameMode;
+	}
+
+	public GameState getGameState() {
+		return gameState;
+	}
+
+	public void setGameState(GameState gameState) {
+		this.gameState = gameState;
+	}
+
+	public Die[] getDice() {
+		return dice;
+	}
+
+	public void setDice(Die[] dice) {
+		this.dice = dice;
+	}
+
+	public Player[] getPlayers() {
+		return players;
+	}
+
+	public void setPlayers(Player[] players) {
+		this.players = players;
 	}
 }
