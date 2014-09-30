@@ -46,16 +46,19 @@ public class Game {
 	 * the Farkle score will be calculated
 	 * @return The calculated score for the list of dice
 	 */
-	public int calculateScore(List<Integer> roll)
+	public int calculateScore(List<Integer> roll, boolean checkingHeldCards)
 	{
+		boolean oneOrTwoStrictDie = false;
+		
 		// Initialize  the calculated score and set it to 0
 		int calculatedScore = 0;
 		
 		// Flag to check for a straight
 		boolean isStraight = true;
 		
-		// Flag to check for three pair
+		// Flags to check for three pair
 		boolean isThreePair = true;
+		int countOfPairs = 0;
 		
 		// This array stores the count of each die in the roll. Index 0 represents a die
 		// with value 1, etc.
@@ -75,8 +78,17 @@ public class Game {
 		for(int i = 0; i < countedDie.length; i++)
 		{
 			
+			
 			// Get the count for the current die value
 			int currentCount = countedDie[i];
+			
+			if (i >= 1 && i != 4) //If it is 2,3,4,6 aka strict dice
+			{
+				if ((currentCount == 1) || (currentCount == 2)) //Die appears 1 or 2 times
+				{
+					oneOrTwoStrictDie = true;
+				}
+			}
 			
 			// If the current count does not equal one, it can be deduced that
 			// this roll does not include a straight.
@@ -87,6 +99,10 @@ public class Game {
 			// be deduced that this roll does not include three pair
 			if(currentCount != 2 && currentCount != 0)
 				isThreePair = false;
+			if (currentCount == 2)
+			{
+				countOfPairs++;
+			}
 			// Add to the score based on the current die value
 			switch(i)
 			{
@@ -136,6 +152,18 @@ public class Game {
 						calculatedScore = 750;
 					}
 					
+			}
+		}
+		
+		if (checkingHeldCards)
+		{
+			if (countOfPairs != 3) //Stops from returning true if only two pairs are held
+			{
+				isThreePair=false;
+			}
+			if (oneOrTwoStrictDie && !isStraight && !isThreePair) //If a 2,3,4, or 6 occurs once or twice and it is not three pair or a straight
+			{
+				calculatedScore = 0;
 			}
 		}
 		

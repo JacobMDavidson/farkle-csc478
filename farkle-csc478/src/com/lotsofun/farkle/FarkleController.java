@@ -93,7 +93,7 @@ public class FarkleController implements ActionListener, MouseListener {
     		farkleGame.processRoll();
     		
     		// Score any UNHELD dice
-    		int rollScore = farkleGame.calculateScore(farkleUI.getDieValues(DieState.UNHELD));
+    		int rollScore = farkleGame.calculateScore(farkleUI.getDieValues(DieState.UNHELD), false);
     		
     		// If it's farkle
     		if(rollScore == 0) {
@@ -145,7 +145,7 @@ public class FarkleController implements ActionListener, MouseListener {
 	        if(d.isScored() == false) {
 	        	
 	        	// Get the value of the HELD dice
-		        int rollScore = farkleGame.calculateScore(farkleUI.getDieValues(DieState.HELD));
+		        int rollScore = farkleGame.calculateScore(farkleUI.getDieValues(DieState.HELD), true);
 		        
 		        // Tell the model about it
 		        farkleGame.processHold(rollScore);
