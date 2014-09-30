@@ -39,24 +39,23 @@ public class Game {
 	
 		
 	/**
-	 * Jake's shiny new scoring method with a few
-	 * modifications to accommodate a Straight
-	 * and a Full House 
+	 * Calculates the score of a list of integers per the rules of this
+	 * version of Farkle. 
 	 * 
-	 * TODO: Jake, would you mind commenting this?
-	 * 
-	 * @param roll
-	 * @return
+	 * @param roll a List of Integers representing the roll of dice for which
+	 * the Farkle score will be calculated
+	 * @return The calculated score for the list of dice
 	 */
 	public int calculateScore(List<Integer> roll)
 	{
+		// Initialize  the calculated score and set it to 0
 		int calculatedScore = 0;
 		
 		// Flag to check for a straight
 		boolean isStraight = true;
 		
-		// Flag to check for a full house
-		boolean isFullHouse = true;
+		// Flag to check for three pair
+		boolean isThreePair = true;
 		
 		// This array stores the count of each die in the roll. Index 0 represents a die
 		// with value 1, etc.
@@ -66,25 +65,33 @@ public class Game {
 		// for each die value in countedDie
 		for (int value : roll)
 		{
-			// decrement value to get the proper die index
+			// decrement value to get the proper die index and increment the count for
+			// that value of die
 			countedDie[--value]++;
 		}
 		
-		// Calculate the score for the list of die
+		// Calculate the score for the list of dice by looping through the dice count
+		// for each value of die
 		for(int i = 0; i < countedDie.length; i++)
 		{
+			
+			// Get the count for the current die value
 			int currentCount = countedDie[i];
 			
+			// If the current count does not equal one, it can be deduced that
+			// this roll does not include a straight.
 			if(currentCount != 1)
 				isStraight = false;
 			
+			// If the current count does not equal 2 and does not equal 0, it can
+			// be deduced that this roll does not include three pair
 			if(currentCount != 2 && currentCount != 0)
-				isFullHouse = false;
-			
-			
-			
+				isThreePair = false;
+			// Add to the score based on the current die value
 			switch(i)
 			{
+				// If the current die value is 1 (index 0), add 100 to the score 
+				// for every 1. If there are three or more, add 1000 * 2 ^ (count - 3)
 				case 0:
 					if(currentCount > 0 && currentCount < 3)
 					{
@@ -95,6 +102,8 @@ public class Game {
 						calculatedScore += 1000 * Math.pow(2 , (currentCount - 3));
 					}
 					break;
+				// If the current die value is 5 (index 4), add 50 to the score 
+				// for every 5. If there are three or more, add 500 * 2 ^ (count - 3)
 				case 4:
 					if(currentCount > 0 && currentCount < 3)
 					{
@@ -106,21 +115,31 @@ public class Game {
 					}
 					break;
 				default:
+					// If the count of the current die is greater than 3, add the current
+					// die value * 100 * 2 ^ (count - 3)
 					if(currentCount >= 3)
 					{
 						calculatedScore += (i + 1) * 100 * Math.pow(2 , (currentCount - 3));
 					}
+					
+					// Else if the is straight flag is true, and the die value is 6 (index 5)
+					// and 6 dice were rolled, set the calculated score to 1500
 					else if(isStraight == true && i == 5 && roll.size() == 6)
 					{
 						calculatedScore = 1500;
 					}
-					else if(isFullHouse == true && i == 5 && roll.size() == 6)
+					
+					// Else if the is three pair flag is true, and the die value is 6 (index 5)
+					// and 6 dice were rolled, set the calculated score to 750
+					else if(isThreePair == true && i == 5 && roll.size() == 6)
 					{
 						calculatedScore = 750;
 					}
 					
 			}
 		}
+		
+		// Return the calculated score
 		return calculatedScore;
 	}
 	
