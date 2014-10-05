@@ -5,7 +5,6 @@ import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.Image;
 import java.awt.Toolkit;
-import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -77,10 +76,15 @@ public class FarkleUI extends JFrame {
 					player2Name = JOptionPane.showInputDialog(this, "Please enter your name.", "Player 2");
 				}
 			// Player chooses 1 player mode
-			} else {
+			} 
+			else {
 				// Create the game object and pass it to the controller
 				controller.setGame(new Game(GameMode.SINGLEPLAYER, controller));
 			}
+		}
+		else
+		{
+			System.exit(0);
 		}
 		
 		if(playerCount != JOptionPane.CANCEL_OPTION && playerMode != JOptionPane.CANCEL_OPTION) {
@@ -256,13 +260,13 @@ public class FarkleUI extends JFrame {
 
 
 	public void rollDice() {
-		/* Test farkle roll
-		dice[0].setValue(2);
-		dice[1].setValue(2);
-		dice[2].setValue(3);
-		dice[3].setValue(4);
-		dice[4].setValue(6);
-		dice[5].setValue(6);*/
+		// Test farkle roll
+//		dice[0].setValue(1);
+//		dice[1].setValue(2);
+//		dice[2].setValue(3);
+//		dice[3].setValue(4);
+//		dice[4].setValue(5);
+//		dice[5].setValue(6);
 		
 		/* Roll all the dice*/
 		for(Die d : dice) {

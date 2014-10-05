@@ -51,6 +51,8 @@ public class Game {
 	public int calculateScore(List<Integer> roll, boolean checkingHeldCards)
 	{
 		boolean oneOrTwoStrictDie = false;
+		int numberOfDieHeld = 0;
+		numberOfDieHeld = roll.size();
 		
 		// Initialize  the calculated score and set it to 0
 		int calculatedScore = 0;
@@ -79,8 +81,6 @@ public class Game {
 		// for each value of die
 		for(int i = 0; i < countedDie.length; i++)
 		{
-			
-			
 			// Get the count for the current die value
 			int currentCount = countedDie[i];
 			
@@ -167,6 +167,10 @@ public class Game {
 			{
 				calculatedScore = 0;
 			}
+			if (numberOfDieHeld == 0)
+			{
+				calculatedScore = 0;
+			}			
 		}
 		
 		// Return the calculated score
@@ -198,7 +202,6 @@ public class Game {
 		getCurrentPlayer().endTurn(false);
 		return getCurrentPlayer().getGameScore();
 	}
-
 	
 	/**
 	 * Get the integer index of the next player
@@ -244,7 +247,7 @@ public class Game {
 		Player player = getCurrentPlayer();
 		player.nextTurn();
 	}
-	
+
 	/**
 	 * Get the total score of all
 	 * the rolls for this turn

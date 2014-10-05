@@ -67,6 +67,11 @@ public class Player {
 		currentPlayer = false;
 		rollScore.clear();
 	}
+	
+	public void bonusTurn()
+	{
+		
+	}
 
 	public int getPlayerNumber() {
 		return playerNumber;
