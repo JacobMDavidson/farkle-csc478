@@ -53,6 +53,8 @@ public class FarkleUI extends JFrame {
 	public void initUI() {
 		
 		// TODO: Possibly move lines 54 - 80 in to their own method
+		// TODO: Reuse this method to start a new game
+		
 		
 		
 		// Prompts user for game modes
@@ -261,17 +263,17 @@ public class FarkleUI extends JFrame {
 
 	public void rollDice() {
 		// Test farkle roll
-//		dice[0].setValue(1);
-//		dice[1].setValue(2);
-//		dice[2].setValue(3);
-//		dice[3].setValue(4);
-//		dice[4].setValue(5);
-//		dice[5].setValue(6);
+		dice[0].setValue(1);
+		dice[1].setValue(1);
+		dice[2].setValue(1);
+		dice[3].setValue(4);
+		dice[4].setValue(4);
+		dice[5].setValue(6);
 		
 		/* Roll all the dice*/
-		for(Die d : dice) {
-			d.roll();
-		}
+//		for(Die d : dice) {
+//			d.roll();
+//		}
 	}
 	
 	/**
@@ -329,6 +331,12 @@ public class FarkleUI extends JFrame {
 		for(Die d : dice) {
 			d.setValue(0);
 			d.setState(DieState.UNHELD);
+		}
+	}
+	
+	public void resetScores() {
+		for(JLabel score : player1Scores) {
+			score.setText("0");
 		}
 	}
 	

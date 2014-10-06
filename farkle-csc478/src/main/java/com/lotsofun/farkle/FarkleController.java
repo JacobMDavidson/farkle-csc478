@@ -9,6 +9,7 @@ import java.awt.event.MouseListener;
 public class FarkleController implements ActionListener, MouseListener {
 	FarkleUI farkleUI;
 	Game farkleGame;
+	boolean gameEnded = false;
 
 	// TODO: Game object
 
@@ -46,8 +47,11 @@ public class FarkleController implements ActionListener, MouseListener {
 	public void farkle() {
 		farkleUI.resetDice();
 		farkleUI.getRunningScore().setText("FARKLE!");
-		// farkleUI.getBankBtn().setEnabled(false);
 		farkleGame.farkle();
+
+		if (farkleGame.players[0].turnNumber > 10) {
+			endGame();
+		}
 	}
 
 	/**
@@ -57,6 +61,29 @@ public class FarkleController implements ActionListener, MouseListener {
 		farkleUI.getRunningScore().setText("0");
 		farkleUI.resetDice();
 		farkleUI.getGameScore().setText(String.valueOf(farkleGame.bank()));
+
+		if (farkleGame.players[0].turnNumber > 10) {
+			endGame();
+		}
+	}
+
+	public void endGame() {
+		farkleUI.runningScore.setText("End Game");
+		farkleUI.rollBtn.setText("New Game");
+		farkleUI.getBankBtn().setEnabled(false);
+	}
+	
+	public void newGame()
+	{
+		// farkleUI.initUI(); TODO: make this not start a new game in the same process
+		farkleUI.rollBtn.setText("Roll Dice");
+		farkleUI.runningScore.setText("0");
+		farkleGame = new Game(GameMode.SINGLEPLAYER, this);
+		//set scores for each turn
+		farkleUI.resetScores();
+		farkleUI.gameScore.setText("0");
+		
+		
 	}
 
 	/**
@@ -85,26 +112,32 @@ public class FarkleController implements ActionListener, MouseListener {
 	public void actionPerformed(ActionEvent arg0) {
 		// If Roll button clicked
 		if (arg0.getSource() == farkleUI.getRollBtn()) {
-			farkleUI.lockScoredDice();
-			farkleUI.rollDice();
+			if (farkleUI.rollBtn.getText().equals("Roll Dice")) {
+				farkleUI.lockScoredDice();
+				farkleUI.rollDice();
 
-			// Disable the Roll and Bank buttons
-			farkleUI.getRollBtn().setEnabled(false);
-			farkleUI.getBankBtn().setEnabled(false);
-
-			// Tell the model this is a new roll
-			farkleGame.processRoll();
-
-			// Score any UNHELD dice
-			int rollScore = farkleGame.calculateScore(
-					farkleUI.getDieValues(DieState.UNHELD), false);
-
-			// If it's farkle
-			if (rollScore == 0) {
-				// Tell everyone
-				farkle();
-				farkleUI.getRollBtn().setEnabled(true);
+				// Disable the Roll and Bank buttons
+				farkleUI.getRollBtn().setEnabled(false);
 				farkleUI.getBankBtn().setEnabled(false);
+
+				// Tell the model this is a new roll
+				farkleGame.processRoll();
+
+				// Score any UNHELD dice
+				int rollScore = farkleGame.calculateScore(
+						farkleUI.getDieValues(DieState.UNHELD), false);
+
+				// If it's farkle
+				if (rollScore == 0) {
+					// Tell everyone
+					farkle();
+					farkleUI.getRollBtn().setEnabled(true);
+					farkleUI.getBankBtn().setEnabled(false);
+				}
+			}
+			else if (farkleUI.rollBtn.getText().equals("New Game"))
+			{
+				newGame();
 			}
 
 			// If Bank button clicked
@@ -178,13 +211,15 @@ public class FarkleController implements ActionListener, MouseListener {
 				} else {
 					farkleUI.getRollBtn().setEnabled(false);
 				}
-				
-				if ((farkleUI.getDice(DieState.HELD).size() + farkleUI.getDice(DieState.SCORED).size() == 6) && (rollScore > 0))
-				{
+
+				if ((farkleUI.getDice(DieState.HELD).size()
+						+ farkleUI.getDice(DieState.SCORED).size() == 6)
+						&& (rollScore > 0)) {
 					farkleUI.resetDice();
-					//TODO: BrMu / CuBr - We need to update this to say BONUS! somewhere so people know when to celebrate.
-				}				
-				
+					// TODO: BrMu / CuBr - We need to update this to say BONUS!
+					// somewhere so people know when to celebrate.
+				}
+
 				farkleUI.getRunningScore()
 						.setText(String.valueOf(runningScore));
 			}
