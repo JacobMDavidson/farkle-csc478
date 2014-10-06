@@ -9,10 +9,9 @@ import java.awt.event.MouseListener;
 public class FarkleController implements ActionListener, MouseListener {
 	FarkleUI farkleUI;
 	Game farkleGame;
-	boolean gameEnded = false;
+	boolean gameEnded = false; // TODO: Move this to the game object and use accessor methods instead
 
-	// TODO: Game object
-
+	
 	public static void main(String[] args) {
 		final FarkleController controller = new FarkleController();
 		EventQueue.invokeLater(new Runnable() {
