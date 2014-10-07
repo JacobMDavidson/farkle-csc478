@@ -34,6 +34,11 @@ public class Game {
 				players[i] = new Player(i);
 				players[i].currentPlayer = true;
 				players[i].turnNumber = 1;
+				for (int j = 0; j <= 9; j++)
+				{
+					players[i].turnScores[j] = 0;
+				}
+				players[i].gameScore = 0;
 			}
 		}
 		this.gameState = GameState.NEW_TURN;
@@ -176,7 +181,6 @@ public class Game {
 		// Return the calculated score
 		return calculatedScore;
 	}
-	
 	
 	/**
 	 * Set this turn's score to 0
