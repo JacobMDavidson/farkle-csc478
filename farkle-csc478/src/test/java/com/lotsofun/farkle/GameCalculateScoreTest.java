@@ -1120,6 +1120,1002 @@ public class GameCalculateScoreTest {
 		}
 	}
 
+	/**
+	 * This method tests the calculateScore method of the Game class for all permutations of 5 dice
+	 */
+	@Test
+	public void testCalculateScore5(){
+		/* Test 50: Check scoring for a die roll of AAXYZ (A, X, Y and Z each represent all die values other than 1 or 5) */
+		
+		// Generate all permutations of the roll
+		automatedPermutations = integerPermutations("AAXYZ");
+		
+		// Convert the list of Strings to a list of lists of integers
+		for(String numbers : automatedPermutations)
+		{
+			myPermutations = permutations(numbers);
+			
+			// Check each list of integers for proper scoring
+			for(List<Integer> currentNumbers : myPermutations)
+			{
+				// Test the total score
+				score = game.calculateScore(currentNumbers, false);
+				assertEquals(0, score);
+				
+				// Test the held score
+				score = game.calculateScore(currentNumbers, true);
+				assertEquals(0, score);
+			}
+		}
+		
+		/* Test 51: Check scoring for a die roll of AAXXY (A, X and Y each represent all die values other than 1 or 5) */
+		
+		// Generate all permutations of the roll
+		automatedPermutations = integerPermutations("AAXXY");
+		
+		// Convert the list of Strings to a list of lists of integers
+		for(String numbers : automatedPermutations)
+		{
+			myPermutations = permutations(numbers);
+			
+			// Check each list of integers for proper scoring
+			for(List<Integer> currentNumbers : myPermutations)
+			{
+				// Test the total score
+				score = game.calculateScore(currentNumbers, false);
+				assertEquals(0, score);
+				
+				// Test the held score
+				score = game.calculateScore(currentNumbers, true);
+				assertEquals(0, score);
+			}
+		}
+		
+		/* Test 52: Check scoring for a die roll of 5AXYZ (A, X, Y and Z each represent all die values other than 1 or 5) */
+		
+		// Generate all permutations of the roll
+		automatedPermutations = integerPermutations("5AXYZ");
+		
+		// Convert the list of Strings to a list of lists of integers
+		for(String numbers : automatedPermutations)
+		{
+			myPermutations = permutations(numbers);
+			
+			// Check each list of integers for proper scoring
+			for(List<Integer> currentNumbers : myPermutations)
+			{
+				// Test the total score
+				score = game.calculateScore(currentNumbers, false);
+				assertEquals(50, score);
+				
+				// Test the held score
+				score = game.calculateScore(currentNumbers, true);
+				assertEquals(0, score);
+			}
+		}
+		
+		/* Test 53: Check scoring for a die roll of 5AAXY (A, X and Y each represent all die values other than 1 or 5) */
+		
+		// Generate all permutations of the roll
+		automatedPermutations = integerPermutations("5AAXY");
+		
+		// Convert the list of Strings to a list of lists of integers
+		for(String numbers : automatedPermutations)
+		{
+			myPermutations = permutations(numbers);
+			
+			// Check each list of integers for proper scoring
+			for(List<Integer> currentNumbers : myPermutations)
+			{
+				// Test the total score
+				score = game.calculateScore(currentNumbers, false);
+				assertEquals(50, score);
+				
+				// Test the held score
+				score = game.calculateScore(currentNumbers, true);
+				assertEquals(0, score);
+			}
+		}
+		
+		/* Test 54: Check scoring for a die roll of 5AAXX (A and X each represent all die values other than 1 or 5) */
+		
+		// Generate all permutations of the roll
+		automatedPermutations = integerPermutations("5AAXX");
+		
+		// Convert the list of Strings to a list of lists of integers
+		for(String numbers : automatedPermutations)
+		{
+			myPermutations = permutations(numbers);
+			
+			// Check each list of integers for proper scoring
+			for(List<Integer> currentNumbers : myPermutations)
+			{
+				// Test the total score
+				score = game.calculateScore(currentNumbers, false);
+				assertEquals(50, score);
+				
+				// Test the held score
+				score = game.calculateScore(currentNumbers, true);
+				assertEquals(0, score);
+			}
+		}
+		
+		/* Test 55: Check scoring for a die roll of 1AXYZ (A, X, Y and Z each represent all die values other than 1 or 5) */
+		
+		// Generate all permutations of the roll
+		automatedPermutations = integerPermutations("1AXYZ");
+		
+		// Convert the list of Strings to a list of lists of integers
+		for(String numbers : automatedPermutations)
+		{
+			myPermutations = permutations(numbers);
+			
+			// Check each list of integers for proper scoring
+			for(List<Integer> currentNumbers : myPermutations)
+			{
+				// Test the total score
+				score = game.calculateScore(currentNumbers, false);
+				assertEquals(100, score);
+				
+				// Test the held score
+				score = game.calculateScore(currentNumbers, true);
+				assertEquals(0, score);
+			}
+		}
+		
+		/* Test 56: Check scoring for a die roll of 1AAXY (A, X and Y each represent all die values other than 1 or 5) */
+		
+		// Generate all permutations of the roll
+		automatedPermutations = integerPermutations("1AAXY");
+		
+		// Convert the list of Strings to a list of lists of integers
+		for(String numbers : automatedPermutations)
+		{
+			myPermutations = permutations(numbers);
+			
+			// Check each list of integers for proper scoring
+			for(List<Integer> currentNumbers : myPermutations)
+			{
+				// Test the total score
+				score = game.calculateScore(currentNumbers, false);
+				assertEquals(100, score);
+				
+				// Test the held score
+				score = game.calculateScore(currentNumbers, true);
+				assertEquals(0, score);
+			}
+		}
+		
+		/* Test 57: Check scoring for a die roll of 1AAXX (A and X each represent all die values other than 1 or 5) */
+		
+		// Generate all permutations of the roll
+		automatedPermutations = integerPermutations("1AAXX");
+		
+		// Convert the list of Strings to a list of lists of integers
+		for(String numbers : automatedPermutations)
+		{
+			myPermutations = permutations(numbers);
+			
+			// Check each list of integers for proper scoring
+			for(List<Integer> currentNumbers : myPermutations)
+			{
+				// Test the total score
+				score = game.calculateScore(currentNumbers, false);
+				assertEquals(100, score);
+				
+				// Test the held score
+				score = game.calculateScore(currentNumbers, true);
+				assertEquals(0, score);
+			}
+		}
+		
+		/* Test 58: Check scoring for a die roll of 55AXY (A, X and Y each represent all die values other than 1 or 5) */
+		
+		// Generate all permutations of the roll
+		automatedPermutations = integerPermutations("55AXY");
+		
+		// Convert the list of Strings to a list of lists of integers
+		for(String numbers : automatedPermutations)
+		{
+			myPermutations = permutations(numbers);
+			
+			// Check each list of integers for proper scoring
+			for(List<Integer> currentNumbers : myPermutations)
+			{
+				// Test the total score
+				score = game.calculateScore(currentNumbers, false);
+				assertEquals(100, score);
+				
+				// Test the held score
+				score = game.calculateScore(currentNumbers, true);
+				assertEquals(0, score);
+			}
+		}
+		
+		/* Test 59: Check scoring for a die roll of 55AAX (A and X each represent all die values other than 1 or 5) */
+		
+		// Generate all permutations of the roll
+		automatedPermutations = integerPermutations("55AAX");
+		
+		// Convert the list of Strings to a list of lists of integers
+		for(String numbers : automatedPermutations)
+		{
+			myPermutations = permutations(numbers);
+			
+			// Check each list of integers for proper scoring
+			for(List<Integer> currentNumbers : myPermutations)
+			{
+				// Test the total score
+				score = game.calculateScore(currentNumbers, false);
+				assertEquals(100, score);
+				
+				// Test the held score
+				score = game.calculateScore(currentNumbers, true);
+				assertEquals(0, score);
+			}
+		}
+		
+		/* Test 60: Check scoring for a die roll of 15AXY (A, X and Y each represent all die values other than 1 or 5) */
+		
+		// Generate all permutations of the roll
+		automatedPermutations = integerPermutations("15AXY");
+		
+		// Convert the list of Strings to a list of lists of integers
+		for(String numbers : automatedPermutations)
+		{
+			myPermutations = permutations(numbers);
+			
+			// Check each list of integers for proper scoring
+			for(List<Integer> currentNumbers : myPermutations)
+			{
+				// Test the total score
+				score = game.calculateScore(currentNumbers, false);
+				assertEquals(150, score);
+				
+				// Test the held score
+				score = game.calculateScore(currentNumbers, true);
+				assertEquals(0, score);
+			}
+		}
+		
+		/* Test 61: Check scoring for a die roll of 15AAX (A and X each represent all die values other than 1 or 5) */
+		
+		// Generate all permutations of the roll
+		automatedPermutations = integerPermutations("15AAX");
+		
+		// Convert the list of Strings to a list of lists of integers
+		for(String numbers : automatedPermutations)
+		{
+			myPermutations = permutations(numbers);
+			
+			// Check each list of integers for proper scoring
+			for(List<Integer> currentNumbers : myPermutations)
+			{
+				// Test the total score
+				score = game.calculateScore(currentNumbers, false);
+				assertEquals(150, score);
+				
+				// Test the held score
+				score = game.calculateScore(currentNumbers, true);
+				assertEquals(0, score);
+			}
+		}
+		
+		/* Test 62: Check scoring for a die roll of 11AXY (A, X and Y each represent all die values other than 1 or 5) */
+		
+		// Generate all permutations of the roll
+		automatedPermutations = integerPermutations("11AXY");
+		
+		// Convert the list of Strings to a list of lists of integers
+		for(String numbers : automatedPermutations)
+		{
+			myPermutations = permutations(numbers);
+			
+			// Check each list of integers for proper scoring
+			for(List<Integer> currentNumbers : myPermutations)
+			{
+				// Test the total score
+				score = game.calculateScore(currentNumbers, false);
+				assertEquals(200, score);
+				
+				// Test the held score
+				score = game.calculateScore(currentNumbers, true);
+				assertEquals(0, score);
+			}
+		}
+		
+		/* Test 63: Check scoring for a die roll of 11AAX (A and X each represent all die values other than 1 or 5) */
+		
+		// Generate all permutations of the roll
+		automatedPermutations = integerPermutations("11AAX");
+		
+		// Convert the list of Strings to a list of lists of integers
+		for(String numbers : automatedPermutations)
+		{
+			myPermutations = permutations(numbers);
+			
+			// Check each list of integers for proper scoring
+			for(List<Integer> currentNumbers : myPermutations)
+			{
+				// Test the total score
+				score = game.calculateScore(currentNumbers, false);
+				assertEquals(200, score);
+				
+				// Test the held score
+				score = game.calculateScore(currentNumbers, true);
+				assertEquals(0, score);
+			}
+		}
+		
+		/* Test 64: Check scoring for a die roll of 155AX (A and X each represent all die values other than 1 or 5) */
+		
+		// Generate all permutations of the roll
+		automatedPermutations = integerPermutations("155AX");
+		
+		// Convert the list of Strings to a list of lists of integers
+		for(String numbers : automatedPermutations)
+		{
+			myPermutations = permutations(numbers);
+			
+			// Check each list of integers for proper scoring
+			for(List<Integer> currentNumbers : myPermutations)
+			{
+				// Test the total score
+				score = game.calculateScore(currentNumbers, false);
+				assertEquals(200, score);
+				
+				// Test the held score
+				score = game.calculateScore(currentNumbers, true);
+				assertEquals(0, score);
+			}
+		}
+		
+		
+		/* Test 65: Check scoring for a die roll of 155AA (A represents all die values other than 1 or 5) */
+		
+		// Generate all permutations of the roll
+		automatedPermutations = integerPermutations("155AA");
+		
+		// Convert the list of Strings to a list of lists of integers
+		for(String numbers : automatedPermutations)
+		{
+			myPermutations = permutations(numbers);
+			
+			// Check each list of integers for proper scoring
+			for(List<Integer> currentNumbers : myPermutations)
+			{
+				// Test the total score
+				score = game.calculateScore(currentNumbers, false);
+				assertEquals(200, score);
+				
+				// Test the held score
+				score = game.calculateScore(currentNumbers, true);
+				assertEquals(0, score);
+			}
+		}
+		
+		/* Test 66: Check scoring for a die roll of 115AX (A and X each represent all die values other than 1 or 5) */
+		
+		// Generate all permutations of the roll
+		automatedPermutations = integerPermutations("115AX");
+		
+		// Convert the list of Strings to a list of lists of integers
+		for(String numbers : automatedPermutations)
+		{
+			myPermutations = permutations(numbers);
+			
+			// Check each list of integers for proper scoring
+			for(List<Integer> currentNumbers : myPermutations)
+			{
+				// Test the total score
+				score = game.calculateScore(currentNumbers, false);
+				assertEquals(250, score);
+				
+				// Test the held score
+				score = game.calculateScore(currentNumbers, true);
+				assertEquals(0, score);
+			}
+		}
+		
+		
+		/* Test 67: Check scoring for a die roll of 115AA (A represents all die values other than 1 or 5) */
+		
+		// Generate all permutations of the roll
+		automatedPermutations = integerPermutations("115AA");
+		
+		// Convert the list of Strings to a list of lists of integers
+		for(String numbers : automatedPermutations)
+		{
+			myPermutations = permutations(numbers);
+			
+			// Check each list of integers for proper scoring
+			for(List<Integer> currentNumbers : myPermutations)
+			{
+				// Test the total score
+				score = game.calculateScore(currentNumbers, false);
+				assertEquals(250, score);
+				
+				// Test the held score
+				score = game.calculateScore(currentNumbers, true);
+				assertEquals(0, score);
+			}
+		}
+		
+		/* Test 68: Check scoring for a die roll of AAAXY (A, X and Y each represent all die values other than 1 or 5) */
+		
+		// Generate all permutations of the roll
+		automatedPermutations = integerPermutations("AAAXY");
+		
+		// Convert the list of Strings to a list of lists of integers
+		for(String numbers : automatedPermutations)
+		{
+			myPermutations = permutations(numbers);
+			
+			// Get the die value for calculating the score
+			dieOneValue = Character.getNumericValue(numbers.charAt(0));
+			
+			// Check each list of integers for proper scoring
+			for(List<Integer> currentNumbers : myPermutations)
+			{
+				// Test the total score
+				score = game.calculateScore(currentNumbers, false);
+				assertEquals(100 * dieOneValue, score);
+				
+				// Test the held score
+				score = game.calculateScore(currentNumbers, true);
+				assertEquals(0, score);
+			}
+		}
+		
+		/* Test 69: Check scoring for a die roll of AAAXX (A and X each represent all die values other than 1 or 5) */
+		
+		// Generate all permutations of the roll
+		automatedPermutations = integerPermutations("AAAXX");
+		
+		// Convert the list of Strings to a list of lists of integers
+		for(String numbers : automatedPermutations)
+		{
+			myPermutations = permutations(numbers);
+			
+			// Get the die value for calculating the score
+			dieOneValue = Character.getNumericValue(numbers.charAt(0));
+			
+			// Check each list of integers for proper scoring
+			for(List<Integer> currentNumbers : myPermutations)
+			{
+				// Test the total score
+				score = game.calculateScore(currentNumbers, false);
+				assertEquals(100 * dieOneValue, score);
+				
+				// Test the held score
+				score = game.calculateScore(currentNumbers, true);
+				assertEquals(0, score);
+			}
+		}
+		
+		
+		/* Test 70: Check scoring for a die roll of 5AAAX (A and X each represent all die values other than 1 or 5) */
+		
+		// Generate all permutations of the roll
+		automatedPermutations = integerPermutations("5AAAX");
+		
+		// Convert the list of Strings to a list of lists of integers
+		for(String numbers : automatedPermutations)
+		{
+			myPermutations = permutations(numbers);
+			
+			// Get the die value for calculating the score
+			dieOneValue = Character.getNumericValue(numbers.charAt(1));
+			
+			// Check each list of integers for proper scoring
+			for(List<Integer> currentNumbers : myPermutations)
+			{
+				// Test the total score
+				score = game.calculateScore(currentNumbers, false);
+				assertEquals(50 + 100 * dieOneValue, score);
+				
+				// Test the held score
+				score = game.calculateScore(currentNumbers, true);
+				assertEquals(0, score);
+			}
+		}
+		
+		/* Test 71: Check scoring for a die roll of 1AAAX (A and X each represent all die values other than 1 or 5) */
+		
+		// Generate all permutations of the roll
+		automatedPermutations = integerPermutations("1AAAX");
+		
+		// Convert the list of Strings to a list of lists of integers
+		for(String numbers : automatedPermutations)
+		{
+			myPermutations = permutations(numbers);
+			
+			// Get the die value for calculating the score
+			dieOneValue = Character.getNumericValue(numbers.charAt(1));
+			
+			// Check each list of integers for proper scoring
+			for(List<Integer> currentNumbers : myPermutations)
+			{
+				// Test the total score
+				score = game.calculateScore(currentNumbers, false);
+				assertEquals(100 + 100 * dieOneValue, score);
+				
+				// Test the held score
+				score = game.calculateScore(currentNumbers, true);
+				assertEquals(0, score);
+			}
+		}
+		
+		/* Test 72: Check scoring for a die roll of 55AAA (A represents all die values other than 1 or 5) */
+		
+		// Generate all permutations of the roll
+		automatedPermutations = integerPermutations("55AAA");
+		
+		// Convert the list of Strings to a list of lists of integers
+		for(String numbers : automatedPermutations)
+		{
+			myPermutations = permutations(numbers);
+			
+			// Get the die value for calculating the score
+			dieOneValue = Character.getNumericValue(numbers.charAt(2));
+			
+			// Check each list of integers for proper scoring
+			for(List<Integer> currentNumbers : myPermutations)
+			{
+				// Test the total score
+				score = game.calculateScore(currentNumbers, false);
+				assertEquals(100 + 100 * dieOneValue, score);
+				
+				// Test the held score
+				score = game.calculateScore(currentNumbers, true);
+				assertEquals(100 + 100 * dieOneValue, score);
+			}
+		}
+		
+		/* Test 73: Check scoring for a die roll of 15AAA (A represents all die values other than 1 or 5) */
+		
+		// Generate all permutations of the roll
+		automatedPermutations = integerPermutations("15AAA");
+		
+		// Convert the list of Strings to a list of lists of integers
+		for(String numbers : automatedPermutations)
+		{
+			myPermutations = permutations(numbers);
+			
+			// Get the die value for calculating the score
+			dieOneValue = Character.getNumericValue(numbers.charAt(2));
+			
+			// Check each list of integers for proper scoring
+			for(List<Integer> currentNumbers : myPermutations)
+			{
+				// Test the total score
+				score = game.calculateScore(currentNumbers, false);
+				assertEquals(150 + 100 * dieOneValue, score);
+				
+				// Test the held score
+				score = game.calculateScore(currentNumbers, true);
+				assertEquals(150 + 100 * dieOneValue, score);
+			}
+		}
+		
+		/* Test 74: Check scoring for a die roll of 11AAA (A represents all die values other than 1 or 5) */
+		
+		// Generate all permutations of the roll
+		automatedPermutations = integerPermutations("11AAA");
+		
+		// Convert the list of Strings to a list of lists of integers
+		for(String numbers : automatedPermutations)
+		{
+			myPermutations = permutations(numbers);
+			
+			// Get the die value for calculating the score
+			dieOneValue = Character.getNumericValue(numbers.charAt(2));
+			
+			// Check each list of integers for proper scoring
+			for(List<Integer> currentNumbers : myPermutations)
+			{
+				// Test the total score
+				score = game.calculateScore(currentNumbers, false);
+				assertEquals(200 + 100 * dieOneValue, score);
+				
+				// Test the held score
+				score = game.calculateScore(currentNumbers, true);
+				assertEquals(200 + 100 * dieOneValue, score);
+			}
+		}
+		
+		/* Test 75: Check scoring for a die roll of 555AX (A and X each represent all die values other than 1 or 5) */
+		
+		// Generate all permutations of the roll
+		automatedPermutations = integerPermutations("555AX");
+		
+		// Convert the list of Strings to a list of lists of integers
+		for(String numbers : automatedPermutations)
+		{
+			myPermutations = permutations(numbers);
+			
+			// Check each list of integers for proper scoring
+			for(List<Integer> currentNumbers : myPermutations)
+			{
+				// Test the total score
+				score = game.calculateScore(currentNumbers, false);
+				assertEquals(500, score);
+				
+				// Test the held score
+				score = game.calculateScore(currentNumbers, true);
+				assertEquals(0, score);
+			}
+		}
+		
+		/* Test 76: Check scoring for a die roll of 555AA (A represents all die values other than 1 or 5) */
+		
+		// Generate all permutations of the roll
+		automatedPermutations = integerPermutations("555AA");
+		
+		// Convert the list of Strings to a list of lists of integers
+		for(String numbers : automatedPermutations)
+		{
+			myPermutations = permutations(numbers);
+			
+			// Check each list of integers for proper scoring
+			for(List<Integer> currentNumbers : myPermutations)
+			{
+				// Test the total score
+				score = game.calculateScore(currentNumbers, false);
+				assertEquals(500, score);
+				
+				// Test the held score
+				score = game.calculateScore(currentNumbers, true);
+				assertEquals(0, score);
+			}
+		}
+		
+		/* Test 77: Check scoring for a die roll of 1555A (A represents all die values other than 1 or 5) */
+		
+		// Generate all permutations of the roll
+		automatedPermutations = integerPermutations("1555A");
+		
+		// Convert the list of Strings to a list of lists of integers
+		for(String numbers : automatedPermutations)
+		{
+			myPermutations = permutations(numbers);
+			
+			// Check each list of integers for proper scoring
+			for(List<Integer> currentNumbers : myPermutations)
+			{
+				// Test the total score
+				score = game.calculateScore(currentNumbers, false);
+				assertEquals(600, score);
+				
+				// Test the held score
+				score = game.calculateScore(currentNumbers, true);
+				assertEquals(0, score);
+			}
+		}
+		
+		/* Test 78: Check scoring for a die roll of 11555 */
+		
+		// Generate all permutations of the roll and store in a list of lists of integers
+		myPermutations = permutations("11555");
+		
+		// Check each list of integers for correct scoring
+		for(List<Integer> numbers : myPermutations)
+		{
+			// Test the total score
+			score = game.calculateScore(numbers, false);
+			assertEquals(700, score);
+			
+			// Test the held score
+			score = game.calculateScore(numbers, true);
+			assertEquals(700, score);
+		}
+		
+		/* Test 79: Check scoring for a die roll of 111AX (A and X each represent all die values other than 1 or 5) */
+		
+		// Generate all permutations of the roll
+		automatedPermutations = integerPermutations("111AX");
+		
+		// Convert the list of Strings to a list of lists of integers
+		for(String numbers : automatedPermutations)
+		{
+			myPermutations = permutations(numbers);
+			
+			// Check each list of integers for proper scoring
+			for(List<Integer> currentNumbers : myPermutations)
+			{
+				// Test the total score
+				score = game.calculateScore(currentNumbers, false);
+				assertEquals(1000, score);
+				
+				// Test the held score
+				score = game.calculateScore(currentNumbers, true);
+				assertEquals(0, score);
+			}
+		}
+		
+		/* Test 80: Check scoring for a die roll of 111AA (A represents all die values other than 1 or 5) */
+		
+		// Generate all permutations of the roll
+		automatedPermutations = integerPermutations("111AA");
+		
+		// Convert the list of Strings to a list of lists of integers
+		for(String numbers : automatedPermutations)
+		{
+			myPermutations = permutations(numbers);
+			
+			// Check each list of integers for proper scoring
+			for(List<Integer> currentNumbers : myPermutations)
+			{
+				// Test the total score
+				score = game.calculateScore(currentNumbers, false);
+				assertEquals(1000, score);
+				
+				// Test the held score
+				score = game.calculateScore(currentNumbers, true);
+				assertEquals(0, score);
+			}
+		}
+		
+		/* Test 81: Check scoring for a die roll of 1115A (A represents all die values other than 1 or 5) */
+		
+		// Generate all permutations of the roll
+		automatedPermutations = integerPermutations("1115A");
+		
+		// Convert the list of Strings to a list of lists of integers
+		for(String numbers : automatedPermutations)
+		{
+			myPermutations = permutations(numbers);
+			
+			// Check each list of integers for proper scoring
+			for(List<Integer> currentNumbers : myPermutations)
+			{
+				// Test the total score
+				score = game.calculateScore(currentNumbers, false);
+				assertEquals(1050, score);
+				
+				// Test the held score
+				score = game.calculateScore(currentNumbers, true);
+				assertEquals(0, score);
+			}
+		}
+		
+		/* Test 82: Check scoring for a die roll of 11155 */
+		
+		// Generate all permutations of the roll and store in a list of lists of integers
+		myPermutations = permutations("11155");
+		
+		// Check each list of integers for correct scoring
+		for(List<Integer> numbers : myPermutations)
+		{
+			// Test the total score
+			score = game.calculateScore(numbers, false);
+			assertEquals(1100, score);
+			
+			// Test the held score
+			score = game.calculateScore(numbers, true);
+			assertEquals(1100, score);
+		}
+		
+		/* Test 83: Check scoring for a die roll of AAAAX (A and X each represent all die values other than 1 or 5) */
+		
+		// Generate all permutations of the roll
+		automatedPermutations = integerPermutations("AAAAX");
+		
+		// Convert the list of Strings to a list of lists of integers
+		for(String numbers : automatedPermutations)
+		{
+			myPermutations = permutations(numbers);
+			
+			// Get the die value for calculating the score
+			dieOneValue = Character.getNumericValue(numbers.charAt(0));
+			
+			// Check each list of integers for proper scoring
+			for(List<Integer> currentNumbers : myPermutations)
+			{
+				// Test the total score
+				score = game.calculateScore(currentNumbers, false);
+				assertEquals(200 * dieOneValue, score);
+				
+				// Test the held score
+				score = game.calculateScore(currentNumbers, true);
+				assertEquals(0, score);
+			}
+		}
+		
+		/* Test 84: Check scoring for a die roll of 5AAAA (A represents all die values other than 1 or 5) */
+		
+		// Generate all permutations of the roll
+		automatedPermutations = integerPermutations("5AAAA");
+		
+		// Convert the list of Strings to a list of lists of integers
+		for(String numbers : automatedPermutations)
+		{
+			myPermutations = permutations(numbers);
+			
+			// Get the die value for calculating the score
+			dieOneValue = Character.getNumericValue(numbers.charAt(1));
+			
+			// Check each list of integers for proper scoring
+			for(List<Integer> currentNumbers : myPermutations)
+			{
+				// Test the total score
+				score = game.calculateScore(currentNumbers, false);
+				assertEquals(200 * dieOneValue + 50, score);
+				
+				// Test the held score
+				score = game.calculateScore(currentNumbers, true);
+				assertEquals(200 * dieOneValue + 50, score);
+			}
+		}
+		
+		/* Test 85: Check scoring for a die roll of 1AAAA (A represents all die values other than 1 or 5) */
+		
+		// Generate all permutations of the roll
+		automatedPermutations = integerPermutations("1AAAA");
+		
+		// Convert the list of Strings to a list of lists of integers
+		for(String numbers : automatedPermutations)
+		{
+			myPermutations = permutations(numbers);
+			
+			// Get the die value for calculating the score
+			dieOneValue = Character.getNumericValue(numbers.charAt(1));
+			
+			// Check each list of integers for proper scoring
+			for(List<Integer> currentNumbers : myPermutations)
+			{
+				// Test the total score
+				score = game.calculateScore(currentNumbers, false);
+				assertEquals(200 * dieOneValue + 100, score);
+				
+				// Test the held score
+				score = game.calculateScore(currentNumbers, true);
+				assertEquals(200 * dieOneValue + 100, score);
+			}
+		}
+		
+		
+		/* Test 86: Check scoring for a die roll of 5555A (A represents all die values other than 1 or 5) */
+		
+		// Generate all permutations of the roll
+		automatedPermutations = integerPermutations("5555A");
+		
+		// Convert the list of Strings to a list of lists of integers
+		for(String numbers : automatedPermutations)
+		{
+			myPermutations = permutations(numbers);
+			
+			// Check each list of integers for proper scoring
+			for(List<Integer> currentNumbers : myPermutations)
+			{
+				// Test the total score
+				score = game.calculateScore(currentNumbers, false);
+				assertEquals(1000, score);
+				
+				// Test the held score
+				score = game.calculateScore(currentNumbers, true);
+				assertEquals(0, score);
+			}
+		}
+		
+		/* Test 87: Check scoring for a die roll of 15555 */
+		
+		// Generate all permutations of the roll and store in a list of lists of integers
+		myPermutations = permutations("15555");
+		
+		// Check each list of integers for correct scoring
+		for(List<Integer> numbers : myPermutations)
+		{
+			// Test the total score
+			score = game.calculateScore(numbers, false);
+			assertEquals(1100, score);
+			
+			// Test the held score
+			score = game.calculateScore(numbers, true);
+			assertEquals(1100, score);
+		}
+		
+		/* Test 88: Check scoring for a die roll of 1111A (A represents all die values other than 1 or 5) */
+		
+		// Generate all permutations of the roll
+		automatedPermutations = integerPermutations("1111A");
+		
+		// Convert the list of Strings to a list of lists of integers
+		for(String numbers : automatedPermutations)
+		{
+			myPermutations = permutations(numbers);
+			
+			// Check each list of integers for proper scoring
+			for(List<Integer> currentNumbers : myPermutations)
+			{
+				// Test the total score
+				score = game.calculateScore(currentNumbers, false);
+				assertEquals(2000, score);
+				
+				// Test the held score
+				score = game.calculateScore(currentNumbers, true);
+				assertEquals(0, score);
+			}
+		}
+		
+		/* Test 89: Check scoring for a die roll of 11115 */
+		
+		// Generate all permutations of the roll and store in a list of lists of integers
+		myPermutations = permutations("11115");
+		
+		// Check each list of integers for correct scoring
+		for(List<Integer> numbers : myPermutations)
+		{
+			// Test the total score
+			score = game.calculateScore(numbers, false);
+			assertEquals(2050, score);
+			
+			// Test the held score
+			score = game.calculateScore(numbers, true);
+			assertEquals(2050, score);
+		}
+		
+		/* Test 90: Check scoring for a die roll of AAAAA (A represents all die values other than 1 or 5) */
+		
+		// Generate all permutations of the roll
+		automatedPermutations = integerPermutations("AAAAA");
+		
+		// Convert the list of Strings to a list of lists of integers
+		for(String numbers : automatedPermutations)
+		{
+			myPermutations = permutations(numbers);
+			
+			// Get the die value for calculating the score
+			dieOneValue = Character.getNumericValue(numbers.charAt(0));
+			
+			// Check each list of integers for proper scoring
+			for(List<Integer> currentNumbers : myPermutations)
+			{
+				// Test the total score
+				score = game.calculateScore(currentNumbers, false);
+				assertEquals(400 * dieOneValue, score);
+				
+				// Test the held score
+				score = game.calculateScore(currentNumbers, true);
+				assertEquals(400 * dieOneValue, score);
+			}
+		}
+		
+		/* Test 91: Check scoring for a die roll of 55555 */
+		
+		// Generate all permutations of the roll and store in a list of lists of integers
+		myPermutations = permutations("55555");
+		
+		// Check each list of integers for correct scoring
+		for(List<Integer> numbers : myPermutations)
+		{
+			// Test the total score
+			score = game.calculateScore(numbers, false);
+			assertEquals(2000, score);
+			
+			// Test the held score
+			score = game.calculateScore(numbers, true);
+			assertEquals(2000, score);
+		}
+		
+		/* Test 92: Check scoring for a die roll of 11111 */
+		
+		// Generate all permutations of the roll and store in a list of lists of integers
+		myPermutations = permutations("11111");
+		
+		// Check each list of integers for correct scoring
+		for(List<Integer> numbers : myPermutations)
+		{
+			// Test the total score
+			score = game.calculateScore(numbers, false);
+			assertEquals(4000, score);
+			
+			// Test the held score
+			score = game.calculateScore(numbers, true);
+			assertEquals(4000, score);
+		}
+	}
+	
 	// Helper methods for determining permutations
 	
 	/**
