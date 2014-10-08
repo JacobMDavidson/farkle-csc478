@@ -227,6 +227,7 @@ public class FarkleUI extends JFrame {
     	} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+			System.exit(0);
 		}
     	
     	return scorePanel;
