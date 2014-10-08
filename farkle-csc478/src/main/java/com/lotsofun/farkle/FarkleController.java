@@ -115,6 +115,9 @@ public class FarkleController implements ActionListener, MouseListener {
 				farkleUI.lockScoredDice();
 				farkleUI.rollDice();
 
+				// Play roll sound
+				farkleUI.playRollSound();
+				
 				// Disable the Roll and Bank buttons
 				farkleUI.getRollBtn().setEnabled(false);
 				farkleUI.getBankBtn().setEnabled(false);
@@ -142,6 +145,7 @@ public class FarkleController implements ActionListener, MouseListener {
 			// If Bank button clicked
 		} else if (arg0.getSource() == farkleUI.getBankBtn()) {
 			bank();
+			farkleUI.playBankSound();
 		}
 	}
 
@@ -215,6 +219,7 @@ public class FarkleController implements ActionListener, MouseListener {
 						+ farkleUI.getDice(DieState.SCORED).size() == 6)
 						&& (rollScore > 0)) {
 					farkleUI.resetDice();
+					farkleUI.playBonusSound();
 					// TODO: BrMu / CuBr - We need to update this to say BONUS!
 					// somewhere so people know when to celebrate.
 				}

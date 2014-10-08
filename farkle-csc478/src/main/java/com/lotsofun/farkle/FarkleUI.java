@@ -6,10 +6,17 @@ import java.awt.GridLayout;
 import java.awt.Image;
 import java.awt.Toolkit;
 import java.io.IOException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 import javax.imageio.ImageIO;
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
+import javax.sound.sampled.LineUnavailableException;
+import javax.sound.sampled.UnsupportedAudioFileException;
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -25,14 +32,18 @@ public class FarkleUI extends JFrame {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	public  Die[] dice = new Die[6];
-	public  JButton rollBtn = new JButton("Roll Dice");
-	public  JButton bankBtn = new JButton("Bank Score");
-	public  FarkleController controller;
-	public  JLabel[] player1Scores = new JLabel[10];
-	public  JLabel[] player2Scores = new JLabel[10];
-	public  JLabel gameScore = new JLabel("0");
-	public  JLabel runningScore = new JLabel();
+	public Die[] dice = new Die[6];
+	public JButton rollBtn = new JButton("Roll Dice");
+	public JButton bankBtn = new JButton("Bank Score");
+	public FarkleController controller;
+	public JLabel[] player1Scores = new JLabel[10];
+	public JLabel[] player2Scores = new JLabel[10];
+	public JLabel gameScore = new JLabel("0");
+	public JLabel runningScore = new JLabel();
+	public ArrayList<URL> rollSounds = new ArrayList<URL>();
+	public ArrayList<URL> bankSounds = new ArrayList<URL>();
+	public URL bonusSound;
+	public AudioInputStream audioStream = null;
 
 	
 	/**
@@ -55,7 +66,15 @@ public class FarkleUI extends JFrame {
 		// TODO: Possibly move lines 54 - 80 in to their own method
 		// TODO: Reuse this method to start a new game
 		
-		
+		rollSounds.add(getClass().getResource("/sounds/roll1.wav"));
+		rollSounds.add(getClass().getResource("/sounds/roll2.wav")); 
+		rollSounds.add(getClass().getResource("/sounds/roll3.wav"));
+		rollSounds.add(getClass().getResource("/sounds/roll4.wav"));
+		bankSounds.add(getClass().getResource("/sounds/bank1.wav"));
+		bankSounds.add(getClass().getResource("/sounds/bank2.wav"));
+		bankSounds.add(getClass().getResource("/sounds/bank3.wav"));
+		bankSounds.add(getClass().getResource("/sounds/bank4.wav"));
+		bonusSound = getClass().getResource("/sounds/bonus.wav");
 		
 		// Prompts user for game modes
 		Object countOps[] = {"1 Player", "2 Players", "Cancel"};
@@ -218,7 +237,7 @@ public class FarkleUI extends JFrame {
     	JPanel scorePanel = new JPanel();
     	try {
     		
-			Image scoreGuide = ImageIO.read(getClass().getResource("/FarkleScores.jpg"));
+			Image scoreGuide = ImageIO.read(getClass().getResource("/images/FarkleScores.jpg"));
 			scoreGuide = scoreGuide.getScaledInstance(200, 680, Image.SCALE_SMOOTH);
 			JLabel scoreLabel = new JLabel(new ImageIcon(scoreGuide));
 			scorePanel.add(scoreLabel);			
@@ -372,5 +391,57 @@ public class FarkleUI extends JFrame {
 	 */
 	public void setRunningScore(int score) {
 		runningScore.setText(String.valueOf(score));
+	}
+	
+	
+	/**
+	 * Randomly return one of the 
+	 * four dice roll sounds
+	 * @return
+	 */
+	public void playRollSound() {
+		try {
+			audioStream = AudioSystem.getAudioInputStream(rollSounds.get(new Random().nextInt(3)));
+			Clip clip = AudioSystem.getClip();
+			clip.open(audioStream);
+			clip.start();
+		} catch (UnsupportedAudioFileException | IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (LineUnavailableException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	
+	public void playBonusSound() {
+		try {
+			audioStream = AudioSystem.getAudioInputStream(bonusSound);
+			Clip clip = AudioSystem.getClip();
+			clip.open(audioStream);
+			clip.start();
+		} catch (UnsupportedAudioFileException | IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (LineUnavailableException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	public void playBankSound() {
+		try {
+			audioStream = AudioSystem.getAudioInputStream(bankSounds.get(new Random().nextInt(3)));
+			Clip clip = AudioSystem.getClip();
+			clip.open(audioStream);
+			clip.start();
+		} catch (UnsupportedAudioFileException | IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (LineUnavailableException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 }
