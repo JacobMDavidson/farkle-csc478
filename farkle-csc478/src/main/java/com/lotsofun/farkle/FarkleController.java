@@ -9,7 +9,6 @@ import java.awt.event.MouseListener;
 public class FarkleController implements ActionListener, MouseListener {
 	FarkleUI farkleUI;
 	Game farkleGame;
-	boolean gameEnded = false; // TODO: Move this to the game object and use accessor methods instead
 
 	
 	public static void main(String[] args) {
@@ -65,7 +64,32 @@ public class FarkleController implements ActionListener, MouseListener {
 		if (farkleGame.players[0].turnNumber > 10) {
 			endGame();
 		}
+	}
+
+	/**
+	 * Handle bank by sending calls to both the Model and the View
+	 */
+	public void bank() {
 		
+		/***************************************************
+		 * 4.8.0: If the player selects the bank button, 
+		 * the current turn point total is added to the 
+		 * player’s game point total, and the turn is over.
+		 ***************************************************/
+		
+		farkleUI.getRunningScore().setText("0");
+		farkleUI.resetDice();
+		farkleUI.getGameScore().setText(String.valueOf(farkleGame.bank()));
+		farkleUI.getBankBtn().setEnabled(false);
+		if (farkleGame.players[0].turnNumber > 10) {
+			endGame();
+		}
+	}
+
+	public void endGame() {
+		farkleUI.runningScore.setText("End Game");
+		farkleUI.rollBtn.setText("New Game");
+		farkleUI.getBankBtn().setEnabled(false);
 		
 		/**
 		 * TODO: FINISH IMPLEMENTING 1.6.0
@@ -121,37 +145,15 @@ public class FarkleController implements ActionListener, MouseListener {
 		 * displayed, and the player’s score replaces the
 		 *  previous high score.
 		 ****************************************************/
-	}
-
-	/**
-	 * Handle bank by sending calls to both the Model and the View
-	 */
-	public void bank() {
 		
-		/***************************************************
-		 * 4.8.0: If the player selects the bank button, 
-		 * the current turn point total is added to the 
-		 * player’s game point total, and the turn is over.
-		 ***************************************************/
-		
-		farkleUI.getRunningScore().setText("0");
-		farkleUI.resetDice();
-		farkleUI.getGameScore().setText(String.valueOf(farkleGame.bank()));
-
-		if (farkleGame.players[0].turnNumber > 10) {
-			endGame();
-		}
-	}
-
-	public void endGame() {
-		farkleUI.runningScore.setText("End Game");
-		farkleUI.rollBtn.setText("New Game");
-		farkleUI.getBankBtn().setEnabled(false);
 	}
 	
 	public void newGame()
 	{
-		// farkleUI.initUI(); TODO: make this not start a new game in the same process
+//		farkleUI.
+//		farkleUI = new FarkleUI (this);
+//		setUI(farkleUI);
+//		farkleUI.initUI(); //TODO: make this not start a new game in the same process
 		farkleUI.rollBtn.setText("Roll Dice");
 		farkleUI.runningScore.setText("0");
 		farkleGame = new Game(GameMode.SINGLEPLAYER, this);
@@ -345,6 +347,7 @@ public class FarkleController implements ActionListener, MouseListener {
 					farkleUI.getRollBtn().setEnabled(true);
 				} else {
 					farkleUI.getRollBtn().setEnabled(false);
+					farkleUI.getBankBtn().setEnabled(false);
 				}
 
 				
