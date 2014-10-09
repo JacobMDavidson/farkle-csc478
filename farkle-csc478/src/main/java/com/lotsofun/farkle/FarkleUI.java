@@ -68,8 +68,8 @@ public class FarkleUI extends JFrame {
 	 */
 	public void initUI() {
 		
-		// TODO: Possibly move lines 54 - 80 in to their own method
-		// TODO: Reuse this method to start a new game
+		// TODO: CuBr - Possibly move lines 54 - 80 in to their own method
+		// TODO: CuBr - Reuse this method to start a new game
 		
 		// Initialize the sounds
 		rollSounds.add(getClass().getResource("/sounds/roll1.wav"));
@@ -106,10 +106,8 @@ public class FarkleUI extends JFrame {
 					clip.open(audioStream);
 					clip.start();
 				} catch (UnsupportedAudioFileException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				} catch (LineUnavailableException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				} catch (IOException e) {
 					e.printStackTrace();
@@ -153,7 +151,7 @@ public class FarkleUI extends JFrame {
 			 * 1.4.1: The title of the window shall 
 			 * display: “Farkle – Single Player Mode”.
 			 ******************************************/
-			//TODO: Write a test case for the window title
+			//TODO: CuBr - Write a test case for the window title
 			// based on player mode
 			
 			// Create and set up the main Window
@@ -262,7 +260,7 @@ public class FarkleUI extends JFrame {
 	/**
 	 * Create a new JPanel that contains all the JLabels
 	 * necessary to represent a player with 10 turns
-	 * TODO: Possibly update to accept a third parameter for the
+	 * TODO: CuBr - Possibly update to accept a third parameter for the
 	 * 		 number of scores
 	 * @param playerName
 	 * @param playerNumber
@@ -288,7 +286,7 @@ public class FarkleUI extends JFrame {
          ***************************************************/
         for(int i = 0; i < scoreLabels.length; i++) {
         	scoreLabels[i] = new JLabel();
-            scoreLabels[i].setText("Roll: " + (i + 1));
+            scoreLabels[i].setText("Roll " + (i + 1) + ": ");
             scoreLabels[i].setOpaque(true);
             playerPanel.add(scoreLabels[i]);
             
@@ -344,7 +342,6 @@ public class FarkleUI extends JFrame {
 			
 			scorePanel.setBorder(BorderFactory.createLineBorder(Color.BLACK, 1));
     	} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 			System.exit(0);
 		}
@@ -390,27 +387,17 @@ public class FarkleUI extends JFrame {
 
 	public void rollDice() {
 		// Test farkle roll
-		dice[0].setValue(1);
-		dice[1].setValue(1);
-		dice[2].setValue(1);
-		dice[3].setValue(4);
-		dice[4].setValue(4);
-		dice[5].setValue(6);
+//		dice[0].setValue(1);
+//		dice[1].setValue(1);
+//		dice[2].setValue(1);
+//		dice[3].setValue(4);
+//		dice[4].setValue(4);
+//		dice[5].setValue(6);
 		
 		// Roll all the dice
-//		for(Die d : dice) {
-//			d.roll();
-//		}
-	}
-	
-	/**
-	 * TODO: If this isn't called anywhere
-	 * then take it out
-	 * @return
-	 */
-	@Deprecated
-	public FarkleUI getUI() {
-		return this;
+		for(Die d : dice) {
+			d.roll();
+		}
 	}
 	
 	
@@ -491,8 +478,14 @@ public class FarkleUI extends JFrame {
 		scoreLbls[turn-1].setText(String.valueOf(score));
 	}
 	
-	/*Pass it 0 to set all back to normal*/
-	public void setTurnHighlighting(int turn)
+	/**
+	 * Sets the background colors of the score labels based on the turn number.
+	 * If 0 is passed as the turn number all colors will 
+	 * be reset to default.
+	 * @param turn - Current turn number. (0 for reset)
+	 * @param isBonusTurn - Bonus turns have the color set to yellow.
+	 */
+	public void setTurnHighlighting(int turn, boolean isBonusTurn)
 	{
 		Color defaultColor = new Color (238,238,238);
 		for(int i = 0; i <= 9; i++)
@@ -500,10 +493,15 @@ public class FarkleUI extends JFrame {
 			player1Scores[i].setBackground(defaultColor);
 			scoreLabels[i].setBackground(defaultColor);
 		}
-		if (turn != 0)
+		if (turn != 0 && !isBonusTurn)
 		{
 			player1Scores[turn - 1].setBackground(Color.WHITE);
 			scoreLabels[turn - 1].setBackground(Color.WHITE);	
+		}
+		else if (turn != 0)
+		{
+			player1Scores[turn - 1].setBackground(Color.YELLOW);
+			scoreLabels[turn - 1].setBackground(Color.YELLOW);
 		}
 		else
 		{
@@ -511,8 +509,7 @@ public class FarkleUI extends JFrame {
 			gameScore.setBackground(defaultColor);
 			highScoreTitle.setBackground(defaultColor);
 			highScore.setBackground(defaultColor);
-		}
-		
+		}		
 	}
 	
 	/**
@@ -537,10 +534,8 @@ public class FarkleUI extends JFrame {
 			clip.open(audioStream);
 			clip.start();
 		} catch (UnsupportedAudioFileException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (LineUnavailableException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -555,10 +550,8 @@ public class FarkleUI extends JFrame {
 			clip.open(audioStream);
 			clip.start();
 		} catch (UnsupportedAudioFileException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (LineUnavailableException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -572,10 +565,8 @@ public class FarkleUI extends JFrame {
 			clip.open(audioStream);
 			clip.start();
 		} catch (UnsupportedAudioFileException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (LineUnavailableException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (IOException e) {
 			e.printStackTrace();

@@ -92,7 +92,7 @@ public class FarkleController implements ActionListener, MouseListener {
 		farkleUI.runningScore.setText("End Game");
 		farkleUI.rollBtn.setText("New Game");
 		farkleUI.getBankBtn().setEnabled(false);
-		farkleUI.setTurnHighlighting(0);
+		farkleUI.setTurnHighlighting(0,false);
 		farkleUI.gameScoreTitle.setBackground(Color.WHITE);
 		farkleUI.gameScore.setBackground(Color.WHITE);
 		
@@ -146,7 +146,7 @@ public class FarkleController implements ActionListener, MouseListener {
 			farkleUI.displayMessage("Congrats! You got a high score!", "OMFG! NEW HIGH SCORE!");
 			farkleGame.highScore = farkleGame.players[0].getGameScore();
 			farkleUI.highScore.setText(Integer.toString(farkleGame.highScore));
-			farkleUI.setTurnHighlighting(0);
+			farkleUI.setTurnHighlighting(0,false);
 			farkleUI.highScoreTitle.setBackground(Color.YELLOW);
 			farkleUI.highScore.setBackground(Color.YELLOW);
 		}
@@ -161,7 +161,7 @@ public class FarkleController implements ActionListener, MouseListener {
 		//set scores for each turn
 		farkleUI.resetScores();
 		farkleUI.gameScore.setText("0");
-		farkleUI.setTurnHighlighting(0);
+		farkleUI.setTurnHighlighting(0,false);
 		
 		
 	}
@@ -234,7 +234,7 @@ public class FarkleController implements ActionListener, MouseListener {
 				farkleUI.getBankBtn().setEnabled(false);
 				
 				//Turn Highlighting
-				farkleUI.setTurnHighlighting(farkleGame.players[0].turnNumber);
+				farkleUI.setTurnHighlighting(farkleGame.players[0].turnNumber, false);
 
 				// Tell the model this is a new roll
 				farkleGame.processRoll();
@@ -272,25 +272,25 @@ public class FarkleController implements ActionListener, MouseListener {
 
 	@Override
 	public void mouseClicked(MouseEvent arg0) {
-		// TODO Auto-generated method stub
+		// Auto-generated method stub
 
 	}
 
 	@Override
 	public void mouseEntered(MouseEvent arg0) {
-		// TODO Auto-generated method stub
+		// Auto-generated method stub
 
 	}
 
 	@Override
 	public void mouseExited(MouseEvent arg0) {
-		// TODO Auto-generated method stub
+		// Auto-generated method stub
 
 	}
 
 	@Override
 	public void mousePressed(MouseEvent arg0) {
-		// TODO: Exception handling for die cast
+		// TODO: CuBr / BrMu - Exception handling for die cast
 		Die d = (Die) arg0.getSource();
 
 		// If the value of the die >
@@ -365,6 +365,7 @@ public class FarkleController implements ActionListener, MouseListener {
 						&& (rollScore > 0)) {
 					farkleUI.resetDice();
 					farkleUI.playBonusSound();
+					farkleUI.setTurnHighlighting(farkleGame.players[0].turnNumber, true);
 					// TODO: BrMu / CuBr - We need to update this to say BONUS!
 					// somewhere so people know when to celebrate.
 				}
@@ -377,7 +378,7 @@ public class FarkleController implements ActionListener, MouseListener {
 
 	@Override
 	public void mouseReleased(MouseEvent arg0) {
-		// TODO Auto-generated method stub
+		//Auto-generated method stub
 
 	}
 
