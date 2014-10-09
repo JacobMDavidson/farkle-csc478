@@ -54,6 +54,20 @@ public class Die extends JLabel {
 	 * random number and repaints it
 	 */
 	public void roll() {
+		
+		/************************************
+		 * 3.2.0: Each die that is rolled
+		 *  shall be assigned a random value
+		 *   from 1 to 6 (inclusive) at the
+		 *    conclusion of the roll.
+		 ************************************/
+		
+		/***********************************************
+		 * 4.6.0: If the player elects to roll
+		 * again, the remaining dice are rolled 
+		 * and the process returns to requirement 4.2.0.
+		 ***********************************************/
+		 // Roll only if die is unheld
 		if(this.state == DieState.UNHELD) {
 			value = random.nextInt(6) + 1;
 			this.repaint();

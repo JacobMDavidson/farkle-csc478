@@ -67,6 +67,7 @@ public class FarkleUI extends JFrame {
 		// TODO: Possibly move lines 54 - 80 in to their own method
 		// TODO: Reuse this method to start a new game
 		
+		// Initialize the sounds
 		rollSounds.add(getClass().getResource("/sounds/roll1.wav"));
 		rollSounds.add(getClass().getResource("/sounds/roll2.wav")); 
 		rollSounds.add(getClass().getResource("/sounds/roll3.wav"));
@@ -78,7 +79,12 @@ public class FarkleUI extends JFrame {
 		bankSounds.add(getClass().getResource("/sounds/bank4.wav"));
 		bonusSound = getClass().getResource("/sounds/bonus.wav");
 		
-		// Prompts user for game modes
+
+		/**************************************************
+		 * 1.1.0 Upon opening the application, the user is 
+		 * greeted with a screen that has two
+		 * options, 1 player mode or 2 player mode.
+		 ***************************************************/
 		Object countOps[] = {"1 Player", "2 Players", "Cancel"};
 		Object modeOps[] = {"Human Opponent", "Computer Opponent", "Cancel"};
 		String player1Name = "", player2Name = "";
@@ -107,6 +113,11 @@ public class FarkleUI extends JFrame {
 				
 			}
 			
+			
+			/***************************************************************
+			 * 1.2.0: If the user selects two player mode, the user is asked 
+			 * if player 2 is a live player or a computer player.
+			 ***************************************************************/
 			// Player chooses 2 player game mode
 			if(playerCount == JOptionPane.NO_OPTION) {
 				
@@ -134,17 +145,26 @@ public class FarkleUI extends JFrame {
 			// Pass a reference to the controller
 			controller.setUI(this);
 			
+			
+			/******************************************
+			 * 1.4.1: The title of the window shall 
+			 * display: “Farkle – Single Player Mode”.
+			 ******************************************/
+			//TODO: Write a test case for the window title
+			// based on player mode
+			
 			// Create and set up the main Window
-	        JFrame frame = new JFrame("Farkle");
+	        JFrame frame = new JFrame("Farkle - Single Player Mode");
 	        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	        frame.setPreferredSize(new Dimension(1024, 768));
 	        frame.setLayout(new GridLayout(1, 3, 10, 10));
 	        
 	        // Build the UI
 			frame.add(createPlayerPanel(player1Name, 1));
+			
+			// Call to create dice
 			frame.add(createDicePanel());
 			frame.add(createScorePanel());
-	//		frame.add(createButtonPanel());
 			
 			// Center and display the window
 	        frame.setLocationRelativeTo(null);
@@ -165,8 +185,17 @@ public class FarkleUI extends JFrame {
 	 */
 	public  JPanel[] createButtonPanel() {
 		JPanel buttonPanels[] = {new JPanel(), new JPanel()};
+		
+		/********************************************
+		 * 1.3.4: A “Roll” button shall be displayed.
+		 ********************************************/
 		rollBtn.addActionListener(controller);
 		buttonPanels[0].add(rollBtn);
+		
+		/********************************************
+		 * 1.3.5: A “Bank” button shall be displayed
+		 * (and shall initially be disabled).
+		 ********************************************/
 		bankBtn.addActionListener(controller);
 		buttonPanels[1].add(bankBtn);
 		return buttonPanels;		
@@ -188,6 +217,21 @@ public class FarkleUI extends JFrame {
 		dicePanel.add(new JLabel("Turn Score:"));
 		dicePanel.add(runningScore);
 		dicePanel.add(new JLabel());
+		
+		/***********************************************
+		 * 1.3.1: The center of the screen shall
+		 *  display the six dice used during gameplay.
+		 *  These dice shall display nothing until
+		 *   the user presses the roll button for 
+		 *   the first time.
+		 ***********************************************/
+		
+		/***********************************************
+		 * 3.1.0: Farkle is played with six standard 6
+		 * sided dice with each side numbered from 1
+		 *  through 6 (inclusive). 
+		 ***********************************************/
+		
 		// Initialize the dice and add to panel
 		for(int i = 0; i < dice.length; i++) {
 			dice[i] = new Die(controller);
@@ -199,6 +243,8 @@ public class FarkleUI extends JFrame {
 		dicePanel.add(new JLabel(" "));
 		dicePanel.add(new JLabel(" "));
 		
+		// Call to add buttons and satisfy
+		// requirements 1.3.4 and 1.3.5
 		JPanel btns[] = createButtonPanel();		
 		dicePanel.add(btns[0]);
 		dicePanel.add(new JLabel(" "));
@@ -230,6 +276,11 @@ public class FarkleUI extends JFrame {
         playerPanel.add(filler1);
         
         
+        /***************************************************
+         * 1.4.3: The left side of the screen shall have an
+         * area to display the point total for each of the
+         * ten turns taken in single player mode. 
+         ***************************************************/
         JLabel[] scoreLabels = new JLabel[10];
         for(int i = 0; i < scoreLabels.length; i++) {
             scoreLabels[i] = new JLabel("Roll: " + (i + 1));
@@ -240,6 +291,20 @@ public class FarkleUI extends JFrame {
             playerPanel.add(player1Scores[i]);
         }
         
+        
+        /**
+         * TODO: IMPLEMENT 1.4.5
+         * 
+         ***************************************************
+         * 1.4.5: The current highest achieved score shall
+         *  be displayed. This score shall initially be
+         *   set to 5000 points.
+         ***************************************************/
+        
+        
+        /*****************************************************
+         * 1.4.2: The overall point total shall be displayed.
+         *****************************************************/
         playerPanel.add(new JLabel("Total Score: "));
         playerPanel.add(gameScore);
         
@@ -255,9 +320,13 @@ public class FarkleUI extends JFrame {
      * @return JLabel
      */
     private JPanel createScorePanel() {
+    	
+    	/*****************************************************
+    	 * 1.3.3: Rules for the scoring combinations
+    	 * shall be displayed on the right side of the screen.
+    	 *****************************************************/
     	JPanel scorePanel = new JPanel();
     	try {
-    		
 			Image scoreGuide = ImageIO.read(getClass().getResource("/images/FarkleScores.jpg"));
 			scoreGuide = scoreGuide.getScaledInstance(200, 680, Image.SCALE_SMOOTH);
 			JLabel scoreLabel = new JLabel(new ImageIcon(scoreGuide));

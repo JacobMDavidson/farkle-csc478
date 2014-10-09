@@ -44,19 +44,96 @@ public class FarkleController implements ActionListener, MouseListener {
 	 * Handle farkle by sending calls to both the Model and View
 	 */
 	public void farkle() {
+		
+		/********************************************************
+		 * 1.3.7: If any roll results in 0 points, the word 
+		 * “Farkle!!!” is displayed above the dice until the next 
+		 * player rolls (in 2 player mode) or the first roll of 
+		 * the next turn is taken (in 1 player mode).
+		 ********************************************************/
+		
+		/*********************************************************
+		 * 4.9.0: If the player farkles on any roll during the 
+		 * current turn, that player loses all points accumulated 
+		 * during the current turn and the turn is over.
+		 *********************************************************/
+		
 		farkleUI.resetDice();
-		farkleUI.getRunningScore().setText("FARKLE!");
+		farkleUI.getRunningScore().setText("FARKLE!!!");
 		farkleGame.farkle();
 
 		if (farkleGame.players[0].turnNumber > 10) {
 			endGame();
 		}
+		
+		
+		/**
+		 * TODO: FINISH IMPLEMENTING 1.6.0
+		 * 
+		 *************************************************
+		 * 1.6.0: At the conclusion of the game, the user
+		 * shall be greeted with three options:
+		 * “Play again?”, “Main Menu”, and “Quit”.
+		 *************************************************/
+		
+		/**
+		 * TODO: IMPLEMENT 2.1.4 (1.6.0) AND 2.1.5
+		 * 
+		 ************************************************
+		 * 2.1.5: If “Play again?” is selected, the
+		 *  game starts over in 1 player mode.
+		 ************************************************/
+		
+		
+		/**
+		 * TODO: IMPLEMENT 2.1.6
+		 * 
+		 ************************************************
+		 * 2.1.6: If “Main Menu” is selected, the user
+		 *  is taken to the mode selection screen.
+		 ************************************************/
+		
+		/**
+		 * TODO: IMPLEMENT 2.1.7
+		 * 
+		 *************************************************
+		 * 2.1.7: If “Quit” is selected, the application
+		 *  immediately closes.
+		 *************************************************/
+		
+		
+		/**
+		 * TODO: IMPLEMENT 2.1.2
+		 * 
+		 *************************************************
+		 * 2.1.2: The game ends at the conclusion of the
+		 * tenth turn, and the player’s score is 
+		 * compared to the current high score.
+		 *************************************************/
+		
+		
+		/**
+		 * TODO: IMPLEMENT 2.1.3
+		 * 
+		 ****************************************************
+		 * 2.1.3:  If the player’s score is greater than the
+		 * current high score, a congratulatory message is
+		 * displayed, and the player’s score replaces the
+		 *  previous high score.
+		 ****************************************************/
 	}
 
 	/**
 	 * Handle bank by sending calls to both the Model and the View
 	 */
 	public void bank() {
+		
+		/***************************************************
+		 * 4.8.0: If the player selects the bank button, 
+		 * the current turn point total is added to the 
+		 * player’s game point total, and the turn is over.
+		 ***************************************************/
+		
 		farkleUI.getRunningScore().setText("0");
 		farkleUI.resetDice();
 		farkleUI.getGameScore().setText(String.valueOf(farkleGame.bank()));
@@ -109,6 +186,39 @@ public class FarkleController implements ActionListener, MouseListener {
 
 	@Override
 	public void actionPerformed(ActionEvent arg0) {
+		
+		/**
+		 * TODO: IMPLEMENT 1.4.4
+		 * 
+		 *********************************************
+		 * 1.4.4: The current turn shall be indicated
+		 *  by highlighting that turn on the left
+		 *  side of the screen.
+		 *********************************************/
+		
+		/*********************************************
+		 * 2.1.1: Each turn is taken according to the 
+		 * requirements of section 4.0.0.
+		 *********************************************/
+		
+		/*********************************************
+		 * 4.1.0: At the beginning of the turn the 
+		 * turn point total is set to 0, the player 
+		 * selects the roll button, and all 6 dice 
+		 * are rolled in accordance with the 
+		 * requirement 3.2.0.
+		 *********************************************/
+		
+		/**********************************************
+		 * 4.10.0: When the turn is over all dice are 
+		 * deselected, the roll button is enabled, 
+		 * the bank button is disabled, the current 
+		 * turn point total is set to 0, the current 
+		 * roll point total is set to 0, and play 
+		 * passes to the next player (two player mode) 
+		 * or the next turn (single player mode).
+		 *********************************************/
+		
 		// If Roll button clicked
 		if (arg0.getSource() == farkleUI.getRollBtn()) {
 			if (farkleUI.rollBtn.getText().equals("Roll Dice")) {
@@ -125,6 +235,13 @@ public class FarkleController implements ActionListener, MouseListener {
 				// Tell the model this is a new roll
 				farkleGame.processRoll();
 
+				
+				/***************************************************
+				 * 4.2.0: The resulting roll is analyzed according
+				 *  to requirement 6.0.0 to determine if the 
+				 *  player farkled. A farkle occurs if the roll
+				 *   results in 0 points.
+				 ***************************************************/
 				// Score any UNHELD dice
 				int rollScore = farkleGame.calculateScore(
 						farkleUI.getDieValues(DieState.UNHELD), false);
@@ -201,6 +318,13 @@ public class FarkleController implements ActionListener, MouseListener {
 					farkleUI.getRollBtn().setEnabled(false);
 				}
 
+				
+				/*********************************************
+				 * 4.5.0: If the current turn point total is 
+				 * greater than or equal to 300, the bank 
+				 * button is enabled.
+				 *********************************************/
+				
 				// Enable the bank button if the score is >= 300
 				if (runningScore >= 300) {
 					farkleUI.getBankBtn().setEnabled(true);
@@ -208,6 +332,14 @@ public class FarkleController implements ActionListener, MouseListener {
 					farkleUI.getBankBtn().setEnabled(false);
 				}
 
+				
+				/*********************************************************
+				 * 4.4.0: When all of the selected dice contribute 
+				 * to the point total for the roll, the roll 
+				 * button is enabled and the roll point total is 
+				 * added to the running point total for the current turn.
+				 *********************************************************/
+				
 				// Don't allow a user to roll with no scoring dice held
 				if (rollScore > 0) {
 					farkleUI.getRollBtn().setEnabled(true);
@@ -215,6 +347,14 @@ public class FarkleController implements ActionListener, MouseListener {
 					farkleUI.getRollBtn().setEnabled(false);
 				}
 
+				
+				/***********************************************************
+				 * 4.7.0: If all six dice have been selected, and 
+				 * they all contribute to the turns point total, 
+				 * the player is issued a bonus roll. All selected 
+				 * dice are deselected, and the process returns 
+				 * to requirement 4.1.0.
+				 ***********************************************************/
 				if ((farkleUI.getDice(DieState.HELD).size()
 						+ farkleUI.getDice(DieState.SCORED).size() == 6)
 						&& (rollScore > 0)) {
