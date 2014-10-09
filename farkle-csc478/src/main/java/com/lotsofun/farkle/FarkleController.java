@@ -1,5 +1,6 @@
 package com.lotsofun.farkle;
 
+import java.awt.Color;
 import java.awt.EventQueue;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -37,6 +38,7 @@ public class FarkleController implements ActionListener, MouseListener {
 	 */
 	public void setGame(Game g) {
 		this.farkleGame = g;
+		
 	}
 
 	/**
@@ -90,6 +92,9 @@ public class FarkleController implements ActionListener, MouseListener {
 		farkleUI.runningScore.setText("End Game");
 		farkleUI.rollBtn.setText("New Game");
 		farkleUI.getBankBtn().setEnabled(false);
+		farkleUI.setTurnHighlighting(0);
+		farkleUI.gameScoreTitle.setBackground(Color.WHITE);
+		farkleUI.gameScore.setBackground(Color.WHITE);
 		
 		/**
 		 * TODO: FINISH IMPLEMENTING 1.6.0
@@ -126,40 +131,37 @@ public class FarkleController implements ActionListener, MouseListener {
 		 *************************************************/
 		
 		
-		/**
-		 * TODO: IMPLEMENT 2.1.2
-		 * 
-		 *************************************************
+		/**************************************************
 		 * 2.1.2: The game ends at the conclusion of the
 		 * tenth turn, and the player’s score is 
-		 * compared to the current high score.
-		 *************************************************/
-		
-		
-		/**
-		 * TODO: IMPLEMENT 2.1.3
-		 * 
+		 * compared to the current high score. 
 		 ****************************************************
 		 * 2.1.3:  If the player’s score is greater than the
 		 * current high score, a congratulatory message is
 		 * displayed, and the player’s score replaces the
 		 *  previous high score.
 		 ****************************************************/
-		
+		if (farkleGame.players[0].getGameScore() > farkleGame.highScore)
+		{
+			farkleUI.displayMessage("Congrats! You got a high score!", "OMFG! NEW HIGH SCORE!");
+			farkleGame.highScore = farkleGame.players[0].getGameScore();
+			farkleUI.highScore.setText(Integer.toString(farkleGame.highScore));
+			farkleUI.setTurnHighlighting(0);
+			farkleUI.highScoreTitle.setBackground(Color.YELLOW);
+			farkleUI.highScore.setBackground(Color.YELLOW);
+		}
 	}
 	
 	public void newGame()
 	{
-//		farkleUI.
-//		farkleUI = new FarkleUI (this);
-//		setUI(farkleUI);
-//		farkleUI.initUI(); //TODO: make this not start a new game in the same process
+		//farkleUI.initUI(); //TODO: CuBr/BrMu - make this not start a new game in the same process
 		farkleUI.rollBtn.setText("Roll Dice");
 		farkleUI.runningScore.setText("0");
 		farkleGame = new Game(GameMode.SINGLEPLAYER, this);
 		//set scores for each turn
 		farkleUI.resetScores();
 		farkleUI.gameScore.setText("0");
+		farkleUI.setTurnHighlighting(0);
 		
 		
 	}
@@ -189,10 +191,7 @@ public class FarkleController implements ActionListener, MouseListener {
 	@Override
 	public void actionPerformed(ActionEvent arg0) {
 		
-		/**
-		 * TODO: IMPLEMENT 1.4.4
-		 * 
-		 *********************************************
+		/**********************************************
 		 * 1.4.4: The current turn shall be indicated
 		 *  by highlighting that turn on the left
 		 *  side of the screen.
@@ -233,6 +232,9 @@ public class FarkleController implements ActionListener, MouseListener {
 				// Disable the Roll and Bank buttons
 				farkleUI.getRollBtn().setEnabled(false);
 				farkleUI.getBankBtn().setEnabled(false);
+				
+				//Turn Highlighting
+				farkleUI.setTurnHighlighting(farkleGame.players[0].turnNumber);
 
 				// Tell the model this is a new roll
 				farkleGame.processRoll();

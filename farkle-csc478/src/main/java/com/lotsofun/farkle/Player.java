@@ -25,8 +25,6 @@ public class Player {
 	/**
 	 * Puts the score in to
 	 * the map for the given roll
-	 * 
-	 * TODO: Idk if we'll actually need this
 	 * @param score
 	 */
 	public void scoreRoll(int score) {
@@ -66,11 +64,6 @@ public class Player {
 		rollNumber = 0;
 		currentPlayer = false;
 		rollScore.clear();
-	}
-	
-	public void bonusTurn()
-	{
-		
 	}
 
 	public int getPlayerNumber() {

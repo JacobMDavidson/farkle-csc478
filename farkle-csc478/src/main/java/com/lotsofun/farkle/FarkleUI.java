@@ -36,9 +36,13 @@ public class FarkleUI extends JFrame {
 	public JButton rollBtn = new JButton("Roll Dice");
 	public JButton bankBtn = new JButton("Bank Score");
 	public FarkleController controller;
+	public JLabel[] scoreLabels = new JLabel[10];
 	public JLabel[] player1Scores = new JLabel[10];
 	public JLabel[] player2Scores = new JLabel[10];
+	public JLabel gameScoreTitle = new JLabel("Total Score: ");
 	public JLabel gameScore = new JLabel("0");
+	public JLabel highScoreTitle = new JLabel("High Score: ");
+	public JLabel highScore = new JLabel("5000");
 	public JLabel runningScore = new JLabel();
 	public ArrayList<URL> rollSounds = new ArrayList<URL>();
 	public ArrayList<URL> bankSounds = new ArrayList<URL>();
@@ -87,7 +91,7 @@ public class FarkleUI extends JFrame {
 		 ***************************************************/
 		Object countOps[] = {"1 Player", "2 Players", "Cancel"};
 		Object modeOps[] = {"Human Opponent", "Computer Opponent", "Cancel"};
-		String player1Name = "", player2Name = "";
+		String player1Name = "";
 		int playerCount = JOptionPane.showOptionDialog(this, "Choose the number of players.", "Player Mode", JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null, countOps, countOps[0]);
 		int playerMode = -1;
 		
@@ -126,7 +130,6 @@ public class FarkleUI extends JFrame {
 				
 				// If they choose for player 2 to be human
 				if(playerMode == JOptionPane.YES_OPTION) {
-					player2Name = JOptionPane.showInputDialog(this, "Please enter your name.", "Player 2");
 				}
 			// Player chooses 1 player mode
 			} 
@@ -137,7 +140,7 @@ public class FarkleUI extends JFrame {
 		}
 		else
 		{
-			pullThePlug();
+			System.exit(0);
 		}
 		
 		if(playerCount != JOptionPane.CANCEL_OPTION && playerMode != JOptionPane.CANCEL_OPTION) {
@@ -173,7 +176,9 @@ public class FarkleUI extends JFrame {
 	        int x = (int) ((dimension.getWidth() - frame.getWidth()) / 2);
 	        int y = (int) ((dimension.getHeight() - frame.getHeight()) / 2);
 	        frame.setLocation(x, y);
+
 			frame.setVisible(true);
+			
 		}
 	}
 	
@@ -264,7 +269,7 @@ public class FarkleUI extends JFrame {
 	 * @return
 	 */
     private  JPanel createPlayerPanel(String playerName, int playerNumber) {
-        JPanel playerPanel = new JPanel(new GridLayout(0, 2, 2, 2));
+        JPanel playerPanel = new JPanel(new GridLayout(0, 2, 0, 2));
         JLabel nameLbl = new JLabel("Player " + playerNumber);
         playerPanel.add(nameLbl);
         JLabel name = new JLabel(playerName);
@@ -281,33 +286,38 @@ public class FarkleUI extends JFrame {
          * area to display the point total for each of the
          * ten turns taken in single player mode. 
          ***************************************************/
-        JLabel[] scoreLabels = new JLabel[10];
         for(int i = 0; i < scoreLabels.length; i++) {
-            scoreLabels[i] = new JLabel("Roll: " + (i + 1));
+        	scoreLabels[i] = new JLabel();
+            scoreLabels[i].setText("Roll: " + (i + 1));
+            scoreLabels[i].setOpaque(true);
             playerPanel.add(scoreLabels[i]);
             
             player1Scores[i] = new JLabel();
+            player1Scores[i].setOpaque(true);
             //"score" + (i + 1)
             playerPanel.add(player1Scores[i]);
         }
         
         
-        /**
-         * TODO: IMPLEMENT 1.4.5
-         * 
-         ***************************************************
+        
+        
+        //playerPanel.add(new JLabel("High Score: "));
+        /*****************************************************
+         * 1.4.2: The overall point total shall be displayed.
+         *****************************************************/
+        playerPanel.add(gameScoreTitle);
+        gameScoreTitle.setOpaque(true);
+        playerPanel.add(gameScore);
+        gameScore.setOpaque(true);
+        /**************************************************
          * 1.4.5: The current highest achieved score shall
          *  be displayed. This score shall initially be
          *   set to 5000 points.
          ***************************************************/
-        
-        
-        /*****************************************************
-         * 1.4.2: The overall point total shall be displayed.
-         *****************************************************/
-        playerPanel.add(new JLabel("Total Score: "));
-        playerPanel.add(gameScore);
-        
+        playerPanel.add(highScoreTitle);
+        highScoreTitle.setOpaque(true);
+        playerPanel.add(highScore);
+        highScore.setOpaque(true);
         playerPanel.setPreferredSize(new Dimension(500, 300));
         playerPanel.setBorder(BorderFactory.createLineBorder(Color.BLACK, 1));
         
@@ -365,6 +375,13 @@ public class FarkleUI extends JFrame {
 	public void setGameScore(JLabel gameScore) {
 		this.gameScore = gameScore;
 	}
+	public JLabel getHighScore() {
+		return highScore;
+	}
+
+	public void setHighScore(JLabel highScore) {
+		this.highScore = highScore;
+	}
 
 	public JLabel getRunningScore() {
 		return runningScore;
@@ -373,9 +390,9 @@ public class FarkleUI extends JFrame {
 
 	public void rollDice() {
 		// Test farkle roll
-		dice[0].setValue(2);
-		dice[1].setValue(2);
-		dice[2].setValue(3);
+		dice[0].setValue(1);
+		dice[1].setValue(1);
+		dice[2].setValue(1);
 		dice[3].setValue(4);
 		dice[4].setValue(4);
 		dice[5].setValue(6);
@@ -446,7 +463,7 @@ public class FarkleUI extends JFrame {
 	
 	public void resetScores() {
 		for(JLabel score : player1Scores) {
-			score.setText("0");
+			score.setText("");
 		}
 	}
 	
@@ -472,6 +489,30 @@ public class FarkleUI extends JFrame {
 	public void setTurnScore(int player, int turn, int score) {
 		JLabel scoreLbls[] = (player == 0) ? player1Scores : player2Scores;
 		scoreLbls[turn-1].setText(String.valueOf(score));
+	}
+	
+	/*Pass it 0 to set all back to normal*/
+	public void setTurnHighlighting(int turn)
+	{
+		Color defaultColor = new Color (238,238,238);
+		for(int i = 0; i <= 9; i++)
+		{
+			player1Scores[i].setBackground(defaultColor);
+			scoreLabels[i].setBackground(defaultColor);
+		}
+		if (turn != 0)
+		{
+			player1Scores[turn - 1].setBackground(Color.WHITE);
+			scoreLabels[turn - 1].setBackground(Color.WHITE);	
+		}
+		else
+		{
+			gameScoreTitle.setBackground(defaultColor);
+			gameScore.setBackground(defaultColor);
+			highScoreTitle.setBackground(defaultColor);
+			highScore.setBackground(defaultColor);
+		}
+		
 	}
 	
 	/**
@@ -541,10 +582,14 @@ public class FarkleUI extends JFrame {
 		}
 	}
 	
-	public void pullThePlug()
+	/**
+	 * Display a message to the user via JOptionPane
+	 * @param message - Message to be displayed in the main box.
+	 * @param title - Title of the JOptionPane window.
+	 * 
+	 */
+	public void displayMessage (String message, String title)
 	{
-//		dispose();
-		System.exit(0);
-		
+		JOptionPane.showMessageDialog (this, message, title, JOptionPane.DEFAULT_OPTION);
 	}
 }

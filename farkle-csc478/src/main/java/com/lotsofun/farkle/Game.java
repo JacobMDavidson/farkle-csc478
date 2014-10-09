@@ -13,6 +13,8 @@ public class Game {
 	public Die[] dice;
 	public Player[] players;
 	public FarkleController controller;
+	public int highScore = 5000;
+	
 
 	
 	/**
@@ -263,8 +265,6 @@ public class Game {
 	/**
 	 * Increment the current roll
 	 * number of this player
-	 * 
-	 * TODO: Could probably be more elegant
 	 */
 	public void processRoll() {
 		Player player = getCurrentPlayer();
@@ -288,12 +288,7 @@ public class Game {
 	public int getRollScores() {
 		Player player = getCurrentPlayer();
 		return player.getRollScores();
-	}
-
-	/*A Crap-ton of get/sets
-	 * TODO: Do we need all these variables?
-	 * */
-	
+	}	
 	
 	public int getNumberOfPlayers() {
 		return numberOfPlayers;
@@ -341,5 +336,15 @@ public class Game {
 
 	public void setPlayers(Player[] players) {
 		this.players = players;
+	}
+	
+	public int getHighScore ()
+	{
+		return highScore;
+	}
+	
+	public void setHighScore (int highScore)
+	{
+		this.highScore = highScore;
 	}
 }
