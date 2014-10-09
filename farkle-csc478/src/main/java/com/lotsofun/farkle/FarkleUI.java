@@ -43,6 +43,7 @@ public class FarkleUI extends JFrame {
 	public ArrayList<URL> rollSounds = new ArrayList<URL>();
 	public ArrayList<URL> bankSounds = new ArrayList<URL>();
 	public URL bonusSound;
+	public URL gSound;
 	public AudioInputStream audioStream = null;
 
 	
@@ -70,6 +71,7 @@ public class FarkleUI extends JFrame {
 		rollSounds.add(getClass().getResource("/sounds/roll2.wav")); 
 		rollSounds.add(getClass().getResource("/sounds/roll3.wav"));
 		rollSounds.add(getClass().getResource("/sounds/roll4.wav"));
+		gSound = getClass().getResource("/sounds/roll5.wav");
 		bankSounds.add(getClass().getResource("/sounds/bank1.wav"));
 		bankSounds.add(getClass().getResource("/sounds/bank2.wav"));
 		bankSounds.add(getClass().getResource("/sounds/bank3.wav"));
@@ -85,6 +87,25 @@ public class FarkleUI extends JFrame {
 		
 		if(playerCount != JOptionPane.CANCEL_OPTION) {
 			player1Name = JOptionPane.showInputDialog(this, "Please enter your name.", "Player 1", JOptionPane.OK_CANCEL_OPTION);
+			if(("Ginuwine").equalsIgnoreCase(player1Name)) {
+				
+				try {
+					AudioInputStream audioStream;
+					audioStream = AudioSystem.getAudioInputStream(gSound);
+					Clip clip = AudioSystem.getClip();
+					clip.open(audioStream);
+					clip.start();
+				} catch (UnsupportedAudioFileException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (LineUnavailableException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+				
+			}
 			
 			// Player chooses 2 player game mode
 			if(playerCount == JOptionPane.NO_OPTION) {
@@ -405,11 +426,13 @@ public class FarkleUI extends JFrame {
 			Clip clip = AudioSystem.getClip();
 			clip.open(audioStream);
 			clip.start();
-		} catch (UnsupportedAudioFileException | IOException e) {
+		} catch (UnsupportedAudioFileException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (LineUnavailableException e) {
 			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
 			e.printStackTrace();
 		}
 	}
@@ -421,11 +444,13 @@ public class FarkleUI extends JFrame {
 			Clip clip = AudioSystem.getClip();
 			clip.open(audioStream);
 			clip.start();
-		} catch (UnsupportedAudioFileException | IOException e) {
+		} catch (UnsupportedAudioFileException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (LineUnavailableException e) {
 			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
 			e.printStackTrace();
 		}
 	}
@@ -436,11 +461,13 @@ public class FarkleUI extends JFrame {
 			Clip clip = AudioSystem.getClip();
 			clip.open(audioStream);
 			clip.start();
-		} catch (UnsupportedAudioFileException | IOException e) {
+		} catch (UnsupportedAudioFileException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (LineUnavailableException e) {
 			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
 			e.printStackTrace();
 		}
 	}
