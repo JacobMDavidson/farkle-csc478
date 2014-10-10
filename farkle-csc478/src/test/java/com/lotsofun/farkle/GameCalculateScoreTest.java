@@ -1,29 +1,168 @@
 package com.lotsofun.farkle;
 
 import static org.junit.Assert.*;
-
 import java.util.LinkedList;
 import java.util.List;
-
-import org.junit.After;
-import org.junit.AfterClass;
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 
+/**
+ * The GameCalculateScoreTest class tests the calculateScore method of the Game class for every
+ * possible combination of dice to ensure it complies with the requirement 6.0.0, scoring,  of the 
+ * specific requirements in the requirements document. This includes rolls of 1, 2, 3, 4, 5 or 6 
+ * dice. 
+ * @author Jacob Davidson
+ */
 public class GameCalculateScoreTest {
 
+	// The game object used for testing
 	private Game game;
+	
+	// The list of lists of permutations for a given roll to be tested
 	List<List<Integer>> myPermutations;
+	
+	// List of strings representing rolls for permutations of die that are not 1 or 5
 	List<String> automatedPermutations;
+	
+	// Retrieved score for a given roll
 	int score = 0;
+	
+	// Three of kind die value
 	int dieOneValue = 0;
+	
+	// The value of the second three of a kind die if two three of a kinds rolled at once
 	int dieTwoValue = 0;
 	
 	@Before
 	public void setUp() throws Exception {
+		
+		// Instantiate the game option. The Game Mode used does not change the results of this test
 		game = new Game(GameMode.SINGLEPLAYER, new FarkleController());
-		myPermutations = new LinkedList<List<Integer>>();	
+	}
+	
+	/**
+	 * Test the helper methods that calculate the dice roll permutations used to check
+	 * the calculateScore method
+	 */
+	@Test
+	public void testPermutationHelperMethods(){
+		
+		/* Test the permutations method */
+		
+		// If null is passed to permutations, null should be returned
+		assertEquals(null, permutations(null));
+		
+		// If letters anything but digits are in the string, null should be returned
+		assertEquals(null, permutations("ABC"));
+		
+		// Check permutations returned from a string of integers
+		List<List<Integer>> permutationsToTest = permutations("123");
+		assertEquals(6, permutationsToTest.size());
+		List<Integer> numbers = new LinkedList<Integer>();
+		numbers.add(1);
+		numbers.add(2);
+		numbers.add(3);
+		assertTrue(permutationsToTest.contains(numbers));
+		numbers.clear();
+		numbers.add(1);
+		numbers.add(3);
+		numbers.add(2);
+		assertTrue(permutationsToTest.contains(numbers));
+		numbers.clear();
+		numbers.add(2);
+		numbers.add(1);
+		numbers.add(3);
+		assertTrue(permutationsToTest.contains(numbers));		
+		numbers.clear();
+		numbers.add(2);
+		numbers.add(3);
+		numbers.add(1);
+		assertTrue(permutationsToTest.contains(numbers));
+		numbers.clear();
+		numbers.add(3);
+		numbers.add(1);
+		numbers.add(2);
+		assertTrue(permutationsToTest.contains(numbers));
+		numbers.clear();
+		numbers.add(3);
+		numbers.add(2);
+		numbers.add(1);
+		assertTrue(permutationsToTest.contains(numbers));
+		
+		/* Test the stringPermutations method */
+		
+		// If null is passed to stringPermutations, null should be returned
+		assertEquals(null, stringPermutations(null));
+		
+		// Check permutations returned from a string
+		List<String> stringPermutationsToTest = stringPermutations("123");
+		assertEquals(6, stringPermutationsToTest.size());
+		assertTrue(stringPermutationsToTest.contains("123"));
+		assertTrue(stringPermutationsToTest.contains("132"));
+		assertTrue(stringPermutationsToTest.contains("213"));
+		assertTrue(stringPermutationsToTest.contains("231"));
+		assertTrue(stringPermutationsToTest.contains("321"));
+		assertTrue(stringPermutationsToTest.contains("312"));
+		
+		/* Test the integerPermutations method */
+		
+		// If null is passed to integerPermutations, null should be returned
+		assertEquals(null, integerPermutations(null));
+		
+		// If a string with no variables is passed to integerPermutations, return that 
+		// String should be the only string in the returned list
+		assertEquals(1, integerPermutations("123").size());
+		assertTrue(integerPermutations("123").contains("123"));
+		
+		// Check the permutations returned from a string with variables included
+		List<String> integerPermutationsToTest = integerPermutations("AB");
+		assertEquals(12, integerPermutationsToTest.size());
+		assertTrue(integerPermutationsToTest.contains("23"));
+		assertTrue(integerPermutationsToTest.contains("24"));
+		assertTrue(integerPermutationsToTest.contains("26"));
+		assertTrue(integerPermutationsToTest.contains("32"));
+		assertTrue(integerPermutationsToTest.contains("34"));
+		assertTrue(integerPermutationsToTest.contains("36"));
+		assertTrue(integerPermutationsToTest.contains("42"));
+		assertTrue(integerPermutationsToTest.contains("43"));
+		assertTrue(integerPermutationsToTest.contains("46"));
+		assertTrue(integerPermutationsToTest.contains("62"));
+		assertTrue(integerPermutationsToTest.contains("63"));
+		assertTrue(integerPermutationsToTest.contains("64"));
+	}
+	
+	/**
+	 * This method tests the fringe conditions of the calculateScore method of the 
+	 * Game class
+	 */
+	@Test
+	public void testCalculateScoreFringe(){
+		
+		// The list used for testing in this method
+		List<Integer> roll = new LinkedList<Integer>();
+		
+		// Returned score
+		int score = 0;
+		
+		// Test for a roll with an empty list
+		score = game.calculateScore(roll, true);
+		assertEquals(0, score);
+		score = game.calculateScore(roll, false);
+		assertEquals(0, score);
+		
+		/*
+		// Test that a roll with negative number integers returns null
+		roll.add(-1);
+		roll.add(-5);
+		score = game.calculateScore(roll, true);
+		assertEquals(null, score);
+		score = game.calculateScore(roll, false);
+		assertEquals(null, score);
+		
+		// Test that passing null to the calculateScore method returns null
+		assertEquals(null, game.calculateScore(null, true));
+		assertEquals(null, game.calculateScore(null, false));
+		*/
 	}
 	
 	/**
@@ -3775,14 +3914,33 @@ public class GameCalculateScoreTest {
 
 	}
 	
-	// Helper methods for determining permutations
+	/* The following are helper methods used for retrieving roll permutations */
 	
 	/**
-	 * Returns a list of lists of permutations of integers for a given string of integers
-	 * @param myString string of integers used to find all distinct permutations
-	 * @return List of Lists of integers representing disting permutations 
+	 * The permutations method is a wrapper class to the stringPermutations method.
+	 * This method passes a string of integers for which the permutations are sought to
+	 * the stringPermutations method that then returns a list of all the string permutations
+	 * of the input string. The permutations method than converts the list of strings to
+	 * a list of lists of integers.
+	 * @param myString string of integers for which all permutations are sought
+	 * @return List of Lists of integers representing distinct permutations of the input string 
 	 */
 	public static List<List<Integer>> permutations(String myString){
+		
+		// If myString is null, return null
+		if (myString == null) {
+            return null;
+        }
+		
+		// If any character in myString is not a digit, return null
+		int length = myString.length();
+
+        // For each character in myString
+        for (int i = 0; i < length; i++) {
+            if(!Character.isDigit(myString.charAt(i))) {
+            	return null;
+            }
+        }
 		
 		// Retrieve a list of all distinct permutations of the string
 		List<String> myList = stringPermutations(myString);
@@ -3790,6 +3948,8 @@ public class GameCalculateScoreTest {
 		// Convert the list of strings to a list of lists of integers
 		List<List<Integer>> myIntegers = new LinkedList<List<Integer>>();
 		
+		// For each string in myList, convert that string to a list of integers and add
+		// the resulting list to the myIntegers list
 		for(String number : myList)
 		{
 			List<Integer> currentPermutation = new LinkedList<Integer>();
@@ -3805,51 +3965,87 @@ public class GameCalculateScoreTest {
 	}
 	
 	/**
-	 * Find all permutations of a string of characters
-	 * @param s string of characters for which all permutations are to be found
+	 * The stringPermutation method uses recursion to find all permutations of a string of characters,
+	 * returning a list of those strings
+	 * @param myString string of characters for which all permutations are to be found
 	 * @return List of strings representing all distinct permutations of the input string
 	 */
-	public static List<String> stringPermutations(String s) {
-        if (s == null) {
+	public static List<String> stringPermutations(String myString) {
+        
+		// If myString is null, return null
+		if (myString == null) {
             return null;
         }
-
-        List<String> resultList = new LinkedList<String>();
-        int length = s.length();
+		
+		// Instantiate the permutationsList as a Linked List of strings
+        List<String> permutationsList = new LinkedList<String>();
+        
+        int length = myString.length();
+        
+        // If the length of myString is less than 2, there are no more permutations to perform
+        // so add myString to the permutationsList
         if (length < 2) {
-            resultList.add(s);
-            return resultList;
+            permutationsList.add(myString);
+            return permutationsList;
         }
-
         
         char currentChar;
 
+        // For each character in myString
         for (int i = 0; i < length; i++) {
-            currentChar = s.charAt(i);
-
-            String subString = s.substring(0, i) + s.substring(i + 1);
-
+            currentChar = myString.charAt(i);
+            
+            // Retrieve the substring excluding the current character
+            String subString = myString.substring(0, i) + myString.substring(i + 1);
+            
+            // Retrieve all of the permutations for a substring excluding the current character
             List<String> subPermutations = stringPermutations(subString);
-
+            
+            // For each permutation of the substring, add the string that includes the current
+            // character plus the substring to the permutations list.
             for (String item : subPermutations) {
-                if(!resultList.contains(currentChar + item))
-                	resultList.add(currentChar + item);
+                if(!permutationsList.contains(currentChar + item))
+                	permutationsList.add(currentChar + item);
             }
         }
 
-        return resultList;
+        return permutationsList;
     }
+	
 	/**
-	 * 
-	 * @param myString input string to be converted, with variables as placeholders for dice that could be 2,3,4 or 6
-	 * @return List of strings with all permutations of 2, 3, 4, or 6 valued die in place of variables in the input string
+	 * The integerPermutations method converts a string, representing a Farkle dice roll, into a 
+	 * list of strings including all roll permutations for the input string.
+	 * @param myString input string to be converted, with variables as placeholders for dice that 
+	 * could be 2,3,4 or 6. E.g. the string "1AABC" represents a roll including a die with the value
+	 * 1, and 4 dice with the value 2 through 6. For each permuation, 2 of the 4 dice, represented by
+	 * A, are of the same value. On a given roll, the value for die B never equals that for A or C, and 
+	 * the value of die C never equals that for A or B.
+	 * @return List of strings with all permutations of 2, 3, 4, or 6 valued die in place of variables in 
+	 * the input string. E.g. an input string of "1A" would return the list {"12", "13", "14", "16"}
 	 */
 	public static List<String> integerPermutations(String myString) {
+		
+		if(myString == null)
+		{
+			return null;
+		}
+		
+		// The number of distinct variables in the input string
 		int numberOfVariables;
+		
+		// List of present variables in the input string
 		List<Character> presentVariables = new LinkedList<Character>();
+		
+		// List of strings representing the roll permutations calculated from the input string
 		List<String> rollPermutations = new LinkedList<String>();
+		
+		// The current character of the input string 
 		char currentCharacter;
+		
+		// The length of the input string
 		int length = myString.length();
+		
+		// The current permutation that will be added to the list
 		String currentPermutation = "";
 		
 		// Retrieve the different variables in myString
@@ -3869,27 +4065,39 @@ public class GameCalculateScoreTest {
 		// Determine the number of distinct variables present in myString
 		numberOfVariables = presentVariables.size();
 		
+		// There can be a maximum of 4 variables (representing 2, 3, 4, 6),
+		// Depending on the number of variables present in the input string, add
+		// the string representing each possible permutation to the rollPermutations
+		// list
 		if(numberOfVariables > 0 && numberOfVariables <= 4)
 		{
+			
+			// Outer loop for 1 die
 			for(int i = 2; i <= 6; i++)
 			{
 				if(i == 5)
 					continue;
-				currentPermutation += i;
+				//currentPermutation += i;
+				
+				// Embedded loop for a variable representing a second die
 				if(numberOfVariables > 1)
 				{
 					for(int j = 2; j <= 6; j++)
 					{
 						if(j == i || j == 5)
 							continue;
-						currentPermutation += j;
+						//currentPermutation += j;
+						
+						// Embedded loop for a variable representing a third die
 						if(numberOfVariables > 2)
 						{
 							for(int k = 2; k <= 6; k++)
 							{
 								if(k == i || k == j || k == 5)
 									continue;
-								currentPermutation += k;
+								//currentPermutation += k;
+								
+								// Embedded loop for a variable representing a fourth die
 								if(numberOfVariables > 3)
 								{
 									for(int l = 2; l <= 6; l++)
@@ -3899,13 +4107,15 @@ public class GameCalculateScoreTest {
 										// Clear the currentPermutation String
 										currentPermutation = "";
 										
+										// Loop through the input string adding this permutation of the roll. 
 										for(int x = 0; x < length; x++)
-										{	
-											
+										{					
+											// Clear the currentPermutation String
 											currentCharacter = myString.charAt(x);
-											
-											// If the current character is a letter, and the variables list is empty or the variables list does not contain the letter
-											// Add it to the variables list
+										
+											// If the current character is a letter, and the variables list is empty 
+											// or the variables list does not contain the letter, add it to the variables 
+											// list
 											if(Character.isLetter(currentCharacter))
 											{
 												switch(presentVariables.indexOf(currentCharacter))
@@ -3937,13 +4147,14 @@ public class GameCalculateScoreTest {
 									// Clear the currentPermutation String
 									currentPermutation = "";
 									
+									// Loop through the input string adding this permutation of the roll.
 									for(int x = 0; x < length; x++)
 									{
-										
 										currentCharacter = myString.charAt(x);
 										
-										// If the current character is a letter, and the variables list is empty or the variables list does not contain the letter
-										// Add it to the variables list
+										// If the current character is a letter, and the variables list is empty 
+										// or the variables list does not contain the letter, add it to the variables 
+										// list
 										if(Character.isLetter(currentCharacter))
 										{
 											switch(presentVariables.indexOf(currentCharacter))
@@ -3973,13 +4184,15 @@ public class GameCalculateScoreTest {
 							// Clear the currentPermutation String
 							currentPermutation = "";
 							
+							// Loop through the input string adding this permutation of the roll.
 							for(int x = 0; x < length; x++)
 							{	
 								
 								currentCharacter = myString.charAt(x);
 								
-								// If the current character is a letter, and the variables list is empty or the variables list does not contain the letter
-								// Add it to the variables list
+								// If the current character is a letter, and the variables list is empty 
+								// or the variables list does not contain the letter, add it to the variables 
+								// list
 								if(Character.isLetter(currentCharacter))
 								{
 									switch(presentVariables.indexOf(currentCharacter))
@@ -4006,14 +4219,14 @@ public class GameCalculateScoreTest {
 					// Clear the currentPermutation String
 					currentPermutation = "";
 					
+					// Loop through the input string adding this permutation of the roll.
 					for(int x = 0; x < length; x++)
-					{	
-
-						
+					{			
 						currentCharacter = myString.charAt(x);
 						
-						// If the current character is a letter, and the variables list is empty or the variables list does not contain the letter
-						// Add it to the variables list
+						// If the current character is a letter, and the variables list is empty 
+						// or the variables list does not contain the letter, add it to the variables 
+						// list
 						if(Character.isLetter(currentCharacter))
 						{
 							currentPermutation += i;
@@ -4029,14 +4242,15 @@ public class GameCalculateScoreTest {
 			}
 		}
 		
-		// If more than 4 variables were in the string, return null
+		// If more than 4 variables were in the string it is incorrect input, return null
 		else if(numberOfVariables > 4)
 		{
 			return null;
 		}
 		else
 		{
-			// There are no variables present, simply add myString to the rollPermutations
+			// There are no variables present to perform the permutation on, simply add myString 
+			// to the rollPermutations
 			rollPermutations.add(myString);
 		}
 		
