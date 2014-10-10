@@ -145,15 +145,15 @@ public class Game {
 						 * ********************************************
 						 * 6.2.0: Each 5 rolled is worth 50 points
 						 * ********************************************
-						 * 6.3.0: Three 1’s are worth 1000 points
+						 * 6.3.0: Three 1ï¿½s are worth 1000 points
 						 * ********************************************
 						 * 6.4.0: Three of a kind of any value other 
 						 * than 1 is worth 100 times the value of the 
-						 * die (e.g. three 4’s is worth 400 points).
+						 * die (e.g. three 4ï¿½s is worth 400 points).
 						 * ********************************************
 						 * 6.4.5: Four, five, or six of a kind is scored
 						 * by doubling the three of a kind value for 
-						 * every additional matching die (e.g. five 3’s 
+						 * every additional matching die (e.g. five 3ï¿½s 
 						 * would be scored as 300 X 2 X 2 = 1200.
 						 * ********************************************
 						 * 6.6.0: Three doubles (e.g. 1-1-2-2-3-3) are
@@ -240,13 +240,13 @@ public class Game {
 				}
 				else
 				{
-					calculatedScore = null;
+					calculatedScore = 0;
 				}
 			}
 		}
 		else
 		{
-			calculatedScore = null;
+			calculatedScore = 0;
 		}
 		return calculatedScore;
 	}
