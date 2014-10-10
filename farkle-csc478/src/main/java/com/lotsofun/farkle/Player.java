@@ -5,10 +5,11 @@ import java.util.HashMap;
 public class Player {
 
 	public HashMap<Integer, Integer> rollScore = new HashMap<Integer, Integer>();
-	public int playerNumber, turnNumber, rollNumber, gameScore = 0;
+	public int playerNumber, turnNumber = 1, rollNumber, gameScore = 0;
 	public boolean currentPlayer;
 	public int[] turnScores;
 	public PlayerType type;
+	public String playerName;
 	
 	/**
 	 * Constructor:

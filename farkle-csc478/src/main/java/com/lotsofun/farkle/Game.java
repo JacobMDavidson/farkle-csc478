@@ -30,11 +30,16 @@ public class Game {
 		this.controller = controller;
 		if(gameMode == GameMode.SINGLEPLAYER) {
 			numberOfPlayers = 1;
+		}
+		else
+		{
+			numberOfPlayers = 2;
+		}
 			players = new Player[numberOfPlayers];
 			for (int i = 0; i < numberOfPlayers; i++)
 			{
 				players[i] = new Player(i);
-				players[i].currentPlayer = true;
+				
 				players[i].turnNumber = 1;
 				for (int j = 0; j <= 9; j++)
 				{
@@ -42,7 +47,7 @@ public class Game {
 				}
 				players[i].gameScore = 0;
 			}
-		}
+			players[0].currentPlayer = true;
 		this.gameState = GameState.NEW_TURN;
 	}
 	
@@ -346,5 +351,19 @@ public class Game {
 	public void setHighScore (int highScore)
 	{
 		this.highScore = highScore;
+	}
+	
+	public void replayGame()
+	{
+		for (int i = 0; i < numberOfPlayers; i++)
+		{
+			players[i].turnNumber = 1;
+			for (int j = 0; j <= 9; j++)
+			{
+				players[i].turnScores[j] = 0;
+			}
+			players[i].gameScore = 0;
+		}
+		players[0].currentPlayer = true;
 	}
 }
