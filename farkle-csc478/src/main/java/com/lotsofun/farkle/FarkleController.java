@@ -200,13 +200,9 @@ public class FarkleController implements ActionListener, MouseListener {
 			if (farkleUI.rollBtn.getText().equals("Roll Dice")) {
 				if (farkleGame.isBonusTurn)
 				{
-					if (!farkleUI.displayYesNoMessage("You could bank this score. Are you sure you want to roll?", "Warning!"))
-					{
-						bank();
-						farkleUI.playBankSound();
-					}
 					farkleGame.isBonusTurn = false;
 				}
+				
 				farkleUI.lockScoredDice();
 				
 				Timer rollAnimationTimer = new Timer();
@@ -262,10 +258,18 @@ public class FarkleController implements ActionListener, MouseListener {
 		else if (arg0.getSource() == farkleUI.getBankBtn()) {
 			if (farkleGame.isBonusTurn)
 			{
-				farkleGame.isBonusTurn = false;
+				if (farkleUI.displayYesNoMessage("You used all your dice so you earned a bonus turn.\nIf you bank your score now, you'll lose your bonus turn.\nAre you sure you want to bank now?", "Warning!"))
+				{
+					bank();
+					farkleUI.playBankSound();
+					farkleGame.isBonusTurn = false;
+				}
 			}
-			bank();
-			farkleUI.playBankSound();
+			else
+			{
+				bank();
+				farkleUI.playBankSound();
+			}
 		}
 	}
 
