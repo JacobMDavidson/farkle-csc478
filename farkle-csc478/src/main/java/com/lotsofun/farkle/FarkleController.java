@@ -122,6 +122,11 @@ public class FarkleController implements ActionListener, MouseListener {
 			//Singleplayer or second player is a computer.
 			if (playerNames[1] == null)
 			{
+				//Issue 1: Resolution
+				if (playerNames[0] == null || playerNames[0].equals(""))
+				{
+					playerNames[0] = "Jacob Davidson";
+				}
 				farkleGame = new Game(GameMode.SINGLEPLAYER, this);
 				farkleGame.players[0].playerName = playerNames[0];
 			}
@@ -191,6 +196,15 @@ public class FarkleController implements ActionListener, MouseListener {
 		if (arg0.getSource() == farkleUI.getRollBtn()) {
 			
 			if (farkleUI.rollBtn.getText().equals("Roll Dice")) {
+				if (farkleGame.isBonusTurn)
+				{
+					if (!farkleUI.displayYesNoMessage("You could bank this score. Are you sure you want to roll?", "Warning!"))
+					{
+						bank();
+						farkleUI.playBankSound();
+					}
+					farkleGame.isBonusTurn = false;
+				}
 				farkleUI.lockScoredDice();
 				farkleUI.rollDice();
 
@@ -227,6 +241,10 @@ public class FarkleController implements ActionListener, MouseListener {
 		}
 		// If Bank button clicked
 		else if (arg0.getSource() == farkleUI.getBankBtn()) {
+			if (farkleGame.isBonusTurn)
+			{
+				farkleGame.isBonusTurn = false;
+			}
 			bank();
 			farkleUI.playBankSound();
 		}
@@ -323,6 +341,7 @@ public class FarkleController implements ActionListener, MouseListener {
 					farkleUI.resetDice();
 					farkleUI.playBonusSound();
 					farkleUI.setTurnHighlighting(farkleGame.players[0].turnNumber, true);
+					farkleGame.isBonusTurn = true;
 				}
 				
 

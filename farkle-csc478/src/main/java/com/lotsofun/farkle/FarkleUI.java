@@ -569,6 +569,21 @@ public class FarkleUI extends JFrame {
 		JOptionPane.showMessageDialog(this, message, title,
 				JOptionPane.DEFAULT_OPTION);
 	}
+	
+	public boolean displayYesNoMessage (String message, String title)
+	{
+		boolean retVal;
+		int dialogResult = JOptionPane.showConfirmDialog(this, message, title, JOptionPane.YES_NO_OPTION);
+		if (dialogResult == JOptionPane.YES_OPTION)
+		{
+			retVal = true;
+		}
+		else
+		{
+			retVal = false;
+		}
+		return retVal;
+	}
 
 	public boolean gameEnded() {
 		boolean retVal = true;

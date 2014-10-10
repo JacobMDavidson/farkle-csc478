@@ -14,6 +14,7 @@ public class Game {
 	public Player[] players;
 	public FarkleController controller;
 	public int highScore = 5000;
+	public boolean isBonusTurn = false;
 	
 
 	
