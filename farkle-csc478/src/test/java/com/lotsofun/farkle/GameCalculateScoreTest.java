@@ -150,19 +150,19 @@ public class GameCalculateScoreTest {
 		score = game.calculateScore(roll, false);
 		assertEquals(0, score);
 		
-		/*
+		
 		// Test that a roll with negative number integers returns null
-		roll.add(-1);
-		roll.add(-5);
-		score = game.calculateScore(roll, true);
-		assertEquals(null, score);
-		score = game.calculateScore(roll, false);
-		assertEquals(null, score);
+//		roll.add(-1);
+//		roll.add(-5);
+//		score = game.calculateScore(roll, true);
+//		assertEquals(null, score);
+//		score = game.calculateScore(roll, false);
+//		assertEquals(null, score);
 		
 		// Test that passing null to the calculateScore method returns null
-		assertEquals(null, game.calculateScore(null, true));
-		assertEquals(null, game.calculateScore(null, false));
-		*/
+		/*assertEquals(null, game.calculateScore(null, true));
+		assertEquals(null, game.calculateScore(null, false));*/
+		
 	}
 	
 	/**
