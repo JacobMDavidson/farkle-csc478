@@ -242,7 +242,7 @@ public class FarkleController implements ActionListener, MouseListener {
 						
 					}
 					
-				}, 0, 200);
+				}, 0, 50);
 				farkleUI.rollDice();
 
 				// Play roll sound

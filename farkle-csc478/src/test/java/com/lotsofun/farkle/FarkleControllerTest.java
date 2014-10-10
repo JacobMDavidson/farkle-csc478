@@ -58,6 +58,7 @@ public class FarkleControllerTest {
 	    			}
 	    		}
 	    	}
+		f.setUI(fU);
 		assertEquals(f.farkleUI, fU); // Check that the created reference matches the one in the controller
 		while(t.isAlive()) {
 			int i = 0;
