@@ -82,7 +82,7 @@ public class DieTest {
 		Die d = new Die(c);
 		assertNotNull(d);
 
-		// TODO: Figure out how to test this
+		// TODO: CuBr - Figure out how to test this
 	}
 	
 

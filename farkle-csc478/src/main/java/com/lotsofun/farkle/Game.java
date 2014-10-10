@@ -13,6 +13,8 @@ public class Game {
 	public Die[] dice;
 	public Player[] players;
 	public FarkleController controller;
+	public int highScore = 5000;
+	
 
 	
 	/**
@@ -110,6 +112,34 @@ public class Game {
 			{
 				countOfPairs++;
 			}
+			
+			
+			
+			/**********************************************
+			 * 6.1.0: Each 1 rolled is worth 100 points
+			 * ********************************************
+			 * 6.2.0: Each 5 rolled is worth 50 points
+			 * ********************************************
+			 * 6.3.0: Three 1’s are worth 1000 points
+			 * ********************************************
+			 * 6.4.0: Three of a kind of any value other 
+			 * than 1 is worth 100 times the value of the 
+			 * die (e.g. three 4’s is worth 400 points).
+			 * ********************************************
+			 * 6.4.5: Four, five, or six of a kind is scored
+			 * by doubling the three of a kind value for 
+			 * every additional matching die (e.g. five 3’s 
+			 * would be scored as 300 X 2 X 2 = 1200.
+			 * ********************************************
+			 * 6.6.0: Three doubles (e.g. 1-1-2-2-3-3) are
+			 *  worth 750 points.
+			 * ********************************************
+			 * 6.7.0: A straight (e.g. 1-2-3-4-5-6), which 
+			 * can only be achieved when all 6 dice are 
+			 * rolled, is worth 1500 points.
+			 * ********************************************/
+			
+			
 			// Add to the score based on the current die value
 			switch(i)
 			{
@@ -235,8 +265,6 @@ public class Game {
 	/**
 	 * Increment the current roll
 	 * number of this player
-	 * 
-	 * TODO: Could probably be more elegant
 	 */
 	public void processRoll() {
 		Player player = getCurrentPlayer();
@@ -260,12 +288,7 @@ public class Game {
 	public int getRollScores() {
 		Player player = getCurrentPlayer();
 		return player.getRollScores();
-	}
-
-	/*A Crap-ton of get/sets
-	 * TODO: Do we need all these variables?
-	 * */
-	
+	}	
 	
 	public int getNumberOfPlayers() {
 		return numberOfPlayers;
@@ -313,5 +336,15 @@ public class Game {
 
 	public void setPlayers(Player[] players) {
 		this.players = players;
+	}
+	
+	public int getHighScore ()
+	{
+		return highScore;
+	}
+	
+	public void setHighScore (int highScore)
+	{
+		this.highScore = highScore;
 	}
 }

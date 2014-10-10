@@ -36,13 +36,18 @@ public class FarkleUI extends JFrame {
 	public JButton rollBtn = new JButton("Roll Dice");
 	public JButton bankBtn = new JButton("Bank Score");
 	public FarkleController controller;
+	public JLabel[] scoreLabels = new JLabel[10];
 	public JLabel[] player1Scores = new JLabel[10];
 	public JLabel[] player2Scores = new JLabel[10];
+	public JLabel gameScoreTitle = new JLabel("Total Score: ");
 	public JLabel gameScore = new JLabel("0");
+	public JLabel highScoreTitle = new JLabel("High Score: ");
+	public JLabel highScore = new JLabel("5000");
 	public JLabel runningScore = new JLabel();
 	public ArrayList<URL> rollSounds = new ArrayList<URL>();
 	public ArrayList<URL> bankSounds = new ArrayList<URL>();
 	public URL bonusSound;
+	public URL gSound;
 	public AudioInputStream audioStream = null;
 
 	
@@ -63,29 +68,58 @@ public class FarkleUI extends JFrame {
 	 */
 	public void initUI() {
 		
-		// TODO: Possibly move lines 54 - 80 in to their own method
-		// TODO: Reuse this method to start a new game
+		// TODO: CuBr - Possibly move lines 54 - 80 in to their own method
+		// TODO: CuBr - Reuse this method to start a new game
 		
+		// Initialize the sounds
 		rollSounds.add(getClass().getResource("/sounds/roll1.wav"));
 		rollSounds.add(getClass().getResource("/sounds/roll2.wav")); 
 		rollSounds.add(getClass().getResource("/sounds/roll3.wav"));
 		rollSounds.add(getClass().getResource("/sounds/roll4.wav"));
+		gSound = getClass().getResource("/sounds/roll5.wav");
 		bankSounds.add(getClass().getResource("/sounds/bank1.wav"));
 		bankSounds.add(getClass().getResource("/sounds/bank2.wav"));
 		bankSounds.add(getClass().getResource("/sounds/bank3.wav"));
 		bankSounds.add(getClass().getResource("/sounds/bank4.wav"));
 		bonusSound = getClass().getResource("/sounds/bonus.wav");
 		
-		// Prompts user for game modes
+
+		/**************************************************
+		 * 1.1.0 Upon opening the application, the user is 
+		 * greeted with a screen that has two
+		 * options, 1 player mode or 2 player mode.
+		 ***************************************************/
 		Object countOps[] = {"1 Player", "2 Players", "Cancel"};
 		Object modeOps[] = {"Human Opponent", "Computer Opponent", "Cancel"};
-		String player1Name = "", player2Name = "";
+		String player1Name = "";
 		int playerCount = JOptionPane.showOptionDialog(this, "Choose the number of players.", "Player Mode", JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null, countOps, countOps[0]);
 		int playerMode = -1;
 		
 		if(playerCount != JOptionPane.CANCEL_OPTION) {
 			player1Name = JOptionPane.showInputDialog(this, "Please enter your name.", "Player 1", JOptionPane.OK_CANCEL_OPTION);
+			if(("Ginuwine").equalsIgnoreCase(player1Name)) {
+				
+				try {
+					AudioInputStream audioStream;
+					audioStream = AudioSystem.getAudioInputStream(gSound);
+					Clip clip = AudioSystem.getClip();
+					clip.open(audioStream);
+					clip.start();
+				} catch (UnsupportedAudioFileException e) {
+					e.printStackTrace();
+				} catch (LineUnavailableException e) {
+					e.printStackTrace();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+				
+			}
 			
+			
+			/***************************************************************
+			 * 1.2.0: If the user selects two player mode, the user is asked 
+			 * if player 2 is a live player or a computer player.
+			 ***************************************************************/
 			// Player chooses 2 player game mode
 			if(playerCount == JOptionPane.NO_OPTION) {
 				
@@ -94,7 +128,6 @@ public class FarkleUI extends JFrame {
 				
 				// If they choose for player 2 to be human
 				if(playerMode == JOptionPane.YES_OPTION) {
-					player2Name = JOptionPane.showInputDialog(this, "Please enter your name.", "Player 2");
 				}
 			// Player chooses 1 player mode
 			} 
@@ -113,17 +146,26 @@ public class FarkleUI extends JFrame {
 			// Pass a reference to the controller
 			controller.setUI(this);
 			
+			
+			/******************************************
+			 * 1.4.1: The title of the window shall 
+			 * display: “Farkle – Single Player Mode”.
+			 ******************************************/
+			//TODO: CuBr - Write a test case for the window title
+			// based on player mode
+			
 			// Create and set up the main Window
-	        JFrame frame = new JFrame("Farkle");
+	        JFrame frame = new JFrame("Farkle - Single Player Mode");
 	        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	        frame.setPreferredSize(new Dimension(1024, 768));
 	        frame.setLayout(new GridLayout(1, 3, 10, 10));
 	        
 	        // Build the UI
 			frame.add(createPlayerPanel(player1Name, 1));
+			
+			// Call to create dice
 			frame.add(createDicePanel());
 			frame.add(createScorePanel());
-	//		frame.add(createButtonPanel());
 			
 			// Center and display the window
 	        frame.setLocationRelativeTo(null);
@@ -132,7 +174,9 @@ public class FarkleUI extends JFrame {
 	        int x = (int) ((dimension.getWidth() - frame.getWidth()) / 2);
 	        int y = (int) ((dimension.getHeight() - frame.getHeight()) / 2);
 	        frame.setLocation(x, y);
+
 			frame.setVisible(true);
+			
 		}
 	}
 	
@@ -144,8 +188,17 @@ public class FarkleUI extends JFrame {
 	 */
 	public  JPanel[] createButtonPanel() {
 		JPanel buttonPanels[] = {new JPanel(), new JPanel()};
+		
+		/********************************************
+		 * 1.3.4: A “Roll” button shall be displayed.
+		 ********************************************/
 		rollBtn.addActionListener(controller);
 		buttonPanels[0].add(rollBtn);
+		
+		/********************************************
+		 * 1.3.5: A “Bank” button shall be displayed
+		 * (and shall initially be disabled).
+		 ********************************************/
 		bankBtn.addActionListener(controller);
 		buttonPanels[1].add(bankBtn);
 		return buttonPanels;		
@@ -167,6 +220,21 @@ public class FarkleUI extends JFrame {
 		dicePanel.add(new JLabel("Turn Score:"));
 		dicePanel.add(runningScore);
 		dicePanel.add(new JLabel());
+		
+		/***********************************************
+		 * 1.3.1: The center of the screen shall
+		 *  display the six dice used during gameplay.
+		 *  These dice shall display nothing until
+		 *   the user presses the roll button for 
+		 *   the first time.
+		 ***********************************************/
+		
+		/***********************************************
+		 * 3.1.0: Farkle is played with six standard 6
+		 * sided dice with each side numbered from 1
+		 *  through 6 (inclusive). 
+		 ***********************************************/
+		
 		// Initialize the dice and add to panel
 		for(int i = 0; i < dice.length; i++) {
 			dice[i] = new Die(controller);
@@ -178,6 +246,8 @@ public class FarkleUI extends JFrame {
 		dicePanel.add(new JLabel(" "));
 		dicePanel.add(new JLabel(" "));
 		
+		// Call to add buttons and satisfy
+		// requirements 1.3.4 and 1.3.5
 		JPanel btns[] = createButtonPanel();		
 		dicePanel.add(btns[0]);
 		dicePanel.add(new JLabel(" "));
@@ -190,14 +260,14 @@ public class FarkleUI extends JFrame {
 	/**
 	 * Create a new JPanel that contains all the JLabels
 	 * necessary to represent a player with 10 turns
-	 * TODO: Possibly update to accept a third parameter for the
+	 * TODO: CuBr - Possibly update to accept a third parameter for the
 	 * 		 number of scores
 	 * @param playerName
 	 * @param playerNumber
 	 * @return
 	 */
     private  JPanel createPlayerPanel(String playerName, int playerNumber) {
-        JPanel playerPanel = new JPanel(new GridLayout(0, 2, 2, 2));
+        JPanel playerPanel = new JPanel(new GridLayout(0, 2, 0, 2));
         JLabel nameLbl = new JLabel("Player " + playerNumber);
         playerPanel.add(nameLbl);
         JLabel name = new JLabel(playerName);
@@ -209,19 +279,43 @@ public class FarkleUI extends JFrame {
         playerPanel.add(filler1);
         
         
-        JLabel[] scoreLabels = new JLabel[10];
+        /***************************************************
+         * 1.4.3: The left side of the screen shall have an
+         * area to display the point total for each of the
+         * ten turns taken in single player mode. 
+         ***************************************************/
         for(int i = 0; i < scoreLabels.length; i++) {
-            scoreLabels[i] = new JLabel("Roll: " + (i + 1));
+        	scoreLabels[i] = new JLabel();
+            scoreLabels[i].setText("Roll " + (i + 1) + ": ");
+            scoreLabels[i].setOpaque(true);
             playerPanel.add(scoreLabels[i]);
             
             player1Scores[i] = new JLabel();
+            player1Scores[i].setOpaque(true);
             //"score" + (i + 1)
             playerPanel.add(player1Scores[i]);
         }
         
-        playerPanel.add(new JLabel("Total Score: "));
-        playerPanel.add(gameScore);
         
+        
+        
+        //playerPanel.add(new JLabel("High Score: "));
+        /*****************************************************
+         * 1.4.2: The overall point total shall be displayed.
+         *****************************************************/
+        playerPanel.add(gameScoreTitle);
+        gameScoreTitle.setOpaque(true);
+        playerPanel.add(gameScore);
+        gameScore.setOpaque(true);
+        /**************************************************
+         * 1.4.5: The current highest achieved score shall
+         *  be displayed. This score shall initially be
+         *   set to 5000 points.
+         ***************************************************/
+        playerPanel.add(highScoreTitle);
+        highScoreTitle.setOpaque(true);
+        playerPanel.add(highScore);
+        highScore.setOpaque(true);
         playerPanel.setPreferredSize(new Dimension(500, 300));
         playerPanel.setBorder(BorderFactory.createLineBorder(Color.BLACK, 1));
         
@@ -234,9 +328,13 @@ public class FarkleUI extends JFrame {
      * @return JLabel
      */
     private JPanel createScorePanel() {
+    	
+    	/*****************************************************
+    	 * 1.3.3: Rules for the scoring combinations
+    	 * shall be displayed on the right side of the screen.
+    	 *****************************************************/
     	JPanel scorePanel = new JPanel();
     	try {
-    		
 			Image scoreGuide = ImageIO.read(getClass().getResource("/images/FarkleScores.jpg"));
 			scoreGuide = scoreGuide.getScaledInstance(200, 680, Image.SCALE_SMOOTH);
 			JLabel scoreLabel = new JLabel(new ImageIcon(scoreGuide));
@@ -244,7 +342,6 @@ public class FarkleUI extends JFrame {
 			
 			scorePanel.setBorder(BorderFactory.createLineBorder(Color.BLACK, 1));
     	} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 			System.exit(0);
 		}
@@ -275,6 +372,13 @@ public class FarkleUI extends JFrame {
 	public void setGameScore(JLabel gameScore) {
 		this.gameScore = gameScore;
 	}
+	public JLabel getHighScore() {
+		return highScore;
+	}
+
+	public void setHighScore(JLabel highScore) {
+		this.highScore = highScore;
+	}
 
 	public JLabel getRunningScore() {
 		return runningScore;
@@ -283,27 +387,17 @@ public class FarkleUI extends JFrame {
 
 	public void rollDice() {
 		// Test farkle roll
-		/*dice[0].setValue(1);
-		dice[1].setValue(1);
-		dice[2].setValue(1);
-		dice[3].setValue(4);
-		dice[4].setValue(4);
-		dice[5].setValue(6);*/
+//		dice[0].setValue(1);
+//		dice[1].setValue(1);
+//		dice[2].setValue(1);
+//		dice[3].setValue(4);
+//		dice[4].setValue(4);
+//		dice[5].setValue(6);
 		
 		// Roll all the dice
 		for(Die d : dice) {
 			d.roll();
 		}
-	}
-	
-	/**
-	 * TODO: If this isn't called anywhere
-	 * then take it out
-	 * @return
-	 */
-	@Deprecated
-	public FarkleUI getUI() {
-		return this;
 	}
 	
 	
@@ -356,7 +450,7 @@ public class FarkleUI extends JFrame {
 	
 	public void resetScores() {
 		for(JLabel score : player1Scores) {
-			score.setText("0");
+			score.setText("");
 		}
 	}
 	
@@ -385,6 +479,40 @@ public class FarkleUI extends JFrame {
 	}
 	
 	/**
+	 * Sets the background colors of the score labels based on the turn number.
+	 * If 0 is passed as the turn number all colors will 
+	 * be reset to default.
+	 * @param turn - Current turn number. (0 for reset)
+	 * @param isBonusTurn - Bonus turns have the color set to yellow.
+	 */
+	public void setTurnHighlighting(int turn, boolean isBonusTurn)
+	{
+		Color defaultColor = new Color (238,238,238);
+		for(int i = 0; i <= 9; i++)
+		{
+			player1Scores[i].setBackground(defaultColor);
+			scoreLabels[i].setBackground(defaultColor);
+		}
+		if (turn != 0 && !isBonusTurn)
+		{
+			player1Scores[turn - 1].setBackground(Color.WHITE);
+			scoreLabels[turn - 1].setBackground(Color.WHITE);	
+		}
+		else if (turn != 0)
+		{
+			player1Scores[turn - 1].setBackground(Color.YELLOW);
+			scoreLabels[turn - 1].setBackground(Color.YELLOW);
+		}
+		else
+		{
+			gameScoreTitle.setBackground(defaultColor);
+			gameScore.setBackground(defaultColor);
+			highScoreTitle.setBackground(defaultColor);
+			highScore.setBackground(defaultColor);
+		}		
+	}
+	
+	/**
 	 * Update the running score label
 	 * with the specified score
 	 * @param int score
@@ -405,11 +533,11 @@ public class FarkleUI extends JFrame {
 			Clip clip = AudioSystem.getClip();
 			clip.open(audioStream);
 			clip.start();
-		} catch (UnsupportedAudioFileException | IOException e) {
-			// TODO Auto-generated catch block
+		} catch (UnsupportedAudioFileException e) {
 			e.printStackTrace();
 		} catch (LineUnavailableException e) {
-			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
 			e.printStackTrace();
 		}
 	}
@@ -421,11 +549,11 @@ public class FarkleUI extends JFrame {
 			Clip clip = AudioSystem.getClip();
 			clip.open(audioStream);
 			clip.start();
-		} catch (UnsupportedAudioFileException | IOException e) {
-			// TODO Auto-generated catch block
+		} catch (UnsupportedAudioFileException e) {
 			e.printStackTrace();
 		} catch (LineUnavailableException e) {
-			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
 			e.printStackTrace();
 		}
 	}
@@ -436,12 +564,23 @@ public class FarkleUI extends JFrame {
 			Clip clip = AudioSystem.getClip();
 			clip.open(audioStream);
 			clip.start();
-		} catch (UnsupportedAudioFileException | IOException e) {
-			// TODO Auto-generated catch block
+		} catch (UnsupportedAudioFileException e) {
 			e.printStackTrace();
 		} catch (LineUnavailableException e) {
-			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
 			e.printStackTrace();
 		}
+	}
+	
+	/**
+	 * Display a message to the user via JOptionPane
+	 * @param message - Message to be displayed in the main box.
+	 * @param title - Title of the JOptionPane window.
+	 * 
+	 */
+	public void displayMessage (String message, String title)
+	{
+		JOptionPane.showMessageDialog (this, message, title, JOptionPane.DEFAULT_OPTION);
 	}
 }
