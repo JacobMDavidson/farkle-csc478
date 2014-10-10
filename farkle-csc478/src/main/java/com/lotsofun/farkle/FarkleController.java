@@ -6,6 +6,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class FarkleController implements ActionListener, MouseListener {
 	FarkleUI farkleUI;
@@ -46,7 +48,7 @@ public class FarkleController implements ActionListener, MouseListener {
 	public void farkle() {
 
 		/********************************************************
-		 * 1.3.7: If any roll results in 0 points, the word “Farkle!!!” is
+		 * 1.3.7: If any roll results in 0 points, the word ï¿½Farkle!!!ï¿½ is
 		 * displayed above the dice until the next player rolls (in 2 player
 		 * mode) or the first roll of the next turn is taken (in 1 player mode).
 		 ********************************************************/
@@ -73,7 +75,7 @@ public class FarkleController implements ActionListener, MouseListener {
 
 		/***************************************************
 		 * 4.8.0: If the player selects the bank button, the current turn point
-		 * total is added to the player’s game point total, and the turn is
+		 * total is added to the playerï¿½s game point total, and the turn is
 		 * over.
 		 ***************************************************/
 
@@ -90,10 +92,10 @@ public class FarkleController implements ActionListener, MouseListener {
 
 		/**************************************************
 		 * 2.1.2: The game ends at the conclusion of the tenth turn, and the
-		 * player’s score is compared to the current high score.
+		 * playerï¿½s score is compared to the current high score.
 		 **************************************************** 
-		 * 2.1.3: If the player’s score is greater than the current high score,
-		 * a congratulatory message is displayed, and the player’s score
+		 * 2.1.3: If the playerï¿½s score is greater than the current high score,
+		 * a congratulatory message is displayed, and the playerï¿½s score
 		 * replaces the previous high score.
 		 ****************************************************/
 		if (farkleGame.players[0].getGameScore() > farkleGame.highScore) {
@@ -206,6 +208,41 @@ public class FarkleController implements ActionListener, MouseListener {
 					farkleGame.isBonusTurn = false;
 				}
 				farkleUI.lockScoredDice();
+				
+				Timer rollAnimationTimer = new Timer();
+				rollAnimationTimer.scheduleAtFixedRate(new TimerTask(){
+					int count = 0;
+					@Override
+					public void run() {
+						farkleUI.rollDice();
+						count ++;
+						if(count >= 5)
+						{
+							// Tell the model this is a new roll
+							farkleGame.processRoll();
+
+							/***************************************************
+							 * 4.2.0: The resulting roll is analyzed according to
+							 * requirement 6.0.0 to determine if the player farkled. A
+							 * farkle occurs if the roll results in 0 points.
+							 ***************************************************/
+							// Score any UNHELD dice
+							int rollScore = farkleGame.calculateScore(
+									farkleUI.getDieValues(DieState.UNHELD), false);
+
+							// If it's farkle
+							if (rollScore == 0) {
+								// Tell everyone
+								farkle();
+								farkleUI.getRollBtn().setEnabled(true);
+								farkleUI.getBankBtn().setEnabled(false);
+							}
+							this.cancel();
+						}
+						
+					}
+					
+				}, 0, 200);
 				farkleUI.rollDice();
 
 				// Play roll sound
@@ -218,25 +255,7 @@ public class FarkleController implements ActionListener, MouseListener {
 				// Turn Highlighting
 				farkleUI.setTurnHighlighting(farkleGame.players[0].turnNumber, false);
 
-				// Tell the model this is a new roll
-				farkleGame.processRoll();
-
-				/***************************************************
-				 * 4.2.0: The resulting roll is analyzed according to
-				 * requirement 6.0.0 to determine if the player farkled. A
-				 * farkle occurs if the roll results in 0 points.
-				 ***************************************************/
-				// Score any UNHELD dice
-				int rollScore = farkleGame.calculateScore(
-						farkleUI.getDieValues(DieState.UNHELD), false);
-
-				// If it's farkle
-				if (rollScore == 0) {
-					// Tell everyone
-					farkle();
-					farkleUI.getRollBtn().setEnabled(true);
-					farkleUI.getBankBtn().setEnabled(false);
-				}
+				
 			}
 		}
 		// If Bank button clicked
