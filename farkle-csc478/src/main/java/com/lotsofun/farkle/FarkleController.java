@@ -216,7 +216,7 @@ public class FarkleController implements ActionListener, MouseListener {
 					public void run() {
 						farkleUI.rollDice();
 						count ++;
-						if(count >= 5)
+						if(count >= 10)
 						{
 							// Tell the model this is a new roll
 							farkleGame.processRoll();
