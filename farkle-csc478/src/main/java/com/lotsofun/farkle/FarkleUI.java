@@ -80,7 +80,7 @@ public class FarkleUI extends JFrame {
 		// Pass a reference to the controller
 		controller.setUI(this);
 
-		controller.newGame();
+		
 
 		/******************************************
 		 * 1.4.1: The title of the window shall display: “Farkle – Single Player
@@ -111,6 +111,8 @@ public class FarkleUI extends JFrame {
 		frame.setLocation(x, y);
 
 		frame.setVisible(true);
+		
+		controller.newGame();
 	}
 
 	/* Reduce Reuse Recycle */
@@ -133,6 +135,10 @@ public class FarkleUI extends JFrame {
 			playerNames[0] = JOptionPane.showInputDialog(this,
 					"Please enter your name.", "Player 1",
 					JOptionPane.OK_CANCEL_OPTION);
+			if (playerNames[0] == null)
+			{
+				pullThePlug();
+			}
 			if (("Ginuwine").equalsIgnoreCase(playerNames[0])) {
 
 				try {
