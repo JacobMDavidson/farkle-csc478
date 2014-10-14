@@ -83,8 +83,8 @@ public class FarkleUI extends JFrame {
 		
 
 		/******************************************
-		 * 1.4.1: The title of the window shall display: “Farkle – Single Player
-		 * Mode”.
+		 * 1.4.1: The title of the window shall display: ï¿½Farkle ï¿½ Single Player
+		 * Modeï¿½.
 		 ******************************************/
 		// TODO: CuBr - Write a test case for the window title
 		// based on player mode
@@ -197,13 +197,13 @@ public class FarkleUI extends JFrame {
 		JPanel buttonPanels[] = { new JPanel(), new JPanel() };
 
 		/********************************************
-		 * 1.3.4: A “Roll” button shall be displayed.
+		 * 1.3.4: A ï¿½Rollï¿½ button shall be displayed.
 		 ********************************************/
 		rollBtn.addActionListener(controller);
 		buttonPanels[0].add(rollBtn);
 
 		/********************************************
-		 * 1.3.5: A “Bank” button shall be displayed (and shall initially be
+		 * 1.3.5: A ï¿½Bankï¿½ button shall be displayed (and shall initially be
 		 * disabled).
 		 ********************************************/
 		bankBtn.addActionListener(controller);
@@ -327,7 +327,7 @@ public class FarkleUI extends JFrame {
 		JPanel scorePanel = new JPanel();
 		try {
 			Image scoreGuide = ImageIO.read(getClass().getResource(
-					"/images/FarkleScores.jpg"));
+					"/images/FarkleScores.png"));
 			scoreGuide = scoreGuide.getScaledInstance(200, 680,
 					Image.SCALE_SMOOTH);
 			JLabel scoreLabel = new JLabel(new ImageIcon(scoreGuide));
@@ -335,6 +335,7 @@ public class FarkleUI extends JFrame {
 
 			scorePanel
 					.setBorder(BorderFactory.createLineBorder(Color.BLACK, 1));
+			scorePanel.setBackground(new Color(35, 119, 34));
 		} catch (IOException e) {
 			e.printStackTrace();
 			System.exit(0);
@@ -595,7 +596,7 @@ public class FarkleUI extends JFrame {
 		boolean retVal = true;
 		/************************************************** 
 		 * 1.6.0: At the conclusion of the game, the user shall be greeted with
-		 * three options: “Play again?”, “Main Menu”, and “Quit”.
+		 * three options: ï¿½Play again?ï¿½, ï¿½Main Menuï¿½, and ï¿½Quitï¿½.
 		 *************************************************/
 		Object[] options = { "Play Again", "Main Menu", "Exit" };
 		int n = JOptionPane.showOptionDialog(this,
@@ -604,21 +605,21 @@ public class FarkleUI extends JFrame {
 				null, options, options[2]);
 		
 		/************************************************* 
-		 * 2.1.5: If “Play again?” is selected, the game starts over in 1 player
+		 * 2.1.5: If ï¿½Play again?ï¿½ is selected, the game starts over in 1 player
 		 * mode.
 		 ************************************************/
 		if (n == 0) {
 			retVal = true;
 		}
 		/************************************************* 
-		 * 2.1.6: If “Main Menu” is selected, the user is taken to the mode
+		 * 2.1.6: If ï¿½Main Menuï¿½ is selected, the user is taken to the mode
 		 * selection screen.
 		 ************************************************/
 		else if (n == 1) {
 			retVal = false;
 		}
 		/************************************************** 
-		 * 2.1.7: If “Quit” is selected, the application immediately closes.
+		 * 2.1.7: If ï¿½Quitï¿½ is selected, the application immediately closes.
 		 *************************************************/
 		else {
 			pullThePlug();
