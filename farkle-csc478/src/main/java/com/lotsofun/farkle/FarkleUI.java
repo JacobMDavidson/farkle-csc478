@@ -2,9 +2,12 @@ package com.lotsofun.farkle;
 
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.Image;
 import java.awt.Toolkit;
+import java.awt.event.ActionEvent;
+import java.awt.event.MouseEvent;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
@@ -34,6 +37,7 @@ public class FarkleUI extends JFrame {
 	public Die[] dice = new Die[6];
 	public JButton rollBtn = new JButton("Roll Dice");
 	public JButton bankBtn = new JButton("Bank Score");
+	public JButton selectAllBtn = new JButton("Select All");
 	public FarkleController controller;
 	public JLabel playerNameLabel = new JLabel("");
 	public JLabel[] scoreLabels = new JLabel[10];
@@ -93,7 +97,12 @@ public class FarkleUI extends JFrame {
 		JFrame frame = new JFrame("Farkle");
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setPreferredSize(new Dimension(1024, 768));
-		frame.setLayout(new GridLayout(1, 3, 10, 10));
+		GridLayout layout = new GridLayout(1, 3, 10, 10);
+		
+		// Hide the gridlines
+		layout.setHgap(0);
+		layout.setVgap(0);
+		frame.setLayout(layout);
 
 		// Build the UI
 		frame.add(createPlayerPanel());
@@ -109,9 +118,7 @@ public class FarkleUI extends JFrame {
 		int x = (int) ((dimension.getWidth() - frame.getWidth()) / 2);
 		int y = (int) ((dimension.getHeight() - frame.getHeight()) / 2);
 		frame.setLocation(x, y);
-
 		frame.setVisible(true);
-		
 		controller.newGame();
 	}
 
@@ -194,20 +201,27 @@ public class FarkleUI extends JFrame {
 	 * @return
 	 */
 	public JPanel[] createButtonPanel() {
-		JPanel buttonPanels[] = { new JPanel(), new JPanel() };
+		JPanel buttonPanels[] = { new JPanel(), new JPanel(), new JPanel() };
 
 		/********************************************
 		 * 1.3.4: A �Roll� button shall be displayed.
 		 ********************************************/
 		rollBtn.addActionListener(controller);
 		buttonPanels[0].add(rollBtn);
+		buttonPanels[0].setBackground(new Color(35, 119, 34));
+		
+		selectAllBtn.addActionListener(controller);
+		buttonPanels[1].add(selectAllBtn);
+		buttonPanels[1].setBackground(new Color(35, 119, 34));
+		
 
 		/********************************************
 		 * 1.3.5: A �Bank� button shall be displayed (and shall initially be
 		 * disabled).
 		 ********************************************/
 		bankBtn.addActionListener(controller);
-		buttonPanels[1].add(bankBtn);
+		buttonPanels[2].add(bankBtn);
+		buttonPanels[2].setBackground(new Color(35, 119, 34));
 		getBankBtn().setEnabled(false);
 		return buttonPanels;
 	}
@@ -221,10 +235,13 @@ public class FarkleUI extends JFrame {
 	public JPanel createDicePanel() {
 		// Create the panel
 		JPanel dicePanel = new JPanel(new GridLayout(0, 3, 0, 0));
-		dicePanel.setAlignmentX(JPanel.CENTER_ALIGNMENT);
-		dicePanel.setAlignmentY(JPanel.CENTER_ALIGNMENT);
-
-		dicePanel.add(new JLabel("Turn Score:"));
+		JLabel turnScore = new JLabel("<html>Turn Score: </html>");
+		turnScore.setForeground(Color.WHITE);
+		turnScore.setFont(new Font("Arial Black", Font.BOLD, 14));
+		dicePanel.add(turnScore);
+		runningScore.setForeground(Color.WHITE);
+		runningScore.setFont(new Font("Arial Black", Font.BOLD, 14));
+		runningScore.setHorizontalAlignment(JLabel.CENTER);
 		dicePanel.add(runningScore);
 		dicePanel.add(new JLabel());
 
@@ -244,6 +261,7 @@ public class FarkleUI extends JFrame {
 			dice[i] = new Die(controller);
 			dicePanel.add(new JLabel(" "));
 			dicePanel.add(dice[i]);
+			dice[i].setHorizontalAlignment(JLabel.CENTER);
 			dicePanel.add(new JLabel(" "));
 		}
 		dicePanel.add(new JLabel(" "));
@@ -254,8 +272,12 @@ public class FarkleUI extends JFrame {
 		// requirements 1.3.4 and 1.3.5
 		JPanel btns[] = createButtonPanel();
 		dicePanel.add(btns[0]);
-		dicePanel.add(new JLabel(" "));
 		dicePanel.add(btns[1]);
+		dicePanel.add(btns[2]);
+		dicePanel.setBackground(new Color(35, 119, 34));
+		dicePanel.setBorder(BorderFactory.createCompoundBorder(
+				BorderFactory.createLineBorder(Color.WHITE, 3),
+				BorderFactory.createEmptyBorder(3, 17, 3, 17)));
 
 		return dicePanel;
 	}
@@ -270,8 +292,12 @@ public class FarkleUI extends JFrame {
 	 */
 	private JPanel createPlayerPanel() {
 		JPanel playerPanel = new JPanel(new GridLayout(0, 2, 0, 2));
-		JLabel nameLbl = new JLabel("Player ");
+		JLabel nameLbl = new JLabel("Player: ");
+		nameLbl.setForeground(Color.WHITE);
+		nameLbl.setFont(new Font("Arial Black", Font.BOLD, 16));
 		playerPanel.add(nameLbl);
+		playerNameLabel.setForeground(Color.WHITE);
+		playerNameLabel.setFont(new Font("Arial Black", Font.BOLD, 16));
 		playerPanel.add(playerNameLabel);
 		JLabel filler0 = new JLabel();
 		playerPanel.add(filler0);
@@ -285,30 +311,40 @@ public class FarkleUI extends JFrame {
 		for (int i = 0; i < scoreLabels.length; i++) {
 			scoreLabels[i] = new JLabel();
 			scoreLabels[i].setText("Roll " + (i + 1) + ": ");
-			scoreLabels[i].setOpaque(true);
+			scoreLabels[i].setForeground(Color.WHITE);
+			scoreLabels[i].setFont(new Font("Arial Black", Font.BOLD, 14));
 			playerPanel.add(scoreLabels[i]);
 			player1Scores[i] = new JLabel();
-			player1Scores[i].setOpaque(true);
+			player1Scores[i].setForeground(Color.WHITE);
+			player1Scores[i].setFont(new Font("Arial Black", Font.BOLD, 14));
 			playerPanel.add(player1Scores[i]);
 		}
 
 		/*****************************************************
 		 * 1.4.2: The overall point total shall be displayed.
 		 *****************************************************/
+		gameScoreTitle.setForeground(Color.WHITE);
+		gameScoreTitle.setFont(new Font("Arial Black", Font.BOLD, 14));
 		playerPanel.add(gameScoreTitle);
-		gameScoreTitle.setOpaque(true);
+		gameScore.setForeground(Color.WHITE);
+		gameScore.setFont(new Font("Arial Black", Font.BOLD, 14));
 		playerPanel.add(gameScore);
-		gameScore.setOpaque(true);
 		/**************************************************
 		 * 1.4.5: The current highest achieved score shall be displayed. This
 		 * score shall initially be set to 5000 points.
 		 ***************************************************/
+		highScoreTitle.setForeground(Color.WHITE);
+		highScoreTitle.setFont(new Font("Arial Black", Font.BOLD, 14));
 		playerPanel.add(highScoreTitle);
-		highScoreTitle.setOpaque(true);
+		highScore.setForeground(Color.WHITE);
+		highScore.setFont(new Font("Arial Black", Font.BOLD, 14));
 		playerPanel.add(highScore);
-		highScore.setOpaque(true);
-		playerPanel.setPreferredSize(new Dimension(500, 300));
-		playerPanel.setBorder(BorderFactory.createLineBorder(Color.BLACK, 1));
+//		playerPanel.setPreferredSize(new Dimension(500, 300));
+//		playerPanel.setBorder(BorderFactory.createLineBorder(Color.BLACK, 1));
+		playerPanel.setBackground(new Color(35, 119, 34));
+		playerPanel.setBorder(BorderFactory.createCompoundBorder(
+				BorderFactory.createLineBorder(Color.WHITE, 3),
+				BorderFactory.createEmptyBorder(3, 17, 3, 17)));
 
 		return playerPanel;
 	}
@@ -333,14 +369,15 @@ public class FarkleUI extends JFrame {
 			JLabel scoreLabel = new JLabel(new ImageIcon(scoreGuide));
 			scorePanel.add(scoreLabel);
 
-			scorePanel
-					.setBorder(BorderFactory.createLineBorder(Color.BLACK, 1));
 			scorePanel.setBackground(new Color(35, 119, 34));
 		} catch (IOException e) {
 			e.printStackTrace();
 			System.exit(0);
 		}
-
+		
+		scorePanel.setBorder(BorderFactory.createCompoundBorder(
+				BorderFactory.createLineBorder(Color.WHITE, 3),
+				BorderFactory.createEmptyBorder(3, 17, 3, 17)));
 		return scorePanel;
 	}
 
@@ -350,6 +387,10 @@ public class FarkleUI extends JFrame {
 
 	public JButton getBankBtn() {
 		return bankBtn;
+	}
+
+	public JButton getSelectAllBtn() {
+		return selectAllBtn;
 	}
 
 	public JLabel[] getScores() {
@@ -468,7 +509,7 @@ public class FarkleUI extends JFrame {
 	 */
 	public void setTurnScore(int player, int turn, int score) {
 		JLabel scoreLbls[] = (player == 0) ? player1Scores : player2Scores;
-		scoreLbls[turn - 1].setText(String.valueOf(score));
+		scoreLbls[turn - 1].setText("" + score);
 	}
 
 	/**
@@ -481,24 +522,28 @@ public class FarkleUI extends JFrame {
 	 *            - Bonus turns have the color set to yellow.
 	 */
 	public void setTurnHighlighting(int turn, boolean isBonusTurn) {
-		Color defaultColor = new Color(238, 238, 238);
-		for (int i = 0; i <= 9; i++) {
-			player1Scores[i].setBackground(defaultColor);
-			scoreLabels[i].setBackground(defaultColor);
+		for (int i = 0; i <= player1Scores.length - 1; i++) {
+			player1Scores[i].setOpaque(false);
+			player1Scores[i].setForeground(Color.WHITE);
+			scoreLabels[i].setOpaque(false);
+			scoreLabels[i].setForeground(Color.WHITE);
 		}
 		if (turn != 0 && !isBonusTurn) {
+			player1Scores[turn - 1].setOpaque(true);
 			player1Scores[turn - 1].setBackground(Color.WHITE);
 			player1Scores[turn - 1].setText("");
+			player1Scores[turn - 1].setForeground(Color.BLACK);
+			scoreLabels[turn - 1].setOpaque(true);
 			scoreLabels[turn - 1].setBackground(Color.WHITE);
+			scoreLabels[turn - 1].setForeground(Color.BLACK);
 		} else if (turn != 0) {
-			player1Scores[turn - 1].setBackground(Color.YELLOW);
+			player1Scores[turn - 1].setOpaque(true);
 			player1Scores[turn - 1].setText("BONUS ROLL!");
+			player1Scores[turn - 1].setBackground(Color.YELLOW);
+			player1Scores[turn - 1].setForeground(Color.BLACK);
+			scoreLabels[turn - 1].setOpaque(true);
 			scoreLabels[turn - 1].setBackground(Color.YELLOW);
-		} else {
-			gameScoreTitle.setBackground(defaultColor);
-			gameScore.setBackground(defaultColor);
-			highScoreTitle.setBackground(defaultColor);
-			highScore.setBackground(defaultColor);
+			scoreLabels[turn - 1].setForeground(Color.BLACK);
 		}
 	}
 
@@ -508,7 +553,7 @@ public class FarkleUI extends JFrame {
 	 * @param int score
 	 */
 	public void setRunningScore(int score) {
-		runningScore.setText(String.valueOf(score));
+		runningScore.setText("" + score);
 	}
 
 	/**
@@ -635,5 +680,24 @@ public class FarkleUI extends JFrame {
 	public void pullThePlug() {
 		dispose();
 		System.exit(0);
+	}
+	
+	
+	/**
+	 * If no dice are held, selects all unheld dice
+	 * If no dice are unheld, selects all held dice
+	 */
+	public void selectAllDice() {
+		if(getDice(DieState.HELD).size() == 0) {
+			ArrayList<Die> dice = getDice(DieState.UNHELD);
+			for(Die d : dice) {
+				d.dispatchEvent(new MouseEvent(d, MouseEvent.MOUSE_PRESSED, System.currentTimeMillis(), MouseEvent.BUTTON1, d.getX(), d.getY(), 1, false));
+			}
+		} else {
+			ArrayList<Die> dice = getDice(DieState.HELD);
+			for(Die d : dice) {
+				d.dispatchEvent(new MouseEvent(d, MouseEvent.MOUSE_PRESSED, System.currentTimeMillis(), MouseEvent.BUTTON1, d.getX(), d.getY(), 1, false));
+			}
+		}
 	}
 }

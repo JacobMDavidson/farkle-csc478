@@ -103,7 +103,6 @@ public class FarkleController implements ActionListener, MouseListener {
 					"OMFG! NEW HIGH SCORE!");
 			farkleGame.highScore = farkleGame.players[0].getGameScore();
 			farkleUI.highScore.setText(Integer.toString(farkleGame.highScore));
-			//farkleUI.setTurnHighlighting(0, false);
 			farkleUI.highScoreTitle.setBackground(Color.YELLOW);
 			farkleUI.highScore.setBackground(Color.YELLOW);
 		}
@@ -270,6 +269,10 @@ public class FarkleController implements ActionListener, MouseListener {
 				bank();
 				farkleUI.playBankSound();
 			}
+		} 
+		// If Select All button clicked
+		else if(arg0.getSource() == farkleUI.getSelectAllBtn()) {
+			farkleUI.selectAllDice();
 		}
 	}
 

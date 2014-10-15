@@ -257,8 +257,8 @@ public class Game {
 	 */
 	public void farkle ()
 	{
-		controller.setTurnScore(currentPlayer, players[currentPlayer].getTurnNumber(), 0);
-		players[currentPlayer].endTurn(true);
+		controller.setTurnScore(currentPlayer, getCurrentPlayer().getTurnNumber(), 0);
+		getCurrentPlayer().endTurn(true);
 		currentPlayer = getNextPlayer();
 		processHold(0);
 	}

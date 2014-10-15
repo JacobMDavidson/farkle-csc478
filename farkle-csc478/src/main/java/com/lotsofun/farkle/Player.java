@@ -19,6 +19,7 @@ public class Player {
 	 */
 	public Player(int playerNumber)
 	{
+		this.playerNumber = playerNumber;
 		type = PlayerType.USER;
 		turnScores = new int[10];
 	}

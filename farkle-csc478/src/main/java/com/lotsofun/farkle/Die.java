@@ -22,10 +22,12 @@ public class Die extends JLabel {
 	
 	// Create constants for drawing the die
 	private static final int BORDER_GAP = 3;
-    private static final Border HELD_BORDER = 
-          BorderFactory.createLineBorder(Color.red, BORDER_GAP);
     private static final Border UNHELD_BORDER = 
-          BorderFactory.createEmptyBorder(BORDER_GAP, BORDER_GAP, BORDER_GAP, BORDER_GAP);        
+          BorderFactory.createEmptyBorder(BORDER_GAP, BORDER_GAP, BORDER_GAP, BORDER_GAP);   
+    private static final Border HELD_BORDER = 
+    		BorderFactory.createCompoundBorder(
+    				BorderFactory.createEmptyBorder(3, 12, 3, 12),
+    				BorderFactory.createLineBorder(Color.YELLOW, BORDER_GAP));
 	private static final int OUT_FRAME = 55;
     private static final int ARC = 8;
     private static final float STROKE_WIDTH = 2f;

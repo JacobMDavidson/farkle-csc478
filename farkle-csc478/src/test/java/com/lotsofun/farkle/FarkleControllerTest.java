@@ -14,7 +14,7 @@ import javax.swing.JTextField;
 
 import org.junit.Ignore;
 import org.junit.Test;
-
+@Ignore
 public class FarkleControllerTest {
 	public FarkleController f;
 	public Game g;
