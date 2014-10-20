@@ -101,6 +101,7 @@ public class FarkleUI extends JFrame {
 		JFrame frame = new JFrame("Farkle");
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setPreferredSize(new Dimension(1024, 768));
+		frame.setResizable(false);
 		GridLayout layout = new GridLayout(1, 3, 10, 10);
 		
 		// Hide the gridlines
