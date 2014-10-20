@@ -457,17 +457,17 @@ public class FarkleUI extends JFrame {
 
 	public void rollDice() {
 		// Test farkle roll
-//		dice[0].setValue(1);
-//		dice[1].setValue(2);
-//		dice[2].setValue(3);
-//		dice[3].setValue(4);
-//		dice[4].setValue(5);
-//		dice[5].setValue(6);
+		dice[0].setValue(1);
+		dice[1].setValue(2);
+		dice[2].setValue(3);
+		dice[3].setValue(4);
+		dice[4].setValue(5);
+		dice[5].setValue(6);
 
 		// Roll all the dice
-		 for (Die d : dice) {
-		 d.roll();
-		 }
+//		 for (Die d : dice) {
+//		 d.roll();
+//		 }
 	}
 
 	/**
