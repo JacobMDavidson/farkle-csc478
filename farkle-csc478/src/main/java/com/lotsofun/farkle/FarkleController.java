@@ -144,6 +144,7 @@ public class FarkleController implements ActionListener, MouseListener {
 				farkleGame.players[1].playerName = playerNames[1];
 			}
 			farkleUI.playerNameLabel.setText(farkleGame.players[0].playerName);
+			farkleUI.setTurnHighlighting(farkleGame.players[0].turnNumber, false);
 	}
 	
 	public void replayGame()
