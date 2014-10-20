@@ -64,7 +64,7 @@ public class FarkleController implements ActionListener, MouseListener {
 		farkleGame.farkle();
 
 		if (farkleGame.players[0].turnNumber > 10) {
-			endGame();
+			endGame(false, false);
 		}
 	}
 
@@ -84,11 +84,11 @@ public class FarkleController implements ActionListener, MouseListener {
 		farkleUI.getGameScore().setText(String.valueOf(farkleGame.bank()));
 		farkleUI.getBankBtn().setEnabled(false);
 		if (farkleGame.players[0].turnNumber > 10) {
-			endGame();
+			endGame(false, false);
 		}
 	}
 
-	public void endGame() {
+	public void endGame(boolean resetOnly, boolean mainMenu) {
 
 		/**************************************************
 		 * 2.1.2: The game ends at the conclusion of the tenth turn, and the
@@ -106,7 +106,7 @@ public class FarkleController implements ActionListener, MouseListener {
 			farkleUI.highScoreTitle.setBackground(Color.YELLOW);
 			farkleUI.highScore.setBackground(Color.YELLOW);
 		}
-		boolean replayGame = farkleUI.gameEnded();
+		boolean replayGame = farkleUI.gameEnded(resetOnly, mainMenu);
 		if (replayGame)
 		{
 			replayGame();

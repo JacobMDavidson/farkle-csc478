@@ -7,6 +7,7 @@ import java.awt.GridLayout;
 import java.awt.Image;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.io.IOException;
 import java.net.URL;
@@ -25,6 +26,9 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
@@ -104,7 +108,37 @@ public class FarkleUI extends JFrame {
 		layout.setVgap(0);
 		frame.setLayout(layout);
 
-		// Build the UI
+		//Menu Bar
+        JMenuBar menuBar = new JMenuBar();
+        setJMenuBar(menuBar);
+        JMenu fileMenu = new JMenu("File");
+        menuBar.add(fileMenu);
+        JMenuItem newAction = new JMenuItem("New");
+        JMenuItem resetAction = new JMenuItem("Reset");
+        JMenuItem exitAction = new JMenuItem("Exit");
+        fileMenu.add(newAction);
+        fileMenu.add(resetAction);
+        fileMenu.add(exitAction);
+        newAction.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent arg0) {
+                controller.endGame(false, true);
+            }
+        });
+        resetAction.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent arg0) {
+               controller.endGame(true, false);
+            }
+        });
+        exitAction.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent arg0) {
+                pullThePlug();
+            }
+        });
+		
+        frame.setJMenuBar(menuBar);
+        
+        
+        // Build the UI
 		frame.add(createPlayerPanel());
 
 		// Call to create dice
@@ -637,39 +671,46 @@ public class FarkleUI extends JFrame {
 		return retVal;
 	}
 
-	public boolean gameEnded() {
+	public boolean gameEnded(boolean resetOnly, boolean mainMenu) {
 		boolean retVal = true;
-		/************************************************** 
-		 * 1.6.0: At the conclusion of the game, the user shall be greeted with
-		 * three options: �Play again?�, �Main Menu�, and �Quit�.
-		 *************************************************/
-		Object[] options = { "Play Again", "Main Menu", "Exit" };
-		int n = JOptionPane.showOptionDialog(this,
-				"What would you like to do?", "Game Over",
-				JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE,
-				null, options, options[2]);
-		
-		/************************************************* 
-		 * 2.1.5: If �Play again?� is selected, the game starts over in 1 player
-		 * mode.
-		 ************************************************/
-		if (n == 0) {
-			retVal = true;
+		if ((!resetOnly) && (!mainMenu)){
+			/************************************************** 
+			 * 1.6.0: At the conclusion of the game, the user shall be greeted with
+			 * three options: �Play again?�, �Main Menu�, and �Quit�.
+			 *************************************************/
+			Object[] options = { "Play Again", "Main Menu", "Exit" };
+			int n = JOptionPane.showOptionDialog(this,
+					"What would you like to do?", "Game Over",
+					JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE,
+					null, options, options[2]);
+
+			/************************************************* 
+			 * 2.1.5: If �Play again?� is selected, the game starts over in 1 player
+			 * mode.
+			 ************************************************/
+			if (n == 0) {
+				retVal = true;
+			}
+			/************************************************* 
+			 * 2.1.6: If �Main Menu� is selected, the user is taken to the mode
+			 * selection screen.
+			 ************************************************/
+			else if (n == 1) {
+				retVal = false;
+			}
+			/************************************************** 
+			 * 2.1.7: If �Quit� is selected, the application immediately closes.
+			 *************************************************/
+			else {
+				pullThePlug();
+			}
 		}
-		/************************************************* 
-		 * 2.1.6: If �Main Menu� is selected, the user is taken to the mode
-		 * selection screen.
-		 ************************************************/
-		else if (n == 1) {
+		
+		if (mainMenu)
+		{
 			retVal = false;
 		}
-		/************************************************** 
-		 * 2.1.7: If �Quit� is selected, the application immediately closes.
-		 *************************************************/
-		else {
-			pullThePlug();
-		}
-		runningScore.setText("0");
+		runningScore.setText("");
 		gameScore.setText("0");
 		getBankBtn().setEnabled(false);
 		setTurnHighlighting(0, false);
