@@ -87,6 +87,7 @@ public class FarkleController implements ActionListener, MouseListener {
 		if (farkleGame.players[0].turnNumber > 10) {
 			endGame(false, false);
 		}
+		farkleUI.setTurnHighlighting(farkleGame.players[0].turnNumber, false);
 	}
 	
 	public boolean checkHighScore()
