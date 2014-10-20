@@ -678,9 +678,10 @@ public class FarkleUI extends JFrame {
 			 * 1.6.0: At the conclusion of the game, the user shall be greeted with
 			 * three options: �Play again?�, �Main Menu�, and �Quit�.
 			 *************************************************/
-			Object[] options = { "Play Again", "Main Menu", "Exit" };
-			int n = JOptionPane.showOptionDialog(this,
-					"What would you like to do?", "Game Over",
+			Object[] options = { "Play Again", "Main Menu", "Exit"};
+			int n = JOptionPane.showOptionDialog(this,	 
+					"Total Score: " + controller.farkleGame.players[0].gameScore + "\nWhat would you like to do?",
+					"Game Over",
 					JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE,
 					null, options, options[2]);
 
