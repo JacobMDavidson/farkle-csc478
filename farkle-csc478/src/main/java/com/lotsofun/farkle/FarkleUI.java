@@ -246,6 +246,7 @@ public class FarkleUI extends JFrame {
 		
 		selectAllBtn.addActionListener(controller);
 		buttonPanels[1].add(selectAllBtn);
+		selectAllBtn.setEnabled(false);
 		buttonPanels[1].setBackground(new Color(35, 119, 34));
 		
 

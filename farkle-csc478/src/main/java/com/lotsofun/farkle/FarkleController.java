@@ -78,11 +78,12 @@ public class FarkleController implements ActionListener, MouseListener {
 		 * total is added to the player�s game point total, and the turn is
 		 * over.
 		 ***************************************************/
-
+		
 		farkleUI.getRunningScore().setText("0");
 		farkleUI.resetDice();
 		farkleUI.getGameScore().setText(String.valueOf(farkleGame.bank()));
 		farkleUI.getBankBtn().setEnabled(false);
+		farkleUI.getSelectAllBtn().setEnabled(false);
 		checkHighScore();
 		if (farkleGame.players[0].turnNumber > 10) {
 			endGame(false, false);
@@ -254,6 +255,9 @@ public class FarkleController implements ActionListener, MouseListener {
 				// Disable the Roll and Bank buttons
 				farkleUI.getRollBtn().setEnabled(false);
 				farkleUI.getBankBtn().setEnabled(false);
+				
+				//Enable Select All Button
+				farkleUI.getSelectAllBtn().setEnabled(true);
 
 				// Turn Highlighting
 				farkleUI.setTurnHighlighting(farkleGame.players[0].turnNumber, false);
