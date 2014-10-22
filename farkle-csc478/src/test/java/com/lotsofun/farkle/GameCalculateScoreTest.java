@@ -166,7 +166,8 @@ public class GameCalculateScoreTest {
 	}
 	
 	/**
-	 * This method tests the calculateScore method of the Game class for all permutations of 1 die
+	 * This method tests the calculateScore method of the Game class for all permutations of 1 die,
+	 * requirements 6.1.0 and 6.2.0
 	 */
 	@Test
 	public void testCalculateScore1(){
@@ -194,7 +195,7 @@ public class GameCalculateScoreTest {
 			}
 		}	
 		
-		/* Test 2: Check scoring for a die roll of 5 */
+		/* Test 2: Check scoring for a die roll of 5 (requirement 6.2.0) */
 		
 		// Generate all permutations of the roll and store in a list of lists of integers
 		myPermutations = permutations("5");
@@ -211,7 +212,7 @@ public class GameCalculateScoreTest {
 			assertEquals(50, score);
 		}
 		
-		/* Test 3: Check scoring for a die roll of 1 */
+		/* Test 3: Check scoring for a die roll of 1 (requirement 6.1.0) */
 		
 		// Generate all permutations of the roll and store in a list of lists of integers
 		myPermutations = permutations("1");
@@ -230,7 +231,8 @@ public class GameCalculateScoreTest {
 	}
 	
 	/**
-	 * This method tests the calculateScore method of the Game class for all permutations of 2 dice
+	 * This method tests the calculateScore method of the Game class for all permutations of 2 dice,
+	 * requirement 6.1.0 and 6.2.0.
 	 */
 	@Test
 	public void testCalculateScore2(){
@@ -281,7 +283,9 @@ public class GameCalculateScoreTest {
 			}
 		}
 		
-		/* Test 6: Check scoring for a die roll of 5X (X represent all die values other than 1 or 5) */
+		/* Test 6: Check scoring for a die roll of 5X (X represent all die values other than 1 or 5) 
+		 * Requirement 6.2.0 
+		 */
 		
 		// Generate all permutations of the roll
 		automatedPermutations = integerPermutations("5X");
@@ -304,7 +308,9 @@ public class GameCalculateScoreTest {
 			}
 		}
 		
-		/* Test 7: Check scoring for a die roll of 1X (X represent all die values other than 1 or 5) */
+		/* Test 7: Check scoring for a die roll of 1X (X represent all die values other than 1 or 5) 
+		 * Requirement 6.1.0 
+		 */
 		
 		// Generate all permutations of the roll
 		automatedPermutations = integerPermutations("1X");
@@ -327,7 +333,9 @@ public class GameCalculateScoreTest {
 			}
 		}
 		
-		/* Test 8: Check scoring for a die roll of 55 */
+		/* Test 8: Check scoring for a die roll of 55 
+		 * Requirement 6.2.0 
+		 */
 		
 		// Generate all permutations of the roll and store in a list of lists of integers
 		myPermutations = permutations("55");
@@ -344,7 +352,9 @@ public class GameCalculateScoreTest {
 			assertEquals(100, score);
 		}
 		
-		/* Test 9: Check scoring for a die roll of 15 */
+		/* Test 9: Check scoring for a die roll of 15 
+		 * Requirement 6.1.0 and 6.2.0 
+		 */
 		
 		// Generate all permutations of the roll and store in a list of lists of integers
 		myPermutations = permutations("15");
@@ -361,7 +371,9 @@ public class GameCalculateScoreTest {
 			assertEquals(150, score);
 		}
 		
-		/* Test 10: Check scoring for a die roll of 11 */
+		/* Test 10: Check scoring for a die roll of 11 
+		 * Requirement 6.1.0 
+		 */
 		
 		// Generate all permutations of the roll and store in a list of lists of integers
 		myPermutations = permutations("11");
@@ -381,7 +393,8 @@ public class GameCalculateScoreTest {
 	}
 	
 	/**
-	 * This method tests the calculateScore method of the Game class for all permutations of 3 dice
+	 * This method tests the calculateScore method of the Game class for all permutations of 3 dice,
+	 * requirements 6.1.0, 6.2.0, 6.3.0, and 6.4.0.
 	 */
 	@Test
 	public void testCalculateScore3(){	
@@ -432,7 +445,9 @@ public class GameCalculateScoreTest {
 			}
 		}
 		
-		/* Test 13: Check scoring for a die roll of 5AA (A represents all die values other than 1 or 5) */
+		/* Test 13: Check scoring for a die roll of 5AA (A represents all die values other than 1 or 5) 
+		 * Requirement 6.2.0 
+		 */
 		
 		// Generate all permutations of the roll
 		automatedPermutations = integerPermutations("5AA");
@@ -455,7 +470,9 @@ public class GameCalculateScoreTest {
 			}
 		}
 		
-		/* Test 14: Check scoring for a die roll of 5AX (A and X represent all die values other than 1 or 5) */
+		/* Test 14: Check scoring for a die roll of 5AX (A and X represent all die values other than 1 or 5) 
+		 * Requirement 6.2.0 
+		 */
 		
 		// Generate all permutations of the roll
 		automatedPermutations = integerPermutations("5AX");
@@ -478,7 +495,9 @@ public class GameCalculateScoreTest {
 			}
 		}
 		
-		/* Test 15: Check scoring for a die roll of 1AA (A represents all die values other than 1 or 5) */
+		/* Test 15: Check scoring for a die roll of 1AA (A represents all die values other than 1 or 5) 
+		 * Requirement 6.1.0 and 6.2.0 
+		 */
 		
 		// Generate all permutations of the roll
 		automatedPermutations = integerPermutations("1AA");
@@ -501,7 +520,9 @@ public class GameCalculateScoreTest {
 			}
 		}
 		
-		/* Test 16: Check scoring for a die roll of 1AX (A and X represent all die values other than 1 or 5) */
+		/* Test 16: Check scoring for a die roll of 1AX (A and X represent all die values other than 1 or 5) 
+		 * Requirement 6.1.0 
+		 */
 		
 		// Generate all permutations of the roll
 		automatedPermutations = integerPermutations("1AX");
@@ -524,7 +545,9 @@ public class GameCalculateScoreTest {
 			}
 		}
 		
-		/* Test 17: Check scoring for a die roll of 55A (A represents all die values other than 1 or 5) */
+		/* Test 17: Check scoring for a die roll of 55A (A represents all die values other than 1 or 5) 
+		 * Requirement 6.2.0 
+		 */
 		
 		// Generate all permutations of the roll
 		automatedPermutations = integerPermutations("55A");
@@ -547,7 +570,9 @@ public class GameCalculateScoreTest {
 			}
 		}
 		
-		/* Test 18: Check scoring for a die roll of 15A (A represents all die values other than 1 or 5) */
+		/* Test 18: Check scoring for a die roll of 15A (A represents all die values other than 1 or 5) 
+		 * Requirement 6.1.0 and 6.2.0
+		 */
 		
 		// Generate all permutations of the roll
 		automatedPermutations = integerPermutations("15A");
@@ -570,7 +595,9 @@ public class GameCalculateScoreTest {
 			}
 		}
 		
-		/* Test 19: Check scoring for a die roll of 11A (A represents all die values other than 1 or 5) */
+		/* Test 19: Check scoring for a die roll of 11A (A represents all die values other than 1 or 5) 
+		 * Requirement 6.1.0 
+		 */
 		
 		// Generate all permutations of the roll
 		automatedPermutations = integerPermutations("11A");
@@ -593,7 +620,9 @@ public class GameCalculateScoreTest {
 			}
 		}
 		
-		/* Test 20: Check scoring for a die roll of 155 */
+		/* Test 20: Check scoring for a die roll of 155 
+		 * Requirement 6.1.0 and 6.2.0
+		 */
 		
 		// Generate all permutations of the roll and store in a list of lists of integers
 		myPermutations = permutations("155");
@@ -610,7 +639,9 @@ public class GameCalculateScoreTest {
 			assertEquals(200, score);
 		}
 		
-		/* Test 21: Check scoring for a die roll of 115 */
+		/* Test 21: Check scoring for a die roll of 115 
+		 * Requirement 6.1.0 and 6.2.0 
+		 */
 		
 		// Generate all permutations of the roll and store in a list of lists of integers
 		myPermutations = permutations("115");
@@ -627,7 +658,9 @@ public class GameCalculateScoreTest {
 			assertEquals(250, score);
 		}
 		
-		/* Test 22: Check scoring for a die roll of AAA (A represents all die values other than 1 or 5) */
+		/* Test 22: Check scoring for a die roll of AAA (A represents all die values other than 1 or 5) 
+		 * Requirement 6.4.0 
+		 */
 		
 		// Generate all permutations of the roll
 		automatedPermutations = integerPermutations("AAA");
@@ -653,7 +686,9 @@ public class GameCalculateScoreTest {
 			}
 		}	
 		
-		/* Test 23: Check scoring for a die roll of 555 */
+		/* Test 23: Check scoring for a die roll of 555 
+		 * Requirement 6.4.0 
+		 */
 		
 		// Generate all permutations of the roll and store in a list of lists of integers
 		myPermutations = permutations("555");
@@ -670,7 +705,9 @@ public class GameCalculateScoreTest {
 			assertEquals(500, score);
 		}
 		
-		/* Test 24: Check scoring for a die roll of 111 */
+		/* Test 24: Check scoring for a die roll of 111 
+		 * Requirement 6.3.0 
+		 */
 		
 		// Generate all permutations of the roll and store in a list of lists of integers
 		myPermutations = permutations("111");
@@ -689,7 +726,8 @@ public class GameCalculateScoreTest {
 	}
 
 	/**
-	 * This method tests the calculateScore method of the Game class for all permutations of 4 dice
+	 * This method tests the calculateScore method of the Game class for all permutations of 4 dice,
+	 * requirements 6.1.0, 6.2.0, 6.3.0, 6.4.0, and 6.5.0
 	 */
 	@Test
 	public void testCalculateScore4(){
@@ -763,7 +801,9 @@ public class GameCalculateScoreTest {
 			}
 		}
 		
-		/* Test 28: Check scoring for a die roll of 5AXY (A, X and Y each represent all die values other than 1 or 5) */
+		/* Test 28: Check scoring for a die roll of 5AXY (A, X and Y each represent all die values other than 1 or 5) 
+		 * Requirement 6.2.0 
+		 */
 		
 		// Generate all permutations of the roll
 		automatedPermutations = integerPermutations("5AXY");
@@ -786,7 +826,9 @@ public class GameCalculateScoreTest {
 			}
 		}
 		
-		/* Test 29: Check scoring for a die roll of 5AAX (A and X each represent all die values other than 1 or 5) */
+		/* Test 29: Check scoring for a die roll of 5AAX (A and X each represent all die values other than 1 or 5) 
+		 * Requirement 6.2.0 
+		 */
 		
 		// Generate all permutations of the roll
 		automatedPermutations = integerPermutations("5AAX");
@@ -809,7 +851,9 @@ public class GameCalculateScoreTest {
 			}
 		}
 		
-		/* Test 30: Check scoring for a die roll of 1AXY (A, X and Y each represent all die values other than 1 or 5) */
+		/* Test 30: Check scoring for a die roll of 1AXY (A, X and Y each represent all die values other than 1 or 5) 
+		 * Requirement 6.1.0 
+		 */
 		
 		// Generate all permutations of the roll
 		automatedPermutations = integerPermutations("1AXY");
@@ -832,7 +876,9 @@ public class GameCalculateScoreTest {
 			}
 		}
 		
-		/* Test 31: Check scoring for a die roll of 1AAX (A and X each represent all die values other than 1 or 5) */
+		/* Test 31: Check scoring for a die roll of 1AAX (A and X each represent all die values other than 1 or 5) 
+		 * Requirement 6.1.0 
+		 */
 		
 		// Generate all permutations of the roll
 		automatedPermutations = integerPermutations("1AAX");
@@ -855,7 +901,9 @@ public class GameCalculateScoreTest {
 			}
 		}
 		
-		/* Test 32: Check scoring for a die roll of 55AX (A and X each represent all die values other than 1 or 5) */
+		/* Test 32: Check scoring for a die roll of 55AX (A and X each represent all die values other than 1 or 5) 
+		 * Requirement 6.2.0 
+		 */
 		
 		// Generate all permutations of the roll
 		automatedPermutations = integerPermutations("55AX");
@@ -878,7 +926,9 @@ public class GameCalculateScoreTest {
 			}
 		}
 		
-		/* Test 33: Check scoring for a die roll of 55AA (A represents all die values other than 1 or 5) */
+		/* Test 33: Check scoring for a die roll of 55AA (A represents all die values other than 1 or 5) 
+		 * Requirement 6.2.0 
+		 */
 		
 		// Generate all permutations of the roll
 		automatedPermutations = integerPermutations("55AA");
@@ -901,7 +951,9 @@ public class GameCalculateScoreTest {
 			}
 		}
 		
-		/* Test 34: Check scoring for a die roll of 15AX (A and X each represent all die values other than 1 or 5) */
+		/* Test 34: Check scoring for a die roll of 15AX (A and X each represent all die values other than 1 or 5) 
+		 * Requirement 6.1.0 and 6.2.0 
+		 */
 		
 		// Generate all permutations of the roll
 		automatedPermutations = integerPermutations("15AX");
@@ -924,7 +976,9 @@ public class GameCalculateScoreTest {
 			}
 		}
 		
-		/* Test 35: Check scoring for a die roll of 15AA (A represents all die values other than 1 or 5) */
+		/* Test 35: Check scoring for a die roll of 15AA (A represents all die values other than 1 or 5) 
+		 * Requirement 6.1.0 and 6.2.0
+		 */
 		
 		// Generate all permutations of the roll
 		automatedPermutations = integerPermutations("15AA");
@@ -948,7 +1002,9 @@ public class GameCalculateScoreTest {
 		}
 		
 		
-		/* Test 36: Check scoring for a die roll of 11AX (A and X each represent all die values other than 1 or 5) */
+		/* Test 36: Check scoring for a die roll of 11AX (A and X each represent all die values other than 1 or 5) 
+		 * Requirement 6.1.0 
+		 */
 		
 		// Generate all permutations of the roll
 		automatedPermutations = integerPermutations("11AX");
@@ -971,7 +1027,9 @@ public class GameCalculateScoreTest {
 			}
 		}
 		
-		/* Test 37: Check scoring for a die roll of 55AA (A represents all die values other than 1 or 5) */
+		/* Test 37: Check scoring for a die roll of 55AA (A represents all die values other than 1 or 5)
+		 * Requirement 6.2.0 
+		 */
 		
 		// Generate all permutations of the roll
 		automatedPermutations = integerPermutations("11AA");
@@ -994,7 +1052,9 @@ public class GameCalculateScoreTest {
 			}
 		}
 		
-		/* Test 38: Check scoring for a die roll of 155A (A represents all die values other than 1 or 5) */
+		/* Test 38: Check scoring for a die roll of 155A (A represents all die values other than 1 or 5) 
+		 * Requirement 6.1.0 and 6.2.0 
+		 */
 		
 		// Generate all permutations of the roll
 		automatedPermutations = integerPermutations("155A");
@@ -1017,7 +1077,9 @@ public class GameCalculateScoreTest {
 			}
 		}
 				
-		/* Test 39: Check scoring for a die roll of 115A (A represents all die values other than 1 or 5) */
+		/* Test 39: Check scoring for a die roll of 115A (A represents all die values other than 1 or 5) 
+		 * Requirement 6.1.0 and 6.2.0 
+		 */
 		
 		// Generate all permutations of the roll
 		automatedPermutations = integerPermutations("115A");
@@ -1040,7 +1102,9 @@ public class GameCalculateScoreTest {
 			}
 		}
 		
-		/* Test 40: Check scoring for a die roll of AAAX (A and X represent all die values other than 1 or 5) */
+		/* Test 40: Check scoring for a die roll of AAAX (A and X represent all die values other than 1 or 5) 
+		 * Requirement 6.4.0 
+		 */
 		
 		// Generate all permutations of the roll
 		automatedPermutations = integerPermutations("AAAX");
@@ -1066,7 +1130,9 @@ public class GameCalculateScoreTest {
 			}
 		}
 		
-		/* Test 41: Check scoring for a die roll of 555A (A represents all die values other than 1 or 5) */
+		/* Test 41: Check scoring for a die roll of 555A (A represents all die values other than 1 or 5) 
+		 * Requirement 6.4.0 
+		 */
 		
 		// Generate all permutations of the roll
 		automatedPermutations = integerPermutations("555A");
@@ -1089,7 +1155,9 @@ public class GameCalculateScoreTest {
 			}
 		}
 		
-		/* Test 42: Check scoring for a die roll of 111A (A represents all die values other than 1 or 5) */
+		/* Test 42: Check scoring for a die roll of 111A (A represents all die values other than 1 or 5) 
+		 * Requirement 6.3.0 
+		 */
 		
 		// Generate all permutations of the roll
 		automatedPermutations = integerPermutations("111A");
@@ -1112,7 +1180,9 @@ public class GameCalculateScoreTest {
 			}
 		}
 		
-		/* Test 43: Check scoring for a die roll of 5AAA (A represents all die values other than 1 or 5) */
+		/* Test 43: Check scoring for a die roll of 5AAA (A represents all die values other than 1 or 5) 
+		 * Requirement 6.2.0 and 6.4.0
+		 */
 		
 		// Generate all permutations of the roll
 		automatedPermutations = integerPermutations("5AAA");
@@ -1138,7 +1208,9 @@ public class GameCalculateScoreTest {
 			}
 		}
 		
-		/* Test 44: Check scoring for a die roll of 1AAA (A represents all die values other than 1 or 5) */
+		/* Test 44: Check scoring for a die roll of 1AAA (A represents all die values other than 1 or 5) 
+		 * Requirement 6.1.0 and 6.4.0 
+		 */
 		
 		// Generate all permutations of the roll
 		automatedPermutations = integerPermutations("1AAA");
@@ -1164,7 +1236,9 @@ public class GameCalculateScoreTest {
 			}
 		}
 		
-		/* Test 45: Check scoring for a die roll of 1555 */
+		/* Test 45: Check scoring for a die roll of 1555 
+		 * Requirement 6.1.0 and 6.4.0 
+		 */
 		
 		// Generate all permutations of the roll and store in a list of lists of integers
 		myPermutations = permutations("1555");
@@ -1181,7 +1255,9 @@ public class GameCalculateScoreTest {
 			assertEquals(600, score);
 		}
 		
-		/* Test 46: Check scoring for a die roll of 5111 */
+		/* Test 46: Check scoring for a die roll of 5111 
+		 * Requirement 6.2.0 and 6.3.0
+		 */
 		
 		// Generate all permutations of the roll and store in a list of lists of integers
 		myPermutations = permutations("5111");
@@ -1198,7 +1274,9 @@ public class GameCalculateScoreTest {
 			assertEquals(1050, score);
 		}	
 		
-		/* Test 47: Check scoring for a die roll of AAAA (A represents all die values other than 1 or 5) */
+		/* Test 47: Check scoring for a die roll of AAAA (A represents all die values other than 1 or 5) 
+		 * Requirement 6.5.0 
+		 */
 		
 		// Generate all permutations of the roll
 		automatedPermutations = integerPermutations("AAAA");
@@ -1224,7 +1302,9 @@ public class GameCalculateScoreTest {
 			}
 		}
 		
-		/* Test 48: Check scoring for a die roll of 5555 */
+		/* Test 48: Check scoring for a die roll of 5555 
+		 * Requirement 6.5.0 
+		 */
 		
 		// Generate all permutations of the roll and store in a list of lists of integers
 		myPermutations = permutations("5555");
@@ -1241,7 +1321,9 @@ public class GameCalculateScoreTest {
 			assertEquals(1000, score);
 		}
 		
-		/* Test 49: Check scoring for a die roll of 1111 */
+		/* Test 49: Check scoring for a die roll of 1111 
+		 * Requirement 6.5.0 
+		 */
 		
 		// Generate all permutations of the roll and store in a list of lists of integers
 		myPermutations = permutations("1111");
@@ -1260,7 +1342,8 @@ public class GameCalculateScoreTest {
 	}
 
 	/**
-	 * This method tests the calculateScore method of the Game class for all permutations of 5 dice
+	 * This method tests the calculateScore method of the Game class for all permutations of 5 dice,
+	 * requirements 6.1.0, 6.2.0, 6.3.0, 6.4.0, and 6.5.0.
 	 */
 	@Test
 	public void testCalculateScore5(){
@@ -1310,7 +1393,9 @@ public class GameCalculateScoreTest {
 			}
 		}
 		
-		/* Test 52: Check scoring for a die roll of 5AXYZ (A, X, Y and Z each represent all die values other than 1 or 5) */
+		/* Test 52: Check scoring for a die roll of 5AXYZ (A, X, Y and Z each represent all die values other than 1 or 5) 
+		 * Requirement 6.2.0 
+		 */
 		
 		// Generate all permutations of the roll
 		automatedPermutations = integerPermutations("5AXYZ");
@@ -1333,7 +1418,9 @@ public class GameCalculateScoreTest {
 			}
 		}
 		
-		/* Test 53: Check scoring for a die roll of 5AAXY (A, X and Y each represent all die values other than 1 or 5) */
+		/* Test 53: Check scoring for a die roll of 5AAXY (A, X and Y each represent all die values other than 1 or 5) 
+		 * Requirement 6.2.0 
+		 */
 		
 		// Generate all permutations of the roll
 		automatedPermutations = integerPermutations("5AAXY");
@@ -1356,7 +1443,9 @@ public class GameCalculateScoreTest {
 			}
 		}
 		
-		/* Test 54: Check scoring for a die roll of 5AAXX (A and X each represent all die values other than 1 or 5) */
+		/* Test 54: Check scoring for a die roll of 5AAXX (A and X each represent all die values other than 1 or 5) 
+		 * Requirement 6.2.0 
+		 */
 		
 		// Generate all permutations of the roll
 		automatedPermutations = integerPermutations("5AAXX");
@@ -1379,7 +1468,9 @@ public class GameCalculateScoreTest {
 			}
 		}
 		
-		/* Test 55: Check scoring for a die roll of 1AXYZ (A, X, Y and Z each represent all die values other than 1 or 5) */
+		/* Test 55: Check scoring for a die roll of 1AXYZ (A, X, Y and Z each represent all die values other than 1 or 5) 
+		 * Requirement 6.1.0 
+		 */
 		
 		// Generate all permutations of the roll
 		automatedPermutations = integerPermutations("1AXYZ");
@@ -1402,7 +1493,9 @@ public class GameCalculateScoreTest {
 			}
 		}
 		
-		/* Test 56: Check scoring for a die roll of 1AAXY (A, X and Y each represent all die values other than 1 or 5) */
+		/* Test 56: Check scoring for a die roll of 1AAXY (A, X and Y each represent all die values other than 1 or 5) 
+		 * Requirement 6.1.0 
+		 */
 		
 		// Generate all permutations of the roll
 		automatedPermutations = integerPermutations("1AAXY");
@@ -1425,7 +1518,9 @@ public class GameCalculateScoreTest {
 			}
 		}
 		
-		/* Test 57: Check scoring for a die roll of 1AAXX (A and X each represent all die values other than 1 or 5) */
+		/* Test 57: Check scoring for a die roll of 1AAXX (A and X each represent all die values other than 1 or 5) 
+		 * Requirement 6.1.0
+		 */
 		
 		// Generate all permutations of the roll
 		automatedPermutations = integerPermutations("1AAXX");
@@ -1448,7 +1543,9 @@ public class GameCalculateScoreTest {
 			}
 		}
 		
-		/* Test 58: Check scoring for a die roll of 55AXY (A, X and Y each represent all die values other than 1 or 5) */
+		/* Test 58: Check scoring for a die roll of 55AXY (A, X and Y each represent all die values other than 1 or 5) 
+		 * Requirement 6.2.0
+		 */
 		
 		// Generate all permutations of the roll
 		automatedPermutations = integerPermutations("55AXY");
@@ -1471,7 +1568,9 @@ public class GameCalculateScoreTest {
 			}
 		}
 		
-		/* Test 59: Check scoring for a die roll of 55AAX (A and X each represent all die values other than 1 or 5) */
+		/* Test 59: Check scoring for a die roll of 55AAX (A and X each represent all die values other than 1 or 5) 
+		 * Requirement 6.2.0
+		 */
 		
 		// Generate all permutations of the roll
 		automatedPermutations = integerPermutations("55AAX");
@@ -1494,7 +1593,9 @@ public class GameCalculateScoreTest {
 			}
 		}
 		
-		/* Test 60: Check scoring for a die roll of 15AXY (A, X and Y each represent all die values other than 1 or 5) */
+		/* Test 60: Check scoring for a die roll of 15AXY (A, X and Y each represent all die values other than 1 or 5) 
+		 * Requirement 6.1.0 and 6.2.0
+		 */
 		
 		// Generate all permutations of the roll
 		automatedPermutations = integerPermutations("15AXY");
@@ -1517,7 +1618,9 @@ public class GameCalculateScoreTest {
 			}
 		}
 		
-		/* Test 61: Check scoring for a die roll of 15AAX (A and X each represent all die values other than 1 or 5) */
+		/* Test 61: Check scoring for a die roll of 15AAX (A and X each represent all die values other than 1 or 5) 
+		 * Requirement 6.1.0 and 6.2.0
+		 */
 		
 		// Generate all permutations of the roll
 		automatedPermutations = integerPermutations("15AAX");
@@ -1540,7 +1643,9 @@ public class GameCalculateScoreTest {
 			}
 		}
 		
-		/* Test 62: Check scoring for a die roll of 11AXY (A, X and Y each represent all die values other than 1 or 5) */
+		/* Test 62: Check scoring for a die roll of 11AXY (A, X and Y each represent all die values other than 1 or 5) 
+		 * Requirement 6.1.0
+		 */
 		
 		// Generate all permutations of the roll
 		automatedPermutations = integerPermutations("11AXY");
@@ -1563,7 +1668,9 @@ public class GameCalculateScoreTest {
 			}
 		}
 		
-		/* Test 63: Check scoring for a die roll of 11AAX (A and X each represent all die values other than 1 or 5) */
+		/* Test 63: Check scoring for a die roll of 11AAX (A and X each represent all die values other than 1 or 5) 
+		 * Requirement 6.1.0
+		 */
 		
 		// Generate all permutations of the roll
 		automatedPermutations = integerPermutations("11AAX");
@@ -1586,7 +1693,9 @@ public class GameCalculateScoreTest {
 			}
 		}
 		
-		/* Test 64: Check scoring for a die roll of 155AX (A and X each represent all die values other than 1 or 5) */
+		/* Test 64: Check scoring for a die roll of 155AX (A and X each represent all die values other than 1 or 5) 
+		 * Requirement 6.1.0 and 6.2.0
+		 */
 		
 		// Generate all permutations of the roll
 		automatedPermutations = integerPermutations("155AX");
@@ -1610,7 +1719,9 @@ public class GameCalculateScoreTest {
 		}
 		
 		
-		/* Test 65: Check scoring for a die roll of 155AA (A represents all die values other than 1 or 5) */
+		/* Test 65: Check scoring for a die roll of 155AA (A represents all die values other than 1 or 5) 
+		 * Requirement 6.1.0 and 6.2.0
+		 */
 		
 		// Generate all permutations of the roll
 		automatedPermutations = integerPermutations("155AA");
@@ -1633,7 +1744,9 @@ public class GameCalculateScoreTest {
 			}
 		}
 		
-		/* Test 66: Check scoring for a die roll of 115AX (A and X each represent all die values other than 1 or 5) */
+		/* Test 66: Check scoring for a die roll of 115AX (A and X each represent all die values other than 1 or 5) 
+		 * Requirement 6.1.0 and 6.2.0
+		 */
 		
 		// Generate all permutations of the roll
 		automatedPermutations = integerPermutations("115AX");
@@ -1657,7 +1770,9 @@ public class GameCalculateScoreTest {
 		}
 		
 		
-		/* Test 67: Check scoring for a die roll of 115AA (A represents all die values other than 1 or 5) */
+		/* Test 67: Check scoring for a die roll of 115AA (A represents all die values other than 1 or 5) 
+		 * Requirement 6.1.0 and 6.2.0
+		 */
 		
 		// Generate all permutations of the roll
 		automatedPermutations = integerPermutations("115AA");
@@ -1680,7 +1795,9 @@ public class GameCalculateScoreTest {
 			}
 		}
 		
-		/* Test 68: Check scoring for a die roll of AAAXY (A, X and Y each represent all die values other than 1 or 5) */
+		/* Test 68: Check scoring for a die roll of AAAXY (A, X and Y each represent all die values other than 1 or 5) 
+		 * Requirement 6.4.0
+		 */
 		
 		// Generate all permutations of the roll
 		automatedPermutations = integerPermutations("AAAXY");
@@ -1706,7 +1823,9 @@ public class GameCalculateScoreTest {
 			}
 		}
 		
-		/* Test 69: Check scoring for a die roll of AAAXX (A and X each represent all die values other than 1 or 5) */
+		/* Test 69: Check scoring for a die roll of AAAXX (A and X each represent all die values other than 1 or 5) 
+		 * Requirement 6.4.0
+		 */
 		
 		// Generate all permutations of the roll
 		automatedPermutations = integerPermutations("AAAXX");
@@ -1733,7 +1852,9 @@ public class GameCalculateScoreTest {
 		}
 		
 		
-		/* Test 70: Check scoring for a die roll of 5AAAX (A and X each represent all die values other than 1 or 5) */
+		/* Test 70: Check scoring for a die roll of 5AAAX (A and X each represent all die values other than 1 or 5) 
+		 * Requirement 6.2.0 and 6.4.0
+		 */
 		
 		// Generate all permutations of the roll
 		automatedPermutations = integerPermutations("5AAAX");
@@ -1759,7 +1880,9 @@ public class GameCalculateScoreTest {
 			}
 		}
 		
-		/* Test 71: Check scoring for a die roll of 1AAAX (A and X each represent all die values other than 1 or 5) */
+		/* Test 71: Check scoring for a die roll of 1AAAX (A and X each represent all die values other than 1 or 5) 
+		 * Requirement 6.1.0 and 6.4.0
+		 */
 		
 		// Generate all permutations of the roll
 		automatedPermutations = integerPermutations("1AAAX");
@@ -1785,7 +1908,9 @@ public class GameCalculateScoreTest {
 			}
 		}
 		
-		/* Test 72: Check scoring for a die roll of 55AAA (A represents all die values other than 1 or 5) */
+		/* Test 72: Check scoring for a die roll of 55AAA (A represents all die values other than 1 or 5) 
+		 * Requirement 6.2.0 and 6.4.0
+		 */
 		
 		// Generate all permutations of the roll
 		automatedPermutations = integerPermutations("55AAA");
@@ -1811,7 +1936,9 @@ public class GameCalculateScoreTest {
 			}
 		}
 		
-		/* Test 73: Check scoring for a die roll of 15AAA (A represents all die values other than 1 or 5) */
+		/* Test 73: Check scoring for a die roll of 15AAA (A represents all die values other than 1 or 5) 
+		 * Requirement 6.1.0, 6.2.0, and 6.4.0
+		 */
 		
 		// Generate all permutations of the roll
 		automatedPermutations = integerPermutations("15AAA");
@@ -1837,7 +1964,9 @@ public class GameCalculateScoreTest {
 			}
 		}
 		
-		/* Test 74: Check scoring for a die roll of 11AAA (A represents all die values other than 1 or 5) */
+		/* Test 74: Check scoring for a die roll of 11AAA (A represents all die values other than 1 or 5) 
+		 * Requirement 6.1.0 and 6.4.0
+		 */
 		
 		// Generate all permutations of the roll
 		automatedPermutations = integerPermutations("11AAA");
@@ -1863,7 +1992,9 @@ public class GameCalculateScoreTest {
 			}
 		}
 		
-		/* Test 75: Check scoring for a die roll of 555AX (A and X each represent all die values other than 1 or 5) */
+		/* Test 75: Check scoring for a die roll of 555AX (A and X each represent all die values other than 1 or 5) 
+		 * Requirement 6.4.0
+		 */
 		
 		// Generate all permutations of the roll
 		automatedPermutations = integerPermutations("555AX");
@@ -1886,7 +2017,9 @@ public class GameCalculateScoreTest {
 			}
 		}
 		
-		/* Test 76: Check scoring for a die roll of 555AA (A represents all die values other than 1 or 5) */
+		/* Test 76: Check scoring for a die roll of 555AA (A represents all die values other than 1 or 5) 
+		 * Requirement 6.4.0
+		 */
 		
 		// Generate all permutations of the roll
 		automatedPermutations = integerPermutations("555AA");
@@ -1909,7 +2042,9 @@ public class GameCalculateScoreTest {
 			}
 		}
 		
-		/* Test 77: Check scoring for a die roll of 1555A (A represents all die values other than 1 or 5) */
+		/* Test 77: Check scoring for a die roll of 1555A (A represents all die values other than 1 or 5) 
+		 * Requirement 6.1.0 and 6.4.0
+		 */
 		
 		// Generate all permutations of the roll
 		automatedPermutations = integerPermutations("1555A");
@@ -1932,7 +2067,9 @@ public class GameCalculateScoreTest {
 			}
 		}
 		
-		/* Test 78: Check scoring for a die roll of 11555 */
+		/* Test 78: Check scoring for a die roll of 11555 
+		 * Requirement 6.1.0 and 6.4.0
+		 */
 		
 		// Generate all permutations of the roll and store in a list of lists of integers
 		myPermutations = permutations("11555");
@@ -1949,7 +2086,9 @@ public class GameCalculateScoreTest {
 			assertEquals(700, score);
 		}
 		
-		/* Test 79: Check scoring for a die roll of 111AX (A and X each represent all die values other than 1 or 5) */
+		/* Test 79: Check scoring for a die roll of 111AX (A and X each represent all die values other than 1 or 5) 
+		 * Requirement 6.3.0
+		 */
 		
 		// Generate all permutations of the roll
 		automatedPermutations = integerPermutations("111AX");
@@ -1972,7 +2111,9 @@ public class GameCalculateScoreTest {
 			}
 		}
 		
-		/* Test 80: Check scoring for a die roll of 111AA (A represents all die values other than 1 or 5) */
+		/* Test 80: Check scoring for a die roll of 111AA (A represents all die values other than 1 or 5) 
+		 * Requirement 6.3.0
+		 */
 		
 		// Generate all permutations of the roll
 		automatedPermutations = integerPermutations("111AA");
@@ -1995,7 +2136,9 @@ public class GameCalculateScoreTest {
 			}
 		}
 		
-		/* Test 81: Check scoring for a die roll of 1115A (A represents all die values other than 1 or 5) */
+		/* Test 81: Check scoring for a die roll of 1115A (A represents all die values other than 1 or 5) 
+		 * Requirement 6.2.0 and 6.3.0
+		 */
 		
 		// Generate all permutations of the roll
 		automatedPermutations = integerPermutations("1115A");
@@ -2018,7 +2161,9 @@ public class GameCalculateScoreTest {
 			}
 		}
 		
-		/* Test 82: Check scoring for a die roll of 11155 */
+		/* Test 82: Check scoring for a die roll of 11155 
+		 * Requirement 6.2.0 and 6.3.0
+		 */
 		
 		// Generate all permutations of the roll and store in a list of lists of integers
 		myPermutations = permutations("11155");
@@ -2035,7 +2180,9 @@ public class GameCalculateScoreTest {
 			assertEquals(1100, score);
 		}
 		
-		/* Test 83: Check scoring for a die roll of AAAAX (A and X each represent all die values other than 1 or 5) */
+		/* Test 83: Check scoring for a die roll of AAAAX (A and X each represent all die values other than 1 or 5) 
+		 * Requirement 6.5.0
+		 */
 		
 		// Generate all permutations of the roll
 		automatedPermutations = integerPermutations("AAAAX");
@@ -2061,7 +2208,9 @@ public class GameCalculateScoreTest {
 			}
 		}
 		
-		/* Test 84: Check scoring for a die roll of 5AAAA (A represents all die values other than 1 or 5) */
+		/* Test 84: Check scoring for a die roll of 5AAAA (A represents all die values other than 1 or 5) 
+		 * Requirement 6.2.0 and 6.5.0
+		 */
 		
 		// Generate all permutations of the roll
 		automatedPermutations = integerPermutations("5AAAA");
@@ -2087,7 +2236,9 @@ public class GameCalculateScoreTest {
 			}
 		}
 		
-		/* Test 85: Check scoring for a die roll of 1AAAA (A represents all die values other than 1 or 5) */
+		/* Test 85: Check scoring for a die roll of 1AAAA (A represents all die values other than 1 or 5) 
+		 * Requirement 6.1.0 and 6.5.0
+		 */
 		
 		// Generate all permutations of the roll
 		automatedPermutations = integerPermutations("1AAAA");
@@ -2114,7 +2265,9 @@ public class GameCalculateScoreTest {
 		}
 		
 		
-		/* Test 86: Check scoring for a die roll of 5555A (A represents all die values other than 1 or 5) */
+		/* Test 86: Check scoring for a die roll of 5555A (A represents all die values other than 1 or 5) 
+		 * Requirement 6.5.0
+		 */
 		
 		// Generate all permutations of the roll
 		automatedPermutations = integerPermutations("5555A");
@@ -2137,7 +2290,9 @@ public class GameCalculateScoreTest {
 			}
 		}
 		
-		/* Test 87: Check scoring for a die roll of 15555 */
+		/* Test 87: Check scoring for a die roll of 15555 
+		 * Requirement 6.1.0 and 6.5.0
+		 */
 		
 		// Generate all permutations of the roll and store in a list of lists of integers
 		myPermutations = permutations("15555");
@@ -2154,7 +2309,9 @@ public class GameCalculateScoreTest {
 			assertEquals(1100, score);
 		}
 		
-		/* Test 88: Check scoring for a die roll of 1111A (A represents all die values other than 1 or 5) */
+		/* Test 88: Check scoring for a die roll of 1111A (A represents all die values other than 1 or 5) 
+		 * Requirement 6.5.0
+		 */
 		
 		// Generate all permutations of the roll
 		automatedPermutations = integerPermutations("1111A");
@@ -2177,7 +2334,9 @@ public class GameCalculateScoreTest {
 			}
 		}
 		
-		/* Test 89: Check scoring for a die roll of 11115 */
+		/* Test 89: Check scoring for a die roll of 11115 
+		 * Requirement 6.2.0 and 6.5.0
+		 */
 		
 		// Generate all permutations of the roll and store in a list of lists of integers
 		myPermutations = permutations("11115");
@@ -2194,7 +2353,9 @@ public class GameCalculateScoreTest {
 			assertEquals(2050, score);
 		}
 		
-		/* Test 90: Check scoring for a die roll of AAAAA (A represents all die values other than 1 or 5) */
+		/* Test 90: Check scoring for a die roll of AAAAA (A represents all die values other than 1 or 5) 
+		 * Requirement 6.5.0
+		 */
 		
 		// Generate all permutations of the roll
 		automatedPermutations = integerPermutations("AAAAA");
@@ -2220,7 +2381,9 @@ public class GameCalculateScoreTest {
 			}
 		}
 		
-		/* Test 91: Check scoring for a die roll of 55555 */
+		/* Test 91: Check scoring for a die roll of 55555 
+		 * Requirement 6.5.0
+		 */
 		
 		// Generate all permutations of the roll and store in a list of lists of integers
 		myPermutations = permutations("55555");
@@ -2237,7 +2400,9 @@ public class GameCalculateScoreTest {
 			assertEquals(2000, score);
 		}
 		
-		/* Test 92: Check scoring for a die roll of 11111 */
+		/* Test 92: Check scoring for a die roll of 11111 
+		 * Requirement 6.5.0
+		 */
 		
 		// Generate all permutations of the roll and store in a list of lists of integers
 		myPermutations = permutations("11111");
@@ -2256,12 +2421,13 @@ public class GameCalculateScoreTest {
 	}
 	
 	/**
-	 * This method tests the calculateScore method of the Game class for all permutations of 6 dice
+	 * This method tests the calculateScore method of the Game class for all permutations of 6 dice,
+	 * requirements 6.1.0, 6.2.0, 6.3.0, 6.4.0, 6.5.0, 6.6.0, and 6.7.0
 	 */
 	@Test
 	public void testCalculateScore6(){
 		
-		/* Test 93: Check scoring for a die roll of AAXYZ (A, X, Y and Z each represent all die values other than 1 or 5) */
+		/* Test 93: Check scoring for a die roll of AAXXYZ (A, X, Y and Z each represent all die values other than 1 or 5) */
 		
 		// Generate all permutations of the roll
 		automatedPermutations = integerPermutations("AAXXYZ");
@@ -2284,7 +2450,9 @@ public class GameCalculateScoreTest {
 			}
 		}
 		
-		/* Test 94: Check scoring for a die roll of AAXXYY (A, X and Y each represent all die values other than 1 or 5) */
+		/* Test 94: Check scoring for a die roll of AAXXYY (A, X and Y each represent all die values other than 1 or 5) 
+		 * Requirement 6.6.0
+		 */
 		
 		// Generate all permutations of the roll
 		automatedPermutations = integerPermutations("AAXXYY");
@@ -2307,7 +2475,9 @@ public class GameCalculateScoreTest {
 			}
 		}
 		
-		/* Test 95: Check scoring for a die roll of 11AAXX (A and X each represent all die values other than 1 or 5) */
+		/* Test 95: Check scoring for a die roll of 11AAXX (A and X each represent all die values other than 1 or 5) 
+		 * Requirement 6.6.0
+		 */
 		
 		// Generate all permutations of the roll
 		automatedPermutations = integerPermutations("11AAXX");
@@ -2330,7 +2500,9 @@ public class GameCalculateScoreTest {
 			}
 		}
 		
-		/* Test 96: Check scoring for a die roll of 55AAXX (A and X each represent all die values other than 1 or 5) */
+		/* Test 96: Check scoring for a die roll of 55AAXX (A and X each represent all die values other than 1 or 5) 
+		 * Requirement 6.6.0
+		 */
 		
 		// Generate all permutations of the roll
 		automatedPermutations = integerPermutations("55AAXX");
@@ -2353,7 +2525,9 @@ public class GameCalculateScoreTest {
 			}
 		}
 		
-		/* Test 97: Check scoring for a die roll of 1155AA (A represents all die values other than 1 or 5) */
+		/* Test 97: Check scoring for a die roll of 1155AA (A represents all die values other than 1 or 5) 
+		 * Requirement 6.6.0
+		 */
 		
 		// Generate all permutations of the roll
 		automatedPermutations = integerPermutations("1155AA");
@@ -2376,7 +2550,9 @@ public class GameCalculateScoreTest {
 			}
 		}
 		
-		/* Test 98: Check scoring for a die roll of 1AXY5Z (A, X, Y and Z each represent all die values other than 1 or 5) */
+		/* Test 98: Check scoring for a die roll of 1AXY5Z (A, X, Y and Z each represent all die values other than 1 or 5) 
+		 * Requirement 6.7.0
+		 */
 		
 		// Generate all permutations of the roll
 		automatedPermutations = integerPermutations("1AXY5Z");
@@ -2399,7 +2575,9 @@ public class GameCalculateScoreTest {
 			}
 		}
 		
-		/* Test 99: Check scoring for a die roll of 5AAXXY (A, X and Y each represent all die values other than 1 or 5) */
+		/* Test 99: Check scoring for a die roll of 5AAXXY (A, X and Y each represent all die values other than 1 or 5) 
+		 * Requirement 6.2.0
+		 */
 		
 		// Generate all permutations of the roll
 		automatedPermutations = integerPermutations("5AAXXY");
@@ -2422,7 +2600,9 @@ public class GameCalculateScoreTest {
 			}
 		}
 		
-		/* Test 100: Check scoring for a die roll of 5AAXYZ (A, X, Y and Z each represent all die values other than 1 or 5) */
+		/* Test 100: Check scoring for a die roll of 5AAXYZ (A, X, Y and Z each represent all die values other than 1 or 5) 
+		 * Requirement 6.2.0
+		 */
 		
 		// Generate all permutations of the roll
 		automatedPermutations = integerPermutations("5AAXYZ");
@@ -2446,7 +2626,9 @@ public class GameCalculateScoreTest {
 		}
 		
 		
-		/* Test 101: Check scoring for a die roll of 1AAXXY (A, X and Y each represent all die values other than 1 or 5) */
+		/* Test 101: Check scoring for a die roll of 1AAXXY (A, X and Y each represent all die values other than 1 or 5) 
+		 * Requirement 6.1.0
+		 */
 		
 		// Generate all permutations of the roll
 		automatedPermutations = integerPermutations("1AAXXY");
@@ -2469,7 +2651,9 @@ public class GameCalculateScoreTest {
 			}
 		}
 		
-		/* Test 102: Check scoring for a die roll of 1AAXYZ (A, X, Y and Z each represent all die values other than 1 or 5) */
+		/* Test 102: Check scoring for a die roll of 1AAXYZ (A, X, Y and Z each represent all die values other than 1 or 5) 
+		 * Requirement 6.1.0
+		 */
 		
 		// Generate all permutations of the roll
 		automatedPermutations = integerPermutations("1AAXYZ");
@@ -2492,7 +2676,9 @@ public class GameCalculateScoreTest {
 			}
 		}		
 		
-		/* Test 103: Check scoring for a die roll of 55AAXY (A, X and Y each represent all die values other than 1 or 5) */
+		/* Test 103: Check scoring for a die roll of 55AAXY (A, X and Y each represent all die values other than 1 or 5) 
+		 * Requirement 6.2.0
+		 */
 		
 		// Generate all permutations of the roll
 		automatedPermutations = integerPermutations("55AAXY");
@@ -2515,7 +2701,9 @@ public class GameCalculateScoreTest {
 			}
 		}
 		
-		/* Test 104: Check scoring for a die roll of 55AXYZ (A, X, Y and Z each represent all die values other than 1 or 5) */
+		/* Test 104: Check scoring for a die roll of 55AXYZ (A, X, Y and Z each represent all die values other than 1 or 5) 
+		 * Requirement 6.2.0
+		 */
 		
 		// Generate all permutations of the roll
 		automatedPermutations = integerPermutations("55AXYZ");
@@ -2538,7 +2726,9 @@ public class GameCalculateScoreTest {
 			}
 		}	
 		
-		/* Test 105: Check scoring for a die roll of 15AAXY (A, X and Y each represent all die values other than 1 or 5) */
+		/* Test 105: Check scoring for a die roll of 15AAXY (A, X and Y each represent all die values other than 1 or 5) 
+		 * Requirement 6.1.0 and 6.2.0
+		 */
 		
 		// Generate all permutations of the roll
 		automatedPermutations = integerPermutations("15AAXY");
@@ -2561,7 +2751,9 @@ public class GameCalculateScoreTest {
 			}
 		}
 		
-		/* Test 106: Check scoring for a die roll of 15AAXx (A and X each represent all die values other than 1 or 5) */
+		/* Test 106: Check scoring for a die roll of 15AAXx (A and X each represent all die values other than 1 or 5) 
+		 * Requirement 6.1.0 and 6.2.0
+		 */
 		
 		// Generate all permutations of the roll
 		automatedPermutations = integerPermutations("15AAXX");
@@ -2584,7 +2776,9 @@ public class GameCalculateScoreTest {
 			}
 		}
 		
-		/* Test 107: Check scoring for a die roll of 11AAXY (A, X and Y each represent all die values other than 1 or 5) */
+		/* Test 107: Check scoring for a die roll of 11AAXY (A, X and Y each represent all die values other than 1 or 5) 
+		 * Requirement 6.1.0
+		 */
 		
 		// Generate all permutations of the roll
 		automatedPermutations = integerPermutations("11AAXY");
@@ -2607,7 +2801,9 @@ public class GameCalculateScoreTest {
 			}
 		}
 		
-		/* Test 108: Check scoring for a die roll of 11AXYZ (A, X, Y and Z each represent all die values other than 1 or 5) */
+		/* Test 108: Check scoring for a die roll of 11AXYZ (A, X, Y and Z each represent all die values other than 1 or 5) 
+		 * Requirement 6.1.0
+		 */
 		
 		// Generate all permutations of the roll
 		automatedPermutations = integerPermutations("11AXYZ");
@@ -2630,7 +2826,9 @@ public class GameCalculateScoreTest {
 			}
 		}
 		
-		/* Test 109: Check scoring for a die roll of 155AAX (A and X each represent all die values other than 1 or 5) */
+		/* Test 109: Check scoring for a die roll of 155AAX (A and X each represent all die values other than 1 or 5) 
+		 * Requirement 6.1.0 and 6.2.0
+		 */
 		
 		// Generate all permutations of the roll
 		automatedPermutations = integerPermutations("155AAX");
@@ -2653,7 +2851,9 @@ public class GameCalculateScoreTest {
 			}
 		}	
 		
-		/* Test 110: Check scoring for a die roll of 155AXY (A, X and Y each represent all die values other than 1 or 5) */
+		/* Test 110: Check scoring for a die roll of 155AXY (A, X and Y each represent all die values other than 1 or 5) 
+		 * Requirement 6.1.0 and 6.2.0
+		 */
 		
 		// Generate all permutations of the roll
 		automatedPermutations = integerPermutations("155AXY");
@@ -2676,7 +2876,9 @@ public class GameCalculateScoreTest {
 			}
 		}		
 
-		/* Test 111: Check scoring for a die roll of 115AAX (A and X each represent all die values other than 1 or 5) */
+		/* Test 111: Check scoring for a die roll of 115AAX (A and X each represent all die values other than 1 or 5) 
+		 * Requirement 6.1.0 and 6.2.0
+		 */
 		
 		// Generate all permutations of the roll
 		automatedPermutations = integerPermutations("115AAX");
@@ -2699,7 +2901,9 @@ public class GameCalculateScoreTest {
 			}
 		}	
 		
-		/* Test 112: Check scoring for a die roll of 115AXY (A, X and Y each represent all die values other than 1 or 5) */
+		/* Test 112: Check scoring for a die roll of 115AXY (A, X and Y each represent all die values other than 1 or 5) 
+		 * Requirement 6.1.0 and 6.2.0
+		 */
 		
 		// Generate all permutations of the roll
 		automatedPermutations = integerPermutations("115AXY");
@@ -2722,7 +2926,9 @@ public class GameCalculateScoreTest {
 			}
 		}	
 		
-		/* Test 113: Check scoring for a die roll of AAAXXY (A, X and Y represent all die values other than 1 or 5) */
+		/* Test 113: Check scoring for a die roll of AAAXXY (A, X and Y represent all die values other than 1 or 5) 
+		 * Requirement 6.4.0
+		 */
 		
 		// Generate all permutations of the roll
 		automatedPermutations = integerPermutations("AAAXXY");
@@ -2748,7 +2954,9 @@ public class GameCalculateScoreTest {
 			}
 		}
 		
-		/* Test 114: Check scoring for a die roll of AAAXYZ (A, X, Y and Z represent all die values other than 1 or 5) */
+		/* Test 114: Check scoring for a die roll of AAAXYZ (A, X, Y and Z represent all die values other than 1 or 5) 
+		 * Requirement 6.4.0
+		 */
 		
 		// Generate all permutations of the roll
 		automatedPermutations = integerPermutations("AAAXYZ");
@@ -2774,7 +2982,9 @@ public class GameCalculateScoreTest {
 			}
 		}
 	
-		/* Test 115: Check scoring for a die roll of 555AAX (A and X represent all die values other than 1 or 5) */
+		/* Test 115: Check scoring for a die roll of 555AAX (A and X represent all die values other than 1 or 5) 
+		 * Requirement 6.4.0
+		 */
 		
 		// Generate all permutations of the roll
 		automatedPermutations = integerPermutations("555AAX");
@@ -2798,7 +3008,9 @@ public class GameCalculateScoreTest {
 		}
 		
 		
-		/* Test 116: Check scoring for a die roll of 555AXY (A, X and Y represent all die values other than 1 or 5) */
+		/* Test 116: Check scoring for a die roll of 555AXY (A, X and Y represent all die values other than 1 or 5) 
+		 * Requirement 6.4.0
+		 */
 		
 		// Generate all permutations of the roll
 		automatedPermutations = integerPermutations("555AXY");
@@ -2821,7 +3033,9 @@ public class GameCalculateScoreTest {
 			}
 		}		
 		
-		/* Test 117: Check scoring for a die roll of 111AAX (A and X represent all die values other than 1 or 5) */
+		/* Test 117: Check scoring for a die roll of 111AAX (A and X represent all die values other than 1 or 5) 
+		 * Requirement 6.3.0
+		 */
 		
 		// Generate all permutations of the roll
 		automatedPermutations = integerPermutations("111AAX");
@@ -2845,7 +3059,9 @@ public class GameCalculateScoreTest {
 		}
 		
 		
-		/* Test 118: Check scoring for a die roll of 111AXY (A, X and Y represent all die values other than 1 or 5) */
+		/* Test 118: Check scoring for a die roll of 111AXY (A, X and Y represent all die values other than 1 or 5) 
+		 * Requirement 6.3.0
+		 */
 		
 		// Generate all permutations of the roll
 		automatedPermutations = integerPermutations("111AXY");
@@ -2868,7 +3084,9 @@ public class GameCalculateScoreTest {
 			}
 		}		
 		
-		/* Test 119: Check scoring for a die roll of 1AAAXX (A and X each represent all die values other than 1 or 5) */
+		/* Test 119: Check scoring for a die roll of 1AAAXX (A and X each represent all die values other than 1 or 5) 
+		 * Requirement 6.1.0 and 6.4.0
+		 */
 		
 		// Generate all permutations of the roll
 		automatedPermutations = integerPermutations("1AAAXX");
@@ -2894,7 +3112,9 @@ public class GameCalculateScoreTest {
 			}
 		}
 		
-		/* Test 120: Check scoring for a die roll of 1AAAXY (A, X and Y each represent all die values other than 1 or 5) */
+		/* Test 120: Check scoring for a die roll of 1AAAXY (A, X and Y each represent all die values other than 1 or 5) 
+		 * Requirement 6.1.0 and 6.4.0
+		 */
 		
 		// Generate all permutations of the roll
 		automatedPermutations = integerPermutations("1AAAXY");
@@ -2920,7 +3140,9 @@ public class GameCalculateScoreTest {
 			}
 		}
 		
-		/* Test 121: Check scoring for a die roll of 5AAAXX (A and X each represent all die values other than 1 or 5) */
+		/* Test 121: Check scoring for a die roll of 5AAAXX (A and X each represent all die values other than 1 or 5) 
+		 * Requirement 6.2.0 and 6.4.0
+		 */
 		
 		// Generate all permutations of the roll
 		automatedPermutations = integerPermutations("5AAAXX");
@@ -2946,7 +3168,9 @@ public class GameCalculateScoreTest {
 			}
 		}
 		
-		/* Test 122: Check scoring for a die roll of 5AAAXY (A, X and Y each represent all die values other than 1 or 5) */
+		/* Test 122: Check scoring for a die roll of 5AAAXY (A, X and Y each represent all die values other than 1 or 5) 
+		 * Requirement 6.2.0 and 6.4.0
+		 */
 		
 		// Generate all permutations of the roll
 		automatedPermutations = integerPermutations("5AAAXY");
@@ -2972,7 +3196,9 @@ public class GameCalculateScoreTest {
 			}
 		}
 		
-		/* Test 123: Check scoring for a die roll of 55AAAX (A and X each represent all die values other than 1 or 5) */
+		/* Test 123: Check scoring for a die roll of 55AAAX (A and X each represent all die values other than 1 or 5) 
+		 * Requirement 6.2.0 and 6.4.0
+		 */
 		
 		// Generate all permutations of the roll
 		automatedPermutations = integerPermutations("55AAAX");
@@ -2998,7 +3224,9 @@ public class GameCalculateScoreTest {
 			}
 		}
 		
-		/* Test 124: Check scoring for a die roll of 15AAAX (A and X each represent all die values other than 1 or 5) */
+		/* Test 124: Check scoring for a die roll of 15AAAX (A and X each represent all die values other than 1 or 5) 
+		 * Requirement 6.1.0, 6.2.0, and 6.4.0
+		 */
 		
 		// Generate all permutations of the roll
 		automatedPermutations = integerPermutations("15AAAX");
@@ -3024,7 +3252,9 @@ public class GameCalculateScoreTest {
 			}
 		}
 		
-		/* Test 125: Check scoring for a die roll of 11AAAX (A and X each represent all die values other than 1 or 5) */
+		/* Test 125: Check scoring for a die roll of 11AAAX (A and X each represent all die values other than 1 or 5) 
+		 * Requirement 6.1.0 and 6.4.0
+		 */
 		
 		// Generate all permutations of the roll
 		automatedPermutations = integerPermutations("11AAAX");
@@ -3050,7 +3280,9 @@ public class GameCalculateScoreTest {
 			}
 		}
 				
-		/* Test 126: Check scoring for a die roll of 155AAA (A represents all die values other than 1 or 5) */
+		/* Test 126: Check scoring for a die roll of 155AAA (A represents all die values other than 1 or 5) 
+		 * Requirement 6.1.0, 6.2.0, and 6.4.0
+		 */
 		
 		// Generate all permutations of the roll
 		automatedPermutations = integerPermutations("155AAA");
@@ -3076,7 +3308,9 @@ public class GameCalculateScoreTest {
 			}
 		}
 		
-		/* Test 127: Check scoring for a die roll of 115AAA (A represents all die values other than 1 or 5) */
+		/* Test 127: Check scoring for a die roll of 115AAA (A represents all die values other than 1 or 5) 
+		 * Requirement 6.1.0, 6.2.0, and 6.4.0
+		 */
 		
 		// Generate all permutations of the roll
 		automatedPermutations = integerPermutations("115AAA");
@@ -3102,7 +3336,9 @@ public class GameCalculateScoreTest {
 			}
 		}
 		
-		/* Test 128: Check scoring for a die roll of AAAXXX (A and X each represent all die values other than 1 or 5) */
+		/* Test 128: Check scoring for a die roll of AAAXXX (A and X each represent all die values other than 1 or 5) 
+		 * Requirement 6.4.0
+		 */
 		
 		// Generate all permutations of the roll
 		automatedPermutations = integerPermutations("AAAXXX");
@@ -3131,7 +3367,9 @@ public class GameCalculateScoreTest {
 			}
 		}
 				
-		/* Test 129: Check scoring for a die roll of 555AAA (A represents all die values other than 1 or 5) */
+		/* Test 129: Check scoring for a die roll of 555AAA (A represents all die values other than 1 or 5) 
+		 * Requirement 6.4.0
+		 */
 		
 		// Generate all permutations of the roll
 		automatedPermutations = integerPermutations("555AAA");
@@ -3157,7 +3395,9 @@ public class GameCalculateScoreTest {
 			}
 		}
 		
-		/* Test 130: Check scoring for a die roll of 111AAA (A represents all die values other than 1 or 5) */
+		/* Test 130: Check scoring for a die roll of 111AAA (A represents all die values other than 1 or 5) 
+		 * Requirement 6.3.0 and 6.4.0
+		 */
 		
 		// Generate all permutations of the roll
 		automatedPermutations = integerPermutations("111AAA");
@@ -3183,7 +3423,9 @@ public class GameCalculateScoreTest {
 			}
 		}
 		
-		/* Test 131: Check scoring for a die roll of 111555 */
+		/* Test 131: Check scoring for a die roll of 111555 
+		 * Requirement 6.3.0 and 6.4.0
+		 */
 		
 		// Generate all permutations of the roll and store in a list of lists of integers
 		myPermutations = permutations("111555");
@@ -3200,7 +3442,9 @@ public class GameCalculateScoreTest {
 			assertEquals(1500, score);
 		}		
 		
-		/* Test 132: Check scoring for a die roll of 5551AA (A represents all die values other than 1 or 5) */
+		/* Test 132: Check scoring for a die roll of 5551AA (A represents all die values other than 1 or 5) 
+		 * Requirement 6.1.0 and 6.4.0
+		 */
 		
 		// Generate all permutations of the roll
 		automatedPermutations = integerPermutations("5551AA");
@@ -3223,7 +3467,9 @@ public class GameCalculateScoreTest {
 			}
 		}
 		
-		/* Test 133: Check scoring for a die roll of 5551AX (A and X each represent all die values other than 1 or 5) */
+		/* Test 133: Check scoring for a die roll of 5551AX (A and X each represent all die values other than 1 or 5) 
+		 * Requirement 6.1.0 and 6.4.0
+		 */
 		
 		// Generate all permutations of the roll
 		automatedPermutations = integerPermutations("5551AX");
@@ -3246,7 +3492,9 @@ public class GameCalculateScoreTest {
 			}
 		}
 		
-		/* Test 134: Check scoring for a die roll of 55511A (A represents all die values other than 1 or 5) */
+		/* Test 134: Check scoring for a die roll of 55511A (A represents all die values other than 1 or 5) 
+		 * Requirement 6.1.0 and 6.4.0
+		 */
 		
 		// Generate all permutations of the roll
 		automatedPermutations = integerPermutations("55511A");
@@ -3270,7 +3518,9 @@ public class GameCalculateScoreTest {
 		}
 		
 		
-		/* Test 135: Check scoring for a die roll of 1115AA (A represents all die values other than 1 or 5) */
+		/* Test 135: Check scoring for a die roll of 1115AA (A represents all die values other than 1 or 5) 
+		 * Requirement 6.2.0 and 6.3.0
+		 */
 		
 		// Generate all permutations of the roll
 		automatedPermutations = integerPermutations("1115AA");
@@ -3293,7 +3543,9 @@ public class GameCalculateScoreTest {
 			}
 		}
 		
-		/* Test 136: Check scoring for a die roll of 1115AX (A and X each represent all die values other than 1 or 5) */
+		/* Test 136: Check scoring for a die roll of 1115AX (A and X each represent all die values other than 1 or 5) 
+		 * Requirement 6.2.0 and 6.4.0
+		 */
 		
 		// Generate all permutations of the roll
 		automatedPermutations = integerPermutations("1115AX");
@@ -3316,7 +3568,9 @@ public class GameCalculateScoreTest {
 			}
 		}
 		
-		/* Test 137: Check scoring for a die roll of 11155A (A represents all die values other than 1 or 5) */
+		/* Test 137: Check scoring for a die roll of 11155A (A represents all die values other than 1 or 5) 
+		 * Requirement 6.2.0 and 6.3.0
+		 */
 		
 		// Generate all permutations of the roll
 		automatedPermutations = integerPermutations("11155A");
@@ -3340,7 +3594,9 @@ public class GameCalculateScoreTest {
 		}
 		
 		
-		/* Test 138: Check scoring for a die roll of AAAAXX (A and X each represent all die values other than 1 or 5) */
+		/* Test 138: Check scoring for a die roll of AAAAXX (A and X each represent all die values other than 1 or 5) 
+		 * Requirement 6.5.0
+		 */
 		
 		// Generate all permutations of the roll
 		automatedPermutations = integerPermutations("AAAAXX");
@@ -3366,7 +3622,9 @@ public class GameCalculateScoreTest {
 			}
 		}
 		
-		/* Test 139: Check scoring for a die roll of AAAAXY (A, X and Y each represent all die values other than 1 or 5) */
+		/* Test 139: Check scoring for a die roll of AAAAXY (A, X and Y each represent all die values other than 1 or 5) 
+		 * Requirement 6.5.0
+		 */
 		
 		// Generate all permutations of the roll
 		automatedPermutations = integerPermutations("AAAAXY");
@@ -3392,7 +3650,9 @@ public class GameCalculateScoreTest {
 			}
 		}
 		
-		/* Test 140: Check scoring for a die roll of 5555AA (A represents all die values other than 1 or 5) */
+		/* Test 140: Check scoring for a die roll of 5555AA (A represents all die values other than 1 or 5) 
+		 * Requirement 6.5.0
+		 */
 		
 		// Generate all permutations of the roll
 		automatedPermutations = integerPermutations("5555AA");
@@ -3415,7 +3675,9 @@ public class GameCalculateScoreTest {
 			}
 		}
 		
-		/* Test 141: Check scoring for a die roll of 5555AX (A represents all die values other than 1 or 5) */
+		/* Test 141: Check scoring for a die roll of 5555AX (A represents all die values other than 1 or 5) 
+		 * Requirement 6.5.0
+		 */
 		
 		// Generate all permutations of the roll
 		automatedPermutations = integerPermutations("5555AX");
@@ -3438,7 +3700,9 @@ public class GameCalculateScoreTest {
 			}
 		}
 		
-		/* Test 142: Check scoring for a die roll of 1111AA (A represents all die values other than 1 or 5) */
+		/* Test 142: Check scoring for a die roll of 1111AA (A represents all die values other than 1 or 5) 
+		 * Requirement 6.5.0
+		 */
 		
 		// Generate all permutations of the roll
 		automatedPermutations = integerPermutations("1111AA");
@@ -3461,7 +3725,9 @@ public class GameCalculateScoreTest {
 			}
 		}
 		
-		/* Test 143: Check scoring for a die roll of 1111AX (A represents all die values other than 1 or 5) */
+		/* Test 143: Check scoring for a die roll of 1111AX (A represents all die values other than 1 or 5) 
+		 * Requirement 6.5.0
+		 */
 		
 		// Generate all permutations of the roll
 		automatedPermutations = integerPermutations("1111AX");
@@ -3484,7 +3750,9 @@ public class GameCalculateScoreTest {
 			}
 		}
 		
-		/* Test 144: Check scoring for a die roll of 1AAAAX (A amd X each represent all die values other than 1 or 5) */
+		/* Test 144: Check scoring for a die roll of 1AAAAX (A amd X each represent all die values other than 1 or 5) 
+		 * Requirement 6.1.0 and 6.5.0
+		 */
 		
 		// Generate all permutations of the roll
 		automatedPermutations = integerPermutations("1AAAAX");
@@ -3510,7 +3778,9 @@ public class GameCalculateScoreTest {
 			}
 		}
 		
-		/* Test 145: Check scoring for a die roll of 5AAAAX (A amd X each represent all die values other than 1 or 5) */
+		/* Test 145: Check scoring for a die roll of 5AAAAX (A amd X each represent all die values other than 1 or 5) 
+		 * Requirement 6.2.0 and 6.5.0
+		 */
 		
 		// Generate all permutations of the roll
 		automatedPermutations = integerPermutations("5AAAAX");
@@ -3536,7 +3806,9 @@ public class GameCalculateScoreTest {
 			}
 		}
 		
-		/* Test 146: Check scoring for a die roll of 55AAAA (A represents all die values other than 1 or 5) */
+		/* Test 146: Check scoring for a die roll of 55AAAA (A represents all die values other than 1 or 5) 
+		 * Requirement 6.2.0 and 6.5.0
+		 */
 		
 		// Generate all permutations of the roll
 		automatedPermutations = integerPermutations("55AAAA");
@@ -3562,7 +3834,9 @@ public class GameCalculateScoreTest {
 			}
 		}
 				
-		/* Test 147: Check scoring for a die roll of 15AAAA (A represents all die values other than 1 or 5) */
+		/* Test 147: Check scoring for a die roll of 15AAAA (A represents all die values other than 1 or 5) 
+		 * Requirement 6.1.0, 6.2.0, and 6.5.0
+		 */
 		
 		// Generate all permutations of the roll
 		automatedPermutations = integerPermutations("15AAAA");
@@ -3588,7 +3862,9 @@ public class GameCalculateScoreTest {
 			}
 		}
 		
-		/* Test 148: Check scoring for a die roll of 11AAAA (A represents all die values other than 1 or 5) */
+		/* Test 148: Check scoring for a die roll of 11AAAA (A represents all die values other than 1 or 5) 
+		 * Requirement 6.1.0 and 6.5.0
+		 */
 		
 		// Generate all permutations of the roll
 		automatedPermutations = integerPermutations("11AAAA");
@@ -3614,7 +3890,9 @@ public class GameCalculateScoreTest {
 			}
 		}
 		
-		/* Test 149: Check scoring for a die roll of 15555A (A represents all die values other than 1 or 5) */
+		/* Test 149: Check scoring for a die roll of 15555A (A represents all die values other than 1 or 5) 
+		 * Requirement 6.1.0 and 6.5.0
+		 */
 		
 		// Generate all permutations of the roll
 		automatedPermutations = integerPermutations("15555A");
@@ -3637,7 +3915,9 @@ public class GameCalculateScoreTest {
 			}
 		}
 		
-		/* Test 150: Check scoring for a die roll of 115555 */
+		/* Test 150: Check scoring for a die roll of 115555 
+		 * Requirement 6.1.0 and 6.5.0
+		 */
 		
 		// Generate all permutations of the roll and store in a list of lists of integers
 		myPermutations = permutations("115555");
@@ -3654,7 +3934,9 @@ public class GameCalculateScoreTest {
 			assertEquals(1200, score);
 		}
 		
-		/* Test 151: Check scoring for a die roll of 11115A (A represents all die values other than 1 or 5) */
+		/* Test 151: Check scoring for a die roll of 11115A (A represents all die values other than 1 or 5) 
+		 * Requirement 6.2.0 and 6.5.0
+		 */
 		
 		// Generate all permutations of the roll
 		automatedPermutations = integerPermutations("11115A");
@@ -3677,7 +3959,9 @@ public class GameCalculateScoreTest {
 			}
 		}
 		
-		/* Test 152: Check scoring for a die roll of 111155 */
+		/* Test 152: Check scoring for a die roll of 111155 
+		 * Requirement 6.2.0 and 6.5.0
+		 */
 		
 		// Generate all permutations of the roll and store in a list of lists of integers
 		myPermutations = permutations("111155");
@@ -3694,7 +3978,9 @@ public class GameCalculateScoreTest {
 			assertEquals(2100, score);
 		}
 		
-		/* Test 153: Check scoring for a die roll of AAAAAX (A and X each represent all die values other than 1 or 5) */
+		/* Test 153: Check scoring for a die roll of AAAAAX (A and X each represent all die values other than 1 or 5) 
+		 * Requirement 6.5.0
+		 */
 		
 		// Generate all permutations of the roll
 		automatedPermutations = integerPermutations("AAAAAX");
@@ -3720,7 +4006,9 @@ public class GameCalculateScoreTest {
 			}
 		}		
 		
-		/* Test 154: Check scoring for a die roll of 5AAAAA (A represents all die values other than 1 or 5) */
+		/* Test 154: Check scoring for a die roll of 5AAAAA (A represents all die values other than 1 or 5) 
+		 * Requirement 6.2.0 and 6.5.0
+		 */
 		
 		// Generate all permutations of the roll
 		automatedPermutations = integerPermutations("5AAAAA");
@@ -3746,7 +4034,9 @@ public class GameCalculateScoreTest {
 			}
 		}	
 		
-		/* Test 155: Check scoring for a die roll of 1AAAAA (A represents all die values other than 1 or 5) */
+		/* Test 155: Check scoring for a die roll of 1AAAAA (A represents all die values other than 1 or 5) 
+		 * Requirement 6.1.0 and 6.5.0
+		 */
 		
 		// Generate all permutations of the roll
 		automatedPermutations = integerPermutations("1AAAAA");
@@ -3772,7 +4062,9 @@ public class GameCalculateScoreTest {
 			}
 		}	
 
-		/* Test 156: Check scoring for a die roll of 55555A (A represents all die values other than 1 or 5) */
+		/* Test 156: Check scoring for a die roll of 55555A (A represents all die values other than 1 or 5) 
+		 * Requirement 6.5.0
+		 */
 		
 		// Generate all permutations of the roll
 		automatedPermutations = integerPermutations("55555A");
@@ -3795,7 +4087,9 @@ public class GameCalculateScoreTest {
 			}
 		}
 
-		/* Test 157: Check scoring for a die roll of 155555 */
+		/* Test 157: Check scoring for a die roll of 155555 
+		 * Requirement 6.1.0 and 6.5.0
+		 */
 		
 		// Generate all permutations of the roll and store in a list of lists of integers
 		myPermutations = permutations("155555");
@@ -3812,7 +4106,9 @@ public class GameCalculateScoreTest {
 			assertEquals(2100, score);
 		}
 		
-		/* Test 158: Check scoring for a die roll of 11111A (A represents all die values other than 1 or 5) */
+		/* Test 158: Check scoring for a die roll of 11111A (A represents all die values other than 1 or 5) 
+		 * Requirement 6.5.0
+		 */
 		
 		// Generate all permutations of the roll
 		automatedPermutations = integerPermutations("11111A");
@@ -3835,7 +4131,9 @@ public class GameCalculateScoreTest {
 			}
 		}	
 		
-		/* Test 159: Check scoring for a die roll of 111115 */
+		/* Test 159: Check scoring for a die roll of 111115 
+		 * Requirement 6.2.0 and 6.5.0
+		 */
 		
 		// Generate all permutations of the roll and store in a list of lists of integers
 		myPermutations = permutations("111115");
@@ -3852,7 +4150,9 @@ public class GameCalculateScoreTest {
 			assertEquals(4050, score);
 		}
 		
-		/* Test 160: Check scoring for a die roll of AAAAAA (A represents all die values other than 1 or 5) */
+		/* Test 160: Check scoring for a die roll of AAAAAA (A represents all die values other than 1 or 5) 
+		 * Requirement 6.5.0
+		 */
 		
 		// Generate all permutations of the roll
 		automatedPermutations = integerPermutations("AAAAAA");
@@ -3878,7 +4178,9 @@ public class GameCalculateScoreTest {
 			}
 		}
 		
-		/* Test 161: Check scoring for a die roll of 555555 */
+		/* Test 161: Check scoring for a die roll of 555555 
+		 * Requirement 6.5.0
+		 */
 		
 		// Generate all permutations of the roll and store in a list of lists of integers
 		myPermutations = permutations("555555");
@@ -3895,7 +4197,9 @@ public class GameCalculateScoreTest {
 			assertEquals(4000, score);
 		}
 		
-		/* Test 162: Check scoring for a die roll of 111111 */
+		/* Test 162: Check scoring for a die roll of 111111 
+		 * Requirement 6.5.0
+		 */
 		
 		// Generate all permutations of the roll and store in a list of lists of integers
 		myPermutations = permutations("111111");
