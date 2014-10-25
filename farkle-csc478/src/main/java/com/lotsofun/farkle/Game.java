@@ -273,6 +273,7 @@ public class Game {
 	{
 		controller.setTurnScore(currentPlayer, getCurrentPlayer().getTurnNumber(), getRollScores());
 		getCurrentPlayer().endTurn(false);
+		currentPlayer = getNextPlayer();
 		return getCurrentPlayer().getGameScore();
 	}
 
@@ -306,8 +307,7 @@ public class Game {
 	 * number of this player
 	 */
 	public void processRoll() {
-		Player player = getCurrentPlayer();
-		player.setRollNumber(player.getRollNumber() + 1);
+		getCurrentPlayer().setRollNumber(getCurrentPlayer().getRollNumber() + 1);
 	}
 
 	/**
@@ -315,8 +315,7 @@ public class Game {
 	 * value for the current player
 	 */
 	public void processTurn() {
-		Player player = getCurrentPlayer();
-		player.nextTurn();
+		getCurrentPlayer().nextTurn();
 	}
 
 	/**
@@ -325,8 +324,7 @@ public class Game {
 	 * @return
 	 */
 	public int getRollScores() {
-		Player player = getCurrentPlayer();
-		return player.getRollScores();
+		 return getCurrentPlayer().getRollScores();
 	}	
 
 	public int getNumberOfPlayers() {

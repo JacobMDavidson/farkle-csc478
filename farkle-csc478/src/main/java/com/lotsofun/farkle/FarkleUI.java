@@ -45,8 +45,7 @@ public class FarkleUI extends JFrame {
 	public FarkleController controller;
 	public JLabel playerNameLabel = new JLabel("");
 	public JLabel[] scoreLabels = new JLabel[10];
-	public JLabel[] player1Scores = new JLabel[10];
-	public JLabel[] player2Scores = new JLabel[10];
+	public JLabel[] playerScores = new JLabel[10];
 	public JLabel gameScoreTitle = new JLabel("Total Score: ");
 	public JLabel gameScore = new JLabel("0");
 	public JLabel highScoreTitle = new JLabel("High Score: ");
@@ -350,10 +349,11 @@ public class FarkleUI extends JFrame {
 			scoreLabels[i].setForeground(Color.WHITE);
 			scoreLabels[i].setFont(new Font("Arial Black", Font.BOLD, 14));
 			playerPanel.add(scoreLabels[i]);
-			player1Scores[i] = new JLabel();
-			player1Scores[i].setForeground(Color.WHITE);
-			player1Scores[i].setFont(new Font("Arial Black", Font.BOLD, 14));
-			playerPanel.add(player1Scores[i]);
+			playerScores[i] = new JLabel();
+			playerScores[i].setForeground(Color.WHITE);
+			playerScores[i].setFont(new Font("Arial Black", Font.BOLD, 14));
+
+			playerPanel.add(playerScores[i]);
 		}
 
 		/*****************************************************
@@ -375,8 +375,6 @@ public class FarkleUI extends JFrame {
 		highScore.setForeground(Color.WHITE);
 		highScore.setFont(new Font("Arial Black", Font.BOLD, 14));
 		playerPanel.add(highScore);
-//		playerPanel.setPreferredSize(new Dimension(500, 300));
-//		playerPanel.setBorder(BorderFactory.createLineBorder(Color.BLACK, 1));
 		playerPanel.setBackground(new Color(35, 119, 34));
 		playerPanel.setBorder(BorderFactory.createCompoundBorder(
 				BorderFactory.createLineBorder(Color.WHITE, 3),
@@ -427,14 +425,6 @@ public class FarkleUI extends JFrame {
 
 	public JButton getSelectAllBtn() {
 		return selectAllBtn;
-	}
-
-	public JLabel[] getScores() {
-		return player1Scores;
-	}
-
-	public void setScores(JLabel[] scores) {
-		this.player1Scores = scores;
 	}
 
 	public JLabel getGameScore() {
@@ -520,7 +510,7 @@ public class FarkleUI extends JFrame {
 	}
 
 	public void resetScores() {
-		for (JLabel score : player1Scores) {
+		for (JLabel score : playerScores) {
 			score.setText("");
 		}
 	}
@@ -544,8 +534,7 @@ public class FarkleUI extends JFrame {
 	 * @param int score
 	 */
 	public void setTurnScore(int player, int turn, int score) {
-		JLabel scoreLbls[] = (player == 0) ? player1Scores : player2Scores;
-		scoreLbls[turn - 1].setText("" + score);
+		playerScores[turn - 1].setText("" + score);
 	}
 
 	/**
@@ -558,25 +547,27 @@ public class FarkleUI extends JFrame {
 	 *            - Bonus turns have the color set to yellow.
 	 */
 	public void setTurnHighlighting(int turn, boolean isBonusTurn) {
-		for (int i = 0; i <= player1Scores.length - 1; i++) {
-			player1Scores[i].setOpaque(false);
-			player1Scores[i].setForeground(Color.WHITE);
+		
+		for (int i = 0; i <= playerScores.length - 1; i++) {
+			playerScores[i].setOpaque(false);
+			playerScores[i].setForeground(Color.WHITE);
 			scoreLabels[i].setOpaque(false);
 			scoreLabels[i].setForeground(Color.WHITE);
 		}
 		if (turn != 0 && !isBonusTurn) {
-			player1Scores[turn - 1].setOpaque(true);
-			player1Scores[turn - 1].setBackground(Color.WHITE);
-			player1Scores[turn - 1].setText("");
-			player1Scores[turn - 1].setForeground(Color.BLACK);
+			playerScores[turn - 1].setOpaque(true);
+			playerScores[turn - 1].setBackground(Color.WHITE);
+			playerScores[turn - 1].setText("");
+			playerScores[turn - 1].setForeground(Color.BLACK);
+
 			scoreLabels[turn - 1].setOpaque(true);
 			scoreLabels[turn - 1].setBackground(Color.WHITE);
 			scoreLabels[turn - 1].setForeground(Color.BLACK);
 		} else if (turn != 0) {
-			player1Scores[turn - 1].setOpaque(true);
-			player1Scores[turn - 1].setText("BONUS ROLL!");
-			player1Scores[turn - 1].setBackground(Color.YELLOW);
-			player1Scores[turn - 1].setForeground(Color.BLACK);
+			playerScores[turn - 1].setOpaque(true);
+			playerScores[turn - 1].setText("BONUS ROLL!");
+			playerScores[turn - 1].setBackground(Color.YELLOW);
+			playerScores[turn - 1].setForeground(Color.BLACK);
 			scoreLabels[turn - 1].setOpaque(true);
 			scoreLabels[turn - 1].setBackground(Color.YELLOW);
 			scoreLabels[turn - 1].setForeground(Color.BLACK);
@@ -742,6 +733,17 @@ public class FarkleUI extends JFrame {
 			for(Die d : dice) {
 				d.dispatchEvent(new MouseEvent(d, MouseEvent.MOUSE_PRESSED, System.currentTimeMillis(), MouseEvent.BUTTON1, d.getX(), d.getY(), 1, false));
 			}
+		}
+	}
+	
+	public void updateGUI(int[] scores, String playerName)
+	{
+		playerNameLabel.setText(playerName);
+		runningScore.setText("");
+		resetScores();
+		for (int i = 0; i <= 9; i++)
+		{
+			playerScores[i].setText(String.valueOf(scores[i]));
 		}
 	}
 }

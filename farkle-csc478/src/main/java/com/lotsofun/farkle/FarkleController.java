@@ -63,8 +63,12 @@ public class FarkleController implements ActionListener, MouseListener {
 		farkleUI.getRunningScore().setText("FARKLE!!!");
 		farkleGame.farkle();
 
-		if (farkleGame.players[0].turnNumber > 10) {
+		if (farkleGame.getCurrentPlayer().turnNumber > 10) {
 			endGame(false, false);
+		}
+		else
+		{
+			farkleUI.updateGUI(farkleGame.getCurrentPlayer().getTurnScores(), farkleGame.getCurrentPlayer().playerName);
 		}
 	}
 
@@ -85,16 +89,20 @@ public class FarkleController implements ActionListener, MouseListener {
 		farkleUI.getBankBtn().setEnabled(false);
 		farkleUI.getSelectAllBtn().setEnabled(false);
 		checkHighScore();
-		if (farkleGame.players[0].turnNumber > 10) {
+		if (farkleGame.getCurrentPlayer().turnNumber > 10) {
 			endGame(false, false);
 		}
-		farkleUI.setTurnHighlighting(farkleGame.players[0].turnNumber, false);
+		else
+		{
+			farkleUI.updateGUI(farkleGame.getCurrentPlayer().getTurnScores(), farkleGame.getCurrentPlayer().playerName);
+		}
+		farkleUI.setTurnHighlighting(farkleGame.getCurrentPlayer().turnNumber, false);
 	}
 	
 	public boolean checkHighScore()
 	{
-		if (farkleGame.players[0].getGameScore() > farkleGame.highScore) {
-			farkleGame.highScore = farkleGame.players[0].getGameScore();
+		if (farkleGame.getCurrentPlayer().getGameScore() > farkleGame.highScore) {
+			farkleGame.highScore = farkleGame.getCurrentPlayer().getGameScore();
 			farkleUI.highScore.setText(Integer.toString(farkleGame.highScore));
 			return true;
 		}
@@ -141,11 +149,12 @@ public class FarkleController implements ActionListener, MouseListener {
 			}
 			else
 			{
+				farkleGame = new Game(GameMode.MULTIPLAYER, this);
 				farkleGame.players[0].playerName = playerNames[0];
 				farkleGame.players[1].playerName = playerNames[1];
 			}
-			farkleUI.playerNameLabel.setText(farkleGame.players[0].playerName);
-			farkleUI.setTurnHighlighting(farkleGame.players[0].turnNumber, false);
+			farkleUI.updateGUI(farkleGame.getCurrentPlayer().getTurnScores(), farkleGame.getCurrentPlayer().playerName);
+			farkleUI.setTurnHighlighting(farkleGame.getCurrentPlayer().turnNumber, false);
 	}
 	
 	public void replayGame()
@@ -260,7 +269,7 @@ public class FarkleController implements ActionListener, MouseListener {
 				farkleUI.getSelectAllBtn().setEnabled(true);
 
 				// Turn Highlighting
-				farkleUI.setTurnHighlighting(farkleGame.players[0].turnNumber, false);
+				farkleUI.setTurnHighlighting(farkleGame.getCurrentPlayer().turnNumber, false);
 
 				
 			}
@@ -378,7 +387,7 @@ public class FarkleController implements ActionListener, MouseListener {
 						&& (rollScore > 0)) {
 					farkleUI.resetDice();
 					farkleUI.playBonusSound();
-					farkleUI.setTurnHighlighting(farkleGame.players[0].turnNumber, true);
+					farkleUI.setTurnHighlighting(farkleGame.getCurrentPlayer().turnNumber, true);
 					farkleGame.isBonusTurn = true;
 				}
 				
