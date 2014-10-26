@@ -66,7 +66,12 @@ public class FarkleController implements ActionListener, MouseListener {
 		farkleGame.farkle();
 
 		if (farkleGame.getCurrentPlayer().turnNumber > 10) {
+			if (checkHighScore())
+			{
+				farkleUI.displayMessage("Congrats! You achieved a new high score.", "High Score");
+			}
 			endGame(false, false);
+			
 		}
 		else
 		{
@@ -92,7 +97,12 @@ public class FarkleController implements ActionListener, MouseListener {
 		farkleUI.getSelectAllBtn().setEnabled(false);
 		checkHighScore();
 		if (farkleGame.getCurrentPlayer().turnNumber > 10) {
+			if (checkHighScore())
+			{
+				farkleUI.displayMessage("Congrats! You achieved a new high score.", "High Score");
+			}
 			endGame(false, false);
+			
 		}
 		else
 		{
@@ -103,7 +113,7 @@ public class FarkleController implements ActionListener, MouseListener {
 	
 	public boolean checkHighScore()
 	{
-		if (farkleGame.getCurrentPlayer().getGameScore() > farkleGame.highScore) {
+		if (farkleGame.getCurrentPlayer().getGameScore() >= farkleGame.highScore) {
 			farkleGame.highScore = farkleGame.getCurrentPlayer().getGameScore();
 			farkleUI.highScore.setText(Integer.toString(farkleGame.highScore));
 			return true;
@@ -146,12 +156,14 @@ public class FarkleController implements ActionListener, MouseListener {
 		if (tempGameInformation[0].equals("S"))
 		{
 			farkleGame = new Game(GameMode.SINGLEPLAYER, this);
+			farkleUI.frame.setTitle("Farkle - Single Player Mode");
 			farkleGame.players[0].playerName = tempGameInformation[2];
 		}
 		//If it is a multiplayer game.
 		else
 		{
 			farkleGame = new Game(GameMode.MULTIPLAYER, this);
+			farkleUI.frame.setTitle("Farkle - Two Player Mode");
 			farkleGame.players[0].playerName = tempGameInformation[2];
 			//If it is another human player.
 			if (tempGameInformation[1].equals("H"))
