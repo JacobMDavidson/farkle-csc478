@@ -9,6 +9,8 @@ import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.awt.event.MouseMotionAdapter;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
@@ -24,6 +26,7 @@ import javax.sound.sampled.UnsupportedAudioFileException;
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JMenu;
@@ -31,8 +34,12 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JTextArea;
+import javax.swing.JTextField;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 
-public class FarkleUI extends JFrame {
+public class FarkleUI extends JFrame implements MouseListener {
 
 	/**
 	 * 
@@ -56,6 +63,22 @@ public class FarkleUI extends JFrame {
 	public URL bonusSound;
 	public URL gSound;
 	public AudioInputStream audioStream = null;
+
+	//My Frame Globals
+	JFrame frame = new JFrame("Farkle");
+	public JLabel singlePlayerLabel = new JLabel("One Player");
+	public JLabel multiplayerLabel = new JLabel("Two Player");
+	public JLabel humanPlayerLabel = new JLabel("Human");
+	public JLabel computerPlayerLabel = new JLabel("Computer");
+	JLabel labelZero = new JLabel ("Names:");
+	JLabel labelOne = new JLabel("Player One:");
+	JTextField playerOneName = new JTextField(5);
+	JLabel labelTwo = new JLabel("Player Two:");
+	JTextField playerTwoName = new JTextField(5);
+	JButton startButton = new JButton("Start");
+	JButton closeButton = new JButton("Close");
+	Color defaultColor = singlePlayerLabel.getBackground();
+
 
 	/**
 	 * Constructor Get a reference to the controller object and fire up the UI
@@ -87,7 +110,7 @@ public class FarkleUI extends JFrame {
 		// Pass a reference to the controller
 		controller.setUI(this);
 
-		
+
 
 		/******************************************
 		 * 1.4.1: The title of the window shall display: �Farkle � Single Player
@@ -97,48 +120,47 @@ public class FarkleUI extends JFrame {
 		// based on player mode
 
 		// Create and set up the main Window
-		JFrame frame = new JFrame("Farkle");
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setPreferredSize(new Dimension(1024, 768));
 		frame.setResizable(false);
 		GridLayout layout = new GridLayout(1, 3, 10, 10);
-		
+
 		// Hide the gridlines
 		layout.setHgap(0);
 		layout.setVgap(0);
 		frame.setLayout(layout);
 
 		//Menu Bar
-        JMenuBar menuBar = new JMenuBar();
-        setJMenuBar(menuBar);
-        JMenu fileMenu = new JMenu("File");
-        menuBar.add(fileMenu);
-        JMenuItem newAction = new JMenuItem("New");
-        JMenuItem resetAction = new JMenuItem("Reset");
-        JMenuItem exitAction = new JMenuItem("Exit");
-        fileMenu.add(newAction);
-        fileMenu.add(resetAction);
-        fileMenu.add(exitAction);
-        newAction.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent arg0) {
-                controller.endGame(false, true);
-            }
-        });
-        resetAction.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent arg0) {
-               controller.endGame(true, false);
-            }
-        });
-        exitAction.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent arg0) {
-                pullThePlug();
-            }
-        });
-		
-        frame.setJMenuBar(menuBar);
-        
-        
-        // Build the UI
+		JMenuBar menuBar = new JMenuBar();
+		setJMenuBar(menuBar);
+		JMenu fileMenu = new JMenu("File");
+		menuBar.add(fileMenu);
+		JMenuItem newAction = new JMenuItem("New");
+		JMenuItem resetAction = new JMenuItem("Reset");
+		JMenuItem exitAction = new JMenuItem("Exit");
+		fileMenu.add(newAction);
+		fileMenu.add(resetAction);
+		fileMenu.add(exitAction);
+		newAction.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				controller.endGame(false, true);
+			}
+		});
+		resetAction.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				controller.endGame(true, false);
+			}
+		});
+		exitAction.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				pullThePlug();
+			}
+		});
+
+		frame.setJMenuBar(menuBar);
+
+
+		// Build the UI
 		frame.add(createPlayerPanel());
 
 		// Call to create dice
@@ -153,80 +175,172 @@ public class FarkleUI extends JFrame {
 		int y = (int) ((dimension.getHeight() - frame.getHeight()) / 2);
 		frame.setLocation(x, y);
 		frame.setVisible(true);
-		controller.newGame();
+		controller.setupGame();
 	}
 
 	/* Reduce Reuse Recycle */
-	public String[] getGameInformation() {
+	public void getGameInformation() {
 
-		/**************************************************
-		 * 1.1.0 Upon opening the application, the user is greeted with a screen
-		 * that has two options, 1 player mode or 2 player mode.
-		 ***************************************************/
-		Object countOps[] = { "1 Player", "2 Players", "Cancel" };
-		Object modeOps[] = { "Human Opponent", "Computer Opponent", "Cancel" };
-		String[] playerNames = new String[2];
-		int playerCount = JOptionPane.showOptionDialog(this,
-				"Choose the number of players.", "Player Mode",
-				JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE,
-				null, countOps, countOps[0]);
-		int playerMode = -1;
+		frame.setEnabled(false);
+		final JDialog window = new JDialog(frame);
+		window.setAlwaysOnTop(true);
+		window.setPreferredSize(new Dimension(750, 250));
+		window.setResizable(false);
+		window.setUndecorated(true);
+		GridLayout layout = new GridLayout(1, 3, 10, 10);
+		window.setLayout(layout);
 
-		if (playerCount != JOptionPane.CANCEL_OPTION) {
-			playerNames[0] = JOptionPane.showInputDialog(this,
-					"Please enter your name.", "Player 1",
-					JOptionPane.OK_CANCEL_OPTION);
-			if (playerNames[0] == null)
-			{
-				pullThePlug();
+		controller.tempGameInformation[0] = "S";
+		controller.tempGameInformation[1] = "";
+		controller.tempGameInformation[2] = "";
+		controller.tempGameInformation[3] = "";
+
+		//Create panels here
+		JPanel gameModePanel = new JPanel();
+		singlePlayerLabel.setName("1");
+		singlePlayerLabel.setOpaque(true);
+		singlePlayerLabel.setBackground(Color.WHITE);
+		singlePlayerLabel.addMouseListener(this);			
+		multiplayerLabel.setName("2");
+		multiplayerLabel.setOpaque(true);
+		multiplayerLabel.addMouseListener(this);
+		gameModePanel.add(singlePlayerLabel);
+		gameModePanel.add(multiplayerLabel);
+
+		JPanel playerTypePanel = new JPanel();
+		humanPlayerLabel.setName("3");
+		humanPlayerLabel.setOpaque(true);
+		humanPlayerLabel.setEnabled(false);
+		humanPlayerLabel.addMouseListener(this);			
+		computerPlayerLabel.setName("4");
+		computerPlayerLabel.setOpaque(true);
+		computerPlayerLabel.setEnabled(false);
+		computerPlayerLabel.addMouseListener(this);
+		playerTypePanel.add(humanPlayerLabel);
+		playerTypePanel.add(computerPlayerLabel);
+
+		JPanel playerNamesPanel = new JPanel();	
+		playerNamesPanel.add(labelZero);
+		playerNamesPanel.add(labelOne);
+		playerNamesPanel.add(playerOneName);
+		playerOneName.getDocument().addDocumentListener(new DocumentListener() {
+
+			@Override
+			public void removeUpdate(DocumentEvent e) {
+				updateButtons();
 			}
-			if (("Ginuwine").equalsIgnoreCase(playerNames[0])) {
 
-				try {
+			@Override
+			public void insertUpdate(DocumentEvent e) {
+				updateButtons();
+			}
+
+			@Override
+			public void changedUpdate(DocumentEvent arg0) {
+				updateButtons();
+			}
+
+			public void updateButtons()
+			{
+				if (playerOneName.getText().length() == 0)
+				{
+					startButton.setEnabled(false);
+				}
+				else
+				{
+					startButton.setEnabled(true);
+				}
+			}
+		});
+		labelTwo.setEnabled(false);
+		playerNamesPanel.add(labelTwo);
+		playerTwoName.setEnabled(false);
+		playerNamesPanel.add(playerTwoName);
+		playerTwoName.getDocument().addDocumentListener(new DocumentListener() {
+
+			@Override
+			public void removeUpdate(DocumentEvent e) {
+				updateButtons();
+			}
+
+			@Override
+			public void insertUpdate(DocumentEvent e) {
+				updateButtons();
+			}
+
+			@Override
+			public void changedUpdate(DocumentEvent arg0) {
+				updateButtons();
+			}
+
+			public void updateButtons()
+			{
+				if (playerTwoName.getText().length() == 0)
+				{
+					startButton.setEnabled(false);
+				}
+				else
+				{
+					startButton.setEnabled(true);
+				}
+			}
+		});
+
+		JPanel buttonPanel = new JPanel();
+		startButton.setEnabled(false);
+		startButton.addActionListener(new ActionListener()
+		{public void actionPerformed(ActionEvent e){
+			controller.tempGameInformation[2] = playerOneName.getText();
+			controller.tempGameInformation[3] = playerTwoName.getText();
+			if (("Ginuwine").equalsIgnoreCase(controller.tempGameInformation[2])) {
+
+				try 
+				{
 					AudioInputStream audioStream;
 					audioStream = AudioSystem.getAudioInputStream(gSound);
 					Clip clip = AudioSystem.getClip();
 					clip.open(audioStream);
-					clip.start();
-				} catch (UnsupportedAudioFileException e) {
-					e.printStackTrace();
-				} catch (LineUnavailableException e) {
-					e.printStackTrace();
-				} catch (IOException e) {
-					e.printStackTrace();
+					clip.start();								
+				} 
+				catch (UnsupportedAudioFileException x) 
+				{
+					x.printStackTrace();
+				} 
+				catch (LineUnavailableException y) 
+				{
+					y.printStackTrace();
+				} 
+				catch (IOException z) 
+				{
+					z.printStackTrace();
 				}
 			}
-
-			/***************************************************************
-			 * 1.2.0: If the user selects two player mode, the user is asked if
-			 * player 2 is a live player or a computer player.
-			 ***************************************************************/
-			// Player chooses 2 player game mode
-			if (playerCount == JOptionPane.NO_OPTION) {
-
-				// Prompt player 1 for type of player they wish player 2 to be
-				playerMode = JOptionPane
-						.showOptionDialog(this,
-								"What type of player is player 2?.",
-								"Player Type",
-								JOptionPane.YES_NO_CANCEL_OPTION,
-								JOptionPane.QUESTION_MESSAGE, null, modeOps,
-								modeOps[0]);
-
-				// If they choose for player 2 to be human
-				if (playerMode == JOptionPane.YES_OPTION) {
-					playerNames[1] = JOptionPane.showInputDialog(this,
-							"Please enter your name.", "Player 2",
-							JOptionPane.OK_CANCEL_OPTION);
-				}
-			}
+			controller.newGame();
+			frame.setEnabled(true);
+			frame.setVisible(true);
+			window.dispose();
 		}
+		});
+		buttonPanel.add(startButton);
+		closeButton.addActionListener(new ActionListener()
+		{public void actionPerformed(ActionEvent e){pullThePlug();}});
+		buttonPanel.add(closeButton);
 
-		else {
-			System.exit(0);
-		}
+		window.add(gameModePanel);
+		window.add(playerTypePanel);
+		window.add(playerNamesPanel);
+		window.add(buttonPanel);
 
-		return playerNames;
+		//Show the window
+		window.setLocationRelativeTo(null);
+		window.pack();
+		Dimension dimension = Toolkit.getDefaultToolkit().getScreenSize();
+		int x = (int) ((dimension.getWidth() - window.getWidth()) / 2);
+		int y = (int) ((dimension.getHeight() - window.getHeight()) / 2);
+		window.setLocation(x, y);
+		window.setVisible(true);			
+
+		
 	}
 
 	/**
@@ -243,12 +357,12 @@ public class FarkleUI extends JFrame {
 		rollBtn.addActionListener(controller);
 		buttonPanels[0].add(rollBtn);
 		buttonPanels[0].setBackground(new Color(35, 119, 34));
-		
+
 		selectAllBtn.addActionListener(controller);
 		buttonPanels[1].add(selectAllBtn);
 		selectAllBtn.setEnabled(false);
 		buttonPanels[1].setBackground(new Color(35, 119, 34));
-		
+
 
 		/********************************************
 		 * 1.3.5: A �Bank� button shall be displayed (and shall initially be
@@ -408,7 +522,7 @@ public class FarkleUI extends JFrame {
 			e.printStackTrace();
 			System.exit(0);
 		}
-		
+
 		scorePanel.setBorder(BorderFactory.createCompoundBorder(
 				BorderFactory.createLineBorder(Color.WHITE, 3),
 				BorderFactory.createEmptyBorder(3, 17, 3, 17)));
@@ -449,17 +563,17 @@ public class FarkleUI extends JFrame {
 
 	public void rollDice() {
 		// Test farkle roll
-//		dice[0].setValue(1);
-//		dice[1].setValue(2);
-//		dice[2].setValue(3);
-//		dice[3].setValue(4);
-//		dice[4].setValue(5);
-//		dice[5].setValue(6);
+		//		dice[0].setValue(1);
+		//		dice[1].setValue(2);
+		//		dice[2].setValue(3);
+		//		dice[3].setValue(4);
+		//		dice[4].setValue(5);
+		//		dice[5].setValue(6);
 
 		// Roll all the dice
-		 for (Die d : dice) {
-		 d.roll();
-		 }
+		for (Die d : dice) {
+			d.roll();
+		}
 	}
 
 	/**
@@ -547,7 +661,7 @@ public class FarkleUI extends JFrame {
 	 *            - Bonus turns have the color set to yellow.
 	 */
 	public void setTurnHighlighting(int turn, boolean isBonusTurn) {
-		
+
 		for (int i = 0; i <= playerScores.length - 1; i++) {
 			playerScores[i].setOpaque(false);
 			playerScores[i].setForeground(Color.WHITE);
@@ -648,7 +762,7 @@ public class FarkleUI extends JFrame {
 		JOptionPane.showMessageDialog(this, message, title,
 				JOptionPane.DEFAULT_OPTION);
 	}
-	
+
 	public boolean displayYesNoMessage (String message, String title)
 	{
 		boolean retVal;
@@ -699,7 +813,7 @@ public class FarkleUI extends JFrame {
 				pullThePlug();
 			}
 		}
-		
+
 		if (mainMenu)
 		{
 			retVal = false;
@@ -716,8 +830,8 @@ public class FarkleUI extends JFrame {
 		dispose();
 		System.exit(0);
 	}
-	
-	
+
+
 	/**
 	 * If no dice are held, selects all unheld dice
 	 * If no dice are unheld, selects all held dice
@@ -735,7 +849,7 @@ public class FarkleUI extends JFrame {
 			}
 		}
 	}
-	
+
 	public void updateGUI(int[] scores, String playerName)
 	{
 		playerNameLabel.setText(playerName);
@@ -745,5 +859,98 @@ public class FarkleUI extends JFrame {
 		{
 			playerScores[i].setText(String.valueOf(scores[i]));
 		}
+	}
+
+	@Override
+	public void mouseClicked(MouseEvent e) {
+		//SinglePlayer
+		if (e.getComponent().getName().equals("1"))
+		{
+			singlePlayerLabel.setBackground(Color.WHITE);
+			multiplayerLabel.setBackground(defaultColor);
+			humanPlayerLabel.setBackground(defaultColor);
+			humanPlayerLabel.setEnabled(false);
+			computerPlayerLabel.setBackground(defaultColor);
+			computerPlayerLabel.setEnabled(false);
+			labelTwo.setEnabled(false);
+			playerTwoName.setEnabled(false);
+			playerTwoName.setText("");
+			startButton.setEnabled(false);
+			controller.tempGameInformation[0] = "S";
+			controller.tempGameInformation[1] = "";
+		}
+		//Multiplayer
+		else if (e.getComponent().getName().equals("2"))
+		{
+			singlePlayerLabel.setBackground(defaultColor);
+			multiplayerLabel.setBackground(Color.WHITE);
+			humanPlayerLabel.setBackground(Color.WHITE);
+			humanPlayerLabel.setEnabled(true);
+			computerPlayerLabel.setBackground(defaultColor);
+			computerPlayerLabel.setEnabled(true);
+			labelTwo.setEnabled(true);
+			playerTwoName.setEnabled(true);
+			playerTwoName.setText("");
+			startButton.setEnabled(false);
+			controller.tempGameInformation[0] = "M";
+			controller.tempGameInformation[1] = "H";
+		}
+		//Human
+		else if (e.getComponent().getName().equals("3"))
+		{
+			singlePlayerLabel.setBackground(defaultColor);
+			multiplayerLabel.setBackground(Color.WHITE);
+			humanPlayerLabel.setBackground(Color.WHITE);
+			humanPlayerLabel.setEnabled(true);
+			computerPlayerLabel.setBackground(defaultColor);
+			computerPlayerLabel.setEnabled(true);
+			labelTwo.setEnabled(true);
+			playerTwoName.setEnabled(true);
+			playerTwoName.setText("");
+			startButton.setEnabled(false);
+			controller.tempGameInformation[0] = "M";
+			controller.tempGameInformation[1] = "H";
+		}
+		//Computer
+		else if (e.getComponent().getName().equals("4"))
+		{
+			singlePlayerLabel.setBackground(defaultColor);
+			multiplayerLabel.setBackground(Color.WHITE);
+			humanPlayerLabel.setBackground(defaultColor);
+			humanPlayerLabel.setEnabled(true);
+			computerPlayerLabel.setBackground(Color.WHITE);
+			computerPlayerLabel.setEnabled(true);
+			labelTwo.setEnabled(false);
+			playerTwoName.setEnabled(false);
+			playerTwoName.setText("Computer");
+			startButton.setEnabled(false);
+			controller.tempGameInformation[0] = "M";
+			controller.tempGameInformation[1] = "C";
+		}
+
+	}
+
+	@Override
+	public void mouseEntered(MouseEvent e) {
+
+
+	}
+
+	@Override
+	public void mouseExited(MouseEvent e) {
+
+
+	}
+
+	@Override
+	public void mousePressed(MouseEvent e) {
+
+
+	}
+
+	@Override
+	public void mouseReleased(MouseEvent e) {
+
+
 	}
 }

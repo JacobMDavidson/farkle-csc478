@@ -12,6 +12,8 @@ import java.util.TimerTask;
 public class FarkleController implements ActionListener, MouseListener {
 	FarkleUI farkleUI;
 	Game farkleGame;
+	//Gamemode, playertype, Player1Name, Player2Name
+	String[] tempGameInformation = new String[4];
 
 	public static void main(String[] args) {
 		final FarkleController controller = new FarkleController();
@@ -129,32 +131,42 @@ public class FarkleController implements ActionListener, MouseListener {
 		}
 		else
 		{
-			newGame();
+			setupGame();
 		}
+	}
+	
+	public void setupGame()
+	{
+		farkleUI.getGameInformation();
 	}
 
 	public void newGame() {
-
-			String[] playerNames = farkleUI.getGameInformation();
-			//Singleplayer or second player is a computer.
-			if (playerNames[1] == null)
+	
+		//If it is a single player game.
+		if (tempGameInformation[0].equals("S"))
+		{
+			farkleGame = new Game(GameMode.SINGLEPLAYER, this);
+			farkleGame.players[0].playerName = tempGameInformation[2];
+		}
+		//If it is a multiplayer game.
+		else
+		{
+			farkleGame = new Game(GameMode.MULTIPLAYER, this);
+			farkleGame.players[0].playerName = tempGameInformation[2];
+			//If it is another human player.
+			if (tempGameInformation[1].equals("H"))
 			{
-				//Issue 1: Resolution
-				if (playerNames[0] == null || playerNames[0].equals(""))
-				{
-					playerNames[0] = "Jacob Davidson";
-				}
-				farkleGame = new Game(GameMode.SINGLEPLAYER, this);
-				farkleGame.players[0].playerName = playerNames[0];
+				farkleGame.players[1].playerName = tempGameInformation[3];
 			}
+			//It is a computer player.
 			else
 			{
-				farkleGame = new Game(GameMode.MULTIPLAYER, this);
-				farkleGame.players[0].playerName = playerNames[0];
-				farkleGame.players[1].playerName = playerNames[1];
-			}
-			farkleUI.updateGUI(farkleGame.getCurrentPlayer().getTurnScores(), farkleGame.getCurrentPlayer().playerName);
-			farkleUI.setTurnHighlighting(farkleGame.getCurrentPlayer().turnNumber, false);
+				farkleGame.players[1].playerName = "Computer";
+				farkleGame.players[1].isComputer = true;
+			}			
+		}
+		farkleUI.updateGUI(farkleGame.getCurrentPlayer().getTurnScores(), farkleGame.getCurrentPlayer().playerName);
+		farkleUI.setTurnHighlighting(farkleGame.getCurrentPlayer().turnNumber, false);	
 	}
 	
 	public void replayGame()

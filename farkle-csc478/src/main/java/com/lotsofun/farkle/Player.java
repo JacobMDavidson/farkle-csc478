@@ -6,7 +6,7 @@ public class Player {
 
 	public HashMap<Integer, Integer> rollScore = new HashMap<Integer, Integer>();
 	public int playerNumber, turnNumber = 1, rollNumber, gameScore = 0;
-	public boolean currentPlayer;
+	public boolean currentPlayer, isComputer;
 	public int[] turnScores;
 	public PlayerType type;
 	public String playerName;
@@ -134,5 +134,15 @@ public class Player {
 
 	public void setRollScore(HashMap<Integer, Integer> rollScore) {
 		this.rollScore = rollScore;
+	}
+	
+	public boolean getIsComputer ()
+	{
+		return isComputer;
+	}
+	
+	public void setIsComputer (boolean isComputer)
+	{
+		this.isComputer = isComputer;
 	}	
 }
