@@ -183,7 +183,7 @@ public class FarkleUI extends JFrame implements MouseListener {
 
 		frame.setEnabled(false);
 		final JDialog window = new JDialog(frame);
-		window.setAlwaysOnTop(true);
+		//window.setAlwaysOnTop(true);
 		window.setPreferredSize(new Dimension(750, 250));
 		window.setResizable(false);
 		window.setUndecorated(true);
