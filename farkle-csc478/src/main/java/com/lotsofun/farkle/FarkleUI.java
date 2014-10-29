@@ -65,7 +65,7 @@ public class FarkleUI extends JFrame implements MouseListener {
 	public URL bonusSound;
 	public URL gSound;
 	public AudioInputStream audioStream = null;
-	public Color green = new Color(35, 119, 34);
+	public Color greenBackground = new Color(35, 119, 34);
 
 	//My Frame Globals
 	JFrame frame = new JFrame("Farkle");
@@ -80,7 +80,7 @@ public class FarkleUI extends JFrame implements MouseListener {
 	public JPanel playerTwoNamePanel = new JPanel();
 	public JPanel playerModeSelectionPanel = new JPanel();
 	public JPanel playerTypeSelectionPanel = new JPanel();
-	JLabel playerNamesLabel = new JLabel (" Enter Player Names:");
+	JLabel playerNamesLabel = new JLabel ("Enter Player Names:");
 	JLabel playerOneNameLabel = new JLabel("Player One:");
 	JTextField playerOneName = new JTextField(5);
 	JLabel playerTwoNameLabel = new JLabel("Player Two:");
@@ -193,14 +193,11 @@ public class FarkleUI extends JFrame implements MouseListener {
 
 		frame.setEnabled(false);
 		final JDialog window = new JDialog(frame);
-		//window.setAlwaysOnTop(true);
 		window.setPreferredSize(new Dimension(750, 250));
 		window.setResizable(false);
 		window.setUndecorated(true);
 		window.setTitle("Game Mode Options");
 		
-		
-		//GridLayout layout = new GridLayout(1, 3, 10, 10);
 		BorderLayout layout = new BorderLayout();
 		
 		window.setLayout(layout);
@@ -216,39 +213,52 @@ public class FarkleUI extends JFrame implements MouseListener {
 		
 		singlePlayerLabel.setName("1");
 		singlePlayerLabel.setOpaque(true);
-		singlePlayerLabel.setBackground(Color.WHITE);
+		singlePlayerLabel.setBackground(Color.YELLOW);
 		singlePlayerLabel.addMouseListener(this);			
 		multiplayerLabel.setName("2");
 		multiplayerLabel.setOpaque(true);
 		multiplayerLabel.addMouseListener(this);
-		multiplayerLabel.setBackground(green);
+		multiplayerLabel.setBackground(greenBackground);
 	
-/*		
-		gameModePanel.add(singlePlayerLabel);
-		gameModePanel.add(multiplayerLabel);
-*/
+
 		
 		JPanel playerTypePanel = new JPanel();
 		playerTypePanel.setLayout(new GridLayout(2,1,0,0));
 		playerModeSelectionPanel.setLayout(new GridLayout(3,1,0,0));
-		playerModeSelectionPanel.setBackground(green);
+		playerModeSelectionPanel.setBackground(greenBackground);
 		playerTypeSelectionPanel.setLayout(new GridLayout(3,1,0,0));
-		playerTypeSelectionPanel.setBackground(green);
+		playerTypeSelectionPanel.setBackground(greenBackground);
 		humanPlayerLabel.setName("3");
 		humanPlayerLabel.setOpaque(true);
-		//humanPlayerLabel.setEnabled(false);
+
 		humanPlayerLabel.addMouseListener(this);
-		humanPlayerLabel.setBackground(green);
+		humanPlayerLabel.setBackground(greenBackground);
 		computerPlayerLabel.setName("4");
 		computerPlayerLabel.setOpaque(true);
-		//computerPlayerLabel.setEnabled(false);
+
 		computerPlayerLabel.addMouseListener(this);
-		computerPlayerLabel.setBackground(green);
+		computerPlayerLabel.setBackground(greenBackground);
+		
+		playerModeSelectLabel.setFont(new Font("Arial Black", Font.PLAIN, 14));
+		playerModeSelectLabel.setForeground(Color.WHITE);
 		playerModeSelectionPanel.add(playerModeSelectLabel);
+		
+		singlePlayerLabel.setFont(new Font("Arial Black", Font.PLAIN, 12));
 		playerModeSelectionPanel.add(singlePlayerLabel);
+		
+		multiplayerLabel.setFont(new Font("Arial Black", Font.PLAIN, 12));
+		multiplayerLabel.setForeground(Color.WHITE);
 		playerModeSelectionPanel.add(multiplayerLabel);
+		
+		playerTypeSelectLabel.setFont(new Font("Arial Black", Font.PLAIN, 14));
+		playerTypeSelectLabel.setForeground(Color.WHITE);
 		playerTypeSelectionPanel.add(playerTypeSelectLabel);
+		
+		humanPlayerLabel.setFont(new Font("Arial Black", Font.PLAIN, 12));
 		playerTypeSelectionPanel.add(humanPlayerLabel);
+		
+		computerPlayerLabel.setFont(new Font("Arial Black", Font.PLAIN, 12));
+		computerPlayerLabel.setForeground(Color.WHITE);
 		playerTypeSelectionPanel.add(computerPlayerLabel);
 		playerTypePanel.add(playerModeSelectionPanel);
 		playerTypePanel.add(playerTypeSelectionPanel);
@@ -256,95 +266,40 @@ public class FarkleUI extends JFrame implements MouseListener {
 
 		JPanel playerNamesPanel = new JPanel();	
 		playerNamesPanel.setLayout(new GridLayout(6,1,0,0));
+		
+		playerNamesLabel.setFont(new Font("Arial Black", Font.PLAIN, 14));
+		playerNamesLabel.setForeground(Color.WHITE);
 		playerNamesPanel.add(playerNamesLabel);
 		
-		//JPanel playerOneNamePanel = new JPanel();
+		//set up the playerOneNamePanel
 		playerOneNamePanel.setLayout(new BorderLayout());
-		playerOneNamePanel.setBackground(green);
+		playerOneNamePanel.setBackground(greenBackground);
+		
+		playerOneNameLabel.setFont(new Font("Arial Black", Font.PLAIN, 12));
+		playerOneNameLabel.setForeground(Color.WHITE);
 		playerOneNamePanel.add(playerOneNameLabel, BorderLayout.WEST);
 		playerOneNamePanel.add(playerOneName, BorderLayout.CENTER);
 		playerNamesPanel.add(playerOneNamePanel);
 		
-		//JPanel playerTwoNamePanel = new JPanel();
+		//set up the playerTwoNamePanel
 		playerTwoNamePanel.setLayout(new BorderLayout());
-		playerTwoNamePanel.setBackground(green);
+		playerTwoNamePanel.setBackground(greenBackground);
+		
+		playerTwoNameLabel.setFont(new Font("Arial Black", Font.PLAIN, 12));
+		playerTwoNameLabel.setForeground(Color.WHITE);
 		playerTwoNamePanel.add(playerTwoNameLabel, BorderLayout.WEST);
 		playerTwoNamePanel.add(playerTwoName, BorderLayout.CENTER);
 		playerNamesPanel.add(playerTwoNamePanel);
-		
-		/*
-		playerOneName.getDocument().addDocumentListener(new DocumentListener() {
 
-			@Override
-			public void removeUpdate(DocumentEvent e) {
-				updateButtons();
-			}
-
-			@Override
-			public void insertUpdate(DocumentEvent e) {
-				updateButtons();
-			}
-
-			@Override
-			public void changedUpdate(DocumentEvent arg0) {
-				updateButtons();
-			}
-
-			public void updateButtons()
-			{
-				if (playerOneName.getText().length() == 0)
-				{
-					startButton.setEnabled(false);
-				}
-				else
-				{
-					startButton.setEnabled(true);
-				}
-			}
-		});
-		*/
+		// Hide the playerTwoNamePanel
 		playerTwoNamePanel.setVisible(false);
-		//playerTwoNameLabel.setEnabled(false);
-		//playerNamesPanel.add(playerTwoNameLabel);
-		//playerTwoName.setEnabled(false);
-		//playerNamesPanel.add(playerTwoName);
-		
-		/*
-		playerTwoName.getDocument().addDocumentListener(new DocumentListener() {
 
-			@Override
-			public void removeUpdate(DocumentEvent e) {
-				updateButtons();
-			}
-
-			@Override
-			public void insertUpdate(DocumentEvent e) {
-				updateButtons();
-			}
-
-			@Override
-			public void changedUpdate(DocumentEvent arg0) {
-				updateButtons();
-			}
-
-			public void updateButtons()
-			{
-				if (playerTwoName.getText().length() == 0)
-				{
-					startButton.setEnabled(false);
-				}
-				else
-				{
-					startButton.setEnabled(true);
-				}
-			}
-		});
-		*/
+		// Add the player name panels to the 
 		gameModePanel.add(playerTypePanel);
 		gameModePanel.add(playerNamesPanel);
 
 		JPanel buttonPanel = new JPanel();
-		//startButton.setEnabled(false);
+
 		startButton.addActionListener(new ActionListener()
 		{public void actionPerformed(ActionEvent e){
 			controller.tempGameInformation[2] = playerOneName.getText();
@@ -386,24 +341,15 @@ public class FarkleUI extends JFrame implements MouseListener {
 		// Add a title panel
 		JPanel gameModeTitlePanel = new JPanel();
 		gameModeTitlePanel.setBackground(Color.WHITE);
+		gameModeOptionTitle.setFont(new Font("Arial Black", Font.PLAIN, 14));
 		gameModeTitlePanel.add(gameModeOptionTitle);
 
-/*
-		window.add(gameModePanel);
-		window.add(playerTypePanel);
-		window.add(playerNamesPanel);
-		window.add(buttonPanel);
-*/
-		//gameModeOptionTitle.setHorizontalAlignment(alignment);
-		//For testing purposes
-		gameModePanel.setBackground(green);
-		playerTypePanel.setBackground(green);
-		playerNamesPanel.setBackground(green);
+		gameModePanel.setBackground(greenBackground);
+		playerTypePanel.setBackground(greenBackground);
+		playerNamesPanel.setBackground(greenBackground);
 		
 		window.add(gameModeTitlePanel, BorderLayout.NORTH);
 		window.add(gameModePanel, BorderLayout.CENTER);
-		//window.add(playerTypePanel, BorderLayout.CENTER);
-		//window.add(playerNamesPanel, BorderLayout.WEST);
 		window.add(buttonPanel, BorderLayout.SOUTH);
 		
 		//Show the window
@@ -431,12 +377,12 @@ public class FarkleUI extends JFrame implements MouseListener {
 		 ********************************************/
 		rollBtn.addActionListener(controller);
 		buttonPanels[0].add(rollBtn);
-		buttonPanels[0].setBackground(green);
+		buttonPanels[0].setBackground(greenBackground);
 
 		selectAllBtn.addActionListener(controller);
 		buttonPanels[1].add(selectAllBtn);
 		selectAllBtn.setEnabled(false);
-		buttonPanels[1].setBackground(green);
+		buttonPanels[1].setBackground(greenBackground);
 
 
 		/********************************************
@@ -445,7 +391,7 @@ public class FarkleUI extends JFrame implements MouseListener {
 		 ********************************************/
 		bankBtn.addActionListener(controller);
 		buttonPanels[2].add(bankBtn);
-		buttonPanels[2].setBackground(green);
+		buttonPanels[2].setBackground(greenBackground);
 		getBankBtn().setEnabled(false);
 		return buttonPanels;
 	}
@@ -498,7 +444,7 @@ public class FarkleUI extends JFrame implements MouseListener {
 		dicePanel.add(btns[0]);
 		dicePanel.add(btns[1]);
 		dicePanel.add(btns[2]);
-		dicePanel.setBackground(green);
+		dicePanel.setBackground(greenBackground);
 		dicePanel.setBorder(BorderFactory.createCompoundBorder(
 				BorderFactory.createLineBorder(Color.WHITE, 3),
 				BorderFactory.createEmptyBorder(3, 17, 3, 17)));
@@ -564,7 +510,7 @@ public class FarkleUI extends JFrame implements MouseListener {
 		highScore.setForeground(Color.WHITE);
 		highScore.setFont(new Font("Arial Black", Font.BOLD, 14));
 		playerPanel.add(highScore);
-		playerPanel.setBackground(green);
+		playerPanel.setBackground(greenBackground);
 		playerPanel.setBorder(BorderFactory.createCompoundBorder(
 				BorderFactory.createLineBorder(Color.WHITE, 3),
 				BorderFactory.createEmptyBorder(3, 17, 3, 17)));
@@ -592,7 +538,7 @@ public class FarkleUI extends JFrame implements MouseListener {
 			JLabel scoreLabel = new JLabel(new ImageIcon(scoreGuide));
 			scorePanel.add(scoreLabel);
 
-			scorePanel.setBackground(green);
+			scorePanel.setBackground(greenBackground);
 		} catch (IOException e) {
 			e.printStackTrace();
 			System.exit(0);
@@ -941,49 +887,50 @@ public class FarkleUI extends JFrame implements MouseListener {
 		//SinglePlayer
 		if (e.getComponent().getName().equals("1"))
 		{
-			singlePlayerLabel.setBackground(Color.WHITE);
-			multiplayerLabel.setBackground(green);
+			singlePlayerLabel.setBackground(Color.YELLOW);
+			singlePlayerLabel.setForeground(Color.BLACK);
+			multiplayerLabel.setBackground(greenBackground);
+			multiplayerLabel.setForeground(Color.WHITE);
 			playerTypeSelectionPanel.setVisible(false);
-			humanPlayerLabel.setBackground(green);
-			//humanPlayerLabel.setEnabled(false);
-			computerPlayerLabel.setBackground(green);
-			//computerPlayerLabel.setEnabled(false);
-			//playerTwoNameLabel.setEnabled(false);
+			humanPlayerLabel.setBackground(greenBackground);
+			computerPlayerLabel.setBackground(greenBackground);
 			playerTwoNamePanel.setVisible(false);
 			playerTwoName.setText("");
-			//startButton.setEnabled(false);
 			controller.tempGameInformation[0] = "S";
 			controller.tempGameInformation[1] = "";
 		}
 		//Multiplayer
 		else if (e.getComponent().getName().equals("2"))
 		{
-			singlePlayerLabel.setBackground(green);
-			multiplayerLabel.setBackground(Color.WHITE);
-			humanPlayerLabel.setBackground(Color.WHITE);
-			//humanPlayerLabel.setEnabled(true);
-			computerPlayerLabel.setBackground(green);
-			//computerPlayerLabel.setEnabled(true);
+			singlePlayerLabel.setBackground(greenBackground);
+			singlePlayerLabel.setForeground(Color.WHITE);
+			multiplayerLabel.setBackground(Color.YELLOW);
+			multiplayerLabel.setForeground(Color.BLACK);
+			humanPlayerLabel.setForeground(Color.BLACK);
+			humanPlayerLabel.setBackground(Color.YELLOW);
+			computerPlayerLabel.setForeground(Color.WHITE);
+			computerPlayerLabel.setBackground(greenBackground);
 			playerTypeSelectionPanel.setVisible(true);
-			//playerTwoNameLabel.setEnabled(true);
-			//playerTwoName.setEnabled(true);
+			playerTwoNamePanel.setVisible(true);
 			playerTwoNamePanel.setVisible(true);
 			playerTwoName.setText("");
-			//startButton.setEnabled(false);
+			playerTwoName.setEnabled(true);
 			controller.tempGameInformation[0] = "M";
 			controller.tempGameInformation[1] = "H";
 		}
 		//Human
 		else if (e.getComponent().getName().equals("3"))
 		{
-			singlePlayerLabel.setBackground(green);
-			multiplayerLabel.setBackground(Color.WHITE);
-			humanPlayerLabel.setBackground(Color.WHITE);
+			singlePlayerLabel.setBackground(greenBackground);
+			singlePlayerLabel.setForeground(Color.WHITE);
+			multiplayerLabel.setBackground(Color.YELLOW);
+			multiplayerLabel.setForeground(Color.BLACK);
+			humanPlayerLabel.setForeground(Color.BLACK);
+			humanPlayerLabel.setBackground(Color.YELLOW);
+			computerPlayerLabel.setForeground(Color.WHITE);
+			computerPlayerLabel.setBackground(greenBackground);
 			playerTypeSelectionPanel.setVisible(true);
 
-			//humanPlayerLabel.setEnabled(true);
-			computerPlayerLabel.setBackground(green);
-			//computerPlayerLabel.setEnabled(true);
 			playerTwoNameLabel.setEnabled(true);
 			playerTwoNamePanel.setVisible(true);
 			playerTwoName.setText("");
@@ -995,12 +942,14 @@ public class FarkleUI extends JFrame implements MouseListener {
 		//Computer
 		else if (e.getComponent().getName().equals("4"))
 		{
-			singlePlayerLabel.setBackground(green);
-			multiplayerLabel.setBackground(Color.WHITE);
-			humanPlayerLabel.setBackground(green);
-			//humanPlayerLabel.setEnabled(true);
-			computerPlayerLabel.setBackground(Color.WHITE);
-			//computerPlayerLabel.setEnabled(true);
+			singlePlayerLabel.setBackground(greenBackground);
+			singlePlayerLabel.setForeground(Color.WHITE);
+			multiplayerLabel.setBackground(Color.YELLOW);
+			multiplayerLabel.setForeground(Color.BLACK);
+			humanPlayerLabel.setForeground(Color.WHITE);
+			humanPlayerLabel.setBackground(greenBackground);
+			computerPlayerLabel.setForeground(Color.BLACK);
+			computerPlayerLabel.setBackground(Color.YELLOW);
 			playerTypeSelectionPanel.setVisible(true);
 
 			playerTwoNameLabel.setEnabled(false);
