@@ -59,7 +59,8 @@ public class FarkleUI extends JFrame implements MouseListener {
 	public JLabel gameScore = new JLabel("0");
 	public JLabel highScoreTitle = new JLabel("High Score: ");
 	public JLabel highScore = new JLabel("5000");
-	public JLabel runningScore = new JLabel();
+	public JLabel runningScore = new JLabel("0");
+	public JLabel rollScore = new JLabel("0");
 	public ArrayList<URL> rollSounds = new ArrayList<URL>();
 	public ArrayList<URL> bankSounds = new ArrayList<URL>();
 	public URL bonusSound;
@@ -406,6 +407,7 @@ public class FarkleUI extends JFrame implements MouseListener {
 		// Create the panel
 		JPanel dicePanel = new JPanel(new GridLayout(0, 3, 0, 0));
 		JLabel turnScore = new JLabel("<html>Turn Score: </html>");
+		JLabel rollScoreLabel = new JLabel("<html>Roll Score: </html>");
 		turnScore.setForeground(Color.WHITE);
 		turnScore.setFont(new Font("Arial Black", Font.BOLD, 14));
 		dicePanel.add(turnScore);
@@ -414,6 +416,15 @@ public class FarkleUI extends JFrame implements MouseListener {
 		runningScore.setHorizontalAlignment(JLabel.CENTER);
 		dicePanel.add(runningScore);
 		dicePanel.add(new JLabel());
+		rollScoreLabel.setForeground(Color.WHITE);
+		rollScoreLabel.setFont(new Font("Arial Black", Font.BOLD, 14));
+		dicePanel.add(rollScoreLabel);
+		rollScore.setForeground(Color.WHITE);
+		rollScore.setFont(new Font("Arial Black", Font.BOLD, 14));
+		rollScore.setHorizontalAlignment(JLabel.CENTER);
+		dicePanel.add(rollScore);
+		
+		
 
 		/***********************************************
 		 * 1.3.1: The center of the screen shall display the six dice used
@@ -716,6 +727,10 @@ public class FarkleUI extends JFrame implements MouseListener {
 	 */
 	public void setRunningScore(int score) {
 		runningScore.setText("" + score);
+	}
+	
+	public void setRollScore(int score) {
+		rollScore.setText("" + score);
 	}
 
 	/**

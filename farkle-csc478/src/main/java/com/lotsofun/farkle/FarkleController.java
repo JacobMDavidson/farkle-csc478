@@ -63,6 +63,7 @@ public class FarkleController implements ActionListener, MouseListener {
 
 		farkleUI.resetDice();
 		farkleUI.getRunningScore().setText("FARKLE!!!");
+		farkleUI.setRollScore(0);
 		farkleGame.farkle();
 
 		if (farkleGame.getCurrentPlayer().turnNumber > 10) {
@@ -91,6 +92,7 @@ public class FarkleController implements ActionListener, MouseListener {
 		 ***************************************************/
 		
 		farkleUI.getRunningScore().setText("0");
+		farkleUI.setRollScore(0);
 		farkleUI.resetDice();
 		farkleUI.getGameScore().setText(String.valueOf(farkleGame.bank()));
 		farkleUI.getBankBtn().setEnabled(false);
@@ -207,6 +209,11 @@ public class FarkleController implements ActionListener, MouseListener {
 	public void setRunningScore(int score) {
 		farkleUI.setRunningScore(score);
 	}
+	
+	public void setRollScore(int score)
+	{
+		farkleUI.setRollScore(score);
+	}
 
 	@Override
 	public void actionPerformed(ActionEvent arg0) {
@@ -294,7 +301,7 @@ public class FarkleController implements ActionListener, MouseListener {
 
 				// Turn Highlighting
 				farkleUI.setTurnHighlighting(farkleGame.getCurrentPlayer().turnNumber, false);
-
+				farkleUI.setRollScore(0);
 				
 			}
 		}
@@ -362,6 +369,7 @@ public class FarkleController implements ActionListener, MouseListener {
 
 				// Tell the model about it
 				farkleGame.processHold(rollScore);
+				farkleUI.setRollScore(rollScore);
 				
 				// Get the running score from the model
 				int runningScore = farkleGame.getRollScores();
