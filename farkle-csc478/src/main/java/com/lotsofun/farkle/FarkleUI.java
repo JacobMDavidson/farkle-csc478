@@ -193,15 +193,18 @@ public class FarkleUI extends JFrame implements MouseListener {
 	public void getGameInformation() {
 
 		frame.setEnabled(false);
-		final JDialog window = new JDialog(frame);
-		window.setPreferredSize(new Dimension(750, 250));
-		window.setResizable(false);
-		window.setUndecorated(true);
-		window.setTitle("Game Mode Options");
-		
+		final JDialog windowPanel = new JDialog(frame);
 		BorderLayout layout = new BorderLayout();
+		windowPanel.setLayout(layout);
+		windowPanel.setResizable(false);
+		windowPanel.setUndecorated(true);
+		windowPanel.setPreferredSize(new Dimension(750, 250));
+		windowPanel.setBackground(greenBackground);
 		
-		window.setLayout(layout);
+		JPanel window = new JPanel(new BorderLayout());			
+		window.setBorder(BorderFactory.createCompoundBorder(
+				BorderFactory.createLineBorder(Color.YELLOW, 3),
+				BorderFactory.createLineBorder(greenBackground, 5)));
 
 		controller.tempGameInformation[0] = "S";
 		controller.tempGameInformation[1] = "";
@@ -211,6 +214,8 @@ public class FarkleUI extends JFrame implements MouseListener {
 		//Create panels here
 		JPanel gameModePanel = new JPanel();
 		gameModePanel.setLayout(new GridLayout(1,2,10,0));
+		gameModePanel.setBorder(
+				BorderFactory.createEmptyBorder(10,10,10,10));
 		
 		singlePlayerLabel.setName("1");
 		singlePlayerLabel.setOpaque(true);
@@ -220,14 +225,12 @@ public class FarkleUI extends JFrame implements MouseListener {
 		multiplayerLabel.setOpaque(true);
 		multiplayerLabel.addMouseListener(this);
 		multiplayerLabel.setBackground(greenBackground);
-	
-
 		
 		JPanel playerTypePanel = new JPanel();
-		playerTypePanel.setLayout(new GridLayout(2,1,0,0));
-		playerModeSelectionPanel.setLayout(new GridLayout(3,1,0,0));
+		playerTypePanel.setLayout(new GridLayout(2,1,0,5));
+		playerModeSelectionPanel.setLayout(new GridLayout(3,1,0,5));
 		playerModeSelectionPanel.setBackground(greenBackground);
-		playerTypeSelectionPanel.setLayout(new GridLayout(3,1,0,0));
+		playerTypeSelectionPanel.setLayout(new GridLayout(3,1,0,5));
 		playerTypeSelectionPanel.setBackground(greenBackground);
 		humanPlayerLabel.setName("3");
 		humanPlayerLabel.setOpaque(true);
@@ -266,14 +269,14 @@ public class FarkleUI extends JFrame implements MouseListener {
 		playerTypeSelectionPanel.setVisible(false);
 
 		JPanel playerNamesPanel = new JPanel();	
-		playerNamesPanel.setLayout(new GridLayout(6,1,0,0));
+		playerNamesPanel.setLayout(new GridLayout(6,1,0,5));
 		
 		playerNamesLabel.setFont(new Font("Arial Black", Font.PLAIN, 14));
 		playerNamesLabel.setForeground(Color.WHITE);
 		playerNamesPanel.add(playerNamesLabel);
 		
 		//set up the playerOneNamePanel
-		playerOneNamePanel.setLayout(new BorderLayout());
+		playerOneNamePanel.setLayout(new BorderLayout(10, 0));
 		playerOneNamePanel.setBackground(greenBackground);
 		
 		playerOneNameLabel.setFont(new Font("Arial Black", Font.PLAIN, 12));
@@ -283,7 +286,7 @@ public class FarkleUI extends JFrame implements MouseListener {
 		playerNamesPanel.add(playerOneNamePanel);
 		
 		//set up the playerTwoNamePanel
-		playerTwoNamePanel.setLayout(new BorderLayout());
+		playerTwoNamePanel.setLayout(new BorderLayout(8, 0));
 		playerTwoNamePanel.setBackground(greenBackground);
 		
 		playerTwoNameLabel.setFont(new Font("Arial Black", Font.PLAIN, 12));
@@ -300,6 +303,7 @@ public class FarkleUI extends JFrame implements MouseListener {
 		gameModePanel.add(playerNamesPanel);
 
 		JPanel buttonPanel = new JPanel();
+		buttonPanel.setBackground(Color.WHITE);
 
 		startButton.addActionListener(new ActionListener()
 		{public void actionPerformed(ActionEvent e){
@@ -331,7 +335,7 @@ public class FarkleUI extends JFrame implements MouseListener {
 			controller.newGame();
 			frame.setEnabled(true);
 			frame.setVisible(true);
-			window.dispose();
+			windowPanel.dispose();
 		}
 		});
 		buttonPanel.add(startButton);
@@ -352,15 +356,16 @@ public class FarkleUI extends JFrame implements MouseListener {
 		window.add(gameModeTitlePanel, BorderLayout.NORTH);
 		window.add(gameModePanel, BorderLayout.CENTER);
 		window.add(buttonPanel, BorderLayout.SOUTH);
+		windowPanel.add(window, BorderLayout.CENTER);
 		
 		//Show the window
-		window.setLocationRelativeTo(null);
-		window.pack();
+		windowPanel.setLocationRelativeTo(null);
+		windowPanel.pack();
 		Dimension dimension = Toolkit.getDefaultToolkit().getScreenSize();
-		int x = (int) ((dimension.getWidth() - window.getWidth()) / 2);
-		int y = (int) ((dimension.getHeight() - window.getHeight()) / 2);
-		window.setLocation(x, y);
-		window.setVisible(true);			
+		int x = (int) ((dimension.getWidth() - windowPanel.getWidth()) / 2);
+		int y = (int) ((dimension.getHeight() - windowPanel.getHeight()) / 2);
+		windowPanel.setLocation(x, y);
+		windowPanel.setVisible(true);			
 
 		
 	}
