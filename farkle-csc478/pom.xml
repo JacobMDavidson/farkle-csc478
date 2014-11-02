@@ -38,8 +38,14 @@
 				<executions>
 					<execution>
 						<goals>
+							<goal>generate-headerfile</goal>
 							<goal>make</goal>
 						</goals>
+						<configuration>-->
+	                        <!-- <makensisBin>/usr/local/nsis/nsis-2.46/bin/makensis</makensisBin> -->
+	                        <!-- <setupScript>src/nsis/setup.nsi</setupScript> -->
+	                       <!-- <outputFile>${project.build.directory}/${project.build.finalName}.exe</outputFile>
+                    </configuration>
 					</execution>
 				</executions>
 			</plugin> -->

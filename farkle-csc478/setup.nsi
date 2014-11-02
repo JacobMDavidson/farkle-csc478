@@ -1,12 +1,12 @@
 ; Java Launcher with automatic JRE installation
 ;-----------------------------------------------
  
-Name "Farkle Launcher"
-Caption "Farkle Launcher"
+Name "Farkle_Launcher"
+Caption "Farkle_Launcher"
 ; Icon "Java Launcher.ico"
 
  
-VIAddVersionKey "ProductName" "Java Launcher"
+VIAddVersionKey "ProductName" "Farkle_Launcher"
 VIAddVersionKey "Comments" "A test comment"
 VIAddVersionKey "CompanyName" "Fake company"
 VIAddVersionKey "LegalTrademarks" "Java Launcher is a trademark of Fake company"
@@ -15,15 +15,15 @@ VIAddVersionKey "FileDescription" "Java Launcher"
 VIAddVersionKey "FileVersion" "1.0.0"
 VIProductVersion "1.0.0.1"
  
-!define CLASSPATH "sample.jar"
-!define CLASS "Sample"
-!define PRODUCT_NAME "Sample"
+!define CLASSPATH "target/${project.artifactId}-${project.version}-shaded.jar"
+!define CLASS "com.lotsofun.farkle.FarkleController"
+!define PRODUCT_NAME "Farkle"
  
-; Definitions for Java 6.0
-!define JRE_VERSION "6.0"
-!define JRE_URL "http://javadl.sun.com/webapps/download/AutoDL?BundleId=24936&/jre-6u10-windows-i586-p.exe"
-;!define JRE_VERSION "5.0"
-;!define JRE_URL "http://javadl.sun.com/webapps/download/AutoDL?BundleId=22933&/jre-1_5_0_16-windows-i586-p.exe"
+; Definitions for Java 7.0
+!define JRE_VERSION "7.0"
+!define JRE_URL "http://download.oracle.com/otn-pub/java/jdk/7/jre-7-windows-i586.exe"
+;!define JRE_VERSION "8.0"
+;!define JRE_URL "http://download.oracle.com/otn-pub/java/jdk/8u20-b26/jre-8u20-windows-i586.exe"
  
 ; use javaw.exe to avoid dosbox.
 ; use java.exe to keep stdout/stderr
