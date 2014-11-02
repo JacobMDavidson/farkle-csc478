@@ -68,27 +68,21 @@ public class FarkleUI extends JFrame implements MouseListener {
 	public URL gSound;
 	public AudioInputStream audioStream = null;
 	public Color greenBackground = new Color(35, 119, 34);
-	public JDialog farkleMessage = new FarkleMessage(this);
 
-	// My Frame Globals
+	//My Frame Globals
 	JFrame frame = new JFrame("Farkle");
 	public JLabel playerModeSelectLabel = new JLabel(" Select Player Mode:");
-	public JLabel singlePlayerLabel = new JLabel("One Player Mode",
-			SwingConstants.CENTER);
-	public JLabel multiplayerLabel = new JLabel("Two Player Mode",
-			SwingConstants.CENTER);
+	public JLabel singlePlayerLabel = new JLabel("One Player Mode", SwingConstants.CENTER);
+	public JLabel multiplayerLabel = new JLabel("Two Player Mode", SwingConstants.CENTER);
 	public JLabel playerTypeSelectLabel = new JLabel(" Select Opponent Type:");
-	public JLabel humanPlayerLabel = new JLabel("Human Opponent",
-			SwingConstants.CENTER);
-	public JLabel computerPlayerLabel = new JLabel("Computer Opponent",
-			SwingConstants.CENTER);
-	public JLabel gameModeOptionTitle = new JLabel("Game Mode Options",
-			SwingConstants.CENTER);
+	public JLabel humanPlayerLabel = new JLabel("Human Opponent", SwingConstants.CENTER);
+	public JLabel computerPlayerLabel = new JLabel("Computer Opponent", SwingConstants.CENTER);
+	public JLabel gameModeOptionTitle = new JLabel("Game Mode Options", SwingConstants.CENTER);
 	public JPanel playerOneNamePanel = new JPanel();
 	public JPanel playerTwoNamePanel = new JPanel();
 	public JPanel playerModeSelectionPanel = new JPanel();
 	public JPanel playerTypeSelectionPanel = new JPanel();
-	JLabel playerNamesLabel = new JLabel("Enter Player Names:");
+	JLabel playerNamesLabel = new JLabel ("Enter Player Names:");
 	JLabel playerOneNameLabel = new JLabel("Player One:");
 	JTextField playerOneName = new JTextField(5);
 	JLabel playerTwoNameLabel = new JLabel("Player Two:");
@@ -96,6 +90,7 @@ public class FarkleUI extends JFrame implements MouseListener {
 	JButton startButton = new JButton("Start");
 	JButton closeButton = new JButton("Close");
 	Color defaultColor = singlePlayerLabel.getBackground();
+
 
 	/**
 	 * Constructor Get a reference to the controller object and fire up the UI
@@ -123,14 +118,15 @@ public class FarkleUI extends JFrame implements MouseListener {
 		bankSounds.add(getClass().getResource("/sounds/bank3.wav"));
 		bankSounds.add(getClass().getResource("/sounds/bank4.wav"));
 		bonusSound = getClass().getResource("/sounds/bonus.wav");
-		
 
 		// Pass a reference to the controller
 		controller.setUI(this);
 
+
+
 		/******************************************
-		 * 1.4.1: The title of the window shall display: �Farkle � Single
-		 * Player Mode�.
+		 * 1.4.1: The title of the window shall display: �Farkle � Single Player
+		 * Mode�.
 		 ******************************************/
 		// TODO: CuBr - Write a test case for the window title
 		// based on player mode
@@ -146,7 +142,7 @@ public class FarkleUI extends JFrame implements MouseListener {
 		layout.setVgap(0);
 		frame.setLayout(layout);
 
-		// Menu Bar
+		//Menu Bar
 		JMenuBar menuBar = new JMenuBar();
 		setJMenuBar(menuBar);
 		JMenu fileMenu = new JMenu("File");
@@ -175,14 +171,12 @@ public class FarkleUI extends JFrame implements MouseListener {
 
 		frame.setJMenuBar(menuBar);
 
+
 		// Build the UI
 		frame.add(createPlayerPanel());
 
-		// Call to create dice header panel
-		frame.add(buildDicePanel(createDiceHeaderPanel(), createDiceGridPanel()));
-
-		
 		// Call to create dice
+		frame.add(createDicePanel());
 		frame.add(createScorePanel());
 
 		// Center and display the window
@@ -195,22 +189,24 @@ public class FarkleUI extends JFrame implements MouseListener {
 		frame.setVisible(true);
 		controller.setupGame();
 	}
-	
 
 	/* Reduce Reuse Recycle */
 	public void getGameInformation() {
 
 		// Create a dialog to set the game options
 		frame.setEnabled(false);
-		final JDialog window = new JDialog();
-		window.setPreferredSize(new Dimension(750, 250));
-		window.setResizable(false);
-		window.setUndecorated(false);
-		window.setTitle("Game Mode Options");
-
+		final JDialog windowPanel = new JDialog(frame);
 		BorderLayout layout = new BorderLayout();
-
-		window.setLayout(layout);
+		windowPanel.setLayout(layout);
+		windowPanel.setResizable(false);
+		windowPanel.setUndecorated(true);
+		windowPanel.setPreferredSize(new Dimension(750, 250));
+		windowPanel.setBackground(greenBackground);
+		
+		JPanel window = new JPanel(new BorderLayout());			
+		window.setBorder(BorderFactory.createCompoundBorder(
+				BorderFactory.createLineBorder(Color.YELLOW, 3),
+				BorderFactory.createLineBorder(greenBackground, 5)));
 
 		controller.tempGameInformation[0] = "S";
 		controller.tempGameInformation[1] = "";
@@ -219,7 +215,9 @@ public class FarkleUI extends JFrame implements MouseListener {
 
 		// Create panels here
 		JPanel gameModePanel = new JPanel();
-		gameModePanel.setLayout(new GridLayout(1, 2, 10, 0));
+		gameModePanel.setLayout(new GridLayout(1,2,10,0));
+		gameModePanel.setBorder(
+				BorderFactory.createEmptyBorder(10,10,10,10));
 
 		singlePlayerLabel.setName("1");
 		singlePlayerLabel.setOpaque(true);
@@ -229,12 +227,12 @@ public class FarkleUI extends JFrame implements MouseListener {
 		multiplayerLabel.setOpaque(true);
 		multiplayerLabel.addMouseListener(this);
 		multiplayerLabel.setBackground(greenBackground);
-
+		
 		JPanel playerTypePanel = new JPanel();
-		playerTypePanel.setLayout(new GridLayout(2, 1, 0, 0));
-		playerModeSelectionPanel.setLayout(new GridLayout(3, 1, 0, 0));
+		playerTypePanel.setLayout(new GridLayout(2,1,0,5));
+		playerModeSelectionPanel.setLayout(new GridLayout(3,1,0,5));
 		playerModeSelectionPanel.setBackground(greenBackground);
-		playerTypeSelectionPanel.setLayout(new GridLayout(3, 1, 0, 0));
+		playerTypeSelectionPanel.setLayout(new GridLayout(3,1,0,5));
 		playerTypeSelectionPanel.setBackground(greenBackground);
 		humanPlayerLabel.setName("3");
 		humanPlayerLabel.setOpaque(true);
@@ -272,27 +270,27 @@ public class FarkleUI extends JFrame implements MouseListener {
 		playerTypePanel.add(playerTypeSelectionPanel);
 		playerTypeSelectionPanel.setVisible(false);
 
-		JPanel playerNamesPanel = new JPanel();
-		playerNamesPanel.setLayout(new GridLayout(6, 1, 0, 0));
-
+		JPanel playerNamesPanel = new JPanel();	
+		playerNamesPanel.setLayout(new GridLayout(6,1,0,5));
+		
 		playerNamesLabel.setFont(new Font("Arial Black", Font.PLAIN, 14));
 		playerNamesLabel.setForeground(Color.WHITE);
 		playerNamesPanel.add(playerNamesLabel);
-
-		// set up the playerOneNamePanel
-		playerOneNamePanel.setLayout(new BorderLayout());
+		
+		//set up the playerOneNamePanel
+		playerOneNamePanel.setLayout(new BorderLayout(10, 0));
 		playerOneNamePanel.setBackground(greenBackground);
-
+		
 		playerOneNameLabel.setFont(new Font("Arial Black", Font.PLAIN, 12));
 		playerOneNameLabel.setForeground(Color.WHITE);
 		playerOneNamePanel.add(playerOneNameLabel, BorderLayout.WEST);
 		playerOneNamePanel.add(playerOneName, BorderLayout.CENTER);
 		playerNamesPanel.add(playerOneNamePanel);
-
-		// set up the playerTwoNamePanel
-		playerTwoNamePanel.setLayout(new BorderLayout());
+		
+		//set up the playerTwoNamePanel
+		playerTwoNamePanel.setLayout(new BorderLayout(8, 0));
 		playerTwoNamePanel.setBackground(greenBackground);
-
+		
 		playerTwoNameLabel.setFont(new Font("Arial Black", Font.PLAIN, 12));
 		playerTwoNameLabel.setForeground(Color.WHITE);
 		playerTwoNamePanel.add(playerTwoNameLabel, BorderLayout.WEST);
@@ -302,49 +300,51 @@ public class FarkleUI extends JFrame implements MouseListener {
 		// Hide the playerTwoNamePanel
 		playerTwoNamePanel.setVisible(false);
 
-		// Add the player name panels to the
+		// Add the player name panels to the 
 		gameModePanel.add(playerTypePanel);
 		gameModePanel.add(playerNamesPanel);
 
 		JPanel buttonPanel = new JPanel();
+		buttonPanel.setBackground(Color.WHITE);
 
-		startButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				controller.tempGameInformation[2] = playerOneName.getText();
-				controller.tempGameInformation[3] = playerTwoName.getText();
-				
-				if (("Ginuwine")
-						.equalsIgnoreCase(controller.tempGameInformation[2])) {
+		startButton.addActionListener(new ActionListener()
+		{public void actionPerformed(ActionEvent e){
+			controller.tempGameInformation[2] = playerOneName.getText();
+			controller.tempGameInformation[3] = playerTwoName.getText();
+			if (("Ginuwine").equalsIgnoreCase(controller.tempGameInformation[2])) {
 
-					try {
-						AudioInputStream audioStream;
-						audioStream = AudioSystem.getAudioInputStream(gSound);
-						Clip clip = AudioSystem.getClip();
-						clip.open(audioStream);
-						clip.start();
-					} catch (UnsupportedAudioFileException x) {
-						x.printStackTrace();
-					} catch (LineUnavailableException y) {
-						y.printStackTrace();
-					} catch (IOException z) {
-						z.printStackTrace();
-					}
+				try 
+				{
+					AudioInputStream audioStream;
+					audioStream = AudioSystem.getAudioInputStream(gSound);
+					Clip clip = AudioSystem.getClip();
+					clip.open(audioStream);
+					clip.start();								
+				} 
+				catch (UnsupportedAudioFileException x) 
+				{
+					x.printStackTrace();
+				} 
+				catch (LineUnavailableException y) 
+				{
+					y.printStackTrace();
+				} 
+				catch (IOException z) 
+				{
+					z.printStackTrace();
 				}
-				
-				controller.newGame();
-				frame.setEnabled(true);
-				frame.setVisible(true);
-				window.dispose();
 			}
+			controller.newGame();
+			frame.setEnabled(true);
+			frame.setVisible(true);
+			windowPanel.dispose();
+		}
 		});
 		buttonPanel.add(startButton);
-		closeButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				pullThePlug();
-			}
-		});
+		closeButton.addActionListener(new ActionListener()
+		{public void actionPerformed(ActionEvent e){pullThePlug();}});
 		buttonPanel.add(closeButton);
-
+		
 		// Add a title panel
 		JPanel gameModeTitlePanel = new JPanel();
 		gameModeTitlePanel.setBackground(Color.WHITE);
@@ -358,15 +358,16 @@ public class FarkleUI extends JFrame implements MouseListener {
 		window.add(gameModeTitlePanel, BorderLayout.NORTH);
 		window.add(gameModePanel, BorderLayout.CENTER);
 		window.add(buttonPanel, BorderLayout.SOUTH);
-
-		// Show the window
-		window.setLocationRelativeTo(null);
-		window.pack();
+		windowPanel.add(window, BorderLayout.CENTER);
+		
+		//Show the window
+		windowPanel.setLocationRelativeTo(null);
+		windowPanel.pack();
 		Dimension dimension = Toolkit.getDefaultToolkit().getScreenSize();
-		int x = (int) ((dimension.getWidth() - window.getWidth()) / 2);
-		int y = (int) ((dimension.getHeight() - window.getHeight()) / 2);
-		window.setLocation(x, y);
-		window.setVisible(true);
+		int x = (int) ((dimension.getWidth() - windowPanel.getWidth()) / 2);
+		int y = (int) ((dimension.getHeight() - windowPanel.getHeight()) / 2);
+		windowPanel.setLocation(x, y);
+		windowPanel.setVisible(true);			
 
 	}
 
@@ -469,9 +470,7 @@ public class FarkleUI extends JFrame implements MouseListener {
 		// Create the panel
 		JPanel dicePanel = new JPanel(new GridLayout(0, 3, 0, 0));
 		
-		/*for(int i = 3; i > 0; i--) {
-			dicePanel.add(new JLabel());
-		}*/
+		
 
 		/***********************************************
 		 * 1.3.1: The center of the screen shall display the six dice used
@@ -499,7 +498,6 @@ public class FarkleUI extends JFrame implements MouseListener {
 		// Call to add buttons and satisfy
 		// requirements 1.3.4 and 1.3.5
 		JPanel btns[] = createButtonPanel();
-		
 		dicePanel.add(btns[0]);
 		dicePanel.add(btns[1]);
 		dicePanel.add(btns[2]);
@@ -847,13 +845,16 @@ public class FarkleUI extends JFrame implements MouseListener {
 				JOptionPane.DEFAULT_OPTION);
 	}
 
-	public boolean displayYesNoMessage(String message, String title) {
+	public boolean displayYesNoMessage (String message, String title)
+	{
 		boolean retVal;
-		int dialogResult = JOptionPane.showConfirmDialog(this, message, title,
-				JOptionPane.YES_NO_OPTION);
-		if (dialogResult == JOptionPane.YES_OPTION) {
+		int dialogResult = JOptionPane.showConfirmDialog(this, message, title, JOptionPane.YES_NO_OPTION);
+		if (dialogResult == JOptionPane.YES_OPTION)
+		{
 			retVal = true;
-		} else {
+		}
+		else
+		{
 			retVal = false;
 		}
 		return retVal;
@@ -861,43 +862,42 @@ public class FarkleUI extends JFrame implements MouseListener {
 
 	public boolean gameEnded(boolean resetOnly, boolean mainMenu) {
 		boolean retVal = true;
-		if ((!resetOnly) && (!mainMenu)) {
-			/**************************************************
-			 * 1.6.0: At the conclusion of the game, the user shall be greeted
-			 * with three options: �Play again?�, �Main Menu�, and
-			 * �Quit�.
+		if ((!resetOnly) && (!mainMenu)){
+			/************************************************** 
+			 * 1.6.0: At the conclusion of the game, the user shall be greeted with
+			 * three options: �Play again?�, �Main Menu�, and �Quit�.
 			 *************************************************/
-			Object[] options = { "Play Again", "Main Menu", "Exit" };
-			int n = JOptionPane.showOptionDialog(this, "Total Score: "
-					+ controller.farkleGame.players[0].gameScore
-					+ "\nWhat would you like to do?", "Game Over",
-					JOptionPane.YES_NO_CANCEL_OPTION,
-					JOptionPane.QUESTION_MESSAGE, null, options, options[2]);
+			Object[] options = { "Play Again", "Main Menu", "Exit"};
+			int n = JOptionPane.showOptionDialog(this,	 
+					"Total Score: " + controller.farkleGame.players[0].gameScore + "\nWhat would you like to do?",
+					"Game Over",
+					JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE,
+					null, options, options[2]);
 
-			/*************************************************
-			 * 2.1.5: If �Play again?� is selected, the game starts over in
-			 * 1 player mode.
+			/************************************************* 
+			 * 2.1.5: If �Play again?� is selected, the game starts over in 1 player
+			 * mode.
 			 ************************************************/
 			if (n == 0) {
 				retVal = true;
 			}
-			/*************************************************
-			 * 2.1.6: If �Main Menu� is selected, the user is taken to the
-			 * mode selection screen.
+			/************************************************* 
+			 * 2.1.6: If �Main Menu� is selected, the user is taken to the mode
+			 * selection screen.
 			 ************************************************/
 			else if (n == 1) {
 				retVal = false;
 			}
-			/**************************************************
-			 * 2.1.7: If �Quit� is selected, the application immediately
-			 * closes.
+			/************************************************** 
+			 * 2.1.7: If �Quit� is selected, the application immediately closes.
 			 *************************************************/
 			else {
 				pullThePlug();
 			}
 		}
 
-		if (mainMenu) {
+		if (mainMenu)
+		{
 			retVal = false;
 		}
 		runningScore.setText("0");
@@ -913,12 +913,13 @@ public class FarkleUI extends JFrame implements MouseListener {
 		System.exit(0);
 	}
 
+
 	/**
-	 * If no dice are held, selects all unheld dice If no dice are unheld,
-	 * selects all held dice
+	 * If no dice are held, selects all unheld dice
+	 * If no dice are unheld, selects all held dice
 	 */
 	public void selectAllDice() {
-		if (getDice(DieState.HELD).size() == 0) {
+		if(getDice(DieState.HELD).size() == 0) {
 			ArrayList<Die> dice = getDice(DieState.UNHELD);
 			for (Die d : dice) {
 				d.dispatchEvent(new MouseEvent(d, MouseEvent.MOUSE_PRESSED,

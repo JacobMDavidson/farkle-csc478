@@ -426,7 +426,6 @@ public class FarkleController implements ActionListener, MouseListener {
 				
 
 				farkleUI.setRunningScore(runningScore);
-
 			}
 		}
 	}
