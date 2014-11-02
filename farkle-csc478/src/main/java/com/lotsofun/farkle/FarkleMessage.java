@@ -75,7 +75,6 @@ public class FarkleMessage extends JDialog {
 			farkleSound3 = getClass().getResource("/sounds/farkle3.wav");
 			
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 

@@ -68,6 +68,7 @@ public class FarkleUI extends JFrame implements MouseListener {
 	public URL gSound;
 	public AudioInputStream audioStream = null;
 	public Color greenBackground = new Color(35, 119, 34);
+	public JDialog farkleMessage = new FarkleMessage(this);
 
 	//My Frame Globals
 	JFrame frame = new JFrame("Farkle");
@@ -175,8 +176,10 @@ public class FarkleUI extends JFrame implements MouseListener {
 		// Build the UI
 		frame.add(createPlayerPanel());
 
-		// Call to create dice
-		frame.add(createDicePanel());
+		// Call to create dice header panel
+		frame.add(buildDicePanel(createDiceHeaderPanel(), createDiceGridPanel()));
+
+		// Call to create score panel
 		frame.add(createScorePanel());
 
 		// Center and display the window
@@ -307,38 +310,34 @@ public class FarkleUI extends JFrame implements MouseListener {
 		JPanel buttonPanel = new JPanel();
 		buttonPanel.setBackground(Color.WHITE);
 
-		startButton.addActionListener(new ActionListener()
-		{public void actionPerformed(ActionEvent e){
-			controller.tempGameInformation[2] = playerOneName.getText();
-			controller.tempGameInformation[3] = playerTwoName.getText();
-			if (("Ginuwine").equalsIgnoreCase(controller.tempGameInformation[2])) {
+		startButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				controller.tempGameInformation[2] = playerOneName.getText();
+				controller.tempGameInformation[3] = playerTwoName.getText();
+				
+				if (("Ginuwine")
+						.equalsIgnoreCase(controller.tempGameInformation[2])) {
 
-				try 
-				{
-					AudioInputStream audioStream;
-					audioStream = AudioSystem.getAudioInputStream(gSound);
-					Clip clip = AudioSystem.getClip();
-					clip.open(audioStream);
-					clip.start();								
-				} 
-				catch (UnsupportedAudioFileException x) 
-				{
-					x.printStackTrace();
-				} 
-				catch (LineUnavailableException y) 
-				{
-					y.printStackTrace();
-				} 
-				catch (IOException z) 
-				{
-					z.printStackTrace();
+					try {
+						AudioInputStream audioStream;
+						audioStream = AudioSystem.getAudioInputStream(gSound);
+						Clip clip = AudioSystem.getClip();
+						clip.open(audioStream);
+						clip.start();
+					} catch (UnsupportedAudioFileException x) {
+						x.printStackTrace();
+					} catch (LineUnavailableException y) {
+						y.printStackTrace();
+					} catch (IOException z) {
+						z.printStackTrace();
+					}
 				}
+				
+				controller.newGame();
+				frame.setEnabled(true);
+				frame.setVisible(true);
+				windowPanel.dispose();
 			}
-			controller.newGame();
-			frame.setEnabled(true);
-			frame.setVisible(true);
-			windowPanel.dispose();
-		}
 		});
 		buttonPanel.add(startButton);
 		closeButton.addActionListener(new ActionListener()
