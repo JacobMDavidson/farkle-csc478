@@ -77,7 +77,7 @@ public class FarkleController implements ActionListener, MouseListener {
 		}
 		else
 		{
-			farkleUI.updateGUI(farkleGame.getCurrentPlayer().getTurnScores(), farkleGame.getCurrentPlayer().playerName);
+			farkleUI.updateGUI(farkleGame.getGameMode());
 		}
 	}
 
@@ -109,9 +109,9 @@ public class FarkleController implements ActionListener, MouseListener {
 		}
 		else
 		{
-			farkleUI.updateGUI(farkleGame.getCurrentPlayer().getTurnScores(), farkleGame.getCurrentPlayer().playerName);
+			farkleUI.updateGUI(farkleGame.getGameMode());
 		}
-		farkleUI.setTurnHighlighting(farkleGame.getCurrentPlayer().turnNumber, false);
+		farkleUI.setTurnHighlighting(farkleGame.getCurrentPlayer().turnNumber, false, farkleGame.getGameMode());
 	}
 	
 	public boolean checkHighScore()
@@ -153,20 +153,30 @@ public class FarkleController implements ActionListener, MouseListener {
 		farkleUI.getGameInformation();
 	}
 
-	public void newGame() {
-	
+	public void newGame() 
+	{
+		if (tempGameInformation[2].length() == 0)
+		{
+			tempGameInformation[2] = "Jacob";
+		}
+		if (tempGameInformation[3].length() == 0)
+		{
+			tempGameInformation[3] = "Curtis";
+		}
+		
 		//If it is a single player game.
 		if (tempGameInformation[0].equals("S"))
 		{
 			farkleGame = new Game(GameMode.SINGLEPLAYER, this);
-			farkleUI.frame.setTitle("Farkle - Single Player Mode");
+			farkleUI.frame.setTitle("Farkle - Single Player Mode");			
 			farkleGame.players[0].playerName = tempGameInformation[2];
+			farkleUI.setupGUI(GameMode.SINGLEPLAYER);
 		}
 		//If it is a multiplayer game.
 		else
 		{
 			farkleGame = new Game(GameMode.MULTIPLAYER, this);
-			farkleUI.frame.setTitle("Farkle - Two Player Mode");
+			farkleUI.frame.setTitle("Farkle - Two Player Mode");			
 			farkleGame.players[0].playerName = tempGameInformation[2];
 			//If it is another human player.
 			if (tempGameInformation[1].equals("H"))
@@ -178,10 +188,11 @@ public class FarkleController implements ActionListener, MouseListener {
 			{
 				farkleGame.players[1].playerName = "Computer";
 				farkleGame.players[1].isComputer = true;
-			}			
+			}		
+			farkleUI.setupGUI(GameMode.MULTIPLAYER);
 		}
-		farkleUI.updateGUI(farkleGame.getCurrentPlayer().getTurnScores(), farkleGame.getCurrentPlayer().playerName);
-		farkleUI.setTurnHighlighting(farkleGame.getCurrentPlayer().turnNumber, false);	
+		farkleUI.updateGUI(farkleGame.getGameMode());
+		farkleUI.setTurnHighlighting(farkleGame.getCurrentPlayer().turnNumber, false,  farkleGame.getGameMode());	
 	}
 	
 	public void replayGame()
@@ -301,7 +312,7 @@ public class FarkleController implements ActionListener, MouseListener {
 				farkleUI.getSelectAllBtn().setEnabled(true);
 
 				// Turn Highlighting
-				farkleUI.setTurnHighlighting(farkleGame.getCurrentPlayer().turnNumber, false);
+				farkleUI.setTurnHighlighting(farkleGame.getCurrentPlayer().turnNumber, false,  farkleGame.getGameMode());
 				farkleUI.setRollScore(0);
 				
 			}
@@ -420,7 +431,7 @@ public class FarkleController implements ActionListener, MouseListener {
 						&& (rollScore > 0)) {
 					farkleUI.resetDice();
 					farkleUI.playBonusSound();
-					farkleUI.setTurnHighlighting(farkleGame.getCurrentPlayer().turnNumber, true);
+					farkleUI.setTurnHighlighting(farkleGame.getCurrentPlayer().turnNumber, true,  farkleGame.getGameMode());
 					farkleGame.isBonusTurn = true;
 				}
 				

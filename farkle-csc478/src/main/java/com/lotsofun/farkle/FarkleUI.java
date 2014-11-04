@@ -53,7 +53,10 @@ public class FarkleUI extends JFrame implements MouseListener {
 	public JButton bankBtn = new JButton("Bank Score");
 	public JButton selectAllBtn = new JButton("Select All");
 	public FarkleController controller;
+	public JLabel nameLbl = new JLabel("Player 1: ");
 	public JLabel playerNameLabel = new JLabel("");
+	public JLabel nameLbl2 = new JLabel("Player 2: ");
+	public JLabel secondPlayerNameLabel = new JLabel("");
 	public JLabel[] scoreLabels = new JLabel[10];
 	public JLabel[] playerScores = new JLabel[10];
 	public JLabel gameScoreTitle = new JLabel("Total Score: ");
@@ -518,17 +521,26 @@ public class FarkleUI extends JFrame implements MouseListener {
 	 */
 	private JPanel createPlayerPanel() {
 		JPanel playerPanel = new JPanel(new GridLayout(0, 2, 0, 2));
-		JLabel nameLbl = new JLabel("Player: ");
+		
 		nameLbl.setForeground(Color.WHITE);
 		nameLbl.setFont(new Font("Arial Black", Font.BOLD, 16));
 		playerPanel.add(nameLbl);
 		playerNameLabel.setForeground(Color.WHITE);
 		playerNameLabel.setFont(new Font("Arial Black", Font.BOLD, 16));
 		playerPanel.add(playerNameLabel);
-		JLabel filler0 = new JLabel();
-		playerPanel.add(filler0);
-		JLabel filler1 = new JLabel();
-		playerPanel.add(filler1);
+		
+		
+		nameLbl2.setForeground(Color.WHITE);
+		nameLbl2.setFont(new Font("Arial Black", Font.BOLD, 16));
+		playerPanel.add(nameLbl2);
+		
+		secondPlayerNameLabel.setForeground(Color.WHITE);
+		secondPlayerNameLabel.setFont(new Font("Arial Black", Font.BOLD, 16));
+		playerPanel.add(secondPlayerNameLabel);
+//		JLabel filler0 = new JLabel();
+//		playerPanel.add(filler0);
+//		JLabel filler1 = new JLabel();
+//		playerPanel.add(filler1);
 
 		/***************************************************
 		 * 1.4.3: The left side of the screen shall have an area to display the
@@ -737,31 +749,86 @@ public class FarkleUI extends JFrame implements MouseListener {
 	 * @param isBonusTurn
 	 *            - Bonus turns have the color set to yellow.
 	 */
-	public void setTurnHighlighting(int turn, boolean isBonusTurn) {
+	public void setTurnHighlighting(int turn, boolean isBonusTurn, GameMode gmode) {
+		if (gmode == GameMode.SINGLEPLAYER){
+			for (int i = 0; i <= playerScores.length - 1; i++) {
+				playerScores[i].setOpaque(false);
+				playerScores[i].setForeground(Color.WHITE);
+				scoreLabels[i].setOpaque(false);
+				scoreLabels[i].setForeground(Color.WHITE);
+			}
+			if (turn != 0 && !isBonusTurn) {
+				playerScores[turn - 1].setOpaque(true);
+				playerScores[turn - 1].setBackground(Color.WHITE);
+				playerScores[turn - 1].setText("");
+				playerScores[turn - 1].setForeground(Color.BLACK);
 
-		for (int i = 0; i <= playerScores.length - 1; i++) {
-			playerScores[i].setOpaque(false);
-			playerScores[i].setForeground(Color.WHITE);
-			scoreLabels[i].setOpaque(false);
-			scoreLabels[i].setForeground(Color.WHITE);
+				scoreLabels[turn - 1].setOpaque(true);
+				scoreLabels[turn - 1].setBackground(Color.WHITE);
+				scoreLabels[turn - 1].setForeground(Color.BLACK);
+			} else if (turn != 0) {
+				playerScores[turn - 1].setOpaque(true);
+				playerScores[turn - 1].setText("BONUS ROLL!");
+				playerScores[turn - 1].setBackground(Color.YELLOW);
+				playerScores[turn - 1].setForeground(Color.BLACK);
+				scoreLabels[turn - 1].setOpaque(true);
+				scoreLabels[turn - 1].setBackground(Color.YELLOW);
+				scoreLabels[turn - 1].setForeground(Color.BLACK);
+			}
 		}
-		if (turn != 0 && !isBonusTurn) {
-			playerScores[turn - 1].setOpaque(true);
-			playerScores[turn - 1].setBackground(Color.WHITE);
-			playerScores[turn - 1].setText("");
-			playerScores[turn - 1].setForeground(Color.BLACK);
+		//Multiplayer
+		else
+		{
+			int currentPlayer = controller.farkleGame.getCurrentPlayer().playerNumber;
+			//Player 1 turn
+			if (currentPlayer == 0 )
+			{
+				nameLbl.setOpaque(true);
+				nameLbl.setForeground(Color.BLACK);
+				playerNameLabel.setOpaque(true);
+				playerNameLabel.setForeground(Color.BLACK);
+				nameLbl2.setOpaque(false);
+				nameLbl2.setForeground(Color.WHITE);
+				secondPlayerNameLabel.setOpaque(false);
+				secondPlayerNameLabel.setForeground(Color.WHITE);
+				//Bonus Turn
+				if (isBonusTurn)
+				{
+					nameLbl.setBackground(Color.YELLOW);
+					playerNameLabel.setBackground(Color.YELLOW);
+					
+				}
+				else
+				{
+					nameLbl.setBackground(Color.WHITE);
+					playerNameLabel.setBackground(Color.WHITE);
+				}
+			}
+			//Player 2 turn
+			else
+			{
+				nameLbl2.setOpaque(true);
 
-			scoreLabels[turn - 1].setOpaque(true);
-			scoreLabels[turn - 1].setBackground(Color.WHITE);
-			scoreLabels[turn - 1].setForeground(Color.BLACK);
-		} else if (turn != 0) {
-			playerScores[turn - 1].setOpaque(true);
-			playerScores[turn - 1].setText("BONUS ROLL!");
-			playerScores[turn - 1].setBackground(Color.YELLOW);
-			playerScores[turn - 1].setForeground(Color.BLACK);
-			scoreLabels[turn - 1].setOpaque(true);
-			scoreLabels[turn - 1].setBackground(Color.YELLOW);
-			scoreLabels[turn - 1].setForeground(Color.BLACK);
+				nameLbl2.setForeground(Color.BLACK);
+				secondPlayerNameLabel.setOpaque(true);
+				secondPlayerNameLabel.setForeground(Color.BLACK);
+				nameLbl.setOpaque(false);
+				nameLbl.setForeground(Color.WHITE);
+				playerNameLabel.setOpaque(false);
+				playerNameLabel.setForeground(Color.WHITE);
+				//Bonus Turn
+				if (isBonusTurn)
+				{
+					nameLbl2.setBackground(Color.YELLOW);
+					secondPlayerNameLabel.setBackground(Color.YELLOW);
+					
+				}
+				else
+				{
+					nameLbl2.setBackground(Color.WHITE);
+					secondPlayerNameLabel.setBackground(Color.WHITE);
+				}
+			}
 		}
 	}
 
@@ -902,7 +969,7 @@ public class FarkleUI extends JFrame implements MouseListener {
 		runningScore.setText("0");
 		gameScore.setText("0");
 		getBankBtn().setEnabled(false);
-		setTurnHighlighting(0, false);
+		setTurnHighlighting(0, false,  controller.farkleGame.getGameMode());
 		resetScores();
 		return retVal;
 	}
@@ -935,12 +1002,55 @@ public class FarkleUI extends JFrame implements MouseListener {
 		}
 	}
 
-	public void updateGUI(int[] scores, String playerName) {
-		playerNameLabel.setText(playerName);
-		runningScore.setText("0");
-		resetScores();
-		for (int i = 0; i <= 9; i++) {
-			playerScores[i].setText(String.valueOf(scores[i]));
+	public void updateGUI(GameMode gmode)
+	{
+		if (gmode == GameMode.SINGLEPLAYER)
+		{
+			int[] scores = controller.farkleGame.players[0].getTurnScores();
+			for (int i = 0; i <= 9; i++) {
+				playerScores[i].setText(String.valueOf(scores[i]));
+			}
+		}
+		//Multiplayer
+		else
+		{
+			playerNameLabel.setText(String.valueOf(controller.farkleGame.players[0].gameScore));
+			secondPlayerNameLabel.setText(String.valueOf(controller.farkleGame.players[1].gameScore));
+		}
+	}
+	
+	public void setupGUI(GameMode gmode)
+	{
+		if (gmode == GameMode.SINGLEPLAYER)
+		{
+			nameLbl2.setVisible(false);
+			secondPlayerNameLabel.setVisible(false);
+			for (int i = 0; i < 10; i++)
+			{
+				scoreLabels[i].setVisible(true);
+				playerScores[i].setVisible(true);
+			}
+			nameLbl.setText("Player : ");
+			playerNameLabel.setText(controller.farkleGame.players[0].playerName);
+			gameScoreTitle.setVisible(true);
+			gameScore.setVisible(true);
+		}
+		//Multiplayer
+		else
+		{
+			nameLbl2.setVisible(true);
+			secondPlayerNameLabel.setVisible(true);
+			for (int i = 0; i < 10; i++)
+			{
+				scoreLabels[i].setVisible(false);
+				playerScores[i].setVisible(false);
+			}
+			nameLbl.setText(controller.farkleGame.players[0].playerName);
+			nameLbl2.setText(controller.farkleGame.players[1].playerName);
+			playerNameLabel.setText("0");
+			secondPlayerNameLabel.setText("0");
+			gameScoreTitle.setVisible(false);
+			gameScore.setVisible(false);
 		}
 	}
 
