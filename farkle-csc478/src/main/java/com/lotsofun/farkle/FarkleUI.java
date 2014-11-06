@@ -8,6 +8,8 @@ import java.awt.Image;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.AdjustmentEvent;
+import java.awt.event.AdjustmentListener;
 import java.awt.event.MouseEvent;
 import java.io.IOException;
 import java.net.URL;
@@ -78,6 +80,7 @@ public class FarkleUI extends JFrame {
 	private JPanel player1ScorePanel = null;
 	private JPanel player2ScorePanel = null;
 	private boolean isFirstRun = true;
+	private AdjustmentListener autoScrollListener;
 
 	//My Frame Globals
 	JFrame frame = new JFrame("Farkle");
@@ -106,6 +109,13 @@ public class FarkleUI extends JFrame {
 			
 			// Instatiate necessary sounds
 			getSounds();
+			
+			// Instantiate the Auto Scroll listener
+			autoScrollListener = new AdjustmentListener() {  
+		        public void adjustmentValueChanged(AdjustmentEvent e) {
+		            e.getAdjustable().setValue(e.getAdjustable().getMaximum());
+		        }
+			};
 		}
 		
 		// Clear the content if this isn't the first init call
@@ -369,12 +379,14 @@ public class FarkleUI extends JFrame {
 			// Create and add the name and score panels for player 1
 			JScrollPane player1ScrollPanel = createPlayerScorePanel(1, 5);
 			player1ScrollPanel.setBorder(BorderFactory.createEmptyBorder());
+			player1ScrollPanel.getVerticalScrollBar().addAdjustmentListener(autoScrollListener);
 			playersPanel.add(createPlayerNamePanel(1));
 			playersPanel.add(player1ScrollPanel);
 			
 			// Create and add the name and score panels for player 2
 			JScrollPane player2ScrollPanel = createPlayerScorePanel(2, 5);
 			player2ScrollPanel.setBorder(BorderFactory.createEmptyBorder());
+			player2ScrollPanel.getVerticalScrollBar().addAdjustmentListener(autoScrollListener);
 			playersPanel.add(createPlayerNamePanel(2));
 			playersPanel.add(player2ScrollPanel);
 			playersPanel.setBackground(greenBackground);
