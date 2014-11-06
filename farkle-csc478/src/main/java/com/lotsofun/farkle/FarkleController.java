@@ -17,7 +17,7 @@ public class FarkleController implements ActionListener, MouseListener {
 	Game farkleGame;
 	//Gamemode, playertype, Player1Name, Player2Name
 	String[] tempGameInformation = new String[4];
-	final int POINT_THRESHOLD = 1000;
+	final int POINT_THRESHOLD = 10000;
 	boolean isLastTurn = false;
 	
 	

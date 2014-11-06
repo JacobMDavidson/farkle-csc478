@@ -1,5 +1,6 @@
 package com.lotsofun.farkle;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 public class Player {
@@ -7,7 +8,7 @@ public class Player {
 	private HashMap<Integer, Integer> rollScore = new HashMap<Integer, Integer>();
 	private int playerNumber, turnNumber = 1, rollNumber, gameScore = 0;
 	private boolean currentPlayer, isComputer;
-	private int[] turnScores;
+	private ArrayList<Integer> turnScores;
 	private PlayerType type;
 	private String playerName;
 	
@@ -21,7 +22,7 @@ public class Player {
 	{
 		this.playerNumber = playerNumber;
 		type = PlayerType.USER;
-		turnScores = new int[10];
+		turnScores = new ArrayList<Integer>();
 	}
 	
 	/**
@@ -55,13 +56,13 @@ public class Player {
 	public void endTurn(boolean didFarkle)
 	{
 		if (didFarkle) {
-			turnScores[turnNumber - 1] = 0;	
+			turnScores.add(0);	
 		}
 		else {
-			turnScores[turnNumber - 1] = getRollScores();
+			turnScores.add(getRollScores());
 		}
 		
-		gameScore += turnScores [turnNumber -1];
+		gameScore += turnScores.get(turnNumber - 1);
 		turnNumber++;
 		rollNumber = 0;
 		currentPlayer = false;
@@ -112,11 +113,11 @@ public class Player {
 		this.currentPlayer = currentPlayer;
 	}
 
-	public int[] getTurnScores() {
+	public ArrayList<Integer> getTurnScores() {
 		return turnScores;
 	}
 
-	public void setTurnScores(int[] turnScores) {
+	public void setTurnScores(ArrayList<Integer> turnScores) {
 		this.turnScores = turnScores;
 	}
 	
