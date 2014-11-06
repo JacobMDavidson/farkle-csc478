@@ -51,8 +51,7 @@ public class FarkleMessage extends JDialog {
 	URL currentFarkleSound = null;
 	
 	
-	public FarkleMessage(JFrame parent) {
-		this.setModal(true);
+	public FarkleMessage() {
 		
 		Image farkleCenterImg = null;
 		Image farkleLeftImg = null;

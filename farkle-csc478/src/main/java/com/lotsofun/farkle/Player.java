@@ -4,12 +4,12 @@ import java.util.HashMap;
 
 public class Player {
 
-	public HashMap<Integer, Integer> rollScore = new HashMap<Integer, Integer>();
-	public int playerNumber, turnNumber = 1, rollNumber, gameScore = 0;
-	public boolean currentPlayer, isComputer;
-	public int[] turnScores;
-	public PlayerType type;
-	public String playerName;
+	private HashMap<Integer, Integer> rollScore = new HashMap<Integer, Integer>();
+	private int playerNumber, turnNumber = 1, rollNumber, gameScore = 0;
+	private boolean currentPlayer, isComputer;
+	private int[] turnScores;
+	private PlayerType type;
+	private String playerName;
 	
 	/**
 	 * Constructor:
@@ -119,6 +119,12 @@ public class Player {
 	public void setTurnScores(int[] turnScores) {
 		this.turnScores = turnScores;
 	}
+	
+	public void resetTurnScores() {
+		for(int score : turnScores) {
+			score = 0;
+		}
+	}
 
 	public PlayerType getType() {
 		return type;
@@ -144,5 +150,13 @@ public class Player {
 	public void setIsComputer (boolean isComputer)
 	{
 		this.isComputer = isComputer;
+	}
+
+	public String getPlayerName() {
+		return playerName;
+	}
+
+	public void setPlayerName(String playerName) {
+		this.playerName = playerName;
 	}	
 }
