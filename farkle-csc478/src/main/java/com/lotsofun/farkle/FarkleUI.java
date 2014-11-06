@@ -376,6 +376,7 @@ public class FarkleUI extends JFrame {
 			JScrollPane player1ScrollPanel = createPlayerScorePanel(1, 5);
 			player1ScrollBar = player1ScrollPanel.getVerticalScrollBar();
 			player1ScrollPanel.setBorder(BorderFactory.createEmptyBorder());
+			player1ScrollPanel.setPreferredSize(new Dimension(350, 249));
 			playersPanel.add(createPlayerNamePanel(1));
 			playersPanel.add(player1ScrollPanel);
 			
@@ -383,6 +384,7 @@ public class FarkleUI extends JFrame {
 			JScrollPane player2ScrollPanel = createPlayerScorePanel(2, 5);
 			player2ScrollBar = player2ScrollPanel.getVerticalScrollBar();
 			player2ScrollPanel.setBorder(BorderFactory.createEmptyBorder());
+			player2ScrollPanel.setPreferredSize(new Dimension(350, 249));
 			playersPanel.add(createPlayerNamePanel(2));
 			playersPanel.add(player2ScrollPanel);
 			playersPanel.setBackground(greenBackground);
