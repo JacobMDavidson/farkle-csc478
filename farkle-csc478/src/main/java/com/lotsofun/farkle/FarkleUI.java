@@ -817,56 +817,6 @@ public class FarkleUI extends JFrame {
 		}
 	}
 
-	public void updateGUI(GameMode gmode)
-	{
-		/**if (gmode == GameMode.SINGLEPLAYER)
-		{
-			int[] scores = controller.farkleGame.players[0].getTurnScores();
-			for (int i = 0; i <= 9; i++) {
-				playerScores[i].setText(String.valueOf(scores[i]));
-			}
-		}
-		//Multiplayer
-		else
-		{
-			playerNameLabel.setText(String.valueOf(controller.farkleGame.players[0].gameScore));
-			secondPlayerNameLabel.setText(String.valueOf(controller.farkleGame.players[1].gameScore));
-		}**/
-	}
-	
-	public void setupGUI(GameMode gmode)
-	{
-		/**if(gmode == GameMode.SINGLEPLAYER)
-		{
-			nameLbl2.setVisible(false);
-			player2NameLabel.setVisible(false);
-			for (int i = 0; i < 10; i++)
-			{
-				scoreLabels[i].setVisible(true);
-				playerScores[i].setVisible(true);
-			}
-			player1NameLabel.setText(controller.farkleGame.players[0].playerName);
-			gameScoreTitle.setVisible(true);
-			gameScore.setVisible(true);
-		}
-		//Multiplayer
-		else
-		{
-			nameLbl2.setVisible(true);
-			player2NameLabel.setVisible(true);
-			for (int i = 0; i < 10; i++)
-			{
-				scoreLabels[i].setVisible(false);
-				playerScores[i].setVisible(false);
-			}
-			player1NameLabel.setText(controller.farkleGame.players[0].playerName);
-			nameLbl2.setText(controller.farkleGame.players[1].playerName);
-			playerNameLabel.setText("0");
-			player2NameLabel.setText("0");
-			gameScoreTitle.setVisible(false);
-			gameScore.setVisible(false);
-		}**/
-	}
 	
 	public void setPlayerName(int playerNumber, String name) {
 		if(null != name && playerNumber >= 1 && playerNumber <= 2) {

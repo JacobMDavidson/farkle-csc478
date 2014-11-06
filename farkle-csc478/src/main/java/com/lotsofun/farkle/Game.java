@@ -7,14 +7,14 @@ import java.util.List;
 public class Game {
 
 
-	public int numberOfPlayers = 1, currentPlayer = 0;
-	public GameMode gameMode;
-	public GameState gameState;
-	public Die[] dice;
-	public Player[] players;
-	public FarkleController controller;
-	public int highScore = 5000;
-	public boolean isBonusTurn = false;
+	private int numberOfPlayers = 1, currentPlayer = 1;
+	private GameMode gameMode;
+	private GameState gameState;
+	private Die[] dice;
+	private Player[] players = new Player[2];
+	private FarkleController controller;
+	private int highScore = 5000;
+	private boolean bonusTurn = false;
 
 
 
@@ -29,27 +29,20 @@ public class Game {
 	public Game(GameMode gMode, FarkleController controller) {
 		this.gameMode = gMode;
 		this.controller = controller;
-		if(gameMode == GameMode.SINGLEPLAYER) {
-			numberOfPlayers = 1;
+		
+		// Create player 1 no matter what
+		players[0] = new Player(1);
+		
+		// Create player 2 if needed
+		if(gameMode == GameMode.MULTIPLAYER) {
+			players[1] = new Player(2);
 		}
-		else
-		{
-			numberOfPlayers = 2;
-		}
-		players = new Player[numberOfPlayers];
-		for (int i = 0; i < numberOfPlayers; i++)
-		{
-			players[i] = new Player(i);
 
-			players[i].turnNumber = 1;
-			for (int j = 0; j <= 9; j++)
-			{
-				players[i].turnScores[j] = 0;
-			}
-			players[i].gameScore = 0;
-		}
-		players[0].currentPlayer = true;
-		this.gameState = GameState.NEW_TURN;
+		// Set the number of players
+		assert(setNumberOfPlayers());
+		
+		// Initialize the turns
+		resetGame();
 	}
 
 
@@ -156,8 +149,12 @@ public class Game {
 						 * every additional matching die (e.g. five 3�s 
 						 * would be scored as 300 X 2 X 2 = 1200.
 						 * ********************************************
-						 * 6.6.0: Three doubles (e.g. 1-1-2-2-3-3) are
-						 *  worth 750 points.
+						 * 6.6.0: Three distinct doubles (e.g. 1-1-2-2-3-3) 
+						 * are worth 750 points. This scoring rule does 
+						 * not include the condition of rolling four 
+						 * of a kind along with a pair 
+						 * (e.g. 2-2-2-2-3-3 is worth does not satisfy 
+						 * the three distinct doubles scoring rule).
 						 * ********************************************
 						 * 6.7.0: A straight (e.g. 1-2-3-4-5-6), which 
 						 * can only be achieved when all 6 dice are 
@@ -257,7 +254,7 @@ public class Game {
 	 */
 	public void farkle ()
 	{
-		controller.setTurnScore(currentPlayer, getCurrentPlayer().getTurnNumber(), 0);
+		controller.setTurnScore(currentPlayer, getTurnNumberForCurrentPlayer(), 0);
 		getCurrentPlayer().endTurn(true);
 		currentPlayer = getNextPlayer();
 		processHold(0);
@@ -271,10 +268,12 @@ public class Game {
 	 */
 	public int bank()
 	{
-		controller.setTurnScore(currentPlayer, getCurrentPlayer().getTurnNumber(), getRollScores());
+		int retVal = 0;
+		controller.setTurnScore(currentPlayer, getTurnNumberForCurrentPlayer(), getRollScores());
 		getCurrentPlayer().endTurn(false);
+		retVal = getCurrentPlayer().getGameScore();
 		currentPlayer = getNextPlayer();
-		return getCurrentPlayer().getGameScore();
+		return retVal;
 	}
 
 	/**
@@ -285,10 +284,10 @@ public class Game {
 	{
 		// If gameMode is Multiplayer, we need 1 or 0
 		if(gameMode == GameMode.MULTIPLAYER) {
-			return (currentPlayer == 0) ? 1 : 0;
+			return (currentPlayer == 1) ? 2 : 1;
 		} else {
 			//gameMode is Singleplayer so it's always 0
-			return 0;
+			return 1;
 		}
 	}
 
@@ -327,16 +326,26 @@ public class Game {
 		 return getCurrentPlayer().getRollScores();
 	}	
 
+	/**
+	 * 
+	 * @return the number of players
+	 * in the game object's players array
+	 */
 	public int getNumberOfPlayers() {
-		return numberOfPlayers;
+		return players.length;
 	}
-
-	public void setNumberOfPlayers(int numberOfPlayers) {
-		this.numberOfPlayers = numberOfPlayers;
+	
+	private boolean setNumberOfPlayers() {
+		if(null != players && players.length > 0) {
+			this.numberOfPlayers = players.length;
+			return true;
+		} else {
+			return false;
+		}
 	}
 
 	public Player getCurrentPlayer() {
-		return players[currentPlayer];
+		return players[currentPlayer - 1];
 	}
 
 	public void setCurrentPlayer(int currentPlayer) {
@@ -385,17 +394,97 @@ public class Game {
 		this.highScore = highScore;
 	}
 
-	public void replayGame()
+	/**
+	 * Set all the turn scores for
+	 * all players in the Game object
+	 * to 0 and set the first player
+	 * as the current player
+	 */
+	public void resetGame()
 	{
-		for (int i = 0; i < numberOfPlayers; i++)
-		{
-			players[i].turnNumber = 1;
-			for (int j = 0; j <= 9; j++)
-			{
-				players[i].turnScores[j] = 0;
+		for(Player player : players) {
+			if(null != player) {
+				player.setTurnNumber(1);
+				player.resetTurnScores();
+				player.setGameScore(0);
 			}
-			players[i].gameScore = 0;
 		}
-		players[0].currentPlayer = true;
+		players[0].setCurrentPlayer(true);
+	}
+	
+	/**
+	 * Set the name of the player represented
+	 * the int passed to the String passed
+	 * @param playerNumber Player's position - NOT AN INDEX
+	 * @param name
+	 */
+	public void setPlayerName(int playerNumber, String name) {
+		if(null != name && playerNumber >= 1 && playerNumber <= 2) {
+			this.players[playerNumber - 1].setPlayerName(name);
+			if(playerNumber == 2 && name.equalsIgnoreCase("computer")) {
+				this.players[1].setIsComputer(true);
+			}
+		}
+	}
+	
+	public int getTurnNumberForCurrentPlayer() {
+		return this.getCurrentPlayer().getTurnNumber();
+	}
+	
+	public void setTurnNumberForCurrentPlayer(int turnNumber) {
+		getCurrentPlayer().setTurnNumber(turnNumber);
+	}
+	
+	public int getGameScoreForCurrentPlayer() {
+		return this.getCurrentPlayer().getGameScore();
+	}
+	
+	public int getPlayerNumberForCurrentPlayer() {
+		return this.getCurrentPlayer().getPlayerNumber();
+	}
+	
+	public int getGameScoreForPlayer(int playerNumber) {
+		return players[playerNumber - 1].getGameScore();
+	}
+	
+	public String getNameForPlayer(int playerNumber) {
+		return players[playerNumber - 1].getPlayerName();
+	}
+	
+	/**
+	 * Returns true if current turn
+	 * is a bonus turn
+	 * @return
+	 */
+	public boolean isBonusTurn() {
+		return bonusTurn;
+	}
+	
+	public void setBonusTurn(boolean isBonusTurn) {
+		this.bonusTurn = isBonusTurn;
+	}
+	
+	/**
+	 * Gets a String array with the winning player's
+	 * name and score
+	 * Array will be of length 3 should there be a tie:
+	 * player1, player2, score
+	 *
+	 * @return
+	 */
+	public String[] getWinningPlayerInfo() {
+		if(this.gameMode != GameMode.MULTIPLAYER) {
+			return new String[]{getNameForPlayer(1), "" + getGameScoreForPlayer(1)};
+		} else {
+			int player1Score = getGameScoreForPlayer(1);
+			int player2Score = getGameScoreForPlayer(2);
+			if(player1Score > player2Score) {
+				return new String[]{getNameForPlayer(1), "" + getGameScoreForPlayer(1)};
+			} else if(player1Score < player2Score) {
+				return new String[]{getNameForPlayer(2), "" + getGameScoreForPlayer(2)};
+			} else {
+				return new String[]{getNameForPlayer(1), getNameForPlayer(2), "" + getGameScoreForPlayer(1)};
+			}
+		}
 	}
 }

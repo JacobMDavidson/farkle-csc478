@@ -217,7 +217,6 @@ public class FarkleController implements ActionListener, MouseListener {
 		// Create the game object no matter what the mode is
 		if(null != farkleOptions.getGameMode()) {
 			farkleGame = new Game(farkleOptions.getGameMode(), this);
-			farkleUI.setupGUI(farkleOptions.getGameMode());
 		}
 		
 		
