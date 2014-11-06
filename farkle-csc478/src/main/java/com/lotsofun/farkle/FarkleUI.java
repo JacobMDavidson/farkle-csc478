@@ -35,6 +35,7 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JScrollBar;
 import javax.swing.JScrollPane;
 
 public class FarkleUI extends JFrame {
@@ -78,9 +79,10 @@ public class FarkleUI extends JFrame {
 	private JDialog farkleMessage = new FarkleMessage();
 	private FarkleOptionsDialog farkleOptions = null;
 	private JPanel player1ScorePanel = null;
+	private JScrollBar player1ScrollBar = null;
 	private JPanel player2ScorePanel = null;
+	private JScrollBar player2ScrollBar = null;
 	private boolean isFirstRun = true;
-	private AdjustmentListener autoScrollListener;
 
 	//My Frame Globals
 	JFrame frame = new JFrame("Farkle");
@@ -109,13 +111,6 @@ public class FarkleUI extends JFrame {
 			
 			// Instatiate necessary sounds
 			getSounds();
-			
-			// Instantiate the Auto Scroll listener
-			autoScrollListener = new AdjustmentListener() {  
-		        public void adjustmentValueChanged(AdjustmentEvent e) {
-		            e.getAdjustable().setValue(e.getAdjustable().getMaximum());
-		        }
-			};
 		}
 		
 		// Clear the content if this isn't the first init call
@@ -371,6 +366,7 @@ public class FarkleUI extends JFrame {
 		if(null != gameMode && gameMode == GameMode.SINGLEPLAYER) {
 			// Create and add the name and score panels for player 1
 			JScrollPane player1ScrollPanel = createPlayerScorePanel(1, 10);
+			player1ScrollBar = player1ScrollPanel.getVerticalScrollBar();
 			player1ScrollPanel.setBorder(BorderFactory.createEmptyBorder());
 			playersPanel.add(createPlayerNamePanel(1));
 			player1ScrollPanel.setPreferredSize(new Dimension(350, 568));
@@ -378,15 +374,15 @@ public class FarkleUI extends JFrame {
 		} else if(null != gameMode && gameMode == GameMode.MULTIPLAYER) {
 			// Create and add the name and score panels for player 1
 			JScrollPane player1ScrollPanel = createPlayerScorePanel(1, 5);
+			player1ScrollBar = player1ScrollPanel.getVerticalScrollBar();
 			player1ScrollPanel.setBorder(BorderFactory.createEmptyBorder());
-			player1ScrollPanel.getVerticalScrollBar().addAdjustmentListener(autoScrollListener);
 			playersPanel.add(createPlayerNamePanel(1));
 			playersPanel.add(player1ScrollPanel);
 			
 			// Create and add the name and score panels for player 2
 			JScrollPane player2ScrollPanel = createPlayerScorePanel(2, 5);
+			player2ScrollBar = player2ScrollPanel.getVerticalScrollBar();
 			player2ScrollPanel.setBorder(BorderFactory.createEmptyBorder());
-			player2ScrollPanel.getVerticalScrollBar().addAdjustmentListener(autoScrollListener);
 			playersPanel.add(createPlayerNamePanel(2));
 			playersPanel.add(player2ScrollPanel);
 			playersPanel.setBackground(greenBackground);
@@ -612,12 +608,12 @@ public class FarkleUI extends JFrame {
 
 	public void rollDice() {
 		// Test farkle roll
-		// dice[0].setValue(1);
-		// dice[1].setValue(1);
-		// dice[2].setValue(1);
-		// dice[3].setValue(1);
-		// dice[4].setValue(1);
-		// dice[5].setValue(1);
+		 /*dice[0].setValue(6);
+		 dice[1].setValue(2);
+		 dice[2].setValue(3);
+		 dice[3].setValue(6);
+		 dice[4].setValue(2);
+		 dice[5].setValue(4);*/
 
 		// Roll all the dice
 		for (Die d : dice) {
@@ -868,6 +864,13 @@ public class FarkleUI extends JFrame {
 		
 		// Highlight the desired turn
 		highlightTurn(scoreLabels.get(turn - 1), scores.get(turn - 1), isBonusTurn);
+		
+		// Scroll to the bottom of the panel;
+		JScrollBar playerScrollBar = (playerNumber == 1) ? player1ScrollBar : player2ScrollBar;
+		if(null != playerScrollBar) {
+			playerScrollBar.getParent().validate();
+			playerScrollBar.setValue(playerScrollBar.getMaximum());
+		}
 	}
 	
 	public void unHighlightTurn(JLabel scoreLabel, JLabel score) {
