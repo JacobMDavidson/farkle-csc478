@@ -972,7 +972,7 @@ public class FarkleUI extends JFrame {
 		if(newAction.getActionListeners().length == 0) {
 			newAction.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent arg0) {
-					controller.endGame(false, true, "");
+					controller.endGame(false, true);
 				}
 			});
 		}
@@ -985,7 +985,7 @@ public class FarkleUI extends JFrame {
 		if(resetAction.getActionListeners().length == 0) {
 			resetAction.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent arg0) {
-					controller.endGame(true, false, "");
+					controller.endGame(true, false);
 				}
 			});
 		}

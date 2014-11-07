@@ -17,7 +17,7 @@ public class FarkleController implements ActionListener, MouseListener {
 	Game farkleGame;
 	//Gamemode, playertype, Player1Name, Player2Name
 	String[] tempGameInformation = new String[4];
-	final int POINT_THRESHOLD = 10000;
+	final int POINT_THRESHOLD = 1000;
 	boolean isLastTurn = false;
 	
 	
@@ -150,7 +150,7 @@ public class FarkleController implements ActionListener, MouseListener {
 			if (checkHighScore()) {
 				farkleUI.displayMessage("Congrats! You achieved a new high score.", "High Score");
 			}
-			endGame(false, false, "");
+			endGame(false, false);
 		} else if(farkleGame.getGameMode() == GameMode.MULTIPLAYER) {
 			int player1Score = farkleGame.getGameScoreForPlayer(1);
 			int player2Score = farkleGame.getGameScoreForPlayer(2);
@@ -176,32 +176,23 @@ public class FarkleController implements ActionListener, MouseListener {
 				 ***************************************************/
 				if(!isLastTurn) {
 					int player = (player1Score >= POINT_THRESHOLD) ? 1 : 2;
-					farkleUI.displayMessage("Player " + player + " has scored "
+					farkleUI.displayMessage(farkleGame.getNameForPlayer(player) + " has scored "
 							+ "" + farkleGame.getGameScoreForPlayer(player) + " points\n"
 							+ "This is your last turn to try to beat them.\n"
 							+ "Good Luck!", "Last Turn");
 					isLastTurn = true;
 				} else {
 					isLastTurn = false;
-					String message = "";
-					if(player1Score > player2Score) {
-						message = "Player 1 wins with a total score of ";
-					} else if (player1Score < player2Score) {
-						message = "Player 2 wins with a total score of ";
-					} else {
-						message = "Player 1 and Player 2 tied with a total score of ";
-					}
-
-					endGame(false, false, message);
+					endGame(false, false);
 				}
 			}
 		}
 	}
 
 	
-	public void endGame(boolean resetOnly, boolean mainMenu, String message) {
+	public void endGame(boolean resetOnly, boolean mainMenu) {
 
-		boolean replayGame = gameEnded(resetOnly, mainMenu, message);
+		boolean replayGame = gameEnded(resetOnly, mainMenu);
 		if (replayGame) {
 			replayGame();
 		}
@@ -595,7 +586,7 @@ public class FarkleController implements ActionListener, MouseListener {
 	}
 	
 	
-	public boolean gameEnded(boolean resetOnly, boolean mainMenu, String message) {
+	public boolean gameEnded(boolean resetOnly, boolean mainMenu) {
 		boolean retVal = true;
 		if ((!resetOnly) && (!mainMenu)){
 			/************************************************** 
@@ -625,13 +616,23 @@ public class FarkleController implements ActionListener, MouseListener {
 			 * lost the game, and three options are given: 
 			 * “Play again?”, “Main Menu”, and “Quit”.
 			 **************************************************/
+			String message = "";
+			String[] winnerStats = farkleGame.getWinningPlayerInfo();
 			if(farkleGame.getGameMode() == GameMode.SINGLEPLAYER) {
-				message = "Total Score: ";
+				message = "Total Score: " + farkleGame.getGameScoreForPlayer(1);
+			} else if(winnerStats.length > 0 && winnerStats.length < 3) {
+				message = winnerStats[0] + " wins with a total "
+						+ "score of " + winnerStats[1] + "!";
+			} else if(winnerStats.length == 3) {
+				message = winnerStats[0] + " and " + winnerStats[1] + " "
+						+ "tied with a total score of " + winnerStats[2];
+			} else {
+				message = "A winner couldn't be determined.\nSomething is broken.";
 			}
 			
 			Object[] options = { "Play Again", "Main Menu", "Exit"};
 			int n = JOptionPane.showOptionDialog(farkleUI,	 
-					message + farkleGame.getGameScoreForPlayer(1) + "\nWhat would you like to do?",
+					message + "\nWhat would you like to do?",
 					"Game Over",
 					JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE,
 					null, options, options[2]);
