@@ -5,6 +5,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -13,6 +14,7 @@ import javax.swing.JOptionPane;
 public class FarkleController implements ActionListener, MouseListener {
 	FarkleUI farkleUI;
 	Game farkleGame;
+	HighestScore highestScore;
 	// Gamemode, playertype, Player1Name, Player2Name
 	String[] tempGameInformation = new String[4];
 	final int POINT_THRESHOLD = 1000;
@@ -395,6 +397,8 @@ public class FarkleController implements ActionListener, MouseListener {
 							int rollScore = farkleGame.calculateScore(
 									farkleUI.getDieValues(DieState.UNHELD),
 									false);
+							List<Integer> tempSomething = highestScore.calculateHighestScore(farkleUI.getDieValues(DieState.UNHELD), farkleGame);
+							System.out.println(tempSomething.toString());
 
 							// If it's farkle
 							if (rollScore == 0) {
