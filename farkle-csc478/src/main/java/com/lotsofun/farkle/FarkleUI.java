@@ -35,6 +35,8 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollBar;
 import javax.swing.JScrollPane;
+import javax.swing.ScrollPaneConstants;
+import javax.swing.SwingConstants;
 
 public class FarkleUI extends JFrame {
 
@@ -279,7 +281,7 @@ public class FarkleUI extends JFrame {
 		diceHeaderPanel.add(turnScore);
 		runningScore.setForeground(Color.WHITE);
 		runningScore.setFont(new Font("Arial Black", Font.BOLD, 14));
-		runningScore.setHorizontalAlignment(JLabel.CENTER);
+		runningScore.setHorizontalAlignment(SwingConstants.CENTER);
 		runningScore.setBorder(BorderFactory.createCompoundBorder(
 				BorderFactory.createMatteBorder(0, 0, 1, 0,	Color.WHITE),
 				BorderFactory.createEmptyBorder(15, 0, 15, 3)));
@@ -292,7 +294,7 @@ public class FarkleUI extends JFrame {
 		diceHeaderPanel.add(rollScoreLabel);
 		rollScore.setForeground(Color.WHITE);
 		rollScore.setFont(new Font("Arial Black", Font.BOLD, 14));
-		rollScore.setHorizontalAlignment(JLabel.CENTER);
+		rollScore.setHorizontalAlignment(SwingConstants.CENTER);
 		rollScore.setBorder(BorderFactory.createMatteBorder(0, 0, 0, 3,
 				Color.WHITE));
 		rollScore.setBorder(BorderFactory.createEmptyBorder(15, 0, 15, 3));
@@ -329,7 +331,7 @@ public class FarkleUI extends JFrame {
 			dice[i] = new Die(controller);
 			dicePanel.add(new JLabel(" "));
 			dicePanel.add(dice[i]);
-			dice[i].setHorizontalAlignment(JLabel.CENTER);
+			dice[i].setHorizontalAlignment(SwingConstants.CENTER);
 			dicePanel.add(new JLabel(" "));
 		}
 		dicePanel.add(new JLabel(" "));
@@ -487,8 +489,8 @@ public class FarkleUI extends JFrame {
 		playerPanel.setBorder(BorderFactory.createEmptyBorder(3, 17, 3, 17));
 		
 		JScrollPane playerScrollPane = new JScrollPane(playerPanel,
-				JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
-				JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+				ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED,
+				ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 		
 		return playerScrollPane;
 	}
@@ -965,6 +967,7 @@ public class FarkleUI extends JFrame {
 		 ********************************************************/
 		if(newAction.getActionListeners().length == 0) {
 			newAction.addActionListener(new ActionListener() {
+				@Override
 				public void actionPerformed(ActionEvent arg0) {
 					controller.endGame(false, true);
 				}
@@ -978,6 +981,7 @@ public class FarkleUI extends JFrame {
 		 **************************************************************/
 		if(resetAction.getActionListeners().length == 0) {
 			resetAction.addActionListener(new ActionListener() {
+				@Override
 				public void actionPerformed(ActionEvent arg0) {
 					controller.endGame(true, false);
 				}
@@ -989,6 +993,7 @@ public class FarkleUI extends JFrame {
 		 ****************************************************************/
 		if(exitAction.getActionListeners().length == 0) {
 			exitAction.addActionListener(new ActionListener() {
+				@Override
 				public void actionPerformed(ActionEvent arg0) {
 					FarkleUI.this.dispose();
 				}
