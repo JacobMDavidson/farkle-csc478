@@ -8,8 +8,6 @@ import java.awt.Image;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.AdjustmentEvent;
-import java.awt.event.AdjustmentListener;
 import java.awt.event.MouseEvent;
 import java.io.IOException;
 import java.net.URL;
@@ -84,11 +82,6 @@ public class FarkleUI extends JFrame {
 	private JScrollBar player2ScrollBar = null;
 	private boolean isFirstRun = true;
 
-	//My Frame Globals
-	JFrame frame = new JFrame("Farkle");
-	
-	
-
 
 	/**
 	 * Constructor Get a reference to the controller object and fire up the UI
@@ -114,37 +107,37 @@ public class FarkleUI extends JFrame {
 		}
 		
 		// Clear the content if this isn't the first init call
-		frame.getContentPane().removeAll();
+		this.getContentPane().removeAll();
 		
 		// Create and set up the main Window
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.setPreferredSize(new Dimension(1024, 768));
-		frame.setResizable(false);
+		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		this.setPreferredSize(new Dimension(1024, 768));
+		this.setResizable(false);
 		GridLayout layout = new GridLayout(1, 3, 10, 10);
 
 		// Hide the gridlines
 		layout.setHgap(0);
 		layout.setVgap(0);
-		frame.setLayout(layout);
-		frame.getContentPane().setBackground(greenBackground);
+		this.setLayout(layout);
+		this.getContentPane().setBackground(greenBackground);
 		
 		// Center and display the window
-		frame.setLocationRelativeTo(null);
-		frame.pack();
+		this.setLocationRelativeTo(null);
+		this.pack();
 		Dimension dimension = Toolkit.getDefaultToolkit().getScreenSize();
-		int x = (int) ((dimension.getWidth() - frame.getWidth()) / 2);
-		int y = (int) ((dimension.getHeight() - frame.getHeight()) / 2);
-		frame.setLocation(x, y);
-		frame.setVisible(true);
-		frame.setEnabled(true);
-		frame.setVisible(true);
+		int x = (int) ((dimension.getWidth() - this.getWidth()) / 2);
+		int y = (int) ((dimension.getHeight() - this.getHeight()) / 2);
+		this.setLocation(x, y);
+		this.setVisible(true);
+		this.setEnabled(true);
+		this.setVisible(true);
 		
 			
 		// Get the game options
 		farkleOptions = new FarkleOptionsDialog();
 
 		// Add the menu bar
-		frame.setJMenuBar(createFarkleMenuBar());
+		this.setJMenuBar(createFarkleMenuBar());
 
 		// Build the UI
 		/****************************************************************
@@ -165,10 +158,10 @@ public class FarkleUI extends JFrame {
 		 * disabled, the “Select All” button disabled, the bank button 
 		 * disabled, and player one highlighted indicating it is his turn.
 		 ****************************************************************/
-		frame.add(buildPlayerPanel(farkleOptions.getGameMode()));
+		this.add(buildPlayerPanel(farkleOptions.getGameMode()));
 
 		// Call to create dice panel
-		frame.add(buildDicePanel(createDiceHeaderPanel(), createDiceGridPanel()));
+		this.add(buildDicePanel(createDiceHeaderPanel(), createDiceGridPanel()));
 
 		/*****************************************************************
 		 * 1.2.3 - Rules for the scoring combinations shall be displayed
@@ -176,8 +169,8 @@ public class FarkleUI extends JFrame {
 		 *****************************************************************/
 		
 		// Call to create score panel
-		frame.add(createScoreGuidePanel());
-		frame.pack();
+		this.add(createScoreGuidePanel());
+		this.pack();
 		
 		// Tell the controller we're done
 		controller.newGame();
@@ -939,6 +932,7 @@ public class FarkleUI extends JFrame {
 		bankSounds.add(getClass().getResource("/sounds/bank2.wav"));
 		bankSounds.add(getClass().getResource("/sounds/bank3.wav"));
 		bankSounds.add(getClass().getResource("/sounds/bank4.wav"));
+		
 		bonusSound = getClass().getResource("/sounds/bonus.wav");
 	}
 

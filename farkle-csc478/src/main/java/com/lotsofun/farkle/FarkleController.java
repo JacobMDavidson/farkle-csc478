@@ -238,7 +238,7 @@ public class FarkleController implements ActionListener, MouseListener {
 		 * display, “Farkle – Two Player Mode”.
 		 ************************************************/
 		if(farkleOptions.getGameMode() == GameMode.MULTIPLAYER){
-			farkleUI.frame.setTitle("Farkle - Two Player Mode");	
+			farkleUI.setTitle("Farkle - Two Player Mode");	
 			
 			//If it is another human player.
 			if (farkleOptions.getPlayerType() == PlayerType.USER) {
@@ -262,7 +262,7 @@ public class FarkleController implements ActionListener, MouseListener {
 		 ******************************************/
 	    //If it is a single player game.
 		} else {
-			farkleUI.frame.setTitle("Farkle - Single Player Mode");			
+			farkleUI.setTitle("Farkle - Single Player Mode");			
 		}
 		
 		/****************************
