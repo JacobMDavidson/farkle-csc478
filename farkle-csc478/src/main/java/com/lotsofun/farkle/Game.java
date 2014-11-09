@@ -287,7 +287,7 @@ public class Game {
 			return (currentPlayer == 1) ? 2 : 1;
 		} else {
 			//gameMode is Singleplayer so it's always 0
-			return 1;
+			return 1; 
 		}
 	}
 

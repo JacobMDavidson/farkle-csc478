@@ -605,12 +605,12 @@ public class FarkleUI extends JFrame {
 
 	public void rollDice() {
 		// Test farkle roll
-		 /*dice[0].setValue(6);
-		 dice[1].setValue(2);
-		 dice[2].setValue(3);
-		 dice[3].setValue(6);
-		 dice[4].setValue(2);
-		 dice[5].setValue(4);*/
+//		 dice[0].setValue(2);
+//		 dice[1].setValue(2);
+//		 dice[2].setValue(3);
+//		 dice[3].setValue(4);
+//		 dice[4].setValue(6);
+//		 dice[5].setValue(6);
 
 		// Roll all the dice
 		for (Die d : dice) {
@@ -799,6 +799,32 @@ public class FarkleUI extends JFrame {
 		super.dispose();
 		System.exit(0);
 	}
+	
+	public void makeTheMagicHappen(List<Integer> valuesNeeded)
+	{
+		List<Die> dice = getDice(DieState.UNHELD);
+		for (Die d :dice)
+		{
+			for (Integer i: valuesNeeded)
+			{
+				if (d.getValue() == i)
+				{
+					d.dispatchEvent(new MouseEvent(d, MouseEvent.MOUSE_PRESSED,
+							System.currentTimeMillis(), MouseEvent.BUTTON1, d
+							.getX(), d.getY(), 1, false));
+					valuesNeeded.remove(i);
+					break;
+				}
+			}
+		}
+		try{
+		Thread.sleep(3000);
+		}
+		catch (Exception ex)
+		{
+			System.out.println(ex);
+		}
+	}
 
 	/**
 	 * If no dice are held, selects all unheld dice
@@ -954,9 +980,11 @@ public class FarkleUI extends JFrame {
 		setJMenuBar(menuBar);
 		JMenu fileMenu = new JMenu("File");
 		menuBar.add(fileMenu);
+		JMenuItem hintAction = new JMenuItem("Hint");
 		JMenuItem newAction = new JMenuItem("New");
 		JMenuItem resetAction = new JMenuItem("Reset");
 		JMenuItem exitAction = new JMenuItem("Exit");
+		fileMenu.add(hintAction);
 		fileMenu.add(newAction);
 		fileMenu.add(resetAction);
 		fileMenu.add(exitAction);
@@ -999,6 +1027,31 @@ public class FarkleUI extends JFrame {
 				}
 			});
 		}
+		
+		if(hintAction.getActionListeners().length == 0) {
+			hintAction.addActionListener(new ActionListener() {
+				@Override
+				public void actionPerformed(ActionEvent argo0) {
+					try{
+						List<Integer> hintCombination = controller.calculateHighestScore(getDieValues(DieState.UNHELD));
+						if (hintCombination.size() != 0)
+						{
+							displayMessage("The dice combination " + hintCombination + " will score you " + controller.highestScorePossible + " points.", 
+									"Hint");
+						}
+						else
+						{
+							displayMessage ("There was an error. Make sure you have rolled the dice and have none of them held.","Hint");
+						}
+					}
+					catch (Exception ex)
+					{
+						displayMessage ("There was an error. Make sure you have rolled the dice and have none of them held.","Hint");
+					}
+				}
+			});
+		}
+		
 		return menuBar;
 	}
 

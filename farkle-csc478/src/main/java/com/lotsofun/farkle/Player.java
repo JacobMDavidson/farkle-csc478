@@ -122,9 +122,7 @@ public class Player {
 	}
 	
 	public void resetTurnScores() {
-		for(int score : turnScores) {
-			score = 0;
-		}
+			turnScores.clear();
 	}
 
 	public PlayerType getType() {
