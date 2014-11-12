@@ -141,7 +141,7 @@ public class Player {
 		this.rollScore = rollScore;
 	}
 	
-	public boolean getIsComputer ()
+	public boolean getIsComputer()
 	{
 		return isComputer;
 	}

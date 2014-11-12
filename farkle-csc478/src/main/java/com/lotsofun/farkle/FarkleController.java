@@ -1,12 +1,11 @@
 package com.lotsofun.farkle;
 
 import java.awt.EventQueue;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 import java.util.Timer;
@@ -14,13 +13,11 @@ import java.util.TimerTask;
 
 import javax.swing.JOptionPane;
 
+
 public class FarkleController implements ActionListener, MouseListener {
 	FarkleUI farkleUI;
 	Game farkleGame;
-	// Gamemode, playertype, Player1Name, Player2Name
-	String[] tempGameInformation = new String[4];
-	int highestScorePossible = 0;
-	final int POINT_THRESHOLD = 1000000;
+	final int POINT_THRESHOLD = 10000;
 	boolean isLastTurn = false;
 
 	public static void main(String[] args) {
@@ -77,7 +74,7 @@ public class FarkleController implements ActionListener, MouseListener {
 		 *********************************************************/
 
 		farkleUI.resetDice();
-		farkleUI.getRunningScore().setText("FARKLE!!!");
+		farkleUI.setRunningScore(0);
 		farkleUI.setRollScore(0);
 		farkleUI.setEnabled(false);
 		farkleUI.getFarkleMessage().setVisible(true);
@@ -94,12 +91,12 @@ public class FarkleController implements ActionListener, MouseListener {
 		farkleUI.highlightTurnScore(
 				farkleGame.getPlayerNumberForCurrentPlayer(),
 				farkleGame.getTurnNumberForCurrentPlayer(), false);
-		if (checkIfComputerPlayer())
-		{
+
+		if (farkleGame.getPlayerTypeForCurrentPlayer() == PlayerType.COMPUTER) {
 			farkleUI.setRunningScore(0);
-			rollHandler(true);
-			//compDecision();
+			asynchronousRoll();
 		}
+		farkleUI.getRollBtn().setEnabled(true);
 	}
 
 	/**
@@ -130,14 +127,13 @@ public class FarkleController implements ActionListener, MouseListener {
 		farkleUI.highlightTurnScore(
 				farkleGame.getPlayerNumberForCurrentPlayer(),
 				farkleGame.getTurnNumberForCurrentPlayer(), false);
-		if (checkIfComputerPlayer())
-		{
+		if (farkleGame.getPlayerTypeForCurrentPlayer() == PlayerType.COMPUTER) {
 			farkleUI.setRunningScore(0);
-			rollHandler(true);
-			//compDecision();
+			asynchronousRoll();
 		}
+		
+		farkleUI.getRollBtn().setEnabled(true);
 	}
-
 
 	public boolean checkHighScore() {
 		if (farkleGame.getGameScoreForCurrentPlayer() >= farkleGame
@@ -150,7 +146,6 @@ public class FarkleController implements ActionListener, MouseListener {
 		}
 	}
 
-	// TODO: Use actual player names instead of numbers
 	/******************************************************
 	 * 2.1.2 - The game ends at the conclusion of the tenth turn, and the
 	 * player�s score is compared to the current high score.
@@ -194,7 +189,7 @@ public class FarkleController implements ActionListener, MouseListener {
 				if (!isLastTurn) {
 					int player = (player1Score >= POINT_THRESHOLD) ? 1 : 2;
 					farkleUI.displayMessage(
-							farkleGame.getNameForPlayer(player)
+							farkleGame.getPlayerName(player)
 									+ " has scored "
 									+ ""
 									+ farkleGame.getGameScoreForPlayer(player)
@@ -229,9 +224,10 @@ public class FarkleController implements ActionListener, MouseListener {
 		}
 
 		/************************************************************************
-		 * 1.1.2a - If the user selects the �Start� button with �1 Player Mode�
-		 * highlighted and the �Player One Name� field empty, the one player GUI
-		 * (section 1.3.0) opens with a random name assigned to player one.
+		 * 1.1.2a - If the user selects the �Start� button with �1 Player
+		 * Mode� highlighted and the �Player One Name� field empty, the
+		 * one player GUI (section 1.3.0) opens with a random name assigned to
+		 * player one.
 		 ************************************************************************/
 		// Set the first player's name no matter what
 		if (farkleOptions.getPlayer1Name().length() == 0) {
@@ -240,19 +236,19 @@ public class FarkleController implements ActionListener, MouseListener {
 		} else {
 
 			/*************************************************************************
-			 * 1.1.2b - If the user selects the �Start� button with �1 Player
-			 * Mode� highlighted and a name supplied in the �Player One Name�
-			 * text field, the one player GUI (section 1.3.0) opens with the
-			 * provided name assigned to player one.
+			 * 1.1.2b - If the user selects the �Start� button with �1
+			 * Player Mode� highlighted and a name supplied in the �Player
+			 * One Name� text field, the one player GUI (section 1.3.0) opens
+			 * with the provided name assigned to player one.
 			 *************************************************************************/
 			farkleUI.setPlayerName(1, farkleOptions.getPlayer1Name());
 			farkleGame.setPlayerName(1, farkleOptions.getPlayer1Name());
 		}
-
+		
 		// If it is a multiplayer game.
 		/************************************************
-		 * 1.4.1 - The title of the window shall display, �Farkle � Two Player
-		 * Mode�.
+		 * 1.4.1 - The title of the window shall display, �Farkle � Two
+		 * Player Mode�.
 		 ************************************************/
 		if (farkleOptions.getGameMode() == GameMode.MULTIPLAYER) {
 			farkleUI.setTitle("Farkle - Two Player Mode");
@@ -260,8 +256,8 @@ public class FarkleController implements ActionListener, MouseListener {
 			// If it is another human player.
 			if (farkleOptions.getPlayerType() == PlayerType.USER) {
 				if (farkleOptions.getPlayer2Name().length() == 0) {
-					farkleUI.setPlayerName(2, "Curtis");
-					farkleGame.setPlayerName(2, "Curtis");
+					farkleUI.setPlayerName(2, "Brant");
+					farkleGame.setPlayerName(2, "Brant");
 				} else {
 					farkleUI.setPlayerName(2, farkleOptions.getPlayer2Name());
 					farkleGame.setPlayerName(2, farkleOptions.getPlayer2Name());
@@ -271,11 +267,12 @@ public class FarkleController implements ActionListener, MouseListener {
 			else {
 				farkleUI.setPlayerName(2, "Computer");
 				farkleGame.setPlayerName(2, "Computer");
+				farkleGame.setPlayerType(2, PlayerType.COMPUTER);
 			}
 
 			/******************************************
-			 * 1.3.1 - The title of the window shall display: �Farkle � Single
-			 * Player Mode�.
+			 * 1.3.1 - The title of the window shall display: �Farkle �
+			 * Single Player Mode�.
 			 ******************************************/
 			// If it is a single player game.
 		} else {
@@ -312,20 +309,6 @@ public class FarkleController implements ActionListener, MouseListener {
 		farkleUI.setTurnScore(player, turn, score);
 	}
 
-	/**
-	 * UI accessor method to simplify the process of updating the running score
-	 * label
-	 * 
-	 * @param score
-	 */
-	public void setRunningScore(int score) {
-		farkleUI.setRunningScore(score);
-	}
-
-	public void setRollScore(int score) {
-		farkleUI.setRollScore(score);
-	}
-
 	@Override
 	public void actionPerformed(ActionEvent arg0) {
 
@@ -359,21 +342,21 @@ public class FarkleController implements ActionListener, MouseListener {
 
 		/**********************************************
 		 * 4.10.0:When the turn is over all dice are unlocked while continuing
-		 * to display their last value , the �Roll Dice� button is enabled, the
-		 * �Bank Score� button is disabled, the �Select All� button is disabled,
-		 * the current turn point total is set to 0, the current roll point
-		 * total is set to 0, and play passes to the next player (two player
-		 * mode) or the next turn (single player mode) by highlighting the
-		 * appropriate player or turn on the left hand side of the screen.
+		 * to display their last value , the �Roll Dice� button is enabled,
+		 * the �Bank Score� button is disabled, the �Select All� button
+		 * is disabled, the current turn point total is set to 0, the current
+		 * roll point total is set to 0, and play passes to the next player (two
+		 * player mode) or the next turn (single player mode) by highlighting
+		 * the appropriate player or turn on the left hand side of the screen.
 		 *********************************************/
 
 		// If Roll button clicked
 		if (arg0.getSource() == farkleUI.getRollBtn()) {
-			rollHandler(false);
+			rollHandler();
 		}
 		// If Bank button clicked
 		else if (arg0.getSource() == farkleUI.getBankBtn()) {
-			bankHandler(false);
+			bankHandler();
 		}
 		// If Select All button clicked
 		else if (arg0.getSource() == farkleUI.getSelectAllBtn()) {
@@ -434,7 +417,7 @@ public class FarkleController implements ActionListener, MouseListener {
 				int runningScore = farkleGame.getRollScores();
 
 				// Update the UI based on the model's response
-				if (runningScore > 0) {
+				if (runningScore > 0 && farkleGame.getPlayerTypeForCurrentPlayer() != PlayerType.COMPUTER) {
 					farkleUI.getRollBtn().setEnabled(true);
 				} else {
 					farkleUI.getRollBtn().setEnabled(false);
@@ -446,7 +429,7 @@ public class FarkleController implements ActionListener, MouseListener {
 				 *********************************************/
 
 				// Enable the bank button if the score is >= 300
-				if (runningScore >= 300) {
+				if (runningScore >= 300 && farkleGame.getPlayerTypeForCurrentPlayer() != PlayerType.COMPUTER) {
 					farkleUI.getBankBtn().setEnabled(true);
 				} else {
 					farkleUI.getBankBtn().setEnabled(false);
@@ -460,7 +443,7 @@ public class FarkleController implements ActionListener, MouseListener {
 				 *********************************************************/
 
 				// Don't allow a user to roll with no scoring dice held
-				if (rollScore > 0) {
+				if (rollScore > 0 && farkleGame.getPlayerTypeForCurrentPlayer() != PlayerType.COMPUTER) {
 					farkleUI.getRollBtn().setEnabled(true);
 				} else {
 					farkleUI.getRollBtn().setEnabled(false);
@@ -502,27 +485,29 @@ public class FarkleController implements ActionListener, MouseListener {
 		if ((!resetOnly) && (!mainMenu)) {
 			/**************************************************
 			 * 1.5.1 - At the conclusion of the game, an option box shall be
-			 * displayed with the player�s overall score for the completed game
-			 * (in one player mode), or the winner of the current game (in two
-			 * player mode). the user shall be greetedThis option box shall
-			 * include with three options: �Play Aagain?�, �Main Menu�, and
-			 * �Quit�.
+			 * displayed with the player�s overall score for the completed
+			 * game (in one player mode), or the winner of the current game (in
+			 * two player mode). the user shall be greetedThis option box shall
+			 * include with three options: �Play Aagain?�, �Main Menu�,
+			 * and �Quit�.
 			 *************************************************/
 
 			/**************************************************
-			 * 2.1.4 - The player is given three options: �Play again?�, �Main
-			 * Menu�, and �Quit�.
+			 * 2.1.4 - The player is given three options: �Play again?�,
+			 * �Main Menu�, and �Quit�.
 			 **************************************************/
 
 			/**************************************************
 			 * 2.2.4 - A congratulatory message to the winner is displayed, and
-			 * three options are given: �Play again?�, �Main Menu�, and �Quit�.
+			 * three options are given: �Play again?�, �Main Menu�, and
+			 * �Quit�.
 			 **************************************************/
 
 			/**************************************************
-			 * 2.2.13 - A �You Win!!� or �You Lose�� message is displayed
-			 * depending on if the live player won or lost the game, and three
-			 * options are given: �Play again?�, �Main Menu�, and �Quit�.
+			 * 2.2.13 - A �You Win!!� or �You Lose�� message is
+			 * displayed depending on if the live player won or lost the game,
+			 * and three options are given: �Play again?�, �Main Menu�,
+			 * and �Quit�.
 			 **************************************************/
 			String message = "";
 			String[] winnerStats = farkleGame.getWinningPlayerInfo();
@@ -550,13 +535,13 @@ public class FarkleController implements ActionListener, MouseListener {
 			 ************************************************/
 
 			/************************************************
-			 * 2.2.5 - If �Play again?� is selected, the game starts over in 2
-			 * player mode against a live person.
+			 * 2.2.5 - If �Play again?� is selected, the game starts over in
+			 * 2 player mode against a live person.
 			 ************************************************/
 
 			/************************************************
-			 * 2.2.14 - If �Play again?� is selected, the game starts over in 2
-			 * player mode against the computer.
+			 * 2.2.14 - If �Play again?� is selected, the game starts over
+			 * in 2 player mode against the computer.
 			 ************************************************/
 			if (n == 0) {
 				retVal = true;
@@ -568,8 +553,8 @@ public class FarkleController implements ActionListener, MouseListener {
 			 ************************************************/
 
 			/************************************************
-			 * 2.2.6 - If �Main Menu� is selected, the user is taken to the mode
-			 * selection screen.
+			 * 2.2.6 - If �Main Menu� is selected, the user is taken to the
+			 * mode selection screen.
 			 ************************************************/
 
 			/************************************************
@@ -613,10 +598,10 @@ public class FarkleController implements ActionListener, MouseListener {
 		}
 		return retVal;
 	}
-	
-	public void bankHandler (boolean computerPlayer)
-	{
-		if (farkleGame.isBonusTurn() && !computerPlayer) {
+
+	public void bankHandler() {
+		if (farkleGame.isBonusTurn()
+				&& farkleGame.getPlayerTypeForCurrentPlayer() == PlayerType.USER) {
 			boolean useBonusRoll = farkleUI
 					.displayYesNoMessage(
 							"You used all your dice so you earned a bonus turn.\n"
@@ -633,9 +618,8 @@ public class FarkleController implements ActionListener, MouseListener {
 			farkleUI.playBankSound();
 		}
 	}
-	
-	public void rollHandler (final boolean computerPlayer)
-	{
+
+	public void rollHandler() {
 		if (farkleUI.getRollBtnText().equals("Roll Dice")) {
 			if (farkleGame.isBonusTurn()) {
 				farkleGame.setBonusTurn(false);
@@ -650,9 +634,9 @@ public class FarkleController implements ActionListener, MouseListener {
 			 ********************************************************************/
 
 			/********************************************************************
-			 * 4.6.0 - If the player elects to roll again the selected dice
-			 * are locked, the remaining dice are rolled, and the process
-			 * returns to requirement 4.2.0.
+			 * 4.6.0 - If the player elects to roll again the selected dice are
+			 * locked, the remaining dice are rolled, and the process returns to
+			 * requirement 4.2.0.
 			 ********************************************************************/
 			farkleUI.lockScoredDice();
 
@@ -669,59 +653,56 @@ public class FarkleController implements ActionListener, MouseListener {
 						farkleGame.processRoll();
 
 						/***************************************************
-						 * 4.2.0: The resulting roll is analyzed according
-						 * to requirement 6.0.0 to determine if the player
-						 * farkled. A farkle occurs if the roll results in 0
-						 * points.
+						 * 4.2.0: The resulting roll is analyzed according to
+						 * requirement 6.0.0 to determine if the player farkled.
+						 * A farkle occurs if the roll results in 0 points.
 						 ***************************************************/
 						// Score any UNHELD dice
 						int rollScore = farkleGame.calculateScore(
-								farkleUI.getDieValues(DieState.UNHELD),
-								false);
-						
+								farkleUI.getDieValues(DieState.UNHELD), false);
+
 						// If it's farkle
 						if (rollScore == 0) {
 							// Tell everyone
 							farkle();
-							farkleUI.getRollBtn().setEnabled(true);
+							
 							farkleUI.getBankBtn().setEnabled(false);
-						}
-						else
-						{
-							if (computerPlayer)
-							{
+							if(farkleGame.getPlayerTypeForCurrentPlayer() != PlayerType.COMPUTER) {
+								farkleUI.getRollBtn().setEnabled(true);
+							}
+							
+						} else {
+							if (farkleGame.getPlayerTypeForCurrentPlayer() == PlayerType.COMPUTER) {
 								compDecision();
 							}
 						}
 						this.cancel();
 					}
-
 				}
 
 			}, 0, 50);
-			farkleUI.rollDice();
 
-			
 			// Play roll sound
 			farkleUI.playRollSound();
 
 			// Disable the Roll and Bank buttons
 			/*************************************************
-			 * 4.3.0 - If the player did not farkle, he or she must select
-			 * at least one scoring die. The score for the selected dice is
-			 * calculated according to requirement 5.0.0, and is updated
-			 * after each die selection. Only scoring die can be
-			 * selected.The score for the selected dice is displayed in
-			 * accordance with section 1.2.9. If any of the selected dice
-			 * does not contribute to the score, a selected dice score of 0
-			 * is displayed and the �Roll Dice� and �Bank Score� buttons are
-			 * disabled.
+			 * 4.3.0 - If the player did not farkle, he or she must select at
+			 * least one scoring die. The score for the selected dice is
+			 * calculated according to requirement 5.0.0, and is updated after
+			 * each die selection. Only scoring die can be selected.The score
+			 * for the selected dice is displayed in accordance with section
+			 * 1.2.9. If any of the selected dice does not contribute to the
+			 * score, a selected dice score of 0 is displayed and the �Roll
+			 * Dice� and �Bank Score� buttons are disabled.
 			 *************************************************/
 			farkleUI.getRollBtn().setEnabled(false);
 			farkleUI.getBankBtn().setEnabled(false);
 
 			// Enable Select All Button
-			farkleUI.getSelectAllBtn().setEnabled(true);
+			if(farkleGame.getPlayerTypeForCurrentPlayer() != PlayerType.COMPUTER) {
+				farkleUI.getSelectAllBtn().setEnabled(true);
+			}
 
 			/****************************
 			 * 1.3.4 - Turn Highlighting
@@ -732,103 +713,104 @@ public class FarkleController implements ActionListener, MouseListener {
 			farkleUI.setRollScore(0);
 		}
 	}
-	
-	public boolean checkIfComputerPlayer() 
-	{
-		if (farkleGame.getCurrentPlayer().getIsComputer())
-		{
+
+	public void compDecision() {
+		
+		try {
+			Thread.sleep(750);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+		
+		int goal = 0;
+		List<Integer> highestScoringDieValues = getHighestScoringDieValues();
+
+		// Select the highest scoring combination of dice
+		try {
+			farkleUI.selectDice(highestScoringDieValues);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		// Randomly choose a goal score
+		Random rand = new Random();
+		int n = rand.nextInt(3) + 1;
+		switch (n) {
+		case (2):
+			goal = 550;
+			break;
+		case (3):
+			goal = 1000;
+			break;
+		default:
+			goal = 300;
+			break;
+		}
+
+		if (farkleUI.getRunningScore() < goal || farkleGame.isBonusTurn()) {
+			rollHandler();
+		} else {
+			bankHandler();
+		}
+	}
+
+	/**
+	 * Returns true if no dice are currently held and the dice have been rolled
+	 * 
+	 * @return boolean
+	 */
+	public boolean isHintAvailable() {
+		if (farkleUI.getDice(DieState.HELD).size() == 0) {
+			for (Die d : farkleUI.getDice(DieState.UNHELD)) {
+				if (d.getValue() == 0) {
+					return false;
+				}
+			}
 			return true;
 		}
-		else
-		{
-			return false;
-		}
+		return false;
 	}
-	
-	public List<Integer> calculateHighestScore (List<Integer> dice)
-	{			
-		highestScorePossible = 0; 
-		List<Integer> highestScoringCombination = new ArrayList<Integer>();
-		if ((dice != null) && dice.size() > 0)
-		{
-			Integer magicNumber = (int) Math.pow(2, dice.size()) - 1;				
 
-			//Every combination of dice.
-			for (int i = 1; i <= magicNumber; i++)
-			{
-				List<Integer> tempList = new ArrayList<Integer>();
-				char[] binaryNumber = new char[dice.size()];
-				Arrays.fill(binaryNumber, '0');
-				char[] ch = Integer.toBinaryString(i).toCharArray();
-				for (int c = 0; c < ch.length; c++) {
-					binaryNumber[(ch.length)-(c+1)] = ch[c];
-				}
-				for (int j = 0; j < binaryNumber.length; j++ )
-				{
-					if (binaryNumber[j] == '1')
-					{
-						tempList.add(dice.get(j));
-					}
-				}
-				int tempScore = farkleGame.calculateScore(tempList, false);
-				if (tempScore > highestScorePossible)
-				{
-					highestScorePossible = tempScore;
-					highestScoringCombination.clear();
-					highestScoringCombination = tempList;					
-				}
-			}
+	public int getHighestPossibleScore() {
+		Object[] results = farkleGame.calculateHighestScore(farkleUI
+				.getDieValues(DieState.UNHELD));
+		try {
+			return (int) results[0];
+		} catch (ClassCastException e) {
+			throw e;
 		}
-		return highestScoringCombination;
 	}
-	
-	public void compDecision ()
-	{
-		List<Integer> scoringValues = calculateHighestScore(farkleUI.getDieValues(DieState.UNHELD));
-		int goal = 0;
-		if (highestScorePossible != 0)
-		{
-			if (Integer.parseInt((farkleUI.getRunningScore().getText())) < 300)
-			{
-				compRoll(scoringValues);
-			}
-			else
-			{
-				Random rand = new Random();
-				int  n = rand.nextInt(3) + 1;
-				switch (n)
-				{
-				case(2):
-					goal = 800;
-				break;
-				case(3):
-					goal= 1000;
-				break;
-				default:
-					goal = 600;
-					break;
-				}
-				if (Integer.parseInt((farkleUI.getRunningScore().getText())) + highestScorePossible < goal)
-				{
-					compRoll(scoringValues);
-				}
-				else
-				{
-					compBank(scoringValues);
-				}
-			}
+
+	public List<Integer> getHighestScoringDieValues() {
+		Object[] results = farkleGame.calculateHighestScore(farkleUI
+				.getDieValues(DieState.UNHELD));
+		try {
+			return (List<Integer>) results[1];
+		} catch (ClassCastException e) {
+			throw e;
 		}
 	}
 	
-	public void compRoll(List<Integer> valueToHold)
-	{
-		farkleUI.makeTheMagicHappen(valueToHold);
-		rollHandler(true);
-	}
-	
-	public void compBank(List<Integer> valueToHold)
-	{
-		farkleUI.makeTheMagicHappen(valueToHold);
-		bankHandler(true);
+	/**
+	 * Roll the dice in their own thread
+	 * so the call can sleep without
+	 * blocking Swing's Event Dispatch Thread
+	 */
+	public void asynchronousRoll() {
+		Thread t = new Thread(new Runnable() {
+			@Override
+			public void run() {
+				try {
+					Thread.sleep(1000);
+					rollHandler();
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+		});
+		
+		t.start();
 	}
 }
