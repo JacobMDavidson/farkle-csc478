@@ -70,7 +70,7 @@ public class FarkleUI extends JFrame {
 	private JLabel player2GameScoreLabel = new JLabel("Total Score: ");
 	private JLabel player2GameScore = new JLabel("0");
 	private JLabel highScoreTitle = new JLabel("High Score: ");
-	private JLabel highScore = new JLabel("5000");
+	private JLabel highScore = new JLabel();
 	private JLabel runningScore = new JLabel("0");
 	private JLabel rollScore = new JLabel("0");
 	private ArrayList<URL> rollSounds = new ArrayList<URL>();

@@ -1,5 +1,10 @@
 package com.lotsofun.farkle;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -12,7 +17,7 @@ public class Game {
 	private Die[] dice;
 	private Player[] players = new Player[2];
 	private FarkleController controller;
-	private int highScore = 5000;
+	private int highScore;
 	private boolean bonusTurn = false;
 
 	/**
@@ -38,9 +43,90 @@ public class Game {
 
 		// Set the number of players
 		assert (setNumberOfPlayers());
+		
+		// Initialize the high score
+		initializeHighScore();
+		
+		// Set the high score label
+		controller.setUIHighScore(highScore);
 
 		// Initialize the turns
 		resetGame();
+	}
+
+	private void initializeHighScore() {
+		
+		// Instantiate the File object
+		File highScoreFile = new File("StoredHighScore.txt");
+		
+		// Determine if StoredHighScore.txt already exists
+		if(highScoreFile.exists())
+		{
+			// Instantiate a FileInputStream object. Used try with resources to ensure file closes
+			try(FileInputStream in = new FileInputStream(highScoreFile))
+			{
+				int letter;
+				String number = "";
+				while((letter = in.read()) != -1)
+				{
+					number += (char)letter;
+				}
+				int score = Integer.parseInt(number);
+				highScore = score;
+			}
+			catch(NumberFormatException error)
+			{
+				// invalid number in high score file, set highScore to 5000
+				highScore = 5000;
+			}
+			catch(IOException error)
+			{				
+				// Error accessing file, set highScore = 5000;
+				highScore = 5000;
+			}
+			
+		}
+		
+		// The file does not exist, create it and set it to 5000
+		else
+		{
+			String number = "5000";
+			try
+			{
+				highScoreFile.createNewFile();
+				// Nested try/catch block for the FileOutputStream
+				try(FileOutputStream out = new FileOutputStream(highScoreFile))
+				{
+					// Write number to the newly created file
+					for(int i = 0; i < number.length(); ++i)
+					{
+						out.write(number.charAt(i));
+					}
+					highScore = 5000;
+				} 
+				catch (FileNotFoundException e) 
+				{
+					// Cannot save scores, set highScore to 5000
+					highScore = 5000;
+				} 
+				catch (IOException e) 
+				{
+					// Cannot save scores, set highScore to 5000
+					highScore = 5000;
+				}
+			}
+			catch(IOException e)
+			{
+				// Cannot save scores, set highScore to 5000
+				highScore = 5000;
+			}
+			catch(SecurityException e)
+			{
+				// Cannot save scores, set highScore to 5000
+				highScore = 5000;
+			}
+			
+		}
 	}
 
 	/**

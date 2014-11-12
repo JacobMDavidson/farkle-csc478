@@ -6,6 +6,10 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.List;
 import java.util.Random;
 import java.util.Timer;
@@ -140,10 +144,61 @@ public class FarkleController implements ActionListener, MouseListener {
 				.getHighScore()) {
 			farkleGame.setHighScore(farkleGame.getGameScoreForCurrentPlayer());
 			farkleUI.setHighScore(farkleGame.getHighScore());
+			
+			// Write the new high score to the file
+			// Instantiate the File object
+			File highScoreFile = new File("StoredHighScore.txt");
+			
+			// Get the string to write to the file
+			String number = "" + farkleGame.getHighScore();
+			
+			// Determine if StoredHighScore.txt already exists. If it doesn't, create the file
+			if(!highScoreFile.exists())
+			{
+				try
+				{
+					highScoreFile.createNewFile();
+				}
+				catch(IOException e)
+				{
+					// Cannot save scores, set highScore to 5000
+				}
+				catch(SecurityException e)
+				{
+					// Cannot save scores, set highScore to 5000
+				}
+				
+			}
+			
+			// File exist, write the high score to it
+			try(FileOutputStream out = new FileOutputStream(highScoreFile))
+			{
+				// Write number to the newly created file
+				for(int i = 0; i < number.length(); ++i)
+				{
+					out.write(number.charAt(i));
+				}
+			} 
+			catch (FileNotFoundException e) 
+			{
+				// Cannot save scores, set highScore to 5000
+			} 
+			catch (IOException e) 
+			{
+				// Cannot save scores, set highScore to 5000
+			}
 			return true;
 		} else {
 			return false;
 		}
+	}
+	
+	/*
+	 * Used to set the high score label on initialization
+	 */
+	public void setUIHighScore(int highScore)
+	{
+		farkleUI.setHighScore(highScore);
 	}
 
 	/******************************************************
