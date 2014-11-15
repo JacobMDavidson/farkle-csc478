@@ -6,8 +6,9 @@ package com.lotsofun.farkle;
  * HELD - 	Not available to be rolled but eligible for
  * 			scoring selection
  * SCORED - Not available to be rolled or selected for scoring
+ * DISABED - Prevents die selection
  *
  */
 public enum DieState {
-	UNHELD, HELD, SCORED
+	UNHELD, HELD, SCORED, DISABLED
 }

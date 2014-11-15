@@ -69,7 +69,6 @@ public class FarkleOptionsDialog extends JDialog implements MouseListener {
 	private JTextField playerTwoName = new JTextField(5);
 	private JButton startButton = new JButton("Start");
 	private JButton closeButton = new JButton("Close");
-	private Color defaultColor = singlePlayerLabel.getBackground();
 
 	private GameMode gameMode = null;
 	private PlayerType playerType = null;

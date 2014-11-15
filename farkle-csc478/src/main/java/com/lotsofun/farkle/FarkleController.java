@@ -1,15 +1,10 @@
 package com.lotsofun.farkle;
 
 import java.awt.EventQueue;
-import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
 import java.util.List;
 import java.util.Random;
 import java.util.Timer;
@@ -17,12 +12,12 @@ import java.util.TimerTask;
 
 import javax.swing.JOptionPane;
 
-
 public class FarkleController implements ActionListener, MouseListener {
 	FarkleUI farkleUI;
 	Game farkleGame;
 	final int POINT_THRESHOLD = 10000;
 	boolean isLastTurn = false;
+	FarkleOptionsDialog farkleOptions = null;
 
 	public static void main(String[] args) {
 		final FarkleController controller = new FarkleController();
@@ -77,7 +72,7 @@ public class FarkleController implements ActionListener, MouseListener {
 		 * over.
 		 *********************************************************/
 
-		farkleUI.resetDice();
+		farkleUI.disableDice();
 		farkleUI.setRunningScore(0);
 		farkleUI.setRollScore(0);
 		farkleUI.setEnabled(false);
@@ -85,6 +80,8 @@ public class FarkleController implements ActionListener, MouseListener {
 		farkleUI.setEnabled(true);
 		farkleUI.unHighlightAllTurnScores(farkleGame
 				.getPlayerNumberForCurrentPlayer());
+		setTurnScore(farkleGame.getPlayerNumberForCurrentPlayer(),
+				farkleGame.getTurnNumberForCurrentPlayer(), 0);
 		farkleGame.farkle();
 
 		tryToEndGame();
@@ -117,7 +114,7 @@ public class FarkleController implements ActionListener, MouseListener {
 
 		farkleUI.setRunningScore(0);
 		farkleUI.setRollScore(0);
-		farkleUI.resetDice();
+		farkleUI.disableDice();
 		farkleUI.unHighlightAllTurnScores(player);
 		farkleUI.setGameScore(player, farkleGame.bank());
 		farkleUI.getBankBtn().setEnabled(false);
@@ -131,11 +128,15 @@ public class FarkleController implements ActionListener, MouseListener {
 		farkleUI.highlightTurnScore(
 				farkleGame.getPlayerNumberForCurrentPlayer(),
 				farkleGame.getTurnNumberForCurrentPlayer(), false);
+		
+		if(!isLastTurn) {
+			setTurnScore(farkleGame.getPlayerNumberForCurrentPlayer(), farkleGame.getTurnNumberForCurrentPlayer(), 0);
+		}
 		if (farkleGame.getPlayerTypeForCurrentPlayer() == PlayerType.COMPUTER) {
 			farkleUI.setRunningScore(0);
 			asynchronousRoll();
 		}
-		
+
 		farkleUI.getRollBtn().setEnabled(true);
 	}
 
@@ -144,61 +145,26 @@ public class FarkleController implements ActionListener, MouseListener {
 				.getHighScore()) {
 			farkleGame.setHighScore(farkleGame.getGameScoreForCurrentPlayer());
 			farkleUI.setHighScore(farkleGame.getHighScore());
-			
-			// Write the new high score to the file
-			// Instantiate the File object
-			File highScoreFile = new File("StoredHighScore.txt");
-			
-			// Get the string to write to the file
-			String number = "" + farkleGame.getHighScore();
-			
-			// Determine if StoredHighScore.txt already exists. If it doesn't, create the file
-			if(!highScoreFile.exists())
-			{
-				try
-				{
-					highScoreFile.createNewFile();
-				}
-				catch(IOException e)
-				{
-					// Cannot save scores, set highScore to 5000
-				}
-				catch(SecurityException e)
-				{
-					// Cannot save scores, set highScore to 5000
-				}
-				
-			}
-			
-			// File exist, write the high score to it
-			try(FileOutputStream out = new FileOutputStream(highScoreFile))
-			{
-				// Write number to the newly created file
-				for(int i = 0; i < number.length(); ++i)
-				{
-					out.write(number.charAt(i));
-				}
-			} 
-			catch (FileNotFoundException e) 
-			{
-				// Cannot save scores, set highScore to 5000
-			} 
-			catch (IOException e) 
-			{
-				// Cannot save scores, set highScore to 5000
-			}
 			return true;
-		} else {
-			return false;
 		}
+		return false;
 	}
-	
-	/*
-	 * Used to set the high score label on initialization
+
+	/**
+	 * Used to set the high score in the UI on init
+	 * 
+	 * @param highScore
 	 */
-	public void setUIHighScore(int highScore)
-	{
+	public void setUIHighScore(int highScore) {
 		farkleUI.setHighScore(highScore);
+	}
+
+	/**
+	 * Resets the high score stored in the preferences to the default value (0)
+	 */
+	public void resetHighScore() {
+		farkleGame.resetHighScore();
+		farkleUI.setHighScore(farkleGame.getHighScore());
 	}
 
 	/******************************************************
@@ -206,19 +172,24 @@ public class FarkleController implements ActionListener, MouseListener {
 	 * playerï¿½s score is compared to the current high score.
 	 ******************************************************/
 	public void tryToEndGame() {
-		if (farkleGame.getGameMode() == GameMode.SINGLEPLAYER
-				&& farkleGame.getTurnNumberForCurrentPlayer() > 10) {
-			/*****************************************************
-			 * 2.1.3 - If the playerï¿½s score is greater than the current high
-			 * score, a congratulatory message is displayed, and the playerï¿½s
-			 * score replaces the previous high score.
-			 *****************************************************/
-			if (checkHighScore()) {
-				farkleUI.displayMessage(
-						"Congrats! You achieved a new high score.",
-						"High Score");
+		if (farkleGame.getGameMode() == GameMode.SINGLEPLAYER) {
+			if(farkleGame.getTurnNumberForCurrentPlayer() == 10) {
+				isLastTurn = true;
 			}
-			endGame(false, false);
+			
+			if(farkleGame.getTurnNumberForCurrentPlayer() > 10) {
+				/*****************************************************
+				 * 2.1.3 - If the playerï¿½s score is greater than the current high
+				 * score, a congratulatory message is displayed, and the playerï¿½s
+				 * score replaces the previous high score.
+				 *****************************************************/
+				if (checkHighScore()) {
+					farkleUI.displayMessage(
+							"Congrats! You achieved a new high score.",
+							"High Score");
+				}
+				endGame(false, false);
+			}
 		} else if (farkleGame.getGameMode() == GameMode.MULTIPLAYER) {
 			int player1Score = farkleGame.getGameScoreForPlayer(1);
 			int player2Score = farkleGame.getGameScoreForPlayer(2);
@@ -265,13 +236,34 @@ public class FarkleController implements ActionListener, MouseListener {
 		boolean replayGame = gameEnded(resetOnly, mainMenu);
 		if (replayGame) {
 			replayGame();
+			farkleUI.diceFirstRun();
 		} else {
 			farkleUI.initUI();
 		}
 	}
 
 	public void newGame() {
-		FarkleOptionsDialog farkleOptions = farkleUI.getFarkleOptions();
+		// Get the game options
+		farkleOptions = new FarkleOptionsDialog();
+
+		/****************************************************************
+		 * 2.2.0 - When 2 two player mode against a live person is selected, the
+		 * 2 two player mode graphic user interface (section 1.4.0) is displayed
+		 * with the name “Farkle” displayed on the dice is displayed with blank
+		 * dice, the “Bank Score” button disabled, the “Select All” button
+		 * disabled, the bank button disabled, and player one highlighted
+		 * indicating it is his or her turn.
+		 ****************************************************************/
+
+		/****************************************************************
+		 * 2.2.8 - .When 2 two player mode against the computer is selected, the
+		 * 2 two player mode graphic user interface (section 1.4.0) is displayed
+		 * with the name “Farkle”is displayed with blankon the dice, the “Bank
+		 * Score” button disabled, the “Select All” button disabled, the bank
+		 * button disabled, and player one highlighted indicating it is his
+		 * turn.
+		 ****************************************************************/
+		farkleUI.buildPlayerPanel(farkleOptions.getGameMode());
 
 		// Create the game object no matter what the mode is
 		if (null != farkleOptions.getGameMode()) {
@@ -299,7 +291,7 @@ public class FarkleController implements ActionListener, MouseListener {
 			farkleUI.setPlayerName(1, farkleOptions.getPlayer1Name());
 			farkleGame.setPlayerName(1, farkleOptions.getPlayer1Name());
 		}
-		
+
 		// If it is a multiplayer game.
 		/************************************************
 		 * 1.4.1 - The title of the window shall display, ï¿½Farkle ï¿½ Two
@@ -334,6 +326,9 @@ public class FarkleController implements ActionListener, MouseListener {
 			farkleUI.setTitle("Farkle - Single Player Mode");
 		}
 
+		// Reset the dice
+		farkleUI.diceFirstRun();
+
 		/****************************
 		 * 1.3.4 - Turn Highlighting
 		 ****************************/
@@ -350,6 +345,12 @@ public class FarkleController implements ActionListener, MouseListener {
 
 	public void replayGame() {
 		farkleGame.resetGame();
+		setTurnScore(1, 1, 0);
+		farkleUI.setRollScore(0);
+		farkleUI.resetDicePanel();
+		farkleUI.highlightTurnScore(
+				farkleGame.getPlayerNumberForCurrentPlayer(),
+				farkleGame.getTurnNumberForCurrentPlayer(), false);
 	}
 
 	/**
@@ -450,7 +451,7 @@ public class FarkleController implements ActionListener, MouseListener {
 		 *****************************************************/
 		// If the value of the die >
 		// toggle its state
-		if (d.getValue() > 0) {
+		if (d.getValue() > 0 && d.getState() != DieState.DISABLED) {
 			if (d.getState() == DieState.HELD) {
 				d.setState(DieState.UNHELD);
 			} else if (d.getState() == DieState.UNHELD) {
@@ -472,7 +473,8 @@ public class FarkleController implements ActionListener, MouseListener {
 				int runningScore = farkleGame.getRollScores();
 
 				// Update the UI based on the model's response
-				if (runningScore > 0 && farkleGame.getPlayerTypeForCurrentPlayer() != PlayerType.COMPUTER) {
+				if (runningScore > 0
+						&& farkleGame.getPlayerTypeForCurrentPlayer() != PlayerType.COMPUTER) {
 					farkleUI.getRollBtn().setEnabled(true);
 				} else {
 					farkleUI.getRollBtn().setEnabled(false);
@@ -484,7 +486,8 @@ public class FarkleController implements ActionListener, MouseListener {
 				 *********************************************/
 
 				// Enable the bank button if the score is >= 300
-				if (runningScore >= 300 && farkleGame.getPlayerTypeForCurrentPlayer() != PlayerType.COMPUTER) {
+				if (runningScore >= 300
+						&& farkleGame.getPlayerTypeForCurrentPlayer() != PlayerType.COMPUTER) {
 					farkleUI.getBankBtn().setEnabled(true);
 				} else {
 					farkleUI.getBankBtn().setEnabled(false);
@@ -498,7 +501,8 @@ public class FarkleController implements ActionListener, MouseListener {
 				 *********************************************************/
 
 				// Don't allow a user to roll with no scoring dice held
-				if (rollScore > 0 && farkleGame.getPlayerTypeForCurrentPlayer() != PlayerType.COMPUTER) {
+				if (rollScore > 0
+						&& farkleGame.getPlayerTypeForCurrentPlayer() != PlayerType.COMPUTER) {
 					farkleUI.getRollBtn().setEnabled(true);
 				} else {
 					farkleUI.getRollBtn().setEnabled(false);
@@ -514,7 +518,7 @@ public class FarkleController implements ActionListener, MouseListener {
 				if ((farkleUI.getDice(DieState.HELD).size()
 						+ farkleUI.getDice(DieState.SCORED).size() == 6)
 						&& (rollScore > 0)) {
-					farkleUI.resetDice();
+					farkleUI.disableDice();
 					farkleUI.playBonusSound();
 					/****************************
 					 * 1.3.4 - Turn Highlighting
@@ -679,6 +683,10 @@ public class FarkleController implements ActionListener, MouseListener {
 			if (farkleGame.isBonusTurn()) {
 				farkleGame.setBonusTurn(false);
 			}
+			
+			if(farkleUI.getDieValues(DieState.DISABLED).size() > 0) {
+				farkleUI.resetDice();
+			}
 
 			/********************************************************************
 			 * 1.2.6 - After each roll, dice that are have previously been
@@ -720,12 +728,12 @@ public class FarkleController implements ActionListener, MouseListener {
 						if (rollScore == 0) {
 							// Tell everyone
 							farkle();
-							
+
 							farkleUI.getBankBtn().setEnabled(false);
-							if(farkleGame.getPlayerTypeForCurrentPlayer() != PlayerType.COMPUTER) {
+							if (farkleGame.getPlayerTypeForCurrentPlayer() != PlayerType.COMPUTER) {
 								farkleUI.getRollBtn().setEnabled(true);
 							}
-							
+
 						} else {
 							if (farkleGame.getPlayerTypeForCurrentPlayer() == PlayerType.COMPUTER) {
 								compDecision();
@@ -755,7 +763,7 @@ public class FarkleController implements ActionListener, MouseListener {
 			farkleUI.getBankBtn().setEnabled(false);
 
 			// Enable Select All Button
-			if(farkleGame.getPlayerTypeForCurrentPlayer() != PlayerType.COMPUTER) {
+			if (farkleGame.getPlayerTypeForCurrentPlayer() != PlayerType.COMPUTER) {
 				farkleUI.getSelectAllBtn().setEnabled(true);
 			}
 
@@ -770,13 +778,13 @@ public class FarkleController implements ActionListener, MouseListener {
 	}
 
 	public void compDecision() {
-		
+
 		try {
 			Thread.sleep(750);
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
-		
+
 		int goal = 0;
 		List<Integer> highestScoringDieValues = getHighestScoringDieValues();
 
@@ -831,7 +839,7 @@ public class FarkleController implements ActionListener, MouseListener {
 		Object[] results = farkleGame.calculateHighestScore(farkleUI
 				.getDieValues(DieState.UNHELD));
 		try {
-			return (int) results[0];
+			return (Integer) results[0];
 		} catch (ClassCastException e) {
 			throw e;
 		}
@@ -846,11 +854,10 @@ public class FarkleController implements ActionListener, MouseListener {
 			throw e;
 		}
 	}
-	
+
 	/**
-	 * Roll the dice in their own thread
-	 * so the call can sleep without
-	 * blocking Swing's Event Dispatch Thread
+	 * Roll the dice in their own thread so the call can sleep without blocking
+	 * Swing's Event Dispatch Thread
 	 */
 	public void asynchronousRoll() {
 		Thread t = new Thread(new Runnable() {
@@ -865,7 +872,7 @@ public class FarkleController implements ActionListener, MouseListener {
 				}
 			}
 		});
-		
+
 		t.start();
 	}
 }

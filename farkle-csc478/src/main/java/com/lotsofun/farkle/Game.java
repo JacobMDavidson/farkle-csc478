@@ -1,23 +1,19 @@
 package com.lotsofun.farkle;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.prefs.Preferences;
 
 public class Game {
 
-	private int numberOfPlayers = 1, currentPlayer = 1;
+	private Preferences prefs;
+	private int currentPlayer = 1;
 	private GameMode gameMode;
 	private GameState gameState;
 	private Die[] dice;
 	private Player[] players = new Player[2];
 	private FarkleController controller;
-	private int highScore;
 	private boolean bonusTurn = false;
 
 	/**
@@ -30,6 +26,9 @@ public class Game {
 	 *            controller
 	 */
 	public Game(GameMode gMode, FarkleController controller) {
+		// Define the preferences file
+		prefs = Preferences.userRoot().node(this.getClass().getName());
+		
 		this.gameMode = gMode;
 		this.controller = controller;
 
@@ -40,94 +39,14 @@ public class Game {
 		if (gameMode == GameMode.MULTIPLAYER) {
 			players[1] = new Player(2);
 		}
-
-		// Set the number of players
-		assert (setNumberOfPlayers());
-		
-		// Initialize the high score
-		initializeHighScore();
 		
 		// Set the high score label
-		controller.setUIHighScore(highScore);
+		controller.setUIHighScore(getHighScore());
 
 		// Initialize the turns
 		resetGame();
 	}
 
-	private void initializeHighScore() {
-		
-		// Instantiate the File object
-		File highScoreFile = new File("StoredHighScore.txt");
-		
-		// Determine if StoredHighScore.txt already exists
-		if(highScoreFile.exists())
-		{
-			// Instantiate a FileInputStream object. Used try with resources to ensure file closes
-			try(FileInputStream in = new FileInputStream(highScoreFile))
-			{
-				int letter;
-				String number = "";
-				while((letter = in.read()) != -1)
-				{
-					number += (char)letter;
-				}
-				int score = Integer.parseInt(number);
-				highScore = score;
-			}
-			catch(NumberFormatException error)
-			{
-				// invalid number in high score file, set highScore to 5000
-				highScore = 5000;
-			}
-			catch(IOException error)
-			{				
-				// Error accessing file, set highScore = 5000;
-				highScore = 5000;
-			}
-			
-		}
-		
-		// The file does not exist, create it and set it to 5000
-		else
-		{
-			String number = "5000";
-			try
-			{
-				highScoreFile.createNewFile();
-				// Nested try/catch block for the FileOutputStream
-				try(FileOutputStream out = new FileOutputStream(highScoreFile))
-				{
-					// Write number to the newly created file
-					for(int i = 0; i < number.length(); ++i)
-					{
-						out.write(number.charAt(i));
-					}
-					highScore = 5000;
-				} 
-				catch (FileNotFoundException e) 
-				{
-					// Cannot save scores, set highScore to 5000
-					highScore = 5000;
-				} 
-				catch (IOException e) 
-				{
-					// Cannot save scores, set highScore to 5000
-					highScore = 5000;
-				}
-			}
-			catch(IOException e)
-			{
-				// Cannot save scores, set highScore to 5000
-				highScore = 5000;
-			}
-			catch(SecurityException e)
-			{
-				// Cannot save scores, set highScore to 5000
-				highScore = 5000;
-			}
-			
-		}
-	}
 
 	/**
 	 * Calculates the score of a list of integers per the rules of this version
@@ -461,15 +380,6 @@ public class Game {
 		return players.length;
 	}
 
-	private boolean setNumberOfPlayers() {
-		if (null != players && players.length > 0) {
-			this.numberOfPlayers = players.length;
-			return true;
-		} else {
-			return false;
-		}
-	}
-
 	public Player getCurrentPlayer() {
 		return players[currentPlayer - 1];
 	}
@@ -511,11 +421,15 @@ public class Game {
 	}
 
 	public int getHighScore() {
-		return highScore;
+		return prefs.getInt("HighScore", 0);
 	}
 
 	public void setHighScore(int highScore) {
-		this.highScore = highScore;
+		prefs.putInt("HighScore", highScore);
+	}
+	
+	public void resetHighScore() {
+		prefs.putInt("HighScore", 0);
 	}
 
 	/**
@@ -527,6 +441,7 @@ public class Game {
 			if (null != player) {
 				player.setTurnNumber(1);
 				player.resetTurnScores();
+				player.resetRollScores();
 				player.setGameScore(0);
 			}
 		}

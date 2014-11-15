@@ -122,7 +122,7 @@ public class Player {
 	}
 	
 	public void resetTurnScores() {
-			turnScores.clear();
+		this.turnScores.clear();
 	}
 
 	public PlayerType getType() {
@@ -139,6 +139,10 @@ public class Player {
 
 	public void setRollScore(HashMap<Integer, Integer> rollScore) {
 		this.rollScore = rollScore;
+	}
+	
+	public void resetRollScores() {
+		this.rollScore.clear();
 	}
 	
 	public boolean getIsComputer()

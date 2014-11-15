@@ -36,8 +36,9 @@ public class Die extends JLabel {
     
     private Random random = new Random();
     private Icon icon;
-    private int value;
+    private char value;
     private DieState state;
+    private final char[] values = {'1', '2', '3', '4', '5', '6'};
     
 
     /**
@@ -71,7 +72,7 @@ public class Die extends JLabel {
 		 ***********************************************/
 		 // Roll only if die is unheld
 		if(this.state == DieState.UNHELD) {
-			value = random.nextInt(6) + 1;
+			value = (char) values[random.nextInt(6)];
 			this.repaint();
 		}
 	}
@@ -110,32 +111,32 @@ public class Die extends JLabel {
         
         
         switch (value) {
-        case 1:
+        case '1':
            fillOval(g2, 1, 1);
            break;
-        case 2:
+        case '2':
            fillOval(g2, 0, 0);
            fillOval(g2, 2, 2);
            break;
-        case 3:
+        case '3':
            fillOval(g2, 0, 0);
            fillOval(g2, 1, 1);
            fillOval(g2, 2, 2);
            break;
-        case 4:
+        case '4':
            fillOval(g2, 0, 0);
            fillOval(g2, 0, 2);
            fillOval(g2, 2, 0);
            fillOval(g2, 2, 2);
            break;
-        case 5:
+        case '5':
            fillOval(g2, 0, 0);
            fillOval(g2, 0, 2);
            fillOval(g2, 1, 1);
            fillOval(g2, 2, 0);
            fillOval(g2, 2, 2);
            break;
-        case 6:
+        case '6':
            fillOval(g2, 0, 0);
            fillOval(g2, 0, 1);
            fillOval(g2, 0, 2);
@@ -143,7 +144,53 @@ public class Die extends JLabel {
            fillOval(g2, 2, 1);
            fillOval(g2, 2, 2);
            break;
-
+        case 'f':
+        	fillOval(g2, 0, 0);
+        	fillOval(g2, 1, 0);
+        	fillOval(g2, 2, 0);
+        	fillOval(g2, 0, 1);
+        	fillOval(g2, 0, 2);
+        	fillOval(g2, 1, 1);
+        	break;
+        case 'a':
+        	fillOval(g2, 2, 0);
+        	fillOval(g2, 2, 2);
+        	fillOval(g2, 0, 1);
+        	fillOval(g2, 1, 1);
+        	break;
+        case 'r':
+        	fillOval(g2, 0, 0);
+        	fillOval(g2, 1, 0);
+        	fillOval(g2, 2, 0);
+        	fillOval(g2, 0, 1);
+        	fillOval(g2, 0, 2);
+        	break;
+        case 'k':
+        	fillOval(g2, 0, 0);
+        	fillOval(g2, 1, 0);
+        	fillOval(g2, 2, 0);
+        	fillOval(g2, 0, 2);
+        	fillOval(g2, 2, 2);
+        	fillOval(g2, 1, 1);
+        	break;
+        case 'l':
+        	fillOval(g2, 0, 0);
+        	fillOval(g2, 1, 0);
+        	fillOval(g2, 2, 0);
+        	fillOval(g2, 2, 2);
+        	fillOval(g2, 2, 1);
+        	break;
+        case 'e':
+        	fillOval(g2, 0, 0);
+        	fillOval(g2, 1, 0);
+        	fillOval(g2, 2, 0);
+        	fillOval(g2, 0, 1);
+        	fillOval(g2, 0, 2);
+        	fillOval(g2, 1, 1);
+        	fillOval(g2, 2, 0);
+        	fillOval(g2, 2, 2);
+        	fillOval(g2, 2, 1);
+        	break;
         default:
            break;
         }
@@ -161,20 +208,29 @@ public class Die extends JLabel {
         g2.fillOval(x, y, OVAL_RADIUS, OVAL_RADIUS);
      }
 
+	@Override
 	public Icon getIcon() {
 		return icon;
 	}
 
+	@Override
 	public void setIcon(Icon icon) {
 		this.icon = icon;
 	}
 	
-    public int getValue() {
-		return value;
+	/**
+	 * If the value isn't a number then 0 is returned
+	 * else the value is returned as an integer
+	 * @return
+	 */
+	public int getValue() {
+    	int retVal = 0;
+		retVal = Character.digit(value, 10);
+		return (retVal == -1) ? 0 : retVal;
 	}
     
 	public void setValue(int value) {
-		this.value = value;
+		this.value = (char) value;
 		this.repaint();
 	}
 	
@@ -197,8 +253,11 @@ public class Die extends JLabel {
 		} else if(dieState == DieState.SCORED) {
 			this.state = DieState.SCORED;
 			this.setBorder(UNHELD_BORDER);
-		} else {
+		} else if(dieState == DieState.UNHELD){
 			this.state = DieState.UNHELD;
+			this.setBorder(UNHELD_BORDER);
+		} else if(dieState == DieState.DISABLED) {
+			this.state = DieState.DISABLED;
 			this.setBorder(UNHELD_BORDER);
 		}
 	}

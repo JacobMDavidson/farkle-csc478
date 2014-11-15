@@ -37,7 +37,6 @@ import javax.swing.JScrollBar;
 import javax.swing.JScrollPane;
 import javax.swing.ScrollPaneConstants;
 import javax.swing.SwingConstants;
-import javax.swing.Timer;
 import javax.swing.event.MenuEvent;
 import javax.swing.event.MenuListener;
 
@@ -97,7 +96,7 @@ public class FarkleUI extends JFrame {
 	}
 
 	/**
-	 * Build the UI
+	 * Build the UI base
 	 */
 	public void initUI() {
 		// Pass a reference to the controller
@@ -134,49 +133,22 @@ public class FarkleUI extends JFrame {
 		this.setVisible(true);
 		this.setEnabled(true);
 		this.setVisible(true);
-
-		// Get the game options
-		farkleOptions = new FarkleOptionsDialog();
-
+		
 		// Add the menu bar
 		this.setJMenuBar(createFarkleMenuBar());
-
-		// Build the UI
-		/****************************************************************
-		 * 2.2.0 - When 2 two player mode against a live person is selected, the
-		 * 2 two player mode graphic user interface (section 1.4.0) is displayed
-		 * with the name “Farkle” displayed on the dice is displayed with blank
-		 * dice, the “Bank Score” button disabled, the “Select All” button
-		 * disabled, the bank button disabled, and player one highlighted
-		 * indicating it is his or her turn.
-		 ****************************************************************/
-
-		/****************************************************************
-		 * 2.2.8 - .When 2 two player mode against the computer is selected, the
-		 * 2 two player mode graphic user interface (section 1.4.0) is displayed
-		 * with the name “Farkle”is displayed with blankon the dice, the “Bank
-		 * Score” button disabled, the “Select All” button disabled, the bank
-		 * button disabled, and player one highlighted indicating it is his
-		 * turn.
-		 ****************************************************************/
-		this.add(buildPlayerPanel(farkleOptions.getGameMode()));
-
+		
 		// Call to create dice panel
-		this.add(buildDicePanel(createDiceHeaderPanel(), createDiceGridPanel()));
-
-		/*****************************************************************
-		 * 1.2.3 - Rules for the scoring combinations shall be displayed on the
-		 * right side of the screen.
-		 *****************************************************************/
-
+			buildDicePanel();
+		
 		// Call to create score panel
-		this.add(createScoreGuidePanel());
-		this.pack();
+		createScoreGuidePanel();
 
 		// Tell the controller we're done
 		controller.newGame();
 
+		pack();
 	}
+	
 
 	/**
 	 * Create a JPanel which contains two buttons and attach a Listener to each
@@ -234,7 +206,9 @@ public class FarkleUI extends JFrame {
 	 * @param diceGridPanel
 	 * @return
 	 */
-	public JPanel buildDicePanel(JPanel diceHeaderPanel, JPanel diceGridPanel) {
+	public void buildDicePanel() {
+		JPanel diceHeaderPanel = createDiceHeaderPanel();
+		JPanel diceGridPanel = createDiceGridPanel();
 		JPanel dicePanel = new JPanel();
 		dicePanel.setLayout(new BoxLayout(dicePanel, BoxLayout.Y_AXIS));
 		diceHeaderPanel.setBorder(BorderFactory
@@ -242,7 +216,7 @@ public class FarkleUI extends JFrame {
 		dicePanel.add(diceHeaderPanel);
 		diceGridPanel.setPreferredSize(diceGridPanel.getMaximumSize());
 		dicePanel.add(diceGridPanel);
-		return dicePanel;
+		this.add(dicePanel);
 	}
 
 	/********************************************************************************
@@ -340,7 +314,7 @@ public class FarkleUI extends JFrame {
 		return dicePanel;
 	}
 
-	private JPanel buildPlayerPanel(GameMode gameMode) {
+	public void buildPlayerPanel(GameMode gameMode) {
 		JPanel playersPanel = new JPanel();
 		playersPanel.setLayout(new BoxLayout(playersPanel, BoxLayout.Y_AXIS));
 		playersPanel.setBorder(BorderFactory.createLineBorder(Color.WHITE, 3));
@@ -371,7 +345,7 @@ public class FarkleUI extends JFrame {
 			playersPanel.add(player2ScrollPanel);
 			playersPanel.setBackground(greenBackground);
 		}
-
+		
 		/**********************************************************
 		 * 1.3.5 - The current highest achieved score shall be displayed on the
 		 * lower left hand corner of the screen below the overall point total
@@ -380,7 +354,8 @@ public class FarkleUI extends JFrame {
 		 **********************************************************/
 		addHighScore(playersPanel);
 		playersPanel.setBackground(greenBackground);
-		return playersPanel;
+		
+		this.add(playersPanel, 0);
 	}
 
 	/***********************************************************
@@ -527,12 +502,17 @@ public class FarkleUI extends JFrame {
 		playerPanel.add(playerScores.get(turnNumber - 1));
 	}
 
+	/*****************************************************************
+	 * 1.2.3 - Rules for the scoring combinations shall be displayed on the
+	 * right side of the screen.
+	 *****************************************************************/
+	
 	/**
 	 * Create a new JPanel that displays the score guide image
 	 * 
 	 * @return JLabel
 	 */
-	private JPanel createScoreGuidePanel() {
+	private void createScoreGuidePanel() {
 
 		/*****************************************************
 		 * 1.3.3: Rules for the scoring combinations shall be displayed on the
@@ -556,7 +536,7 @@ public class FarkleUI extends JFrame {
 		scorePanel.setBorder(BorderFactory.createCompoundBorder(
 				BorderFactory.createLineBorder(Color.WHITE, 3),
 				BorderFactory.createEmptyBorder(3, 17, 3, 17)));
-		return scorePanel;
+		this.add(scorePanel);
 	}
 
 	public JButton getRollBtn() {
@@ -602,12 +582,12 @@ public class FarkleUI extends JFrame {
 
 	public void rollDice() {
 		// Test farkle roll
-		// dice[0].setValue(2);
-		// dice[1].setValue(2);
-		// dice[2].setValue(3);
-		// dice[3].setValue(4);
-		// dice[4].setValue(6);
-		// dice[5].setValue(6);
+		 /*dice[0].setValue('f');
+		 dice[1].setValue('a');
+		 dice[2].setValue('r');
+		 dice[3].setValue('k');
+		 dice[4].setValue('l');
+		 dice[5].setValue('e');*/
 
 		// Roll all the dice
 		for (Die d : dice) {
@@ -658,8 +638,33 @@ public class FarkleUI extends JFrame {
 	public void resetDice() {
 		for (Die d : dice) {
 			d.setState(DieState.UNHELD);
-			d.setValue(0);
 		}
+	}
+	
+	
+	/**
+	 * Prevents dice from being selected
+	 */
+	public void disableDice() {
+		for (Die d : dice) {
+			d.setState(DieState.DISABLED);
+		}
+	}
+	
+	public void resetDicePanel() {
+		resetDice();
+		this.rollBtn.setEnabled(true);
+		this.selectAllBtn.setEnabled(false);
+		this.bankBtn.setEnabled(false);
+	}
+	
+	public void diceFirstRun() {
+		 dice[0].setValue('f');
+		 dice[1].setValue('a');
+		 dice[2].setValue('r');
+		 dice[3].setValue('k');
+	 	 dice[4].setValue('l');
+	 	 dice[5].setValue('e');
 	}
 
 	public void resetScores(int playerNumber) {
@@ -967,12 +972,14 @@ public class FarkleUI extends JFrame {
 		
 		menuBar.add(fileMenu);
 		final JMenuItem hintAction = new JMenuItem("Hint");
-		final JMenuItem newAction = new JMenuItem("New");
-		final JMenuItem resetAction = new JMenuItem("Reset");
+		final JMenuItem newAction = new JMenuItem("New Game");
+		final JMenuItem resetAction = new JMenuItem("Reset Game");
+		final JMenuItem resetHighScoreAction = new JMenuItem("Reset High Score");
 		final JMenuItem exitAction = new JMenuItem("Exit");
 		fileMenu.add(hintAction);
 		fileMenu.add(newAction);
 		fileMenu.add(resetAction);
+		fileMenu.add(resetHighScoreAction);
 		fileMenu.add(exitAction);
 		
 		fileMenu.addMenuListener(new MenuListener() {
@@ -1015,6 +1022,15 @@ public class FarkleUI extends JFrame {
 				@Override
 				public void actionPerformed(ActionEvent arg0) {
 					controller.endGame(true, false);
+				}
+			});
+		}
+		
+		if(resetHighScoreAction.getActionListeners().length == 0) {
+			resetHighScoreAction.addActionListener(new ActionListener() {
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					controller.resetHighScore();
 				}
 			});
 		}
