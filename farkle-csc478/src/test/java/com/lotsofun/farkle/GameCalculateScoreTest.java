@@ -1,8 +1,11 @@
 package com.lotsofun.farkle;
 
 import static org.junit.Assert.*;
+
 import java.util.LinkedList;
 import java.util.List;
+
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -17,6 +20,9 @@ public class GameCalculateScoreTest {
 
 	// The game object used for testing
 	private Game game;
+	
+	// The FarkleController object used for testing
+	private FarkleController farkleController;
 	
 	// The list of lists of permutations for a given roll to be tested
 	List<List<Integer>> myPermutations;
@@ -36,8 +42,17 @@ public class GameCalculateScoreTest {
 	@Before
 	public void setUp() throws Exception {
 		
+		// Instantiate the FarkleController object
+		farkleController = new FarkleController();
+		
 		// Instantiate the game option. The Game Mode used does not change the results of this test
-		game = new Game(GameMode.SINGLEPLAYER, new FarkleController());
+		game = new Game(GameMode.SINGLEPLAYER, farkleController, true);
+		
+		
+	}
+	
+	@After
+	public void tearDown() {
 	}
 	
 	/**

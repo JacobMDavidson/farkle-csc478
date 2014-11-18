@@ -15,7 +15,7 @@ import javax.swing.JOptionPane;
 public class FarkleController implements ActionListener, MouseListener {
 	FarkleUI farkleUI;
 	Game farkleGame;
-	final int POINT_THRESHOLD = 10000;
+	final int POINT_THRESHOLD = 100;
 	boolean isLastTurn = false;
 	FarkleOptionsDialog farkleOptions = null;
 
@@ -249,8 +249,8 @@ public class FarkleController implements ActionListener, MouseListener {
 		/****************************************************************
 		 * 2.2.0 - When 2 two player mode against a live person is selected, the
 		 * 2 two player mode graphic user interface (section 1.4.0) is displayed
-		 * with the name “Farkle” displayed on the dice is displayed with blank
-		 * dice, the “Bank Score” button disabled, the “Select All” button
+		 * with the name ï¿½Farkleï¿½ displayed on the dice is displayed with blank
+		 * dice, the ï¿½Bank Scoreï¿½ button disabled, the ï¿½Select Allï¿½ button
 		 * disabled, the bank button disabled, and player one highlighted
 		 * indicating it is his or her turn.
 		 ****************************************************************/
@@ -258,8 +258,8 @@ public class FarkleController implements ActionListener, MouseListener {
 		/****************************************************************
 		 * 2.2.8 - .When 2 two player mode against the computer is selected, the
 		 * 2 two player mode graphic user interface (section 1.4.0) is displayed
-		 * with the name “Farkle”is displayed with blankon the dice, the “Bank
-		 * Score” button disabled, the “Select All” button disabled, the bank
+		 * with the name ï¿½Farkleï¿½is displayed with blankon the dice, the ï¿½Bank
+		 * Scoreï¿½ button disabled, the ï¿½Select Allï¿½ button disabled, the bank
 		 * button disabled, and player one highlighted indicating it is his
 		 * turn.
 		 ****************************************************************/
