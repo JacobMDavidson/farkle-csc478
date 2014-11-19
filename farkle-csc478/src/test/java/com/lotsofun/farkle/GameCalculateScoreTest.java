@@ -46,7 +46,7 @@ public class GameCalculateScoreTest {
 		farkleController = new FarkleController();
 		
 		// Instantiate the game option. The Game Mode used does not change the results of this test
-		game = new Game(GameMode.SINGLEPLAYER, farkleController, true);
+		game = new Game(GameMode.SINGLEPLAYER, farkleController);
 		
 		
 	}

@@ -15,7 +15,7 @@ import javax.swing.JOptionPane;
 public class FarkleController implements ActionListener, MouseListener {
 	FarkleUI farkleUI;
 	Game farkleGame;
-	final int POINT_THRESHOLD = 100;
+	final int POINT_THRESHOLD = 10000;
 	boolean isLastTurn = false;
 	FarkleOptionsDialog farkleOptions = null;
 
@@ -156,7 +156,9 @@ public class FarkleController implements ActionListener, MouseListener {
 	 * @param highScore
 	 */
 	public void setUIHighScore(int highScore) {
-		farkleUI.setHighScore(highScore);
+		if(null != farkleUI) {
+			farkleUI.setHighScore(highScore);
+		}
 	}
 
 	/**
@@ -362,7 +364,9 @@ public class FarkleController implements ActionListener, MouseListener {
 	 * @param int score
 	 */
 	public void setTurnScore(int player, int turn, int score) {
-		farkleUI.setTurnScore(player, turn, score);
+		if(null != farkleUI) {
+			farkleUI.setTurnScore(player, turn, score);
+		}
 	}
 
 	@Override

@@ -46,36 +46,6 @@ public class Game {
 		// Initialize the turns
 		resetGame();
 	}
-	
-	/**
-	 * Constructor for testing: Creates a new Game object, passes the GameMode and a
-	 * reference to the controller. This controller does not set the high score via 
-	 * the controller to elimante the need for instantiating the UI during testing
-	 * 
-	 * @param GameMode
-	 *            gMode
-	 * @param FarkleController
-	 *            controller
-	 * @param boolen test indicates this is an instantiation used for testing
-	 */
-	public Game(GameMode gMode, FarkleController controller, boolean test) {
-		// Define the preferences file
-		prefs = Preferences.userRoot().node(this.getClass().getName());
-		
-		this.gameMode = gMode;
-		this.controller = controller;
-
-		// Create player 1 no matter what
-		players[0] = new Player(1);
-
-		// Create player 2 if needed
-		if (gameMode == GameMode.MULTIPLAYER) {
-			players[1] = new Player(2);
-		}
-
-		// Initialize the turns
-		resetGame();
-	}
 
 	/**
 	 * Calculates the score of a list of integers per the rules of this version
@@ -399,22 +369,6 @@ public class Game {
 	 */
 	public int getRollScores() {
 		return getCurrentPlayer().getRollScores();
-	}
-
-	/**
-	 * 
-	 * @return the number of players in the game object's players array
-	 */
-	public int getNumberOfPlayers() {
-		
-		// Count the number of instantiated Player objects in the players array
-		int count = 0;
-		for(int i = 0; i < players.length; i++)
-		{
-			if (players[i] instanceof Player)
-				count++;
-		}
-		return count;
 	}
 
 	public Player getCurrentPlayer() {
