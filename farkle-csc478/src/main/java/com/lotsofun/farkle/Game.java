@@ -356,13 +356,6 @@ public class Game {
 	}
 
 	/**
-	 * Increment the current turn value for the current player
-	 */
-	public void processTurn() {
-		getCurrentPlayer().nextTurn();
-	}
-
-	/**
 	 * Get the total score of all the rolls for this turn
 	 * 
 	 * @return
@@ -383,18 +376,6 @@ public class Game {
 		return gameMode;
 	}
 
-	public void setGameMode(GameMode gameMode) {
-		this.gameMode = gameMode;
-	}
-
-	public GameState getGameState() {
-		return gameState;
-	}
-
-	public void setGameState(GameState gameState) {
-		this.gameState = gameState;
-	}
-
 	public Die[] getDice() {
 		return dice;
 	}
@@ -405,10 +386,6 @@ public class Game {
 
 	public Player[] getPlayers() {
 		return players;
-	}
-
-	public void setPlayers(Player[] players) {
-		this.players = players;
 	}
 
 	public int getHighScore() {
@@ -450,18 +427,11 @@ public class Game {
 	public void setPlayerName(int playerNumber, String name) {
 		if (null != name && playerNumber >= 1 && playerNumber <= 2) {
 			this.players[playerNumber - 1].setPlayerName(name);
-			if (playerNumber == 2 && name.equalsIgnoreCase("computer")) {
-				this.players[1].setIsComputer(true);
-			}
 		}
 	}
 
 	public int getTurnNumberForCurrentPlayer() {
 		return this.getCurrentPlayer().getTurnNumber();
-	}
-
-	public void setTurnNumberForCurrentPlayer(int turnNumber) {
-		getCurrentPlayer().setTurnNumber(turnNumber);
 	}
 
 	public int getGameScoreForCurrentPlayer() {
