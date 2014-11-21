@@ -411,9 +411,10 @@ public class Game {
 				player.resetTurnScores();
 				player.resetRollScores();
 				player.setGameScore(0);
+				player.setRollNumber(0);
 			}
 		}
-		players[0].setCurrentPlayer(true);
+		this.setCurrentPlayer(1);
 	}
 
 	/**

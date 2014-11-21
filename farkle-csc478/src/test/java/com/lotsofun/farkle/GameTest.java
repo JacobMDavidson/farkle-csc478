@@ -497,11 +497,311 @@ public class GameTest {
 		assertTrue(winner[1].equals("0"));
 		
 		// Change the name and score for the single player game and test again
-		singlePlayerGame.setPlayerName(1, "Beavis");
+		singlePlayerGame.setPlayerName(1, "Brant");
 		singlePlayerGame.getCurrentPlayer().setGameScore(4100);
 		winner = singlePlayerGame.getWinningPlayerInfo();
-		assertTrue(winner[0].equals("Beavis"));
+		assertTrue(winner[0].equals("Brant"));
 		assertTrue(winner[1].equals("4100"));
-;	}
+		
+		//Test for each player of the multiPlayerGame. The name's should initially be null and they should be tied
+		winner = multiPlayerGame.getWinningPlayerInfo();
+		assertNull(winner[0]);
+		assertNull(winner[1]);
+		assertTrue(winner[2].equals("0"));
+		
+		// Set names and various scores for testing multiplayer
+		multiPlayerGame.setPlayerName(1,  "Curtis");
+		multiPlayerGame.setPlayerName(2, "Jacob");
+		
+		// Set scores so player 1 wins
+		multiPlayerGame.getPlayers()[0].setGameScore(1000);
+		multiPlayerGame.getPlayers()[1].setGameScore(500);
+		winner = multiPlayerGame.getWinningPlayerInfo();
+		assertTrue(winner[0].equals("Curtis"));
+		assertTrue(winner[1].equals("1000"));
+		
+		// Set scores so player 2 wins
+		multiPlayerGame.getPlayers()[0].setGameScore(500);
+		multiPlayerGame.getPlayers()[1].setGameScore(700);
+		winner = multiPlayerGame.getWinningPlayerInfo();
+		assertTrue(winner[0].equals("Jacob"));
+		assertTrue(winner[1].equals("700"));	
+		
+		// Set scores so players tie
+		multiPlayerGame.getPlayers()[0].setGameScore(500);
+		multiPlayerGame.getPlayers()[1].setGameScore(500);
+		winner = multiPlayerGame.getWinningPlayerInfo();
+		assertTrue(winner[0].equals("Curtis"));
+		assertTrue(winner[1].equals("Jacob"));	
+		assertTrue(winner[2].equals("500"));	
+	}
+	
+	/**
+	 * Test the isBonusTuen() and setBonusTurn(boolean) methods
+	 */
+	@Test
+	public void testIsAndSetBonusTurn() {
+		// test single player game
+		assertFalse(singlePlayerGame.isBonusTurn());
+		singlePlayerGame.setBonusTurn(true);
+		assertTrue(singlePlayerGame.isBonusTurn());
+		singlePlayerGame.setBonusTurn(false);
+		assertFalse(singlePlayerGame.isBonusTurn());
+		
+		// Test multi player game
+		assertFalse(multiPlayerGame.isBonusTurn());
+		multiPlayerGame.setBonusTurn(true);
+		assertTrue(multiPlayerGame.isBonusTurn());
+		multiPlayerGame.setBonusTurn(false);
+		assertFalse(multiPlayerGame.isBonusTurn());
+	}
+	
+	/**
+	 * Test the processHold(int) method
+	 */
+	
+	@Test
+	public void testProcessHold() {
+		// Test for single player game
+		assertEquals(0, singlePlayerGame.getRollScores());
+		singlePlayerGame.processHold(100);
+		assertEquals(100, singlePlayerGame.getRollScores());
+		singlePlayerGame.processHold(-100);
+		assertEquals(-100, singlePlayerGame.getRollScores());
+		
+		// test for multi player game - player 1
+		assertEquals(0, multiPlayerGame.getRollScores());
+		multiPlayerGame.processHold(100);
+		assertEquals(100, multiPlayerGame.getRollScores());
+		multiPlayerGame.processHold(-100);
+		assertEquals(-100, multiPlayerGame.getRollScores());
+		
+		// test for multi player game - player 2
+		multiPlayerGame.farkle();
+		assertEquals(0, multiPlayerGame.getRollScores());
+		multiPlayerGame.processHold(100);
+		assertEquals(100, multiPlayerGame.getRollScores());
+		multiPlayerGame.processHold(-100);
+		assertEquals(-100, multiPlayerGame.getRollScores());
+	}
+	
+	/**
+	 * Test the processRoll() method
+	 */
+	@Test
+	public void testProcessRoll() {
+		// Test for single player game
+		
+		// The roll number and roll score should be initially 0
+		assertEquals(0, singlePlayerGame.getCurrentPlayer().getRollNumber());
+		assertEquals(0, singlePlayerGame.getRollScores());
+		
+		// Add 100 to the roll and process it
+		singlePlayerGame.processHold(100);
+		singlePlayerGame.processRoll();
+		
+		// The roll number should be 1 and the roll score should be 100
+		assertEquals(1, singlePlayerGame.getCurrentPlayer().getRollNumber());
+		assertEquals(100, singlePlayerGame.getRollScores());
+		
+		// Add -50 to the roll and process it
+		singlePlayerGame.processHold(-50);
+		singlePlayerGame.processRoll();
+		
+		// The roll number should be 2 and the roll score should be 50
+		assertEquals(2, singlePlayerGame.getCurrentPlayer().getRollNumber());
+		assertEquals(50, singlePlayerGame.getRollScores());
+		
+		// Test for multi player game
+		
+		// The roll number and roll score should be initially 0
+		assertEquals(0, multiPlayerGame.getCurrentPlayer().getRollNumber());
+		assertEquals(0, multiPlayerGame.getRollScores());
+		
+		// Add 100 to the roll and process it
+		multiPlayerGame.processHold(100);
+		multiPlayerGame.processRoll();
+		
+		// The roll number should be 1 and the roll score should be 100
+		assertEquals(1, multiPlayerGame.getCurrentPlayer().getRollNumber());
+		assertEquals(100, multiPlayerGame.getRollScores());
+		
+		// Add -50 to the roll and process it
+		multiPlayerGame.processHold(-50);
+		multiPlayerGame.processRoll();
+		
+		// The roll number should be 2 and the roll score should be 50
+		assertEquals(2, multiPlayerGame.getCurrentPlayer().getRollNumber());
+		assertEquals(50, multiPlayerGame.getRollScores());
+		
+		// call the fakle method to change to player 2 and test again
+		multiPlayerGame.farkle();
+		
+		// The roll number and roll score should be initially 0
+		assertEquals(0, multiPlayerGame.getCurrentPlayer().getRollNumber());
+		assertEquals(0, multiPlayerGame.getRollScores());
+		
+		// Add 100 to the roll and process it
+		multiPlayerGame.processHold(100);
+		multiPlayerGame.processRoll();
+		
+		// The roll number should be 1 and the roll score should be 100
+		assertEquals(1, multiPlayerGame.getCurrentPlayer().getRollNumber());
+		assertEquals(100, multiPlayerGame.getRollScores());
+		
+		// Add -50 to the roll and process it
+		multiPlayerGame.processHold(-50);
+		multiPlayerGame.processRoll();
+		
+		// The roll number should be 2 and the roll score should be 50
+		assertEquals(2, multiPlayerGame.getCurrentPlayer().getRollNumber());
+		assertEquals(50, multiPlayerGame.getRollScores());
+	}
+	
+	/**
+	 * Test the resetGame() method
+	 */
+	@Test
+	public void testResetGame() {
+		// Test reset on a single player game
+		
+		/* Test for turn number = 1, game score = 0, roll number = 0, roll score = 0, turnScores is empty,
+		   and rollScore is empty*/ 
+		assertEquals(1, singlePlayerGame.getTurnNumberForCurrentPlayer());
+		assertEquals(0, singlePlayerGame.getGameScoreForCurrentPlayer());
+		assertEquals(0, singlePlayerGame.getCurrentPlayer().getRollNumber());
+		assertEquals(0, singlePlayerGame.getRollScores());
+		assertTrue(singlePlayerGame.getCurrentPlayer().getTurnScores().isEmpty());
+		assertTrue(singlePlayerGame.getCurrentPlayer().getRollScore().isEmpty());
+		
+		// simulate a few rolls and turns
+		singlePlayerGame.processHold(100);
+		singlePlayerGame.processRoll();
+		singlePlayerGame.processHold(150);
+		singlePlayerGame.processRoll();
+		singlePlayerGame.bank();
+		singlePlayerGame.farkle();
+		singlePlayerGame.processHold(100);
+		singlePlayerGame.processRoll();
+		assertEquals(3, singlePlayerGame.getTurnNumberForCurrentPlayer());
+		assertEquals(250, singlePlayerGame.getGameScoreForCurrentPlayer());
+		assertEquals(1, singlePlayerGame.getCurrentPlayer().getRollNumber());
+		assertEquals(100, singlePlayerGame.getRollScores());
+		
+		// Call the reset method, and test again
+		singlePlayerGame.resetGame();
+		assertEquals(1, singlePlayerGame.getTurnNumberForCurrentPlayer());
+		assertEquals(0, singlePlayerGame.getGameScoreForCurrentPlayer());
+		assertEquals(0, singlePlayerGame.getCurrentPlayer().getRollNumber());
+		assertEquals(0, singlePlayerGame.getRollScores());
+		assertTrue(singlePlayerGame.getCurrentPlayer().getTurnScores().isEmpty());
+		assertTrue(singlePlayerGame.getCurrentPlayer().getRollScore().isEmpty());
+		
+		// Test reset on a multi player game
+		
+		/* Test for turn number = 1, game score = 0, roll number = 0, roll score = 0, turnScores is empty,
+		   and rollScore is empty for player 1*/ 
+		assertEquals(1, multiPlayerGame.getTurnNumberForCurrentPlayer());
+		assertEquals(0, multiPlayerGame.getGameScoreForCurrentPlayer());
+		assertEquals(0, multiPlayerGame.getCurrentPlayer().getRollNumber());
+		assertEquals(0, multiPlayerGame.getRollScores());
+		assertTrue(multiPlayerGame.getCurrentPlayer().getTurnScores().isEmpty());
+		assertTrue(multiPlayerGame.getCurrentPlayer().getRollScore().isEmpty());
+		assertTrue(multiPlayerGame.getCurrentPlayer().equals(multiPlayerGame.getPlayers()[0]));
+		
+		// Set player 2 and check the same tests
+		multiPlayerGame.setCurrentPlayer(2);
+		assertEquals(1, multiPlayerGame.getTurnNumberForCurrentPlayer());
+		assertEquals(0, multiPlayerGame.getGameScoreForCurrentPlayer());
+		assertEquals(0, multiPlayerGame.getCurrentPlayer().getRollNumber());
+		assertEquals(0, multiPlayerGame.getRollScores());
+		assertTrue(multiPlayerGame.getCurrentPlayer().getTurnScores().isEmpty());
+		assertTrue(multiPlayerGame.getCurrentPlayer().getRollScore().isEmpty());
+		assertTrue(multiPlayerGame.getCurrentPlayer().equals(multiPlayerGame.getPlayers()[1]));
+		
+		// Change current player back to player 1 and process a few rolls
+		multiPlayerGame.setCurrentPlayer(1);
+		multiPlayerGame.processHold(100);
+		multiPlayerGame.processRoll();
+		multiPlayerGame.processHold(150);
+		multiPlayerGame.processRoll();
+		multiPlayerGame.bank();
+		
+		// Player 1 now has a game score of 250, and is on turn 2
+		multiPlayerGame.farkle();
+		
+		// Player 2 now has a game score of 0, and is on turn 2
+		multiPlayerGame.processHold(100);
+		multiPlayerGame.processRoll();	
+		multiPlayerGame.bank();
+		
+		// Player 1 now has a game score of 350, and is on turn 3
+		multiPlayerGame.processHold(550);
+		multiPlayerGame.processRoll();	
+		multiPlayerGame.bank();
+		
+		// Player 2 now has a score of 550, and is on turn 3
+		multiPlayerGame.processHold(100);
+		multiPlayerGame.processRoll();
+		multiPlayerGame.processHold(150);
+		multiPlayerGame.processRoll();
+		
+		// PLayer 1 now has a roll score of 250, and is on roll 2 (starts from 0)
+		
+		// Test player 1 game state
+		assertEquals(3, multiPlayerGame.getTurnNumberForCurrentPlayer());
+		assertEquals(350, multiPlayerGame.getGameScoreForCurrentPlayer());
+		assertEquals(2, multiPlayerGame.getCurrentPlayer().getRollNumber());
+		assertEquals(250, multiPlayerGame.getRollScores());
+		assertTrue(!multiPlayerGame.getCurrentPlayer().getTurnScores().isEmpty());
+		assertTrue(!multiPlayerGame.getCurrentPlayer().getRollScore().isEmpty());	
+		assertTrue(multiPlayerGame.getCurrentPlayer().equals(multiPlayerGame.getPlayers()[0]));
+		
+		// Test player 2 game state
+		multiPlayerGame.farkle();
+		assertEquals(3, multiPlayerGame.getTurnNumberForCurrentPlayer());
+		assertEquals(550, multiPlayerGame.getGameScoreForCurrentPlayer());
+		assertEquals(0, multiPlayerGame.getCurrentPlayer().getRollNumber());
+		assertEquals(0, multiPlayerGame.getRollScores());
+		assertTrue(!multiPlayerGame.getCurrentPlayer().getTurnScores().isEmpty());
+		assertTrue(!multiPlayerGame.getCurrentPlayer().getRollScore().isEmpty());	
+		assertTrue(multiPlayerGame.getCurrentPlayer().equals(multiPlayerGame.getPlayers()[1]));
+		
+		// Reset the game and test each player
+		multiPlayerGame.resetGame();
+		assertEquals(1, multiPlayerGame.getTurnNumberForCurrentPlayer());
+		assertEquals(0, multiPlayerGame.getGameScoreForCurrentPlayer());
+		assertEquals(0, multiPlayerGame.getCurrentPlayer().getRollNumber());
+		assertEquals(0, multiPlayerGame.getRollScores());
+		assertTrue(multiPlayerGame.getCurrentPlayer().getTurnScores().isEmpty());
+		assertTrue(multiPlayerGame.getCurrentPlayer().getRollScore().isEmpty());	
+		assertTrue(multiPlayerGame.getCurrentPlayer().equals(multiPlayerGame.getPlayers()[0]));
+		
+		// Change the current player and check again
+		multiPlayerGame.setCurrentPlayer(2);
+		assertEquals(1, multiPlayerGame.getTurnNumberForCurrentPlayer());
+		assertEquals(0, multiPlayerGame.getGameScoreForCurrentPlayer());
+		assertEquals(0, multiPlayerGame.getCurrentPlayer().getRollNumber());
+		assertEquals(0, multiPlayerGame.getRollScores());
+		assertTrue(multiPlayerGame.getCurrentPlayer().getTurnScores().isEmpty());
+		assertTrue(multiPlayerGame.getCurrentPlayer().getRollScore().isEmpty());	
+		assertTrue(multiPlayerGame.getCurrentPlayer().equals(multiPlayerGame.getPlayers()[1]));			
+	}
+	
+	/**
+	 * Test the resetHighScore() method
+	 */
+	@Test
+	public void testResetHighScore() {
+		// Set the high score, and then reset it to make sure it is reset to 0. This is
+		// a Preference, so it will be the same regardless of setting and getting 
+		// it through the single player game or multi player game
+		singlePlayerGame.setHighScore(5000);
+		assertEquals(5000, singlePlayerGame.getHighScore());
+		assertEquals(5000, multiPlayerGame.getHighScore());	
+		singlePlayerGame.resetHighScore();
+		assertEquals(0, singlePlayerGame.getHighScore());
+		assertEquals(0, multiPlayerGame.getHighScore());			
+	}
 }
 
