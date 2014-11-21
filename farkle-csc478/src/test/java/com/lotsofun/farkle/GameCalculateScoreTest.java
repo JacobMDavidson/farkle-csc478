@@ -2,6 +2,7 @@ package com.lotsofun.farkle;
 
 import static org.junit.Assert.*;
 
+import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -38,6 +39,12 @@ public class GameCalculateScoreTest {
 	
 	// The value of the second three of a kind die if two three of a kinds rolled at once
 	int dieTwoValue = 0;
+	
+	// The object array used to store the returned array from the calculateHighestScore method
+	Object[] highestScore;
+	
+	// List of integers indicating the highest roll
+	List<Integer> highestRoll;
 	
 	@Before
 	public void setUp() throws Exception {
@@ -150,6 +157,7 @@ public class GameCalculateScoreTest {
 	 * This method tests the fringe conditions of the calculateScore method of the 
 	 * Game class
 	 */
+	@SuppressWarnings("unchecked")
 	@Test
 	public void testCalculateScoreFringe(){
 		
@@ -165,6 +173,11 @@ public class GameCalculateScoreTest {
 		score = game.calculateScore(roll, false);
 		assertEquals(0, score);
 		
+		// Test calculateHighestScore with an empty list
+		highestScore = game.calculateHighestScore(roll);
+		assertEquals(0, highestScore[0]);
+		highestRoll = (List<Integer>) highestScore[1];
+		assertTrue(highestRoll.isEmpty());
 		
 		// Test that a roll with negative number integers returns 0
 		roll.add(-1);
@@ -174,9 +187,21 @@ public class GameCalculateScoreTest {
 		score = game.calculateScore(roll, false);
 		assertEquals(0, score);
 		
+		// Test calculateHighestScore with the negative number
+		highestScore = game.calculateHighestScore(roll);
+		assertEquals(0, highestScore[0]);	
+		highestRoll = (List<Integer>) highestScore[1];
+		assertTrue(highestRoll.isEmpty());
+		
 		// Test that passing null to the calculateScore method returns 0
 		assertEquals(0, game.calculateScore(null, true));
 		assertEquals(0, game.calculateScore(null, false));
+		
+		// Test calculateHighestScore with null
+		highestScore = game.calculateHighestScore(null);
+		assertEquals(0, highestScore[0]);	
+		highestRoll = (List<Integer>) highestScore[1];
+		assertTrue(highestRoll.isEmpty());
 		
 	}
 	
@@ -184,6 +209,7 @@ public class GameCalculateScoreTest {
 	 * This method tests the calculateScore method of the Game class for all permutations of 1 die,
 	 * requirements 6.1.0 and 6.2.0
 	 */
+	@SuppressWarnings("unchecked")
 	@Test
 	public void testCalculateScore1(){
 		
@@ -207,6 +233,12 @@ public class GameCalculateScoreTest {
 				// Test the held score
 				score = game.calculateScore(currentNumbers, true);
 				assertEquals(0, score);
+				
+				// Test calculateHighestScore
+				highestScore = game.calculateHighestScore(currentNumbers);
+				assertEquals(0, highestScore[0]);	
+				highestRoll = (List<Integer>) highestScore[1];
+				assertTrue(highestRoll.isEmpty());
 			}
 		}	
 		
@@ -225,6 +257,13 @@ public class GameCalculateScoreTest {
 			// Test the held score
 			score = game.calculateScore(numbers, true);
 			assertEquals(50, score);
+			
+			// Test calculateHighestScore
+			highestScore = game.calculateHighestScore(numbers);
+			assertEquals(50, highestScore[0]);	
+			highestRoll = (List<Integer>) highestScore[1];
+			assertEquals(highestRoll.size(), 1);
+			assertTrue(highestRoll.get(0).equals(5));
 		}
 		
 		/* Test 3: Check scoring for a die roll of 1 (requirement 6.1.0) */
@@ -242,6 +281,13 @@ public class GameCalculateScoreTest {
 			// Test the held score
 			score = game.calculateScore(numbers, true);
 			assertEquals(100, score);
+			
+			// Test calculateHighestScore
+			highestScore = game.calculateHighestScore(numbers);
+			assertEquals(100, highestScore[0]);	
+			highestRoll = (List<Integer>) highestScore[1];
+			assertEquals(highestRoll.size(), 1);
+			assertTrue(highestRoll.get(0).equals(1));
 		}
 	}
 	
@@ -249,6 +295,7 @@ public class GameCalculateScoreTest {
 	 * This method tests the calculateScore method of the Game class for all permutations of 2 dice,
 	 * requirement 6.1.0 and 6.2.0.
 	 */
+	@SuppressWarnings("unchecked")
 	@Test
 	public void testCalculateScore2(){
 		
@@ -272,6 +319,12 @@ public class GameCalculateScoreTest {
 				// Test the held score
 				score = game.calculateScore(currentNumbers, true);
 				assertEquals(0, score);
+				
+				// Test calculateHighestScore
+				highestScore = game.calculateHighestScore(currentNumbers);
+				assertEquals(0, highestScore[0]);	
+				highestRoll = (List<Integer>) highestScore[1];
+				assertTrue(highestRoll.isEmpty());
 			}
 		}	
 		
@@ -295,6 +348,12 @@ public class GameCalculateScoreTest {
 				// Test the held score
 				score = game.calculateScore(currentNumbers, true);
 				assertEquals(0, score);
+				
+				// Test calculateHighestScore
+				highestScore = game.calculateHighestScore(currentNumbers);
+				assertEquals(0, highestScore[0]);	
+				highestRoll = (List<Integer>) highestScore[1];
+				assertTrue(highestRoll.isEmpty());
 			}
 		}
 		
@@ -320,6 +379,13 @@ public class GameCalculateScoreTest {
 				// Test the held score
 				score = game.calculateScore(currentNumbers, true);
 				assertEquals(0, score);
+				
+				// Test calculateHighestScore
+				highestScore = game.calculateHighestScore(currentNumbers);
+				assertEquals(50, highestScore[0]);	
+				highestRoll = (List<Integer>) highestScore[1];
+				assertEquals(highestRoll.size(), 1);
+				assertTrue(highestRoll.get(0).equals(5));
 			}
 		}
 		
@@ -345,6 +411,13 @@ public class GameCalculateScoreTest {
 				// Test the held score
 				score = game.calculateScore(currentNumbers, true);
 				assertEquals(0, score);
+				
+				// Test calculateHighestScore
+				highestScore = game.calculateHighestScore(currentNumbers);
+				assertEquals(100, highestScore[0]);	
+				highestRoll = (List<Integer>) highestScore[1];
+				assertEquals(highestRoll.size(), 1);
+				assertTrue(highestRoll.get(0).equals(1));
 			}
 		}
 		
@@ -365,6 +438,14 @@ public class GameCalculateScoreTest {
 			// Test the held score
 			score = game.calculateScore(numbers, true);
 			assertEquals(100, score);
+			
+			// Test calculateHighestScore
+			highestScore = game.calculateHighestScore(numbers);
+			assertEquals(100, highestScore[0]);	
+			highestRoll = (List<Integer>) highestScore[1];
+			assertEquals(highestRoll.size(), 2);
+			assertTrue(highestRoll.get(0).equals(5));
+			assertTrue(highestRoll.get(1).equals(5));
 		}
 		
 		/* Test 9: Check scoring for a die roll of 15 
@@ -384,6 +465,14 @@ public class GameCalculateScoreTest {
 			// Test the held score
 			score = game.calculateScore(numbers, true);
 			assertEquals(150, score);
+			
+			// Test calculateHighestScore
+			highestScore = game.calculateHighestScore(numbers);
+			assertEquals(150, highestScore[0]);	
+			highestRoll = (List<Integer>) highestScore[1];
+			assertEquals(highestRoll.size(), 2);
+			assertTrue(highestRoll.contains(1));
+			assertTrue(highestRoll.contains(5));
 		}
 		
 		/* Test 10: Check scoring for a die roll of 11 
@@ -403,6 +492,18 @@ public class GameCalculateScoreTest {
 			// Test the held score
 			score = game.calculateScore(numbers, true);
 			assertEquals(200, score);
+			
+			// Test the calculateHighestScore method
+			highestScore = game.calculateHighestScore(numbers);
+			assertEquals(200, highestScore[0]);	
+			highestRoll = (List<Integer>) highestScore[1];
+			assertEquals(highestRoll.size(), 2);
+			assertTrue(highestRoll.contains(1));
+			assertTrue(!highestRoll.contains(2));
+			assertTrue(!highestRoll.contains(3));
+			assertTrue(!highestRoll.contains(4));
+			assertTrue(!highestRoll.contains(5));
+			assertTrue(!highestRoll.contains(6));
 		}
 		
 	}
@@ -411,6 +512,7 @@ public class GameCalculateScoreTest {
 	 * This method tests the calculateScore method of the Game class for all permutations of 3 dice,
 	 * requirements 6.1.0, 6.2.0, 6.3.0, and 6.4.0.
 	 */
+	@SuppressWarnings("unchecked")
 	@Test
 	public void testCalculateScore3(){	
 		
@@ -434,6 +536,12 @@ public class GameCalculateScoreTest {
 				// Test the held score
 				score = game.calculateScore(currentNumbers, true);
 				assertEquals(0, score);
+				
+				// Test the calculateHighestScore method
+				highestScore = game.calculateHighestScore(currentNumbers);
+				assertEquals(0, highestScore[0]);	
+				highestRoll = (List<Integer>) highestScore[1];
+				assertTrue(highestRoll.isEmpty());
 			}
 		}
 		
@@ -457,6 +565,12 @@ public class GameCalculateScoreTest {
 				// Test the held score
 				score = game.calculateScore(currentNumbers, true);
 				assertEquals(0, score);
+				
+				// Test the calculateHighestScore method
+				highestScore = game.calculateHighestScore(currentNumbers);
+				assertEquals(0, highestScore[0]);	
+				highestRoll = (List<Integer>) highestScore[1];
+				assertTrue(highestRoll.isEmpty());
 			}
 		}
 		
@@ -482,6 +596,18 @@ public class GameCalculateScoreTest {
 				// Test the held score
 				score = game.calculateScore(currentNumbers, true);
 				assertEquals(0, score);
+				
+				// Test the calculateHighestScore method
+				highestScore = game.calculateHighestScore(currentNumbers);
+				assertEquals(50, highestScore[0]);	
+				highestRoll = (List<Integer>) highestScore[1];
+				assertEquals(highestRoll.size(), 1);
+				assertTrue(!highestRoll.contains(1));
+				assertTrue(!highestRoll.contains(2));
+				assertTrue(!highestRoll.contains(3));
+				assertTrue(!highestRoll.contains(4));
+				assertTrue(highestRoll.contains(5));
+				assertTrue(!highestRoll.contains(6));
 			}
 		}
 		
@@ -507,6 +633,18 @@ public class GameCalculateScoreTest {
 				// Test the held score
 				score = game.calculateScore(currentNumbers, true);
 				assertEquals(0, score);
+				
+				// Test the calculateHighestScore method
+				highestScore = game.calculateHighestScore(currentNumbers);
+				assertEquals(50, highestScore[0]);	
+				highestRoll = (List<Integer>) highestScore[1];
+				assertEquals(highestRoll.size(), 1);
+				assertTrue(!highestRoll.contains(1));
+				assertTrue(!highestRoll.contains(2));
+				assertTrue(!highestRoll.contains(3));
+				assertTrue(!highestRoll.contains(4));
+				assertTrue(highestRoll.contains(5));
+				assertTrue(!highestRoll.contains(6));
 			}
 		}
 		
@@ -532,6 +670,18 @@ public class GameCalculateScoreTest {
 				// Test the held score
 				score = game.calculateScore(currentNumbers, true);
 				assertEquals(0, score);
+				
+				// Test the calculateHighestScore method
+				highestScore = game.calculateHighestScore(currentNumbers);
+				assertEquals(100, highestScore[0]);	
+				highestRoll = (List<Integer>) highestScore[1];
+				assertEquals(highestRoll.size(), 1);
+				assertTrue(highestRoll.contains(1));
+				assertTrue(!highestRoll.contains(2));
+				assertTrue(!highestRoll.contains(3));
+				assertTrue(!highestRoll.contains(4));
+				assertTrue(!highestRoll.contains(5));
+				assertTrue(!highestRoll.contains(6));
 			}
 		}
 		
@@ -557,6 +707,18 @@ public class GameCalculateScoreTest {
 				// Test the held score
 				score = game.calculateScore(currentNumbers, true);
 				assertEquals(0, score);
+				
+				// Test the calculateHighestScore method
+				highestScore = game.calculateHighestScore(currentNumbers);
+				assertEquals(100, highestScore[0]);	
+				highestRoll = (List<Integer>) highestScore[1];
+				assertEquals(highestRoll.size(), 1);
+				assertTrue(highestRoll.contains(1));
+				assertTrue(!highestRoll.contains(2));
+				assertTrue(!highestRoll.contains(3));
+				assertTrue(!highestRoll.contains(4));
+				assertTrue(!highestRoll.contains(5));
+				assertTrue(!highestRoll.contains(6));
 			}
 		}
 		
@@ -582,6 +744,18 @@ public class GameCalculateScoreTest {
 				// Test the held score
 				score = game.calculateScore(currentNumbers, true);
 				assertEquals(0, score);
+				
+				// Test the calculateHighestScore method
+				highestScore = game.calculateHighestScore(currentNumbers);
+				assertEquals(100, highestScore[0]);	
+				highestRoll = (List<Integer>) highestScore[1];
+				assertEquals(highestRoll.size(), 2);
+				assertTrue(!highestRoll.contains(1));
+				assertTrue(!highestRoll.contains(2));
+				assertTrue(!highestRoll.contains(3));
+				assertTrue(!highestRoll.contains(4));
+				assertTrue(highestRoll.contains(5));
+				assertTrue(!highestRoll.contains(6));
 			}
 		}
 		
@@ -607,6 +781,18 @@ public class GameCalculateScoreTest {
 				// Test the held score
 				score = game.calculateScore(currentNumbers, true);
 				assertEquals(0, score);
+				
+				// Test the calculateHighestScore method
+				highestScore = game.calculateHighestScore(currentNumbers);
+				assertEquals(150, highestScore[0]);	
+				highestRoll = (List<Integer>) highestScore[1];
+				assertEquals(highestRoll.size(), 2);
+				assertTrue(highestRoll.contains(1));
+				assertTrue(!highestRoll.contains(2));
+				assertTrue(!highestRoll.contains(3));
+				assertTrue(!highestRoll.contains(4));
+				assertTrue(highestRoll.contains(5));
+				assertTrue(!highestRoll.contains(6));
 			}
 		}
 		
@@ -632,6 +818,18 @@ public class GameCalculateScoreTest {
 				// Test the held score
 				score = game.calculateScore(currentNumbers, true);
 				assertEquals(0, score);
+				
+				// Test the calculateHighestScore method
+				highestScore = game.calculateHighestScore(currentNumbers);
+				assertEquals(200, highestScore[0]);	
+				highestRoll = (List<Integer>) highestScore[1];
+				assertEquals(highestRoll.size(), 2);
+				assertTrue(highestRoll.contains(1));
+				assertTrue(!highestRoll.contains(2));
+				assertTrue(!highestRoll.contains(3));
+				assertTrue(!highestRoll.contains(4));
+				assertTrue(!highestRoll.contains(5));
+				assertTrue(!highestRoll.contains(6));
 			}
 		}
 		
@@ -652,6 +850,18 @@ public class GameCalculateScoreTest {
 			// Test the held score
 			score = game.calculateScore(numbers, true);
 			assertEquals(200, score);
+			
+			// Test the calculateHighestScore method
+			highestScore = game.calculateHighestScore(numbers);
+			assertEquals(200, highestScore[0]);	
+			highestRoll = (List<Integer>) highestScore[1];
+			assertEquals(highestRoll.size(), 3);
+			assertTrue(highestRoll.contains(1));
+			assertTrue(!highestRoll.contains(2));
+			assertTrue(!highestRoll.contains(3));
+			assertTrue(!highestRoll.contains(4));
+			assertTrue(highestRoll.contains(5));
+			assertTrue(!highestRoll.contains(6));
 		}
 		
 		/* Test 21: Check scoring for a die roll of 115 
@@ -671,6 +881,18 @@ public class GameCalculateScoreTest {
 			// Test the held score
 			score = game.calculateScore(numbers, true);
 			assertEquals(250, score);
+			
+			// Test the calculateHighestScore method
+			highestScore = game.calculateHighestScore(numbers);
+			assertEquals(250, highestScore[0]);	
+			highestRoll = (List<Integer>) highestScore[1];
+			assertEquals(highestRoll.size(), 3);
+			assertTrue(highestRoll.contains(1));
+			assertTrue(!highestRoll.contains(2));
+			assertTrue(!highestRoll.contains(3));
+			assertTrue(!highestRoll.contains(4));
+			assertTrue(highestRoll.contains(5));
+			assertTrue(!highestRoll.contains(6));
 		}
 		
 		/* Test 22: Check scoring for a die roll of AAA (A represents all die values other than 1 or 5) 
@@ -698,6 +920,13 @@ public class GameCalculateScoreTest {
 				// Test the held score
 				score = game.calculateScore(currentNumbers, true);
 				assertEquals(100 * dieOneValue, score);
+				
+				// Test the calculateHighestScore method
+				highestScore = game.calculateHighestScore(currentNumbers);
+				assertEquals(100 * dieOneValue, highestScore[0]);	
+				highestRoll = (List<Integer>) highestScore[1];
+				assertEquals(highestRoll.size(), 3);
+				assertTrue(Collections.frequency(highestRoll, dieOneValue) == 3);
 			}
 		}	
 		
@@ -718,6 +947,13 @@ public class GameCalculateScoreTest {
 			// Test the held score
 			score = game.calculateScore(numbers, true);
 			assertEquals(500, score);
+			
+			// Test the calculateHighestScore method
+			highestScore = game.calculateHighestScore(numbers);
+			assertEquals(500, highestScore[0]);	
+			highestRoll = (List<Integer>) highestScore[1];
+			assertEquals(highestRoll.size(), 3);
+			assertTrue(Collections.frequency(highestRoll, 5) == 3);
 		}
 		
 		/* Test 24: Check scoring for a die roll of 111 
@@ -737,6 +973,13 @@ public class GameCalculateScoreTest {
 			// Test the held score
 			score = game.calculateScore(numbers, true);
 			assertEquals(1000, score);
+			
+			// Test the calculateHighestScore method
+			highestScore = game.calculateHighestScore(numbers);
+			assertEquals(1000, highestScore[0]);	
+			highestRoll = (List<Integer>) highestScore[1];
+			assertEquals(highestRoll.size(), 3);
+			assertTrue(Collections.frequency(highestRoll, 1) == 3);
 		}
 	}
 
@@ -744,6 +987,7 @@ public class GameCalculateScoreTest {
 	 * This method tests the calculateScore method of the Game class for all permutations of 4 dice,
 	 * requirements 6.1.0, 6.2.0, 6.3.0, 6.4.0, and 6.5.0
 	 */
+	@SuppressWarnings("unchecked")
 	@Test
 	public void testCalculateScore4(){
 		
@@ -767,6 +1011,12 @@ public class GameCalculateScoreTest {
 				// Test the held score
 				score = game.calculateScore(currentNumbers, true);
 				assertEquals(0, score);
+				
+				// Test the calculateHighestScore method
+				highestScore = game.calculateHighestScore(currentNumbers);
+				assertEquals(0, highestScore[0]);	
+				highestRoll = (List<Integer>) highestScore[1];
+				assertTrue(highestRoll.isEmpty());
 			}
 		}
 		
@@ -790,6 +1040,12 @@ public class GameCalculateScoreTest {
 				// Test the held score
 				score = game.calculateScore(currentNumbers, true);
 				assertEquals(0, score);
+				
+				// Test the calculateHighestScore method
+				highestScore = game.calculateHighestScore(currentNumbers);
+				assertEquals(0, highestScore[0]);	
+				highestRoll = (List<Integer>) highestScore[1];
+				assertTrue(highestRoll.isEmpty());
 			}
 		}
 		
@@ -813,6 +1069,12 @@ public class GameCalculateScoreTest {
 				// Test the held score
 				score = game.calculateScore(currentNumbers, true);
 				assertEquals(0, score);
+				
+				// Test the calculateHighestScore method
+				highestScore = game.calculateHighestScore(currentNumbers);
+				assertEquals(0, highestScore[0]);	
+				highestRoll = (List<Integer>) highestScore[1];
+				assertTrue(highestRoll.isEmpty());
 			}
 		}
 		
@@ -838,6 +1100,13 @@ public class GameCalculateScoreTest {
 				// Test the held score
 				score = game.calculateScore(currentNumbers, true);
 				assertEquals(0, score);
+				
+				// Test the calculateHighestScore method
+				highestScore = game.calculateHighestScore(currentNumbers);
+				assertEquals(50, highestScore[0]);	
+				highestRoll = (List<Integer>) highestScore[1];
+				assertEquals(highestRoll.size(), 1);
+				assertTrue(Collections.frequency(highestRoll, 5) == 1);
 			}
 		}
 		
@@ -863,6 +1132,13 @@ public class GameCalculateScoreTest {
 				// Test the held score
 				score = game.calculateScore(currentNumbers, true);
 				assertEquals(0, score);
+				
+				// Test the calculateHighestScore method
+				highestScore = game.calculateHighestScore(currentNumbers);
+				assertEquals(50, highestScore[0]);	
+				highestRoll = (List<Integer>) highestScore[1];
+				assertEquals(highestRoll.size(), 1);
+				assertTrue(Collections.frequency(highestRoll, 5) == 1);
 			}
 		}
 		
@@ -888,6 +1164,13 @@ public class GameCalculateScoreTest {
 				// Test the held score
 				score = game.calculateScore(currentNumbers, true);
 				assertEquals(0, score);
+				
+				// Test the calculateHighestScore method
+				highestScore = game.calculateHighestScore(currentNumbers);
+				assertEquals(100, highestScore[0]);	
+				highestRoll = (List<Integer>) highestScore[1];
+				assertEquals(highestRoll.size(), 1);
+				assertTrue(Collections.frequency(highestRoll, 1) == 1);
 			}
 		}
 		
@@ -913,6 +1196,13 @@ public class GameCalculateScoreTest {
 				// Test the held score
 				score = game.calculateScore(currentNumbers, true);
 				assertEquals(0, score);
+				
+				// Test the calculateHighestScore method
+				highestScore = game.calculateHighestScore(currentNumbers);
+				assertEquals(100, highestScore[0]);	
+				highestRoll = (List<Integer>) highestScore[1];
+				assertEquals(highestRoll.size(), 1);
+				assertTrue(Collections.frequency(highestRoll, 1) == 1);
 			}
 		}
 		
@@ -938,6 +1228,13 @@ public class GameCalculateScoreTest {
 				// Test the held score
 				score = game.calculateScore(currentNumbers, true);
 				assertEquals(0, score);
+				
+				// Test the calculateHighestScore method
+				highestScore = game.calculateHighestScore(currentNumbers);
+				assertEquals(100, highestScore[0]);	
+				highestRoll = (List<Integer>) highestScore[1];
+				assertEquals(highestRoll.size(), 2);
+				assertTrue(Collections.frequency(highestRoll, 5) == 2);
 			}
 		}
 		
@@ -963,6 +1260,13 @@ public class GameCalculateScoreTest {
 				// Test the held score
 				score = game.calculateScore(currentNumbers, true);
 				assertEquals(0, score);
+				
+				// Test the calculateHighestScore method
+				highestScore = game.calculateHighestScore(currentNumbers);
+				assertEquals(100, highestScore[0]);	
+				highestRoll = (List<Integer>) highestScore[1];
+				assertEquals(highestRoll.size(), 2);
+				assertTrue(Collections.frequency(highestRoll, 5) == 2);
 			}
 		}
 		
@@ -988,6 +1292,14 @@ public class GameCalculateScoreTest {
 				// Test the held score
 				score = game.calculateScore(currentNumbers, true);
 				assertEquals(0, score);
+				
+				// Test the calculateHighestScore method
+				highestScore = game.calculateHighestScore(currentNumbers);
+				assertEquals(150, highestScore[0]);	
+				highestRoll = (List<Integer>) highestScore[1];
+				assertEquals(highestRoll.size(), 2);
+				assertTrue(Collections.frequency(highestRoll, 5) == 1);
+				assertTrue(Collections.frequency(highestRoll, 1) == 1);
 			}
 		}
 		
@@ -1013,6 +1325,14 @@ public class GameCalculateScoreTest {
 				// Test the held score
 				score = game.calculateScore(currentNumbers, true);
 				assertEquals(0, score);
+				
+				// Test the calculateHighestScore method
+				highestScore = game.calculateHighestScore(currentNumbers);
+				assertEquals(150, highestScore[0]);	
+				highestRoll = (List<Integer>) highestScore[1];
+				assertEquals(highestRoll.size(), 2);
+				assertTrue(Collections.frequency(highestRoll, 5) == 1);
+				assertTrue(Collections.frequency(highestRoll, 1) == 1);
 			}
 		}
 		
@@ -1039,6 +1359,13 @@ public class GameCalculateScoreTest {
 				// Test the held score
 				score = game.calculateScore(currentNumbers, true);
 				assertEquals(0, score);
+				
+				// Test the calculateHighestScore method
+				highestScore = game.calculateHighestScore(currentNumbers);
+				assertEquals(200, highestScore[0]);	
+				highestRoll = (List<Integer>) highestScore[1];
+				assertEquals(highestRoll.size(), 2);
+				assertTrue(Collections.frequency(highestRoll, 1) == 2);
 			}
 		}
 		
@@ -1064,6 +1391,13 @@ public class GameCalculateScoreTest {
 				// Test the held score
 				score = game.calculateScore(currentNumbers, true);
 				assertEquals(0, score);
+				
+				// Test the calculateHighestScore method
+				highestScore = game.calculateHighestScore(currentNumbers);
+				assertEquals(200, highestScore[0]);	
+				highestRoll = (List<Integer>) highestScore[1];
+				assertEquals(highestRoll.size(), 2);
+				assertTrue(Collections.frequency(highestRoll, 1) == 2);
 			}
 		}
 		
@@ -1089,6 +1423,14 @@ public class GameCalculateScoreTest {
 				// Test the held score
 				score = game.calculateScore(currentNumbers, true);
 				assertEquals(0, score);
+				
+				// Test the calculateHighestScore method
+				highestScore = game.calculateHighestScore(currentNumbers);
+				assertEquals(200, highestScore[0]);	
+				highestRoll = (List<Integer>) highestScore[1];
+				assertEquals(highestRoll.size(), 3);
+				assertTrue(Collections.frequency(highestRoll, 5) == 2);
+				assertTrue(Collections.frequency(highestRoll, 1) == 1);
 			}
 		}
 				
@@ -1114,6 +1456,14 @@ public class GameCalculateScoreTest {
 				// Test the held score
 				score = game.calculateScore(currentNumbers, true);
 				assertEquals(0, score);
+				
+				// Test the calculateHighestScore method
+				highestScore = game.calculateHighestScore(currentNumbers);
+				assertEquals(250, highestScore[0]);	
+				highestRoll = (List<Integer>) highestScore[1];
+				assertEquals(highestRoll.size(), 3);
+				assertTrue(Collections.frequency(highestRoll, 5) == 1);
+				assertTrue(Collections.frequency(highestRoll, 1) == 2);
 			}
 		}
 		
@@ -1142,6 +1492,13 @@ public class GameCalculateScoreTest {
 				// Test the held score
 				score = game.calculateScore(currentNumbers, true);
 				assertEquals(0, score);
+				
+				// Test the calculateHighestScore method
+				highestScore = game.calculateHighestScore(currentNumbers);
+				assertEquals(100 * dieOneValue, highestScore[0]);	
+				highestRoll = (List<Integer>) highestScore[1];
+				assertEquals(highestRoll.size(), 3);
+				assertTrue(Collections.frequency(highestRoll, dieOneValue) == 3);
 			}
 		}
 		
@@ -1167,6 +1524,13 @@ public class GameCalculateScoreTest {
 				// Test the held score
 				score = game.calculateScore(currentNumbers, true);
 				assertEquals(0, score);
+				
+				// Test the calculateHighestScore method
+				highestScore = game.calculateHighestScore(currentNumbers);
+				assertEquals(500, highestScore[0]);	
+				highestRoll = (List<Integer>) highestScore[1];
+				assertEquals(highestRoll.size(), 3);
+				assertTrue(Collections.frequency(highestRoll, 5) == 3);
 			}
 		}
 		
@@ -1192,6 +1556,13 @@ public class GameCalculateScoreTest {
 				// Test the held score
 				score = game.calculateScore(currentNumbers, true);
 				assertEquals(0, score);
+				
+				// Test the calculateHighestScore method
+				highestScore = game.calculateHighestScore(currentNumbers);
+				assertEquals(1000, highestScore[0]);	
+				highestRoll = (List<Integer>) highestScore[1];
+				assertEquals(highestRoll.size(), 3);
+				assertTrue(Collections.frequency(highestRoll, 1) == 3);
 			}
 		}
 		
@@ -1220,6 +1591,14 @@ public class GameCalculateScoreTest {
 				// Test the held score
 				score = game.calculateScore(currentNumbers, true);
 				assertEquals(100 * dieOneValue + 50, score);
+				
+				// Test the calculateHighestScore method
+				highestScore = game.calculateHighestScore(currentNumbers);
+				assertEquals(100 * dieOneValue + 50, highestScore[0]);	
+				highestRoll = (List<Integer>) highestScore[1];
+				assertEquals(highestRoll.size(), 4);
+				assertTrue(Collections.frequency(highestRoll, 5) == 1);
+				assertTrue(Collections.frequency(highestRoll, dieOneValue) == 3);
 			}
 		}
 		
@@ -1248,6 +1627,14 @@ public class GameCalculateScoreTest {
 				// Test the held score
 				score = game.calculateScore(currentNumbers, true);
 				assertEquals(100 * dieOneValue + 100, score);
+				
+				// Test the calculateHighestScore method
+				highestScore = game.calculateHighestScore(currentNumbers);
+				assertEquals(100 * dieOneValue + 100, highestScore[0]);	
+				highestRoll = (List<Integer>) highestScore[1];
+				assertEquals(highestRoll.size(), 4);
+				assertTrue(Collections.frequency(highestRoll, 1) == 1);
+				assertTrue(Collections.frequency(highestRoll, dieOneValue) == 3);
 			}
 		}
 		
@@ -1268,6 +1655,14 @@ public class GameCalculateScoreTest {
 			// Test the held score
 			score = game.calculateScore(numbers, true);
 			assertEquals(600, score);
+			
+			// Test the calculateHighestScore method
+			highestScore = game.calculateHighestScore(numbers);
+			assertEquals(600, highestScore[0]);	
+			highestRoll = (List<Integer>) highestScore[1];
+			assertEquals(highestRoll.size(), 4);
+			assertTrue(Collections.frequency(highestRoll, 5) == 3);
+			assertTrue(Collections.frequency(highestRoll, 1) == 1);
 		}
 		
 		/* Test 46: Check scoring for a die roll of 5111 
@@ -1287,6 +1682,14 @@ public class GameCalculateScoreTest {
 			// Test the held score
 			score = game.calculateScore(numbers, true);
 			assertEquals(1050, score);
+			
+			// Test the calculateHighestScore method
+			highestScore = game.calculateHighestScore(numbers);
+			assertEquals(1050, highestScore[0]);	
+			highestRoll = (List<Integer>) highestScore[1];
+			assertEquals(highestRoll.size(), 4);
+			assertTrue(Collections.frequency(highestRoll, 5) == 1);
+			assertTrue(Collections.frequency(highestRoll, 1) == 3);
 		}	
 		
 		/* Test 47: Check scoring for a die roll of AAAA (A represents all die values other than 1 or 5) 
@@ -1314,6 +1717,13 @@ public class GameCalculateScoreTest {
 				// Test the held score
 				score = game.calculateScore(currentNumbers, true);
 				assertEquals(100 * dieOneValue * 2, score);
+				
+				// Test the calculateHighestScore method
+				highestScore = game.calculateHighestScore(currentNumbers);
+				assertEquals(100 * dieOneValue * 2, highestScore[0]);	
+				highestRoll = (List<Integer>) highestScore[1];
+				assertEquals(highestRoll.size(), 4);
+				assertTrue(Collections.frequency(highestRoll, dieOneValue) == 4);
 			}
 		}
 		
@@ -1334,6 +1744,13 @@ public class GameCalculateScoreTest {
 			// Test the held score
 			score = game.calculateScore(numbers, true);
 			assertEquals(1000, score);
+			
+			// Test the calculateHighestScore method
+			highestScore = game.calculateHighestScore(numbers);
+			assertEquals(1000, highestScore[0]);	
+			highestRoll = (List<Integer>) highestScore[1];
+			assertEquals(highestRoll.size(), 4);
+			assertTrue(Collections.frequency(highestRoll, 5) == 4);
 		}
 		
 		/* Test 49: Check scoring for a die roll of 1111 
@@ -1353,6 +1770,13 @@ public class GameCalculateScoreTest {
 			// Test the held score
 			score = game.calculateScore(numbers, true);
 			assertEquals(2000, score);
+			
+			// Test the calculateHighestScore method
+			highestScore = game.calculateHighestScore(numbers);
+			assertEquals(2000, highestScore[0]);	
+			highestRoll = (List<Integer>) highestScore[1];
+			assertEquals(highestRoll.size(), 4);
+			assertTrue(Collections.frequency(highestRoll, 1) == 4);
 		}
 	}
 
@@ -1360,6 +1784,7 @@ public class GameCalculateScoreTest {
 	 * This method tests the calculateScore method of the Game class for all permutations of 5 dice,
 	 * requirements 6.1.0, 6.2.0, 6.3.0, 6.4.0, and 6.5.0.
 	 */
+	@SuppressWarnings("unchecked")
 	@Test
 	public void testCalculateScore5(){
 		/* Test 50: Check scoring for a die roll of AAXYZ (A, X, Y and Z each represent all die values other than 1 or 5) */
@@ -1382,6 +1807,12 @@ public class GameCalculateScoreTest {
 				// Test the held score
 				score = game.calculateScore(currentNumbers, true);
 				assertEquals(0, score);
+				
+				// Test the calculateHighestScore method
+				highestScore = game.calculateHighestScore(currentNumbers);
+				assertEquals(0, highestScore[0]);	
+				highestRoll = (List<Integer>) highestScore[1];
+				assertTrue(highestRoll.isEmpty());
 			}
 		}
 		
@@ -1405,6 +1836,12 @@ public class GameCalculateScoreTest {
 				// Test the held score
 				score = game.calculateScore(currentNumbers, true);
 				assertEquals(0, score);
+				
+				// Test the calculateHighestScore method
+				highestScore = game.calculateHighestScore(currentNumbers);
+				assertEquals(0, highestScore[0]);	
+				highestRoll = (List<Integer>) highestScore[1];
+				assertTrue(highestRoll.isEmpty());
 			}
 		}
 		
@@ -1430,6 +1867,13 @@ public class GameCalculateScoreTest {
 				// Test the held score
 				score = game.calculateScore(currentNumbers, true);
 				assertEquals(0, score);
+				
+				// Test the calculateHighestScore method
+				highestScore = game.calculateHighestScore(currentNumbers);
+				assertEquals(50, highestScore[0]);	
+				highestRoll = (List<Integer>) highestScore[1];
+				assertEquals(highestRoll.size(), 1);
+				assertTrue(Collections.frequency(highestRoll, 5) == 1);
 			}
 		}
 		
@@ -1455,6 +1899,13 @@ public class GameCalculateScoreTest {
 				// Test the held score
 				score = game.calculateScore(currentNumbers, true);
 				assertEquals(0, score);
+				
+				// Test the calculateHighestScore method
+				highestScore = game.calculateHighestScore(currentNumbers);
+				assertEquals(50, highestScore[0]);	
+				highestRoll = (List<Integer>) highestScore[1];
+				assertEquals(highestRoll.size(), 1);
+				assertTrue(Collections.frequency(highestRoll, 5) == 1);
 			}
 		}
 		
@@ -1480,6 +1931,13 @@ public class GameCalculateScoreTest {
 				// Test the held score
 				score = game.calculateScore(currentNumbers, true);
 				assertEquals(0, score);
+				
+				// Test the calculateHighestScore method
+				highestScore = game.calculateHighestScore(currentNumbers);
+				assertEquals(50, highestScore[0]);	
+				highestRoll = (List<Integer>) highestScore[1];
+				assertEquals(highestRoll.size(), 1);
+				assertTrue(Collections.frequency(highestRoll, 5) == 1);
 			}
 		}
 		
@@ -1505,6 +1963,13 @@ public class GameCalculateScoreTest {
 				// Test the held score
 				score = game.calculateScore(currentNumbers, true);
 				assertEquals(0, score);
+				
+				// Test the calculateHighestScore method
+				highestScore = game.calculateHighestScore(currentNumbers);
+				assertEquals(100, highestScore[0]);	
+				highestRoll = (List<Integer>) highestScore[1];
+				assertEquals(highestRoll.size(), 1);
+				assertTrue(Collections.frequency(highestRoll, 1) == 1);
 			}
 		}
 		
@@ -1530,6 +1995,13 @@ public class GameCalculateScoreTest {
 				// Test the held score
 				score = game.calculateScore(currentNumbers, true);
 				assertEquals(0, score);
+				
+				// Test the calculateHighestScore method
+				highestScore = game.calculateHighestScore(currentNumbers);
+				assertEquals(100, highestScore[0]);	
+				highestRoll = (List<Integer>) highestScore[1];
+				assertEquals(highestRoll.size(), 1);
+				assertTrue(Collections.frequency(highestRoll, 1) == 1);
 			}
 		}
 		
@@ -1555,6 +2027,13 @@ public class GameCalculateScoreTest {
 				// Test the held score
 				score = game.calculateScore(currentNumbers, true);
 				assertEquals(0, score);
+				
+				// Test the calculateHighestScore method
+				highestScore = game.calculateHighestScore(currentNumbers);
+				assertEquals(100, highestScore[0]);	
+				highestRoll = (List<Integer>) highestScore[1];
+				assertEquals(highestRoll.size(), 1);
+				assertTrue(Collections.frequency(highestRoll, 1) == 1);
 			}
 		}
 		
@@ -1580,6 +2059,13 @@ public class GameCalculateScoreTest {
 				// Test the held score
 				score = game.calculateScore(currentNumbers, true);
 				assertEquals(0, score);
+				
+				// Test the calculateHighestScore method
+				highestScore = game.calculateHighestScore(currentNumbers);
+				assertEquals(100, highestScore[0]);	
+				highestRoll = (List<Integer>) highestScore[1];
+				assertEquals(highestRoll.size(), 2);
+				assertTrue(Collections.frequency(highestRoll, 5) == 2);
 			}
 		}
 		
@@ -1605,6 +2091,13 @@ public class GameCalculateScoreTest {
 				// Test the held score
 				score = game.calculateScore(currentNumbers, true);
 				assertEquals(0, score);
+				
+				// Test the calculateHighestScore method
+				highestScore = game.calculateHighestScore(currentNumbers);
+				assertEquals(100, highestScore[0]);	
+				highestRoll = (List<Integer>) highestScore[1];
+				assertEquals(highestRoll.size(), 2);
+				assertTrue(Collections.frequency(highestRoll, 5) == 2);
 			}
 		}
 		
@@ -1630,6 +2123,14 @@ public class GameCalculateScoreTest {
 				// Test the held score
 				score = game.calculateScore(currentNumbers, true);
 				assertEquals(0, score);
+				
+				// Test the calculateHighestScore method
+				highestScore = game.calculateHighestScore(currentNumbers);
+				assertEquals(150, highestScore[0]);	
+				highestRoll = (List<Integer>) highestScore[1];
+				assertEquals(highestRoll.size(), 2);
+				assertTrue(Collections.frequency(highestRoll, 1) == 1);
+				assertTrue(Collections.frequency(highestRoll, 5) == 1);
 			}
 		}
 		
@@ -1655,6 +2156,14 @@ public class GameCalculateScoreTest {
 				// Test the held score
 				score = game.calculateScore(currentNumbers, true);
 				assertEquals(0, score);
+				
+				// Test the calculateHighestScore method
+				highestScore = game.calculateHighestScore(currentNumbers);
+				assertEquals(150, highestScore[0]);	
+				highestRoll = (List<Integer>) highestScore[1];
+				assertEquals(highestRoll.size(), 2);
+				assertTrue(Collections.frequency(highestRoll, 1) == 1);
+				assertTrue(Collections.frequency(highestRoll, 5) == 1);
 			}
 		}
 		
@@ -1680,6 +2189,13 @@ public class GameCalculateScoreTest {
 				// Test the held score
 				score = game.calculateScore(currentNumbers, true);
 				assertEquals(0, score);
+				
+				// Test the calculateHighestScore method
+				highestScore = game.calculateHighestScore(currentNumbers);
+				assertEquals(200, highestScore[0]);	
+				highestRoll = (List<Integer>) highestScore[1];
+				assertEquals(highestRoll.size(), 2);
+				assertTrue(Collections.frequency(highestRoll, 1) == 2);
 			}
 		}
 		
@@ -1705,6 +2221,13 @@ public class GameCalculateScoreTest {
 				// Test the held score
 				score = game.calculateScore(currentNumbers, true);
 				assertEquals(0, score);
+				
+				// Test the calculateHighestScore method
+				highestScore = game.calculateHighestScore(currentNumbers);
+				assertEquals(200, highestScore[0]);	
+				highestRoll = (List<Integer>) highestScore[1];
+				assertEquals(highestRoll.size(), 2);
+				assertTrue(Collections.frequency(highestRoll, 1) == 2);
 			}
 		}
 		
@@ -1730,6 +2253,14 @@ public class GameCalculateScoreTest {
 				// Test the held score
 				score = game.calculateScore(currentNumbers, true);
 				assertEquals(0, score);
+				
+				// Test the calculateHighestScore method
+				highestScore = game.calculateHighestScore(currentNumbers);
+				assertEquals(200, highestScore[0]);	
+				highestRoll = (List<Integer>) highestScore[1];
+				assertEquals(highestRoll.size(), 3);
+				assertTrue(Collections.frequency(highestRoll, 1) == 1);
+				assertTrue(Collections.frequency(highestRoll, 5) == 2);
 			}
 		}
 		
@@ -1756,6 +2287,14 @@ public class GameCalculateScoreTest {
 				// Test the held score
 				score = game.calculateScore(currentNumbers, true);
 				assertEquals(0, score);
+				
+				// Test the calculateHighestScore method
+				highestScore = game.calculateHighestScore(currentNumbers);
+				assertEquals(200, highestScore[0]);	
+				highestRoll = (List<Integer>) highestScore[1];
+				assertEquals(highestRoll.size(), 3);
+				assertTrue(Collections.frequency(highestRoll, 1) == 1);
+				assertTrue(Collections.frequency(highestRoll, 5) == 2);
 			}
 		}
 		
@@ -1781,6 +2320,14 @@ public class GameCalculateScoreTest {
 				// Test the held score
 				score = game.calculateScore(currentNumbers, true);
 				assertEquals(0, score);
+				
+				// Test the calculateHighestScore method
+				highestScore = game.calculateHighestScore(currentNumbers);
+				assertEquals(250, highestScore[0]);	
+				highestRoll = (List<Integer>) highestScore[1];
+				assertEquals(highestRoll.size(), 3);
+				assertTrue(Collections.frequency(highestRoll, 1) == 2);
+				assertTrue(Collections.frequency(highestRoll, 5) == 1);
 			}
 		}
 		
@@ -1807,6 +2354,14 @@ public class GameCalculateScoreTest {
 				// Test the held score
 				score = game.calculateScore(currentNumbers, true);
 				assertEquals(0, score);
+				
+				// Test the calculateHighestScore method
+				highestScore = game.calculateHighestScore(currentNumbers);
+				assertEquals(250, highestScore[0]);	
+				highestRoll = (List<Integer>) highestScore[1];
+				assertEquals(highestRoll.size(), 3);
+				assertTrue(Collections.frequency(highestRoll, 1) == 2);
+				assertTrue(Collections.frequency(highestRoll, 5) == 1);
 			}
 		}
 		
@@ -1835,6 +2390,13 @@ public class GameCalculateScoreTest {
 				// Test the held score
 				score = game.calculateScore(currentNumbers, true);
 				assertEquals(0, score);
+				
+				// Test the calculateHighestScore method
+				highestScore = game.calculateHighestScore(currentNumbers);
+				assertEquals(100 * dieOneValue, highestScore[0]);	
+				highestRoll = (List<Integer>) highestScore[1];
+				assertEquals(highestRoll.size(), 3);
+				assertTrue(Collections.frequency(highestRoll, dieOneValue) == 3);
 			}
 		}
 		
@@ -1863,6 +2425,13 @@ public class GameCalculateScoreTest {
 				// Test the held score
 				score = game.calculateScore(currentNumbers, true);
 				assertEquals(0, score);
+				
+				// Test the calculateHighestScore method
+				highestScore = game.calculateHighestScore(currentNumbers);
+				assertEquals(100 * dieOneValue, highestScore[0]);	
+				highestRoll = (List<Integer>) highestScore[1];
+				assertEquals(highestRoll.size(), 3);
+				assertTrue(Collections.frequency(highestRoll, dieOneValue) == 3);
 			}
 		}
 		
@@ -1892,6 +2461,14 @@ public class GameCalculateScoreTest {
 				// Test the held score
 				score = game.calculateScore(currentNumbers, true);
 				assertEquals(0, score);
+				
+				// Test the calculateHighestScore method
+				highestScore = game.calculateHighestScore(currentNumbers);
+				assertEquals(100 * dieOneValue + 50, highestScore[0]);	
+				highestRoll = (List<Integer>) highestScore[1];
+				assertEquals(highestRoll.size(), 4);
+				assertTrue(Collections.frequency(highestRoll, dieOneValue) == 3);
+				assertTrue(Collections.frequency(highestRoll, 5) == 1);
 			}
 		}
 		
@@ -1920,6 +2497,14 @@ public class GameCalculateScoreTest {
 				// Test the held score
 				score = game.calculateScore(currentNumbers, true);
 				assertEquals(0, score);
+				
+				// Test the calculateHighestScore method
+				highestScore = game.calculateHighestScore(currentNumbers);
+				assertEquals(100 * dieOneValue + 100, highestScore[0]);	
+				highestRoll = (List<Integer>) highestScore[1];
+				assertEquals(highestRoll.size(), 4);
+				assertTrue(Collections.frequency(highestRoll, dieOneValue) == 3);
+				assertTrue(Collections.frequency(highestRoll, 1) == 1);
 			}
 		}
 		
@@ -1948,6 +2533,14 @@ public class GameCalculateScoreTest {
 				// Test the held score
 				score = game.calculateScore(currentNumbers, true);
 				assertEquals(100 + 100 * dieOneValue, score);
+				
+				// Test the calculateHighestScore method
+				highestScore = game.calculateHighestScore(currentNumbers);
+				assertEquals(100 * dieOneValue + 100, highestScore[0]);	
+				highestRoll = (List<Integer>) highestScore[1];
+				assertEquals(highestRoll.size(), 5);
+				assertTrue(Collections.frequency(highestRoll, dieOneValue) == 3);
+				assertTrue(Collections.frequency(highestRoll, 5) == 2);
 			}
 		}
 		
@@ -1976,6 +2569,15 @@ public class GameCalculateScoreTest {
 				// Test the held score
 				score = game.calculateScore(currentNumbers, true);
 				assertEquals(150 + 100 * dieOneValue, score);
+				
+				// Test the calculateHighestScore method
+				highestScore = game.calculateHighestScore(currentNumbers);
+				assertEquals(100 * dieOneValue + 150, highestScore[0]);	
+				highestRoll = (List<Integer>) highestScore[1];
+				assertEquals(highestRoll.size(), 5);
+				assertTrue(Collections.frequency(highestRoll, dieOneValue) == 3);
+				assertTrue(Collections.frequency(highestRoll, 5) == 1);
+				assertTrue(Collections.frequency(highestRoll, 1) == 1);
 			}
 		}
 		
@@ -2004,6 +2606,14 @@ public class GameCalculateScoreTest {
 				// Test the held score
 				score = game.calculateScore(currentNumbers, true);
 				assertEquals(200 + 100 * dieOneValue, score);
+				
+				// Test the calculateHighestScore method
+				highestScore = game.calculateHighestScore(currentNumbers);
+				assertEquals(100 * dieOneValue + 200, highestScore[0]);	
+				highestRoll = (List<Integer>) highestScore[1];
+				assertEquals(highestRoll.size(), 5);
+				assertTrue(Collections.frequency(highestRoll, dieOneValue) == 3);
+				assertTrue(Collections.frequency(highestRoll, 1) == 2);
 			}
 		}
 		
@@ -2029,6 +2639,13 @@ public class GameCalculateScoreTest {
 				// Test the held score
 				score = game.calculateScore(currentNumbers, true);
 				assertEquals(0, score);
+				
+				// Test the calculateHighestScore method
+				highestScore = game.calculateHighestScore(currentNumbers);
+				assertEquals(500, highestScore[0]);	
+				highestRoll = (List<Integer>) highestScore[1];
+				assertEquals(highestRoll.size(), 3);
+				assertTrue(Collections.frequency(highestRoll, 5) == 3);
 			}
 		}
 		
@@ -2054,6 +2671,13 @@ public class GameCalculateScoreTest {
 				// Test the held score
 				score = game.calculateScore(currentNumbers, true);
 				assertEquals(0, score);
+				
+				// Test the calculateHighestScore method
+				highestScore = game.calculateHighestScore(currentNumbers);
+				assertEquals(500, highestScore[0]);	
+				highestRoll = (List<Integer>) highestScore[1];
+				assertEquals(highestRoll.size(), 3);
+				assertTrue(Collections.frequency(highestRoll, 5) == 3);
 			}
 		}
 		
@@ -2079,6 +2703,14 @@ public class GameCalculateScoreTest {
 				// Test the held score
 				score = game.calculateScore(currentNumbers, true);
 				assertEquals(0, score);
+				
+				// Test the calculateHighestScore method
+				highestScore = game.calculateHighestScore(currentNumbers);
+				assertEquals(600, highestScore[0]);	
+				highestRoll = (List<Integer>) highestScore[1];
+				assertEquals(highestRoll.size(), 4);
+				assertTrue(Collections.frequency(highestRoll, 5) == 3);
+				assertTrue(Collections.frequency(highestRoll, 1) == 1);
 			}
 		}
 		
@@ -2099,6 +2731,15 @@ public class GameCalculateScoreTest {
 			// Test the held score
 			score = game.calculateScore(numbers, true);
 			assertEquals(700, score);
+			
+			// Test the calculateHighestScore method
+			highestScore = game.calculateHighestScore(numbers);
+			assertEquals(700, highestScore[0]);	
+			highestRoll = (List<Integer>) highestScore[1];
+			assertEquals(highestRoll.size(), 5);
+			assertTrue(Collections.frequency(highestRoll, 5) == 3);
+			assertTrue(Collections.frequency(highestRoll, 1) == 2);
+			
 		}
 		
 		/* Test 79: Check scoring for a die roll of 111AX (A and X each represent all die values other than 1 or 5) 
@@ -2123,6 +2764,13 @@ public class GameCalculateScoreTest {
 				// Test the held score
 				score = game.calculateScore(currentNumbers, true);
 				assertEquals(0, score);
+				
+				// Test the calculateHighestScore method
+				highestScore = game.calculateHighestScore(currentNumbers);
+				assertEquals(1000, highestScore[0]);	
+				highestRoll = (List<Integer>) highestScore[1];
+				assertEquals(highestRoll.size(), 3);
+				assertTrue(Collections.frequency(highestRoll, 1) == 3);
 			}
 		}
 		
@@ -2148,6 +2796,13 @@ public class GameCalculateScoreTest {
 				// Test the held score
 				score = game.calculateScore(currentNumbers, true);
 				assertEquals(0, score);
+				
+				// Test the calculateHighestScore method
+				highestScore = game.calculateHighestScore(currentNumbers);
+				assertEquals(1000, highestScore[0]);	
+				highestRoll = (List<Integer>) highestScore[1];
+				assertEquals(highestRoll.size(), 3);
+				assertTrue(Collections.frequency(highestRoll, 1) == 3);
 			}
 		}
 		
@@ -2173,6 +2828,14 @@ public class GameCalculateScoreTest {
 				// Test the held score
 				score = game.calculateScore(currentNumbers, true);
 				assertEquals(0, score);
+				
+				// Test the calculateHighestScore method
+				highestScore = game.calculateHighestScore(currentNumbers);
+				assertEquals(1050, highestScore[0]);	
+				highestRoll = (List<Integer>) highestScore[1];
+				assertEquals(highestRoll.size(), 4);
+				assertTrue(Collections.frequency(highestRoll, 5) == 1);
+				assertTrue(Collections.frequency(highestRoll, 1) == 3);
 			}
 		}
 		
@@ -2193,6 +2856,14 @@ public class GameCalculateScoreTest {
 			// Test the held score
 			score = game.calculateScore(numbers, true);
 			assertEquals(1100, score);
+			
+			// Test the calculateHighestScore method
+			highestScore = game.calculateHighestScore(numbers);
+			assertEquals(1100, highestScore[0]);	
+			highestRoll = (List<Integer>) highestScore[1];
+			assertEquals(highestRoll.size(), 5);
+			assertTrue(Collections.frequency(highestRoll, 5) == 2);
+			assertTrue(Collections.frequency(highestRoll, 1) == 3);
 		}
 		
 		/* Test 83: Check scoring for a die roll of AAAAX (A and X each represent all die values other than 1 or 5) 
@@ -2220,6 +2891,13 @@ public class GameCalculateScoreTest {
 				// Test the held score
 				score = game.calculateScore(currentNumbers, true);
 				assertEquals(0, score);
+				
+				// Test the calculateHighestScore method
+				highestScore = game.calculateHighestScore(currentNumbers);
+				assertEquals(200 * dieOneValue, highestScore[0]);	
+				highestRoll = (List<Integer>) highestScore[1];
+				assertEquals(highestRoll.size(), 4);
+				assertTrue(Collections.frequency(highestRoll, dieOneValue) == 4);
 			}
 		}
 		
@@ -2248,6 +2926,14 @@ public class GameCalculateScoreTest {
 				// Test the held score
 				score = game.calculateScore(currentNumbers, true);
 				assertEquals(200 * dieOneValue + 50, score);
+				
+				// Test the calculateHighestScore method
+				highestScore = game.calculateHighestScore(currentNumbers);
+				assertEquals(200 * dieOneValue + 50, highestScore[0]);	
+				highestRoll = (List<Integer>) highestScore[1];
+				assertEquals(highestRoll.size(), 5);
+				assertTrue(Collections.frequency(highestRoll, dieOneValue) == 4);
+				assertTrue(Collections.frequency(highestRoll, 5) == 1);
 			}
 		}
 		
@@ -2276,6 +2962,14 @@ public class GameCalculateScoreTest {
 				// Test the held score
 				score = game.calculateScore(currentNumbers, true);
 				assertEquals(200 * dieOneValue + 100, score);
+				
+				// Test the calculateHighestScore method
+				highestScore = game.calculateHighestScore(currentNumbers);
+				assertEquals(200 * dieOneValue + 100, highestScore[0]);	
+				highestRoll = (List<Integer>) highestScore[1];
+				assertEquals(highestRoll.size(), 5);
+				assertTrue(Collections.frequency(highestRoll, dieOneValue) == 4);
+				assertTrue(Collections.frequency(highestRoll, 1) == 1);
 			}
 		}
 		
@@ -2302,6 +2996,13 @@ public class GameCalculateScoreTest {
 				// Test the held score
 				score = game.calculateScore(currentNumbers, true);
 				assertEquals(0, score);
+				
+				// Test the calculateHighestScore method
+				highestScore = game.calculateHighestScore(currentNumbers);
+				assertEquals(1000, highestScore[0]);	
+				highestRoll = (List<Integer>) highestScore[1];
+				assertEquals(highestRoll.size(), 4);
+				assertTrue(Collections.frequency(highestRoll, 5) == 4);
 			}
 		}
 		
@@ -2322,6 +3023,14 @@ public class GameCalculateScoreTest {
 			// Test the held score
 			score = game.calculateScore(numbers, true);
 			assertEquals(1100, score);
+			
+			// Test the calculateHighestScore method
+			highestScore = game.calculateHighestScore(numbers);
+			assertEquals(1100, highestScore[0]);	
+			highestRoll = (List<Integer>) highestScore[1];
+			assertEquals(highestRoll.size(), 5);
+			assertTrue(Collections.frequency(highestRoll, 5) == 4);
+			assertTrue(Collections.frequency(highestRoll, 1) == 1);
 		}
 		
 		/* Test 88: Check scoring for a die roll of 1111A (A represents all die values other than 1 or 5) 
@@ -2346,6 +3055,13 @@ public class GameCalculateScoreTest {
 				// Test the held score
 				score = game.calculateScore(currentNumbers, true);
 				assertEquals(0, score);
+				
+				// Test the calculateHighestScore method
+				highestScore = game.calculateHighestScore(currentNumbers);
+				assertEquals(2000, highestScore[0]);	
+				highestRoll = (List<Integer>) highestScore[1];
+				assertEquals(highestRoll.size(), 4);
+				assertTrue(Collections.frequency(highestRoll, 1) == 4);
 			}
 		}
 		
@@ -2366,6 +3082,14 @@ public class GameCalculateScoreTest {
 			// Test the held score
 			score = game.calculateScore(numbers, true);
 			assertEquals(2050, score);
+			
+			// Test the calculateHighestScore method
+			highestScore = game.calculateHighestScore(numbers);
+			assertEquals(2050, highestScore[0]);	
+			highestRoll = (List<Integer>) highestScore[1];
+			assertEquals(highestRoll.size(), 5);
+			assertTrue(Collections.frequency(highestRoll, 5) == 1);
+			assertTrue(Collections.frequency(highestRoll, 1) == 4);
 		}
 		
 		/* Test 90: Check scoring for a die roll of AAAAA (A represents all die values other than 1 or 5) 
@@ -2393,6 +3117,13 @@ public class GameCalculateScoreTest {
 				// Test the held score
 				score = game.calculateScore(currentNumbers, true);
 				assertEquals(400 * dieOneValue, score);
+				
+				// Test the calculateHighestScore method
+				highestScore = game.calculateHighestScore(currentNumbers);
+				assertEquals(400 * dieOneValue, highestScore[0]);	
+				highestRoll = (List<Integer>) highestScore[1];
+				assertEquals(highestRoll.size(), 5);
+				assertTrue(Collections.frequency(highestRoll, dieOneValue) == 5);
 			}
 		}
 		
@@ -2413,6 +3144,13 @@ public class GameCalculateScoreTest {
 			// Test the held score
 			score = game.calculateScore(numbers, true);
 			assertEquals(2000, score);
+			
+			// Test the calculateHighestScore method
+			highestScore = game.calculateHighestScore(numbers);
+			assertEquals(2000, highestScore[0]);	
+			highestRoll = (List<Integer>) highestScore[1];
+			assertEquals(highestRoll.size(), 5);
+			assertTrue(Collections.frequency(highestRoll, 5) == 5);
 		}
 		
 		/* Test 92: Check scoring for a die roll of 11111 
@@ -2432,6 +3170,13 @@ public class GameCalculateScoreTest {
 			// Test the held score
 			score = game.calculateScore(numbers, true);
 			assertEquals(4000, score);
+			
+			// Test the calculateHighestScore method
+			highestScore = game.calculateHighestScore(numbers);
+			assertEquals(4000, highestScore[0]);	
+			highestRoll = (List<Integer>) highestScore[1];
+			assertEquals(highestRoll.size(), 5);
+			assertTrue(Collections.frequency(highestRoll, 1) == 5);
 		}
 	}
 	
@@ -2439,6 +3184,7 @@ public class GameCalculateScoreTest {
 	 * This method tests the calculateScore method of the Game class for all permutations of 6 dice,
 	 * requirements 6.1.0, 6.2.0, 6.3.0, 6.4.0, 6.5.0, 6.6.0, and 6.7.0
 	 */
+	@SuppressWarnings("unchecked")
 	@Test
 	public void testCalculateScore6(){
 		
@@ -2462,6 +3208,12 @@ public class GameCalculateScoreTest {
 				// Test the held score
 				score = game.calculateScore(currentNumbers, true);
 				assertEquals(0, score);
+				
+				// Test the calculateHighestScore method
+				highestScore = game.calculateHighestScore(currentNumbers);
+				assertEquals(0, highestScore[0]);	
+				highestRoll = (List<Integer>) highestScore[1];
+				assertTrue(highestRoll.isEmpty());
 			}
 		}
 		
@@ -2477,6 +3229,11 @@ public class GameCalculateScoreTest {
 		{
 			myPermutations = permutations(numbers);
 			
+			// Get the die value for calculating the score
+			dieOneValue = Character.getNumericValue(numbers.charAt(0));
+			dieTwoValue = Character.getNumericValue(numbers.charAt(2));
+			int dieThreeValue = Character.getNumericValue(numbers.charAt(4));
+			
 			// Check each list of integers for proper scoring
 			for(List<Integer> currentNumbers : myPermutations)
 			{
@@ -2487,6 +3244,15 @@ public class GameCalculateScoreTest {
 				// Test the held score
 				score = game.calculateScore(currentNumbers, true);
 				assertEquals(750, score);
+				
+				// Test the calculateHighestScore method
+				highestScore = game.calculateHighestScore(currentNumbers);
+				assertEquals(750, highestScore[0]);	
+				highestRoll = (List<Integer>) highestScore[1];
+				assertEquals(highestRoll.size(), 6);
+				assertTrue(Collections.frequency(highestRoll, dieOneValue) == 2);
+				assertTrue(Collections.frequency(highestRoll, dieTwoValue) == 2);
+				assertTrue(Collections.frequency(highestRoll, dieThreeValue) == 2);
 			}
 		}
 		
@@ -2502,6 +3268,9 @@ public class GameCalculateScoreTest {
 		{
 			myPermutations = permutations(numbers);
 			
+			dieOneValue = Character.getNumericValue(numbers.charAt(2));
+			dieTwoValue = Character.getNumericValue(numbers.charAt(4));
+			
 			// Check each list of integers for proper scoring
 			for(List<Integer> currentNumbers : myPermutations)
 			{
@@ -2512,6 +3281,15 @@ public class GameCalculateScoreTest {
 				// Test the held score
 				score = game.calculateScore(currentNumbers, true);
 				assertEquals(750, score);
+				
+				// Test the calculateHighestScore method
+				highestScore = game.calculateHighestScore(currentNumbers);
+				assertEquals(750, highestScore[0]);	
+				highestRoll = (List<Integer>) highestScore[1];
+				assertEquals(highestRoll.size(), 6);
+				assertTrue(Collections.frequency(highestRoll, dieOneValue) == 2);
+				assertTrue(Collections.frequency(highestRoll, dieTwoValue) == 2);
+				assertTrue(Collections.frequency(highestRoll, 1) == 2);
 			}
 		}
 		
@@ -2527,6 +3305,9 @@ public class GameCalculateScoreTest {
 		{
 			myPermutations = permutations(numbers);
 			
+			dieOneValue = Character.getNumericValue(numbers.charAt(2));
+			dieTwoValue = Character.getNumericValue(numbers.charAt(4));
+			
 			// Check each list of integers for proper scoring
 			for(List<Integer> currentNumbers : myPermutations)
 			{
@@ -2537,6 +3318,15 @@ public class GameCalculateScoreTest {
 				// Test the held score
 				score = game.calculateScore(currentNumbers, true);
 				assertEquals(750, score);
+				
+				// Test the calculateHighestScore method
+				highestScore = game.calculateHighestScore(currentNumbers);
+				assertEquals(750, highestScore[0]);	
+				highestRoll = (List<Integer>) highestScore[1];
+				assertEquals(highestRoll.size(), 6);
+				assertTrue(Collections.frequency(highestRoll, dieOneValue) == 2);
+				assertTrue(Collections.frequency(highestRoll, dieTwoValue) == 2);
+				assertTrue(Collections.frequency(highestRoll, 5) == 2);
 			}
 		}
 		
@@ -2552,6 +3342,8 @@ public class GameCalculateScoreTest {
 		{
 			myPermutations = permutations(numbers);
 			
+			dieOneValue = Character.getNumericValue(numbers.charAt(4));
+			
 			// Check each list of integers for proper scoring
 			for(List<Integer> currentNumbers : myPermutations)
 			{
@@ -2562,6 +3354,15 @@ public class GameCalculateScoreTest {
 				// Test the held score
 				score = game.calculateScore(currentNumbers, true);
 				assertEquals(750, score);
+				
+				// Test the calculateHighestScore method
+				highestScore = game.calculateHighestScore(currentNumbers);
+				assertEquals(750, highestScore[0]);	
+				highestRoll = (List<Integer>) highestScore[1];
+				assertEquals(highestRoll.size(), 6);
+				assertTrue(Collections.frequency(highestRoll, dieOneValue) == 2);
+				assertTrue(Collections.frequency(highestRoll, 1) == 2);
+				assertTrue(Collections.frequency(highestRoll, 5) == 2);
 			}
 		}
 		
@@ -2587,6 +3388,18 @@ public class GameCalculateScoreTest {
 				// Test the held score
 				score = game.calculateScore(currentNumbers, true);
 				assertEquals(1500, score);
+				
+				// Test the calculateHighestScore method
+				highestScore = game.calculateHighestScore(currentNumbers);
+				assertEquals(1500, highestScore[0]);	
+				highestRoll = (List<Integer>) highestScore[1];
+				assertEquals(highestRoll.size(), 6);
+				assertTrue(highestRoll.contains(1));
+				assertTrue(highestRoll.contains(2));
+				assertTrue(highestRoll.contains(3));
+				assertTrue(highestRoll.contains(4));
+				assertTrue(highestRoll.contains(5));
+				assertTrue(highestRoll.contains(6));
 			}
 		}
 		
@@ -2612,6 +3425,13 @@ public class GameCalculateScoreTest {
 				// Test the held score
 				score = game.calculateScore(currentNumbers, true);
 				assertEquals(0, score);
+				
+				// Test the calculateHighestScore method
+				highestScore = game.calculateHighestScore(currentNumbers);
+				assertEquals(50, highestScore[0]);	
+				highestRoll = (List<Integer>) highestScore[1];
+				assertEquals(highestRoll.size(), 1);
+				assertTrue(Collections.frequency(highestRoll, 5) == 1);
 			}
 		}
 		
@@ -2637,6 +3457,13 @@ public class GameCalculateScoreTest {
 				// Test the held score
 				score = game.calculateScore(currentNumbers, true);
 				assertEquals(0, score);
+				
+				// Test the calculateHighestScore method
+				highestScore = game.calculateHighestScore(currentNumbers);
+				assertEquals(50, highestScore[0]);	
+				highestRoll = (List<Integer>) highestScore[1];
+				assertEquals(highestRoll.size(), 1);
+				assertTrue(Collections.frequency(highestRoll, 5) == 1);
 			}
 		}
 		
@@ -2663,6 +3490,13 @@ public class GameCalculateScoreTest {
 				// Test the held score
 				score = game.calculateScore(currentNumbers, true);
 				assertEquals(0, score);
+				
+				// Test the calculateHighestScore method
+				highestScore = game.calculateHighestScore(currentNumbers);
+				assertEquals(100, highestScore[0]);	
+				highestRoll = (List<Integer>) highestScore[1];
+				assertEquals(highestRoll.size(), 1);
+				assertTrue(Collections.frequency(highestRoll, 1) == 1);
 			}
 		}
 		
@@ -2688,6 +3522,13 @@ public class GameCalculateScoreTest {
 				// Test the held score
 				score = game.calculateScore(currentNumbers, true);
 				assertEquals(0, score);
+				
+				// Test the calculateHighestScore method
+				highestScore = game.calculateHighestScore(currentNumbers);
+				assertEquals(100, highestScore[0]);	
+				highestRoll = (List<Integer>) highestScore[1];
+				assertEquals(highestRoll.size(), 1);
+				assertTrue(Collections.frequency(highestRoll, 1) == 1);
 			}
 		}		
 		
@@ -2713,6 +3554,13 @@ public class GameCalculateScoreTest {
 				// Test the held score
 				score = game.calculateScore(currentNumbers, true);
 				assertEquals(0, score);
+				
+				// Test the calculateHighestScore method
+				highestScore = game.calculateHighestScore(currentNumbers);
+				assertEquals(100, highestScore[0]);	
+				highestRoll = (List<Integer>) highestScore[1];
+				assertEquals(highestRoll.size(), 2);
+				assertTrue(Collections.frequency(highestRoll, 5) == 2);
 			}
 		}
 		
@@ -2738,6 +3586,13 @@ public class GameCalculateScoreTest {
 				// Test the held score
 				score = game.calculateScore(currentNumbers, true);
 				assertEquals(0, score);
+				
+				// Test the calculateHighestScore method
+				highestScore = game.calculateHighestScore(currentNumbers);
+				assertEquals(100, highestScore[0]);	
+				highestRoll = (List<Integer>) highestScore[1];
+				assertEquals(highestRoll.size(), 2);
+				assertTrue(Collections.frequency(highestRoll, 5) == 2);
 			}
 		}	
 		
@@ -2763,6 +3618,14 @@ public class GameCalculateScoreTest {
 				// Test the held score
 				score = game.calculateScore(currentNumbers, true);
 				assertEquals(0, score);
+				
+				// Test the calculateHighestScore method
+				highestScore = game.calculateHighestScore(currentNumbers);
+				assertEquals(150, highestScore[0]);	
+				highestRoll = (List<Integer>) highestScore[1];
+				assertEquals(highestRoll.size(), 2);
+				assertTrue(Collections.frequency(highestRoll, 5) == 1);
+				assertTrue(Collections.frequency(highestRoll, 1) == 1);
 			}
 		}
 		
@@ -2788,6 +3651,14 @@ public class GameCalculateScoreTest {
 				// Test the held score
 				score = game.calculateScore(currentNumbers, true);
 				assertEquals(0, score);
+				
+				// Test the calculateHighestScore method
+				highestScore = game.calculateHighestScore(currentNumbers);
+				assertEquals(150, highestScore[0]);	
+				highestRoll = (List<Integer>) highestScore[1];
+				assertEquals(highestRoll.size(), 2);
+				assertTrue(Collections.frequency(highestRoll, 5) == 1);
+				assertTrue(Collections.frequency(highestRoll, 1) == 1);
 			}
 		}
 		
@@ -2813,6 +3684,13 @@ public class GameCalculateScoreTest {
 				// Test the held score
 				score = game.calculateScore(currentNumbers, true);
 				assertEquals(0, score);
+				
+				// Test the calculateHighestScore method
+				highestScore = game.calculateHighestScore(currentNumbers);
+				assertEquals(200, highestScore[0]);	
+				highestRoll = (List<Integer>) highestScore[1];
+				assertEquals(highestRoll.size(), 2);
+				assertTrue(Collections.frequency(highestRoll, 1) == 2);
 			}
 		}
 		
@@ -2838,6 +3716,13 @@ public class GameCalculateScoreTest {
 				// Test the held score
 				score = game.calculateScore(currentNumbers, true);
 				assertEquals(0, score);
+				
+				// Test the calculateHighestScore method
+				highestScore = game.calculateHighestScore(currentNumbers);
+				assertEquals(200, highestScore[0]);	
+				highestRoll = (List<Integer>) highestScore[1];
+				assertEquals(highestRoll.size(), 2);
+				assertTrue(Collections.frequency(highestRoll, 1) == 2);
 			}
 		}
 		
@@ -2863,6 +3748,14 @@ public class GameCalculateScoreTest {
 				// Test the held score
 				score = game.calculateScore(currentNumbers, true);
 				assertEquals(0, score);
+				
+				// Test the calculateHighestScore method
+				highestScore = game.calculateHighestScore(currentNumbers);
+				assertEquals(200, highestScore[0]);	
+				highestRoll = (List<Integer>) highestScore[1];
+				assertEquals(highestRoll.size(), 3);
+				assertTrue(Collections.frequency(highestRoll, 1) == 1);
+				assertTrue(Collections.frequency(highestRoll, 5) == 2);
 			}
 		}	
 		
@@ -2888,6 +3781,14 @@ public class GameCalculateScoreTest {
 				// Test the held score
 				score = game.calculateScore(currentNumbers, true);
 				assertEquals(0, score);
+				
+				// Test the calculateHighestScore method
+				highestScore = game.calculateHighestScore(currentNumbers);
+				assertEquals(200, highestScore[0]);	
+				highestRoll = (List<Integer>) highestScore[1];
+				assertEquals(highestRoll.size(), 3);
+				assertTrue(Collections.frequency(highestRoll, 1) == 1);
+				assertTrue(Collections.frequency(highestRoll, 5) == 2);
 			}
 		}		
 
@@ -2913,6 +3814,14 @@ public class GameCalculateScoreTest {
 				// Test the held score
 				score = game.calculateScore(currentNumbers, true);
 				assertEquals(0, score);
+				
+				// Test the calculateHighestScore method
+				highestScore = game.calculateHighestScore(currentNumbers);
+				assertEquals(250, highestScore[0]);	
+				highestRoll = (List<Integer>) highestScore[1];
+				assertEquals(highestRoll.size(), 3);
+				assertTrue(Collections.frequency(highestRoll, 1) == 2);
+				assertTrue(Collections.frequency(highestRoll, 5) == 1);
 			}
 		}	
 		
@@ -2938,6 +3847,14 @@ public class GameCalculateScoreTest {
 				// Test the held score
 				score = game.calculateScore(currentNumbers, true);
 				assertEquals(0, score);
+				
+				// Test the calculateHighestScore method
+				highestScore = game.calculateHighestScore(currentNumbers);
+				assertEquals(250, highestScore[0]);	
+				highestRoll = (List<Integer>) highestScore[1];
+				assertEquals(highestRoll.size(), 3);
+				assertTrue(Collections.frequency(highestRoll, 1) == 2);
+				assertTrue(Collections.frequency(highestRoll, 5) == 1);
 			}
 		}	
 		
@@ -2966,6 +3883,13 @@ public class GameCalculateScoreTest {
 				// Test the held score
 				score = game.calculateScore(currentNumbers, true);
 				assertEquals(0, score);
+				
+				// Test the calculateHighestScore method
+				highestScore = game.calculateHighestScore(currentNumbers);
+				assertEquals(100 * dieOneValue, highestScore[0]);	
+				highestRoll = (List<Integer>) highestScore[1];
+				assertEquals(highestRoll.size(), 3);
+				assertTrue(Collections.frequency(highestRoll, dieOneValue) == 3);
 			}
 		}
 		
@@ -2994,6 +3918,13 @@ public class GameCalculateScoreTest {
 				// Test the held score
 				score = game.calculateScore(currentNumbers, true);
 				assertEquals(0, score);
+				
+				// Test the calculateHighestScore method
+				highestScore = game.calculateHighestScore(currentNumbers);
+				assertEquals(100 * dieOneValue, highestScore[0]);	
+				highestRoll = (List<Integer>) highestScore[1];
+				assertEquals(highestRoll.size(), 3);
+				assertTrue(Collections.frequency(highestRoll, dieOneValue) == 3);
 			}
 		}
 	
@@ -3019,6 +3950,13 @@ public class GameCalculateScoreTest {
 				// Test the held score
 				score = game.calculateScore(currentNumbers, true);
 				assertEquals(0, score);
+				
+				// Test the calculateHighestScore method
+				highestScore = game.calculateHighestScore(currentNumbers);
+				assertEquals(500, highestScore[0]);	
+				highestRoll = (List<Integer>) highestScore[1];
+				assertEquals(highestRoll.size(), 3);
+				assertTrue(Collections.frequency(highestRoll, 5) == 3);
 			}
 		}
 		
@@ -3045,6 +3983,13 @@ public class GameCalculateScoreTest {
 				// Test the held score
 				score = game.calculateScore(currentNumbers, true);
 				assertEquals(0, score);
+				
+				// Test the calculateHighestScore method
+				highestScore = game.calculateHighestScore(currentNumbers);
+				assertEquals(500, highestScore[0]);	
+				highestRoll = (List<Integer>) highestScore[1];
+				assertEquals(highestRoll.size(), 3);
+				assertTrue(Collections.frequency(highestRoll, 5) == 3);
 			}
 		}		
 		
@@ -3070,6 +4015,13 @@ public class GameCalculateScoreTest {
 				// Test the held score
 				score = game.calculateScore(currentNumbers, true);
 				assertEquals(0, score);
+				
+				// Test the calculateHighestScore method
+				highestScore = game.calculateHighestScore(currentNumbers);
+				assertEquals(1000, highestScore[0]);	
+				highestRoll = (List<Integer>) highestScore[1];
+				assertEquals(highestRoll.size(), 3);
+				assertTrue(Collections.frequency(highestRoll, 1) == 3);
 			}
 		}
 		
@@ -3096,6 +4048,13 @@ public class GameCalculateScoreTest {
 				// Test the held score
 				score = game.calculateScore(currentNumbers, true);
 				assertEquals(0, score);
+				
+				// Test the calculateHighestScore method
+				highestScore = game.calculateHighestScore(currentNumbers);
+				assertEquals(1000, highestScore[0]);	
+				highestRoll = (List<Integer>) highestScore[1];
+				assertEquals(highestRoll.size(), 3);
+				assertTrue(Collections.frequency(highestRoll, 1) == 3);
 			}
 		}		
 		
@@ -3124,6 +4083,14 @@ public class GameCalculateScoreTest {
 				// Test the held score
 				score = game.calculateScore(currentNumbers, true);
 				assertEquals(0, score);
+				
+				// Test the calculateHighestScore method
+				highestScore = game.calculateHighestScore(currentNumbers);
+				assertEquals(100 * dieOneValue + 100, highestScore[0]);	
+				highestRoll = (List<Integer>) highestScore[1];
+				assertEquals(highestRoll.size(), 4);
+				assertTrue(Collections.frequency(highestRoll, 1) == 1);
+				assertTrue(Collections.frequency(highestRoll, dieOneValue) == 3);
 			}
 		}
 		
@@ -3152,6 +4119,14 @@ public class GameCalculateScoreTest {
 				// Test the held score
 				score = game.calculateScore(currentNumbers, true);
 				assertEquals(0, score);
+				
+				// Test the calculateHighestScore method
+				highestScore = game.calculateHighestScore(currentNumbers);
+				assertEquals(100 * dieOneValue + 100, highestScore[0]);	
+				highestRoll = (List<Integer>) highestScore[1];
+				assertEquals(highestRoll.size(), 4);
+				assertTrue(Collections.frequency(highestRoll, 1) == 1);
+				assertTrue(Collections.frequency(highestRoll, dieOneValue) == 3);
 			}
 		}
 		
@@ -3180,6 +4155,14 @@ public class GameCalculateScoreTest {
 				// Test the held score
 				score = game.calculateScore(currentNumbers, true);
 				assertEquals(0, score);
+				
+				// Test the calculateHighestScore method
+				highestScore = game.calculateHighestScore(currentNumbers);
+				assertEquals(100 * dieOneValue + 50, highestScore[0]);	
+				highestRoll = (List<Integer>) highestScore[1];
+				assertEquals(highestRoll.size(), 4);
+				assertTrue(Collections.frequency(highestRoll, 5) == 1);
+				assertTrue(Collections.frequency(highestRoll, dieOneValue) == 3);
 			}
 		}
 		
@@ -3208,6 +4191,14 @@ public class GameCalculateScoreTest {
 				// Test the held score
 				score = game.calculateScore(currentNumbers, true);
 				assertEquals(0, score);
+				
+				// Test the calculateHighestScore method
+				highestScore = game.calculateHighestScore(currentNumbers);
+				assertEquals(100 * dieOneValue + 50, highestScore[0]);	
+				highestRoll = (List<Integer>) highestScore[1];
+				assertEquals(highestRoll.size(), 4);
+				assertTrue(Collections.frequency(highestRoll, 5) == 1);
+				assertTrue(Collections.frequency(highestRoll, dieOneValue) == 3);
 			}
 		}
 		
@@ -3236,6 +4227,14 @@ public class GameCalculateScoreTest {
 				// Test the held score
 				score = game.calculateScore(currentNumbers, true);
 				assertEquals(0, score);
+				
+				// Test the calculateHighestScore method
+				highestScore = game.calculateHighestScore(currentNumbers);
+				assertEquals(100 * dieOneValue + 100, highestScore[0]);	
+				highestRoll = (List<Integer>) highestScore[1];
+				assertEquals(highestRoll.size(), 5);
+				assertTrue(Collections.frequency(highestRoll, 5) == 2);
+				assertTrue(Collections.frequency(highestRoll, dieOneValue) == 3);
 			}
 		}
 		
@@ -3264,6 +4263,15 @@ public class GameCalculateScoreTest {
 				// Test the held score
 				score = game.calculateScore(currentNumbers, true);
 				assertEquals(0, score);
+				
+				// Test the calculateHighestScore method
+				highestScore = game.calculateHighestScore(currentNumbers);
+				assertEquals(100 * dieOneValue + 150, highestScore[0]);	
+				highestRoll = (List<Integer>) highestScore[1];
+				assertEquals(highestRoll.size(), 5);
+				assertTrue(Collections.frequency(highestRoll, 5) == 1);
+				assertTrue(Collections.frequency(highestRoll, 1) == 1);
+				assertTrue(Collections.frequency(highestRoll, dieOneValue) == 3);
 			}
 		}
 		
@@ -3292,6 +4300,14 @@ public class GameCalculateScoreTest {
 				// Test the held score
 				score = game.calculateScore(currentNumbers, true);
 				assertEquals(0, score);
+				
+				// Test the calculateHighestScore method
+				highestScore = game.calculateHighestScore(currentNumbers);
+				assertEquals(100 * dieOneValue + 200, highestScore[0]);	
+				highestRoll = (List<Integer>) highestScore[1];
+				assertEquals(highestRoll.size(), 5);
+				assertTrue(Collections.frequency(highestRoll, 1) == 2);
+				assertTrue(Collections.frequency(highestRoll, dieOneValue) == 3);
 			}
 		}
 				
@@ -3320,6 +4336,15 @@ public class GameCalculateScoreTest {
 				// Test the held score
 				score = game.calculateScore(currentNumbers, true);
 				assertEquals(100 * dieOneValue + 200, score);
+				
+				// Test the calculateHighestScore method
+				highestScore = game.calculateHighestScore(currentNumbers);
+				assertEquals(100 * dieOneValue + 200, highestScore[0]);	
+				highestRoll = (List<Integer>) highestScore[1];
+				assertEquals(highestRoll.size(), 6);
+				assertTrue(Collections.frequency(highestRoll, 5) == 2);
+				assertTrue(Collections.frequency(highestRoll, 1) == 1);
+				assertTrue(Collections.frequency(highestRoll, dieOneValue) == 3);
 			}
 		}
 		
@@ -3348,6 +4373,15 @@ public class GameCalculateScoreTest {
 				// Test the held score
 				score = game.calculateScore(currentNumbers, true);
 				assertEquals(100 * dieOneValue + 250, score);
+				
+				// Test the calculateHighestScore method
+				highestScore = game.calculateHighestScore(currentNumbers);
+				assertEquals(100 * dieOneValue + 250, highestScore[0]);	
+				highestRoll = (List<Integer>) highestScore[1];
+				assertEquals(highestRoll.size(), 6);
+				assertTrue(Collections.frequency(highestRoll, 5) == 1);
+				assertTrue(Collections.frequency(highestRoll, 1) == 2);
+				assertTrue(Collections.frequency(highestRoll, dieOneValue) == 3);
 			}
 		}
 		
@@ -3379,6 +4413,14 @@ public class GameCalculateScoreTest {
 				// Test the held score
 				score = game.calculateScore(currentNumbers, true);
 				assertEquals(100 * dieOneValue + 100 * dieTwoValue, score);
+				
+				// Test the calculateHighestScore method
+				highestScore = game.calculateHighestScore(currentNumbers);
+				assertEquals(100 * dieOneValue + 100 * dieTwoValue, highestScore[0]);	
+				highestRoll = (List<Integer>) highestScore[1];
+				assertEquals(highestRoll.size(), 6);
+				assertTrue(Collections.frequency(highestRoll, dieTwoValue) == 3);
+				assertTrue(Collections.frequency(highestRoll, dieOneValue) == 3);
 			}
 		}
 				
@@ -3407,6 +4449,14 @@ public class GameCalculateScoreTest {
 				// Test the held score
 				score = game.calculateScore(currentNumbers, true);
 				assertEquals(100 * dieOneValue + 500, score);
+				
+				// Test the calculateHighestScore method
+				highestScore = game.calculateHighestScore(currentNumbers);
+				assertEquals(100 * dieOneValue + 500, highestScore[0]);	
+				highestRoll = (List<Integer>) highestScore[1];
+				assertEquals(highestRoll.size(), 6);
+				assertTrue(Collections.frequency(highestRoll, 5) == 3);
+				assertTrue(Collections.frequency(highestRoll, dieOneValue) == 3);
 			}
 		}
 		
@@ -3435,6 +4485,14 @@ public class GameCalculateScoreTest {
 				// Test the held score
 				score = game.calculateScore(currentNumbers, true);
 				assertEquals(100 * dieOneValue + 1000, score);
+				
+				// Test the calculateHighestScore method
+				highestScore = game.calculateHighestScore(currentNumbers);
+				assertEquals(100 * dieOneValue + 1000, highestScore[0]);	
+				highestRoll = (List<Integer>) highestScore[1];
+				assertEquals(highestRoll.size(), 6);
+				assertTrue(Collections.frequency(highestRoll, 1) == 3);
+				assertTrue(Collections.frequency(highestRoll, dieOneValue) == 3);
 			}
 		}
 		
@@ -3455,6 +4513,14 @@ public class GameCalculateScoreTest {
 			// Test the held score
 			score = game.calculateScore(numbers, true);
 			assertEquals(1500, score);
+			
+			// Test the calculateHighestScore method
+			highestScore = game.calculateHighestScore(numbers);
+			assertEquals(1500, highestScore[0]);	
+			highestRoll = (List<Integer>) highestScore[1];
+			assertEquals(highestRoll.size(), 6);
+			assertTrue(Collections.frequency(highestRoll, 5) == 3);
+			assertTrue(Collections.frequency(highestRoll, 1) == 3);
 		}		
 		
 		/* Test 132: Check scoring for a die roll of 5551AA (A represents all die values other than 1 or 5) 
@@ -3479,6 +4545,14 @@ public class GameCalculateScoreTest {
 				// Test the held score
 				score = game.calculateScore(currentNumbers, true);
 				assertEquals(0, score);
+				
+				// Test the calculateHighestScore method
+				highestScore = game.calculateHighestScore(currentNumbers);
+				assertEquals(600, highestScore[0]);	
+				highestRoll = (List<Integer>) highestScore[1];
+				assertEquals(highestRoll.size(), 4);
+				assertTrue(Collections.frequency(highestRoll, 5) == 3);
+				assertTrue(Collections.frequency(highestRoll, 1) == 1);
 			}
 		}
 		
@@ -3504,6 +4578,14 @@ public class GameCalculateScoreTest {
 				// Test the held score
 				score = game.calculateScore(currentNumbers, true);
 				assertEquals(0, score);
+				
+				// Test the calculateHighestScore method
+				highestScore = game.calculateHighestScore(currentNumbers);
+				assertEquals(600, highestScore[0]);	
+				highestRoll = (List<Integer>) highestScore[1];
+				assertEquals(highestRoll.size(), 4);
+				assertTrue(Collections.frequency(highestRoll, 5) == 3);
+				assertTrue(Collections.frequency(highestRoll, 1) == 1);
 			}
 		}
 		
@@ -3529,6 +4611,14 @@ public class GameCalculateScoreTest {
 				// Test the held score
 				score = game.calculateScore(currentNumbers, true);
 				assertEquals(0, score);
+				
+				// Test the calculateHighestScore method
+				highestScore = game.calculateHighestScore(currentNumbers);
+				assertEquals(700, highestScore[0]);	
+				highestRoll = (List<Integer>) highestScore[1];
+				assertEquals(highestRoll.size(), 5);
+				assertTrue(Collections.frequency(highestRoll, 5) == 3);
+				assertTrue(Collections.frequency(highestRoll, 1) == 2);
 			}
 		}
 		
@@ -3555,6 +4645,14 @@ public class GameCalculateScoreTest {
 				// Test the held score
 				score = game.calculateScore(currentNumbers, true);
 				assertEquals(0, score);
+				
+				// Test the calculateHighestScore method
+				highestScore = game.calculateHighestScore(currentNumbers);
+				assertEquals(1050, highestScore[0]);	
+				highestRoll = (List<Integer>) highestScore[1];
+				assertEquals(highestRoll.size(), 4);
+				assertTrue(Collections.frequency(highestRoll, 5) == 1);
+				assertTrue(Collections.frequency(highestRoll, 1) == 3);
 			}
 		}
 		
@@ -3580,6 +4678,14 @@ public class GameCalculateScoreTest {
 				// Test the held score
 				score = game.calculateScore(currentNumbers, true);
 				assertEquals(0, score);
+				
+				// Test the calculateHighestScore method
+				highestScore = game.calculateHighestScore(currentNumbers);
+				assertEquals(1050, highestScore[0]);	
+				highestRoll = (List<Integer>) highestScore[1];
+				assertEquals(highestRoll.size(), 4);
+				assertTrue(Collections.frequency(highestRoll, 5) == 1);
+				assertTrue(Collections.frequency(highestRoll, 1) == 3);
 			}
 		}
 		
@@ -3605,6 +4711,14 @@ public class GameCalculateScoreTest {
 				// Test the held score
 				score = game.calculateScore(currentNumbers, true);
 				assertEquals(0, score);
+				
+				// Test the calculateHighestScore method
+				highestScore = game.calculateHighestScore(currentNumbers);
+				assertEquals(1100, highestScore[0]);	
+				highestRoll = (List<Integer>) highestScore[1];
+				assertEquals(highestRoll.size(), 5);
+				assertTrue(Collections.frequency(highestRoll, 5) == 2);
+				assertTrue(Collections.frequency(highestRoll, 1) == 3);
 			}
 		}
 		
@@ -3634,6 +4748,13 @@ public class GameCalculateScoreTest {
 				// Test the held score
 				score = game.calculateScore(currentNumbers, true);
 				assertEquals(0, score);
+				
+				// Test the calculateHighestScore method
+				highestScore = game.calculateHighestScore(currentNumbers);
+				assertEquals(100 * dieOneValue * 2, highestScore[0]);	
+				highestRoll = (List<Integer>) highestScore[1];
+				assertEquals(highestRoll.size(), 4);
+				assertTrue(Collections.frequency(highestRoll, dieOneValue) == 4);
 			}
 		}
 		
@@ -3662,6 +4783,13 @@ public class GameCalculateScoreTest {
 				// Test the held score
 				score = game.calculateScore(currentNumbers, true);
 				assertEquals(0, score);
+				
+				// Test the calculateHighestScore method
+				highestScore = game.calculateHighestScore(currentNumbers);
+				assertEquals(100 * dieOneValue * 2, highestScore[0]);	
+				highestRoll = (List<Integer>) highestScore[1];
+				assertEquals(highestRoll.size(), 4);
+				assertTrue(Collections.frequency(highestRoll, dieOneValue) == 4);
 			}
 		}
 		
@@ -3687,6 +4815,13 @@ public class GameCalculateScoreTest {
 				// Test the held score
 				score = game.calculateScore(currentNumbers, true);
 				assertEquals(0, score);
+				
+				// Test the calculateHighestScore method
+				highestScore = game.calculateHighestScore(currentNumbers);
+				assertEquals(1000, highestScore[0]);	
+				highestRoll = (List<Integer>) highestScore[1];
+				assertEquals(highestRoll.size(), 4);
+				assertTrue(Collections.frequency(highestRoll, 5) == 4);
 			}
 		}
 		
@@ -3712,6 +4847,13 @@ public class GameCalculateScoreTest {
 				// Test the held score
 				score = game.calculateScore(currentNumbers, true);
 				assertEquals(0, score);
+				
+				// Test the calculateHighestScore method
+				highestScore = game.calculateHighestScore(currentNumbers);
+				assertEquals(1000, highestScore[0]);	
+				highestRoll = (List<Integer>) highestScore[1];
+				assertEquals(highestRoll.size(), 4);
+				assertTrue(Collections.frequency(highestRoll, 5) == 4);
 			}
 		}
 		
@@ -3737,6 +4879,13 @@ public class GameCalculateScoreTest {
 				// Test the held score
 				score = game.calculateScore(currentNumbers, true);
 				assertEquals(0, score);
+				
+				// Test the calculateHighestScore method
+				highestScore = game.calculateHighestScore(currentNumbers);
+				assertEquals(2000, highestScore[0]);	
+				highestRoll = (List<Integer>) highestScore[1];
+				assertEquals(highestRoll.size(), 4);
+				assertTrue(Collections.frequency(highestRoll, 1) == 4);
 			}
 		}
 		
@@ -3762,6 +4911,13 @@ public class GameCalculateScoreTest {
 				// Test the held score
 				score = game.calculateScore(currentNumbers, true);
 				assertEquals(0, score);
+				
+				// Test the calculateHighestScore method
+				highestScore = game.calculateHighestScore(currentNumbers);
+				assertEquals(2000, highestScore[0]);	
+				highestRoll = (List<Integer>) highestScore[1];
+				assertEquals(highestRoll.size(), 4);
+				assertTrue(Collections.frequency(highestRoll, 1) == 4);
 			}
 		}
 		
@@ -3790,6 +4946,14 @@ public class GameCalculateScoreTest {
 				// Test the held score
 				score = game.calculateScore(currentNumbers, true);
 				assertEquals(0, score);
+				
+				// Test the calculateHighestScore method
+				highestScore = game.calculateHighestScore(currentNumbers);
+				assertEquals(100 * dieOneValue * 2 + 100, highestScore[0]);	
+				highestRoll = (List<Integer>) highestScore[1];
+				assertEquals(highestRoll.size(), 5);
+				assertTrue(Collections.frequency(highestRoll, 1) == 1);
+				assertTrue(Collections.frequency(highestRoll, dieOneValue) == 4);
 			}
 		}
 		
@@ -3818,6 +4982,14 @@ public class GameCalculateScoreTest {
 				// Test the held score
 				score = game.calculateScore(currentNumbers, true);
 				assertEquals(0, score);
+				
+				// Test the calculateHighestScore method
+				highestScore = game.calculateHighestScore(currentNumbers);
+				assertEquals(100 * dieOneValue * 2 + 50, highestScore[0]);	
+				highestRoll = (List<Integer>) highestScore[1];
+				assertEquals(highestRoll.size(), 5);
+				assertTrue(Collections.frequency(highestRoll, 5) == 1);
+				assertTrue(Collections.frequency(highestRoll, dieOneValue) == 4);
 			}
 		}
 		
@@ -3846,6 +5018,14 @@ public class GameCalculateScoreTest {
 				// Test the held score
 				score = game.calculateScore(currentNumbers, true);
 				assertEquals(100 * dieOneValue * 2 + 100, score);
+				
+				// Test the calculateHighestScore method
+				highestScore = game.calculateHighestScore(currentNumbers);
+				assertEquals(100 * dieOneValue * 2 + 100, highestScore[0]);	
+				highestRoll = (List<Integer>) highestScore[1];
+				assertEquals(highestRoll.size(), 6);
+				assertTrue(Collections.frequency(highestRoll, 5) == 2);
+				assertTrue(Collections.frequency(highestRoll, dieOneValue) == 4);
 			}
 		}
 				
@@ -3874,6 +5054,15 @@ public class GameCalculateScoreTest {
 				// Test the held score
 				score = game.calculateScore(currentNumbers, true);
 				assertEquals(100 * dieOneValue * 2 + 150, score);
+				
+				// Test the calculateHighestScore method
+				highestScore = game.calculateHighestScore(currentNumbers);
+				assertEquals(100 * dieOneValue * 2 + 150, highestScore[0]);	
+				highestRoll = (List<Integer>) highestScore[1];
+				assertEquals(highestRoll.size(), 6);
+				assertTrue(Collections.frequency(highestRoll, 1) == 1);
+				assertTrue(Collections.frequency(highestRoll, 5) == 1);
+				assertTrue(Collections.frequency(highestRoll, dieOneValue) == 4);
 			}
 		}
 		
@@ -3902,6 +5091,14 @@ public class GameCalculateScoreTest {
 				// Test the held score
 				score = game.calculateScore(currentNumbers, true);
 				assertEquals(100 * dieOneValue * 2 + 200, score);
+				
+				// Test the calculateHighestScore method
+				highestScore = game.calculateHighestScore(currentNumbers);
+				assertEquals(100 * dieOneValue * 2 + 200, highestScore[0]);	
+				highestRoll = (List<Integer>) highestScore[1];
+				assertEquals(highestRoll.size(), 6);
+				assertTrue(Collections.frequency(highestRoll, 1) == 2);
+				assertTrue(Collections.frequency(highestRoll, dieOneValue) == 4);
 			}
 		}
 		
@@ -3927,6 +5124,14 @@ public class GameCalculateScoreTest {
 				// Test the held score
 				score = game.calculateScore(currentNumbers, true);
 				assertEquals(0, score);
+				
+				// Test the calculateHighestScore method
+				highestScore = game.calculateHighestScore(currentNumbers);
+				assertEquals(1100, highestScore[0]);	
+				highestRoll = (List<Integer>) highestScore[1];
+				assertEquals(highestRoll.size(), 5);
+				assertTrue(Collections.frequency(highestRoll, 1) == 1);
+				assertTrue(Collections.frequency(highestRoll, 5) == 4);
 			}
 		}
 		
@@ -3947,6 +5152,14 @@ public class GameCalculateScoreTest {
 			// Test the held score
 			score = game.calculateScore(numbers, true);
 			assertEquals(1200, score);
+			
+			// Test the calculateHighestScore method
+			highestScore = game.calculateHighestScore(numbers);
+			assertEquals(1200, highestScore[0]);	
+			highestRoll = (List<Integer>) highestScore[1];
+			assertEquals(highestRoll.size(), 6);
+			assertTrue(Collections.frequency(highestRoll, 1) == 2);
+			assertTrue(Collections.frequency(highestRoll, 5) == 4);
 		}
 		
 		/* Test 151: Check scoring for a die roll of 11115A (A represents all die values other than 1 or 5) 
@@ -3971,6 +5184,14 @@ public class GameCalculateScoreTest {
 				// Test the held score
 				score = game.calculateScore(currentNumbers, true);
 				assertEquals(0, score);
+				
+				// Test the calculateHighestScore method
+				highestScore = game.calculateHighestScore(currentNumbers);
+				assertEquals(2050, highestScore[0]);	
+				highestRoll = (List<Integer>) highestScore[1];
+				assertEquals(highestRoll.size(), 5);
+				assertTrue(Collections.frequency(highestRoll, 1) == 4);
+				assertTrue(Collections.frequency(highestRoll, 5) == 1);
 			}
 		}
 		
@@ -3991,6 +5212,14 @@ public class GameCalculateScoreTest {
 			// Test the held score
 			score = game.calculateScore(numbers, true);
 			assertEquals(2100, score);
+			
+			// Test the calculateHighestScore method
+			highestScore = game.calculateHighestScore(numbers);
+			assertEquals(2100, highestScore[0]);	
+			highestRoll = (List<Integer>) highestScore[1];
+			assertEquals(highestRoll.size(), 6);
+			assertTrue(Collections.frequency(highestRoll, 1) == 4);
+			assertTrue(Collections.frequency(highestRoll, 5) == 2);
 		}
 		
 		/* Test 153: Check scoring for a die roll of AAAAAX (A and X each represent all die values other than 1 or 5) 
@@ -4018,6 +5247,13 @@ public class GameCalculateScoreTest {
 				// Test the held score
 				score = game.calculateScore(currentNumbers, true);
 				assertEquals(0, score);
+				
+				// Test the calculateHighestScore method
+				highestScore = game.calculateHighestScore(currentNumbers);
+				assertEquals(100 * dieOneValue * 2 * 2, highestScore[0]);	
+				highestRoll = (List<Integer>) highestScore[1];
+				assertEquals(highestRoll.size(), 5);
+				assertTrue(Collections.frequency(highestRoll, dieOneValue) == 5);
 			}
 		}		
 		
@@ -4046,6 +5282,14 @@ public class GameCalculateScoreTest {
 				// Test the held score
 				score = game.calculateScore(currentNumbers, true);
 				assertEquals(100 * dieOneValue * 2 * 2 + 50, score);
+				
+				// Test the calculateHighestScore method
+				highestScore = game.calculateHighestScore(currentNumbers);
+				assertEquals(100 * dieOneValue * 2 * 2 + 50, highestScore[0]);	
+				highestRoll = (List<Integer>) highestScore[1];
+				assertEquals(highestRoll.size(), 6);
+				assertTrue(Collections.frequency(highestRoll, dieOneValue) == 5);
+				assertTrue(Collections.frequency(highestRoll, 5) == 1);
 			}
 		}	
 		
@@ -4074,6 +5318,14 @@ public class GameCalculateScoreTest {
 				// Test the held score
 				score = game.calculateScore(currentNumbers, true);
 				assertEquals(100 * dieOneValue * 2 * 2 + 100, score);
+				
+				// Test the calculateHighestScore method
+				highestScore = game.calculateHighestScore(currentNumbers);
+				assertEquals(100 * dieOneValue * 2 * 2 + 100, highestScore[0]);	
+				highestRoll = (List<Integer>) highestScore[1];
+				assertEquals(highestRoll.size(), 6);
+				assertTrue(Collections.frequency(highestRoll, dieOneValue) == 5);
+				assertTrue(Collections.frequency(highestRoll, 1) == 1);
 			}
 		}	
 
@@ -4099,6 +5351,13 @@ public class GameCalculateScoreTest {
 				// Test the held score
 				score = game.calculateScore(currentNumbers, true);
 				assertEquals(0, score);
+				
+				// Test the calculateHighestScore method
+				highestScore = game.calculateHighestScore(currentNumbers);
+				assertEquals(2000, highestScore[0]);	
+				highestRoll = (List<Integer>) highestScore[1];
+				assertEquals(highestRoll.size(), 5);
+				assertTrue(Collections.frequency(highestRoll, 5) == 5);
 			}
 		}
 
@@ -4119,6 +5378,14 @@ public class GameCalculateScoreTest {
 			// Test the held score
 			score = game.calculateScore(numbers, true);
 			assertEquals(2100, score);
+			
+			// Test the calculateHighestScore method
+			highestScore = game.calculateHighestScore(numbers);
+			assertEquals(2100, highestScore[0]);	
+			highestRoll = (List<Integer>) highestScore[1];
+			assertEquals(highestRoll.size(), 6);
+			assertTrue(Collections.frequency(highestRoll, 5) == 5);
+			assertTrue(Collections.frequency(highestRoll, 1) == 1);
 		}
 		
 		/* Test 158: Check scoring for a die roll of 11111A (A represents all die values other than 1 or 5) 
@@ -4143,6 +5410,13 @@ public class GameCalculateScoreTest {
 				// Test the held score
 				score = game.calculateScore(currentNumbers, true);
 				assertEquals(0, score);
+				
+				// Test the calculateHighestScore method
+				highestScore = game.calculateHighestScore(currentNumbers);
+				assertEquals(4000, highestScore[0]);	
+				highestRoll = (List<Integer>) highestScore[1];
+				assertEquals(highestRoll.size(), 5);
+				assertTrue(Collections.frequency(highestRoll, 1) == 5);
 			}
 		}	
 		
@@ -4163,6 +5437,14 @@ public class GameCalculateScoreTest {
 			// Test the held score
 			score = game.calculateScore(numbers, true);
 			assertEquals(4050, score);
+			
+			// Test the calculateHighestScore method
+			highestScore = game.calculateHighestScore(numbers);
+			assertEquals(4050, highestScore[0]);	
+			highestRoll = (List<Integer>) highestScore[1];
+			assertEquals(highestRoll.size(), 6);
+			assertTrue(Collections.frequency(highestRoll, 5) == 1);
+			assertTrue(Collections.frequency(highestRoll, 1) == 5);
 		}
 		
 		/* Test 160: Check scoring for a die roll of AAAAAA (A represents all die values other than 1 or 5) 
@@ -4190,6 +5472,13 @@ public class GameCalculateScoreTest {
 				// Test the held score
 				score = game.calculateScore(currentNumbers, true);
 				assertEquals(100 * dieOneValue * 2 * 2 * 2, score);
+				
+				// Test the calculateHighestScore method
+				highestScore = game.calculateHighestScore(currentNumbers);
+				assertEquals(100 * dieOneValue * 2 * 2 * 2, highestScore[0]);	
+				highestRoll = (List<Integer>) highestScore[1];
+				assertEquals(highestRoll.size(), 6);
+				assertTrue(Collections.frequency(highestRoll, dieOneValue) == 6);
 			}
 		}
 		
@@ -4210,6 +5499,13 @@ public class GameCalculateScoreTest {
 			// Test the held score
 			score = game.calculateScore(numbers, true);
 			assertEquals(4000, score);
+			
+			// Test the calculateHighestScore method
+			highestScore = game.calculateHighestScore(numbers);
+			assertEquals(4000, highestScore[0]);	
+			highestRoll = (List<Integer>) highestScore[1];
+			assertEquals(highestRoll.size(), 6);
+			assertTrue(Collections.frequency(highestRoll, 5) == 6);
 		}
 		
 		/* Test 162: Check scoring for a die roll of 111111 
@@ -4229,6 +5525,13 @@ public class GameCalculateScoreTest {
 			// Test the held score
 			score = game.calculateScore(numbers, true);
 			assertEquals(8000, score);
+			
+			// Test the calculateHighestScore method
+			highestScore = game.calculateHighestScore(numbers);
+			assertEquals(8000, highestScore[0]);	
+			highestRoll = (List<Integer>) highestScore[1];
+			assertEquals(highestRoll.size(), 6);
+			assertTrue(Collections.frequency(highestRoll, 1) == 6);
 		}
 
 	}
