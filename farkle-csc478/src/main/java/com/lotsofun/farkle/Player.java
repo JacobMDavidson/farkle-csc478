@@ -7,7 +7,6 @@ public class Player {
 
 	private HashMap<Integer, Integer> rollScore = new HashMap<Integer, Integer>();
 	private int playerNumber, turnNumber = 1, rollNumber, gameScore = 0;
-	private boolean currentPlayer, isComputer;
 	private ArrayList<Integer> turnScores;
 	private PlayerType type;
 	private String playerName;
@@ -65,16 +64,11 @@ public class Player {
 		gameScore += turnScores.get(turnNumber - 1);
 		turnNumber++;
 		rollNumber = 0;
-		currentPlayer = false;
 		rollScore.clear();
 	}
 
 	public int getPlayerNumber() {
 		return playerNumber;
-	}
-
-	public void setPlayerNumber(int playerNumber) {
-		this.playerNumber = playerNumber;
 	}
 
 	public int getTurnNumber() {
@@ -85,10 +79,6 @@ public class Player {
 		this.turnNumber = turnNumber;
 	}
 	
-	public void nextTurn() {
-		this.turnNumber++;
-	}
-
 	public int getRollNumber() {
 		return rollNumber;
 	}
@@ -103,14 +93,6 @@ public class Player {
 
 	public void setGameScore(int gameScore) {
 		this.gameScore = gameScore;
-	}
-
-	public boolean isCurrentPlayer() {
-		return currentPlayer;
-	}
-
-	public void setCurrentPlayer(boolean currentPlayer) {
-		this.currentPlayer = currentPlayer;
 	}
 
 	public ArrayList<Integer> getTurnScores() {
@@ -145,16 +127,6 @@ public class Player {
 		this.rollScore.clear();
 	}
 	
-	public boolean getIsComputer()
-	{
-		return isComputer;
-	}
-	
-	public void setIsComputer (boolean isComputer)
-	{
-		this.isComputer = isComputer;
-	}
-
 	public String getPlayerName() {
 		return playerName;
 	}
