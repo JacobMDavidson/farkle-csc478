@@ -849,6 +849,7 @@ public class FarkleController implements ActionListener, MouseListener {
 		}
 	}
 
+	@SuppressWarnings("unchecked")
 	public List<Integer> getHighestScoringDieValues() {
 		Object[] results = farkleGame.calculateHighestScore(farkleUI
 				.getDieValues(DieState.UNHELD));

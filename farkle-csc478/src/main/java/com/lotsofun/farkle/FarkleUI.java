@@ -78,7 +78,6 @@ public class FarkleUI extends JFrame {
 	private AudioInputStream audioStream = null;
 	private Color greenBackground = new Color(35, 119, 34);
 	private JDialog farkleMessage = new FarkleMessage();
-	private FarkleOptionsDialog farkleOptions = null;
 	private JPanel player1ScorePanel = null;
 	private JScrollBar player1ScrollBar = null;
 	private JPanel player2ScorePanel = null;
@@ -762,6 +761,7 @@ public class FarkleUI extends JFrame {
 	 *            - Title of the JOptionPane window.
 	 * 
 	 */
+	@SuppressWarnings("deprecation")
 	public void displayMessage(String message, String title) {
 		JOptionPane pane = new JOptionPane(message);
 		JDialog dialog = pane.createDialog(title);
