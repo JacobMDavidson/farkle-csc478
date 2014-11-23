@@ -551,20 +551,10 @@ public class FarkleUI extends JFrame {
 		return selectAllBtn;
 	}
 
-	public int getGameScore(int playerNumber) {
-		JLabel gameScore = (playerNumber == 1) ? player1GameScore
-				: player2GameScore;
-		return Integer.parseInt(gameScore.getText());
-	}
-
 	public void setGameScore(int playerNumber, int score) {
 		JLabel gameScore = (playerNumber == 1) ? player1GameScore
 				: player2GameScore;
 		gameScore.setText("" + score);
-	}
-
-	public JLabel getHighScore() {
-		return highScore;
 	}
 
 	public void setHighScore(int score) {
@@ -955,10 +945,6 @@ public class FarkleUI extends JFrame {
 		bonusSound = getClass().getResource("/sounds/bonus.wav");
 	}
 
-	public FarkleOptionsDialog getFarkleOptions() {
-		return farkleOptions;
-	}
-
 	public JMenuBar createFarkleMenuBar() {
 		// Menu Bar
 		/******************************************************
@@ -1068,10 +1054,6 @@ public class FarkleUI extends JFrame {
 
 	public JDialog getFarkleMessage() {
 		return farkleMessage;
-	}
-
-	public void setRollBtnText(String text) {
-		this.rollBtn.setText(text);
 	}
 
 	public String getRollBtnText() {
