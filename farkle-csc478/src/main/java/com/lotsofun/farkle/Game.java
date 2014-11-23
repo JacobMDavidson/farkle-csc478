@@ -10,7 +10,6 @@ public class Game {
 	private Preferences prefs;
 	private int currentPlayer = 1;
 	private GameMode gameMode;
-	private GameState gameState;
 	private Die[] dice;
 	private Player[] players = new Player[2];
 	private FarkleController controller;
