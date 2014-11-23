@@ -10,7 +10,6 @@ public class Game {
 	private Preferences prefs;
 	private int currentPlayer = 1;
 	private GameMode gameMode;
-	private Die[] dice;
 	private Player[] players = new Player[2];
 	private FarkleController controller;
 	private boolean bonusTurn = false;
@@ -373,14 +372,6 @@ public class Game {
 
 	public GameMode getGameMode() {
 		return gameMode;
-	}
-
-	public Die[] getDice() {
-		return dice;
-	}
-
-	public void setDice(Die[] dice) {
-		this.dice = dice;
 	}
 
 	public Player[] getPlayers() {

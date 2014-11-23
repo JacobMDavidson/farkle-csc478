@@ -142,32 +142,6 @@ public class GameTest {
 	}
 	
 	/**
-	 * Test the setDice(Die[]) and getDice() methods
-	 */
-	@Test
-	public void testSetAndGetDice(){
-		Die[] dice = new Die[6];
-		for(int i = 0; i < dice.length; i++)
-		{
-			dice[i] = new Die(farkleController);
-		}
-
-		// Test singlePlayerGame
-		singlePlayerGame.setDice(dice);
-		for(int i = 0; i < dice.length; i++)
-		{
-			assertTrue(dice[i].equals(singlePlayerGame.getDice()[i]));
-		}
-		
-		// Test multiPlayerGame
-		multiPlayerGame.setDice(dice);
-		for(int i = 0; i < dice.length; i++)
-		{
-			assertTrue(dice[i].equals(multiPlayerGame.getDice()[i]));
-		}
-	}
-	
-	/**
 	 * Test the getGameMode() method
 	 */
 	@Test
