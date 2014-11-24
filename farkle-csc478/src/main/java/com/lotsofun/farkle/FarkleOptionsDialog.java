@@ -40,7 +40,9 @@ import javax.swing.SwingConstants;
  ****************************************************************************
  */
 /**
- * Displays a dialog box used to select game mode options
+ * Displays a dialog box used to select game mode options, including single
+ * player or two player, human opponent or computer opponent, and setting
+ * appropriate names for each player.
  * @author Jacob Davidson
  * @version 3.0.0
  */
@@ -102,7 +104,7 @@ public class FarkleOptionsDialog extends JDialog implements MouseListener {
 		// Pass the JFrame to the super constructor
 		super(frame);
 		
-		// Set the modality to block all top level windoes
+		// Set the modality to block all top level windows
 		this.setModalityType(ModalityType.APPLICATION_MODAL);
 		
 		// Set the layout of the JDialog box
@@ -283,7 +285,7 @@ public class FarkleOptionsDialog extends JDialog implements MouseListener {
 				setPlayer1Name(playerOneName.getText());
 				setPlayer2Name(playerTwoName.getText());
 
-				// Easter egg created by Curtis
+				// Easteregg created by Curtis
 				try {
 					if (("Ginuwine").equalsIgnoreCase(getPlayer1Name())) {
 						URL gSound = getClass()
