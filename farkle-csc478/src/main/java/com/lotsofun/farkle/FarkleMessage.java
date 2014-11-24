@@ -8,7 +8,6 @@ import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
-
 import java.math.BigDecimal;
 import java.net.URL;
 import java.util.Random;
@@ -21,6 +20,7 @@ import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
 import javax.swing.ImageIcon;
 import javax.swing.JDialog;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.Timer;
 
@@ -37,13 +37,16 @@ public class FarkleMessage extends JDialog {
 	URL currentFarkleSound = null;
 
 	public FarkleMessage() {
-
+		
+		this.setModalityType(ModalityType.APPLICATION_MODAL);
+		
 		Image farkleCenterImg = null;
 		Image farkleLeftImg = null;
 		Image farkleRightImg = null;
 
 		this.setPreferredSize(new Dimension(1024, 768));
-		this.setResizable(false);
+		//this.setLocationRelativeTo(frame);
+		//this.setResizable(false);
 		this.setUndecorated(true);
 		this.setBackground(new Color(0, 0, 0, 0));
 		try {
@@ -75,12 +78,13 @@ public class FarkleMessage extends JDialog {
 		this.add(farkleLeftMsg);
 
 		// Build the window
-		this.setLocationRelativeTo(null);
+		
 		this.pack();
-		Dimension dimension = Toolkit.getDefaultToolkit().getScreenSize();
-		int x = (int) ((dimension.getWidth() - this.getWidth()) / 2);
-		int y = (int) ((dimension.getHeight() - this.getHeight()) / 2);
-		this.setLocation(x, y);
+		//Dimension dimension = Toolkit.getDefaultToolkit().getScreenSize();
+		//int x = (int) ((dimension.getWidth() - this.getWidth()) / 2);
+		//int y = (int) ((dimension.getHeight() - this.getHeight()) / 2);
+		//this.setLocation(x, y);
+		//this.setLocation(0, 0);
 
 	}
 

@@ -21,6 +21,7 @@ import javax.sound.sampled.UnsupportedAudioFileException;
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JDialog;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
@@ -29,22 +30,18 @@ import javax.swing.SwingConstants;
 /****************************************************************************
  * 1.0.0
  * 
- * Select Game Mode Option Box – Upon opening the application, the user is
+ * Select Game Mode Option Box - Upon opening the application, the user is
  * greeted with an option box that includes all configuration options for
- * gameplay. These options include “1 Player Mode”, “2 Player Mode”, “Human
- * Opponent” (if two player mode is selected), “Computer Opponent” (if two
+ * gameplay. These options include "1 Player Mode", "2 Player Mode", "Human
+ * Opponent" (if two player mode is selected), "Computer Opponent" (if two
  * player mode is selected), and text fields to enter the associated player
- * names. Also included is a “Start” button and a “Close” button (both of which
+ * names. Also included is a "Start" button and a "Close" button (both of which
  * are always enabled). This option dialog box should pop up over the main GUI
  * (section 1.2.0).
  *
  *****************************************************************************/
 public class FarkleOptionsDialog extends JDialog implements MouseListener {
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
-
 	private Color greenBackground = new Color(35, 119, 34);
 	private JLabel playerModeSelectLabel = new JLabel(" Select Player Mode:");
 	private JLabel singlePlayerLabel = new JLabel("One Player Mode",
@@ -69,19 +66,16 @@ public class FarkleOptionsDialog extends JDialog implements MouseListener {
 	private JTextField playerTwoName = new JTextField(5);
 	private JButton startButton = new JButton("Start");
 	private JButton closeButton = new JButton("Close");
-
 	private GameMode gameMode = null;
 	private PlayerType playerType = null;
 	private String player1Name = "";
 	private String player2Name = "";
 
 	/* Reduce Reuse Recycle */
-	public FarkleOptionsDialog() {
-
-		// Create a dialog to set the game options
-		this.setModal(true);
-
-		this.setTitle("Farkle Options");
+	public FarkleOptionsDialog(JFrame frame) {
+		// Pass the JFrame to the super constructor
+		super(frame);
+		this.setModalityType(ModalityType.APPLICATION_MODAL);
 
 		BorderLayout layout = new BorderLayout();
 		this.setLayout(layout);
@@ -102,8 +96,8 @@ public class FarkleOptionsDialog extends JDialog implements MouseListener {
 				.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 
 		/********************************************************
-		 * 1.1.2 - The “1 Player Mode” is highlighted by default when the
-		 * application is first opened, and a blank text field for player one’s
+		 * 1.1.2 - The ï¿½1 Player Modeï¿½ is highlighted by default when the
+		 * application is first opened, and a blank text field for player oneï¿½s
 		 * name is displayed.
 		 ********************************************************/
 		singlePlayerLabel.setName("1");
@@ -228,7 +222,7 @@ public class FarkleOptionsDialog extends JDialog implements MouseListener {
 		buttonPanel.add(startButton);
 
 		/**********************************************
-		 * 1.1.1 If the user selects the “Close” button at any time, the
+		 * 1.1.1 If the user selects the ï¿½Closeï¿½ button at any time, the
 		 * application closes.
 		 **********************************************/
 		closeButton.addActionListener(new ActionListener() {
@@ -258,10 +252,7 @@ public class FarkleOptionsDialog extends JDialog implements MouseListener {
 		// Show the window
 		this.setLocationRelativeTo(null);
 		this.pack();
-		Dimension dimension = Toolkit.getDefaultToolkit().getScreenSize();
-		int x = (int) ((dimension.getWidth() - this.getWidth()) / 2);
-		int y = (int) ((dimension.getHeight() - this.getHeight()) / 2);
-		this.setLocation(x, y);
+		this.setLocationRelativeTo(frame);
 		this.setVisible(true);
 	}
 
@@ -298,9 +289,9 @@ public class FarkleOptionsDialog extends JDialog implements MouseListener {
 		}
 		// Multiplayer
 		/**************************************************************
-		 * 1.1.3 - If the user highlights the “2 Player Mode” option, the “1
-		 * Player Mode” option is deselected, and two more options appear
-		 * (“Human Opponent” and “Computer Opponent”). The “Human Opponent”
+		 * 1.1.3 - If the user highlights the ï¿½2 Player Modeï¿½ option, the ï¿½1
+		 * Player Modeï¿½ option is deselected, and two more options appear
+		 * (ï¿½Human Opponentï¿½ and ï¿½Computer Opponentï¿½). The ï¿½Human Opponentï¿½
 		 * option is highlighted by default.
 		 **************************************************************/
 		else if (e.getComponent().getName().equals("2")) {
@@ -322,9 +313,9 @@ public class FarkleOptionsDialog extends JDialog implements MouseListener {
 		}
 		// Human
 		/****************************************************************
-		 * 1.1.4 - When the “Human Opponent” option is highlighted, two text
-		 * fields are displayed, labeled “Player One Name”, and “Player Two
-		 * Name”.
+		 * 1.1.4 - When the ï¿½Human Opponentï¿½ option is highlighted, two text
+		 * fields are displayed, labeled ï¿½Player One Nameï¿½, and ï¿½Player Two
+		 * Nameï¿½.
 		 ****************************************************************/
 		else if (e.getComponent().getName().equals("3")) {
 			singlePlayerLabel.setBackground(greenBackground);
@@ -346,8 +337,8 @@ public class FarkleOptionsDialog extends JDialog implements MouseListener {
 		}
 		// Computer
 		/****************************************************************
-		 * 1.1.5 - When the “Computer Opponent” option is highlighted, only one
-		 * text field is displayed, labeled “Player One Name”.
+		 * 1.1.5 - When the ï¿½Computer Opponentï¿½ option is highlighted, only one
+		 * text field is displayed, labeled ï¿½Player One Nameï¿½.
 		 ****************************************************************/
 		else if (e.getComponent().getName().equals("4")) {
 			singlePlayerLabel.setBackground(greenBackground);

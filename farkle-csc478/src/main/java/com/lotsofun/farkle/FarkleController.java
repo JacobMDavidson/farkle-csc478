@@ -76,6 +76,7 @@ public class FarkleController implements ActionListener, MouseListener {
 		farkleUI.setRunningScore(0);
 		farkleUI.setRollScore(0);
 		farkleUI.setEnabled(false);
+		farkleUI.getFarkleMessage().setLocationRelativeTo(farkleUI);
 		farkleUI.getFarkleMessage().setVisible(true);
 		farkleUI.setEnabled(true);
 		farkleUI.unHighlightAllTurnScores(farkleGame
@@ -246,7 +247,8 @@ public class FarkleController implements ActionListener, MouseListener {
 
 	public void newGame() {
 		// Get the game options
-		farkleOptions = new FarkleOptionsDialog();
+		farkleOptions = new FarkleOptionsDialog(farkleUI);
+		
 
 		/****************************************************************
 		 * 2.2.0 - When 2 two player mode against a live person is selected, the

@@ -105,15 +105,22 @@ public class FarkleUI extends JFrame {
 
 			// Instatiate necessary sounds
 			getSounds();
+			
+			// Create and set up the main Window
+			this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+			this.setPreferredSize(new Dimension(1024, 768));
+			this.setResizable(false);
+			
+			this.pack();
+
+			// Center and display the window
+			this.setLocationRelativeTo(null);
 		}
 
 		// Clear the content if this isn't the first init call
 		this.getContentPane().removeAll();
 
-		// Create and set up the main Window
-		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		this.setPreferredSize(new Dimension(1024, 768));
-		this.setResizable(false);
+		
 		GridLayout layout = new GridLayout(1, 3, 10, 10);
 
 		// Hide the gridlines
@@ -122,13 +129,8 @@ public class FarkleUI extends JFrame {
 		this.setLayout(layout);
 		this.getContentPane().setBackground(greenBackground);
 
-		// Center and display the window
-		this.setLocationRelativeTo(null);
-		this.pack();
-		Dimension dimension = Toolkit.getDefaultToolkit().getScreenSize();
-		int x = (int) ((dimension.getWidth() - this.getWidth()) / 2);
-		int y = (int) ((dimension.getHeight() - this.getHeight()) / 2);
-		this.setLocation(x, y);
+		
+		
 		this.setVisible(true);
 		this.setEnabled(true);
 		this.setVisible(true);
