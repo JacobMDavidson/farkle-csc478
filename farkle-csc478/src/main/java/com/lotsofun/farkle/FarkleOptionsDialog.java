@@ -193,13 +193,13 @@ public class FarkleOptionsDialog extends JDialog implements MouseListener {
 			public void actionPerformed(ActionEvent e) {
 
 				// Set the game options
-				player1Name = playerOneName.getText();
-				player2Name = playerTwoName.getText();
-				gameMode = (null == gameMode) ? GameMode.SINGLEPLAYER
-						: gameMode;
+				setPlayer1Name(playerOneName.getText());
+				setPlayer2Name(playerTwoName.getText());
+				setGameMode((null == getGameMode()) ? GameMode.SINGLEPLAYER
+						: getGameMode());
 
 				try {
-					if (("Ginuwine").equalsIgnoreCase(player1Name)) {
+					if (("Ginuwine").equalsIgnoreCase(getPlayer1Name())) {
 						URL gSound = getClass()
 								.getResource("/sounds/roll5.wav");
 
@@ -248,28 +248,43 @@ public class FarkleOptionsDialog extends JDialog implements MouseListener {
 		window.add(gameModePanel, BorderLayout.CENTER);
 		window.add(buttonPanel, BorderLayout.SOUTH);
 		this.add(window, BorderLayout.CENTER);
-
-		// Show the window
-		this.setLocationRelativeTo(null);
+		
+		
 		this.pack();
 		this.setLocationRelativeTo(frame);
-		this.setVisible(true);
+		
+	}
+	
+	public void showWindow() {
+		this.setVisible(true);	
 	}
 
 	public PlayerType getPlayerType() {
 		return playerType;
 	}
+	public void setPlayerType(PlayerType playerType) {
+		this.playerType = playerType;
+	}
 
 	public String getPlayer1Name() {
 		return player1Name;
+	}
+	public void setPlayer1Name(String player1Name) {
+		this.player1Name = player1Name;
 	}
 
 	public String getPlayer2Name() {
 		return player2Name;
 	}
+	public void setPlayer2Name(String player2Name) {
+		this.player2Name = player2Name;
+	}
 
 	public GameMode getGameMode() {
 		return gameMode;
+	}
+	public void setGameMode(GameMode gameMode) {
+		this.gameMode = gameMode;
 	}
 	
 	@Override
@@ -308,8 +323,8 @@ public class FarkleOptionsDialog extends JDialog implements MouseListener {
 			playerTwoNamePanel.setVisible(true);
 			playerTwoName.setText("");
 			playerTwoName.setEnabled(true);
-			gameMode = GameMode.MULTIPLAYER;
-			playerType = PlayerType.USER;
+			setGameMode(GameMode.MULTIPLAYER);
+			setPlayerType(PlayerType.USER);
 		}
 		// Human
 		/****************************************************************
@@ -332,8 +347,8 @@ public class FarkleOptionsDialog extends JDialog implements MouseListener {
 			playerTwoNamePanel.setVisible(true);
 			playerTwoName.setText("");
 			playerTwoName.setEnabled(true);
-			gameMode = GameMode.MULTIPLAYER;
-			playerType = PlayerType.USER;
+			setGameMode(GameMode.MULTIPLAYER);
+			setPlayerType(PlayerType.USER);
 		}
 		// Computer
 		/****************************************************************
@@ -355,8 +370,8 @@ public class FarkleOptionsDialog extends JDialog implements MouseListener {
 			playerTwoNamePanel.setEnabled(false);
 			playerTwoName.setText("Computer");
 			playerTwoName.setEnabled(false);
-			gameMode = GameMode.MULTIPLAYER;
-			playerType = PlayerType.COMPUTER;
+			setGameMode(GameMode.MULTIPLAYER);
+			setPlayerType(PlayerType.COMPUTER);
 		}
 
 	}

@@ -248,7 +248,7 @@ public class FarkleController implements ActionListener, MouseListener {
 	public void newGame() {
 		// Get the game options
 		farkleOptions = new FarkleOptionsDialog(farkleUI);
-		
+		farkleOptions.showWindow();
 
 		/****************************************************************
 		 * 2.2.0 - When 2 two player mode against a live person is selected, the
