@@ -5,17 +5,17 @@ import static org.junit.Assert.*;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
-
-import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
 /**
- * The GameCalculateScoreTest class tests the calculateScore method of the Game class for every
- * possible combination of dice to ensure it complies with the requirement 6.0.0, scoring,  of the 
+ * The GameCalculateScoreTest class tests the calculateScore(List<Integer>, boolean) and the 
+ * calculateHighestScore(List<Integer>) methods and the of the Game class for every
+ * possible combination of dice to ensure they comply with the requirement 6.0.0, scoring,  of the 
  * specific requirements in the requirements document. This includes rolls of 1, 2, 3, 4, 5 or 6 
  * dice. 
  * @author Jacob Davidson
+ * @version 3.0.0
  */
 public class GameCalculateScoreTest {
 
@@ -55,11 +55,6 @@ public class GameCalculateScoreTest {
 		// Instantiate the game option. The Game Mode used does not change the results of this test
 		game = new Game(GameMode.SINGLEPLAYER, farkleController);
 		
-		
-	}
-	
-	@After
-	public void tearDown() {
 	}
 	
 	/**
@@ -151,6 +146,7 @@ public class GameCalculateScoreTest {
 		assertTrue(integerPermutationsToTest.contains("62"));
 		assertTrue(integerPermutationsToTest.contains("63"));
 		assertTrue(integerPermutationsToTest.contains("64"));
+		
 	}
 	
 	/**

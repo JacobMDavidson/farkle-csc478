@@ -5,7 +5,14 @@ import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.Test;
 
+/**
+ * Tests the Game Class (except the calculateHighestScore(List<Integer>)
+ * and the calculateScore(List<Integer>, boolean) methods
+ * @author Jacob Davidson
+ * @version 3.0.0
+ */
 public class GameTest {
+	
 	// The FarkleController object used for testing
 	FarkleController farkleController;
 	
@@ -17,6 +24,7 @@ public class GameTest {
 	
 	@Before
 	public void setUp() throws Exception {
+		
 		// Instantiate the farklecontroller
 		farkleController = new FarkleController();
 		
@@ -29,10 +37,12 @@ public class GameTest {
 	}
 
 	/**
-	 * Test Game constructor
+	 * Test the Game constructor
 	 */
 	@Test
 	public void testGameConstructor() {
+		
+		// Assert that the farkleController is not null
 		assertNotNull(farkleController);	
 		
 		// Test the single player mode game constructor
@@ -48,6 +58,7 @@ public class GameTest {
 		assertEquals(0, multiPlayerGame.getGameScoreForPlayer(1));
 		assertEquals(1, multiPlayerGame.getPlayers()[1].getTurnNumber());
 		assertEquals(0, multiPlayerGame.getGameScoreForPlayer(2));
+		
 	}
 	
 	
@@ -56,6 +67,7 @@ public class GameTest {
 	 */
 	@Test
 	public void testBank() {
+		
 		// Test bank for singlePlayerGame by setting the game score and ensuring the bank method
 		// returns that score.
 		singlePlayerGame.getCurrentPlayer().setGameScore(500);
@@ -77,6 +89,7 @@ public class GameTest {
 		
 		// Test to make sure the next bank method call returns the game score for player 1
 		assertEquals(100, multiPlayerGame.bank());
+		
 	}
 
 	/**
@@ -84,6 +97,7 @@ public class GameTest {
 	 */
 	@Test
 	public void testFarkle() {
+		
 		// Test farkle for singlePlayerGame by adding a roll score, and testing to make sure
 		// that the roll scare is not added to the game score after a farkle
 		singlePlayerGame.getCurrentPlayer().setGameScore(1000);
@@ -139,27 +153,29 @@ public class GameTest {
 		
 		// Check if player 2 is the current player for multiplayergame
 		assertTrue(multiPlayerGame.getCurrentPlayer().equals(multiPlayerGame.getPlayers()[1]));
+	
 	}
 	
 	/**
 	 * Test the getGameMode() method
 	 */
 	@Test
-	public void testGetAndSetGameMode()
-	{
+	public void testGetAndSetGameMode() {
+		
 		// Test with the singlePlayerGame
 		assertTrue(singlePlayerGame.getGameMode() == GameMode.SINGLEPLAYER);
 		
 		// Test with multiPlayerGame
 		assertTrue(multiPlayerGame.getGameMode() == GameMode.MULTIPLAYER);
+		
 	}
 	
 	/**
 	 * Test the getGameScoreForCurrentPlayer() method
 	 */
 	@Test
-	public void testGetGameScoreForCurrentPlayer()
-	{
+	public void testGetGameScoreForCurrentPlayer() {
+		
 		// Test that the score is 0 at the beginning of the single player game
 		assertTrue(singlePlayerGame.getGameScoreForCurrentPlayer() == 0);
 		
@@ -183,6 +199,7 @@ public class GameTest {
 		multiPlayerGame.getCurrentPlayer().setGameScore(100);
 		assertTrue(multiPlayerGame.getGameScoreForCurrentPlayer() == 100 && 
 				multiPlayerGame.getCurrentPlayer().equals(multiPlayerGame.getPlayers()[1]));
+	
 	}
 	
 	/**
@@ -190,6 +207,7 @@ public class GameTest {
 	 */
 	@Test
 	public void testGetGameScoreForPlayer() {
+		
 		// Test for single player game, make sure the game score for player 1 is 0 at the start
 		assertEquals(0,singlePlayerGame.getGameScoreForPlayer(1));
 		
@@ -218,12 +236,14 @@ public class GameTest {
 	 */
 	@Test
 	public void testGetAndSetHighScore() {
+		
 		// Set the high score, and then get it to make sure it matches. This is
 		// a Preference, so it will be the same regardless of setting and getting 
 		// it through the single player game or multi player game
 		singlePlayerGame.setHighScore(5000);
 		assertEquals(5000, singlePlayerGame.getHighScore());
 		assertEquals(5000, multiPlayerGame.getHighScore());
+		
 	}
 	
 	/**
@@ -231,6 +251,7 @@ public class GameTest {
 	 */
 	@Test
 	public void testGetNextPlayer() {
+		
 		// In single player mode, this should always return 1
 		assertEquals(1, singlePlayerGame.getNextPlayer());
 		
@@ -255,6 +276,7 @@ public class GameTest {
 		
 		// In multi player mode, getNextPlayer() should now result in 2 again
 		assertEquals(2, multiPlayerGame.getNextPlayer());
+	
 	}
 	
 	/**
@@ -262,6 +284,7 @@ public class GameTest {
 	 */
 	@Test
 	public void testGetAndSetPlayerName() {
+		
 		// Test the single player game. The player's name should initially be null
 		assertNull(singlePlayerGame.getPlayerName(1));
 		
@@ -288,6 +311,7 @@ public class GameTest {
 		multiPlayerGame.setPlayerName(2, "roger");
 		assertTrue(multiPlayerGame.getPlayerName(1).equals("bill"));
 		assertTrue(multiPlayerGame.getPlayerName(2).equals("roger"));
+		
 	}
 	
 	/**
@@ -295,6 +319,7 @@ public class GameTest {
 	 */
 	@Test
 	public void testGetPlayerNumberForCurrentPlayer() {
+		
 		// The current player number for a single player game should always be 1
 		assertEquals(1, singlePlayerGame.getPlayerNumberForCurrentPlayer());
 		
@@ -322,6 +347,7 @@ public class GameTest {
 		// After the second bank it should be 1 again
 		multiPlayerGame.bank();
 		assertEquals(1, multiPlayerGame.getPlayerNumberForCurrentPlayer());
+		
 	}
 	
 	/**
@@ -329,6 +355,7 @@ public class GameTest {
 	 */
 	@Test
 	public void testGetPlayers() {
+		
 		// Make sure the number of players returned for the single player game is 1
 		Player[] singlePlayerGamePlayers = singlePlayerGame.getPlayers();
 		int playerCount = 0;
@@ -358,6 +385,7 @@ public class GameTest {
 		// bank or farkle to change the current player, and check that player against the array
 		multiPlayerGame.bank();
 		assertTrue(multiPlayerGamePlayers[1].equals(multiPlayerGame.getCurrentPlayer()));
+	
 	}
 	
 	/**
@@ -365,6 +393,7 @@ public class GameTest {
 	 */
 	@Test
 	public void testGetAndSetPlayerType() {
+		
 		// Test for single player mode. It should start as PlayerType.USER
 		assertEquals(PlayerType.USER, singlePlayerGame.getPlayerTypeForCurrentPlayer());
 		
@@ -382,6 +411,7 @@ public class GameTest {
 		assertEquals(PlayerType.USER, multiPlayerGame.getPlayerTypeForCurrentPlayer());
 		multiPlayerGame.setPlayerType(2, PlayerType.COMPUTER);
 		assertEquals(PlayerType.COMPUTER, multiPlayerGame.getPlayerTypeForCurrentPlayer());
+	
 	}
 	
 	/**
@@ -389,6 +419,7 @@ public class GameTest {
 	 */
 	@Test
 	public void testGetRollScores() {
+		
 		// Test the single player game. The getRollScores method should return 0 at the start
 		assertEquals(0, singlePlayerGame.getRollScores());
 		
@@ -428,6 +459,7 @@ public class GameTest {
 		multiPlayerGame.getCurrentPlayer().scoreRoll(100);
 		multiPlayerGame.processRoll();
 		assertEquals(200, multiPlayerGame.getRollScores());	
+	
 	}
 	
 	/**
@@ -435,6 +467,7 @@ public class GameTest {
 	 */
 	@Test
 	public void testGetTurnNumberForCurrentPlayer() {
+		
 		// Test for single player game. This should initially be 1
 		assertEquals(1, singlePlayerGame.getTurnNumberForCurrentPlayer());
 		
@@ -458,6 +491,7 @@ public class GameTest {
 		assertEquals(2, multiPlayerGame.getTurnNumberForCurrentPlayer());
 		multiPlayerGame.farkle();
 		assertEquals(3, multiPlayerGame.getTurnNumberForCurrentPlayer());
+	
 	}
 	
 	/**
@@ -465,6 +499,7 @@ public class GameTest {
 	 */
 	@Test
 	public void testGetWinningPlayerInfo() {
+		
 		// Test for single player game. The name is initially null
 		String[] winner = singlePlayerGame.getWinningPlayerInfo();
 		assertNull(winner[0]);
@@ -508,6 +543,7 @@ public class GameTest {
 		assertTrue(winner[0].equals("Curtis"));
 		assertTrue(winner[1].equals("Jacob"));	
 		assertTrue(winner[2].equals("500"));	
+	
 	}
 	
 	/**
@@ -515,6 +551,7 @@ public class GameTest {
 	 */
 	@Test
 	public void testIsAndSetBonusTurn() {
+		
 		// test single player game
 		assertFalse(singlePlayerGame.isBonusTurn());
 		singlePlayerGame.setBonusTurn(true);
@@ -528,14 +565,15 @@ public class GameTest {
 		assertTrue(multiPlayerGame.isBonusTurn());
 		multiPlayerGame.setBonusTurn(false);
 		assertFalse(multiPlayerGame.isBonusTurn());
+	
 	}
 	
 	/**
 	 * Test the processHold(int) method
 	 */
-	
 	@Test
 	public void testProcessHold() {
+		
 		// Test for single player game
 		assertEquals(0, singlePlayerGame.getRollScores());
 		singlePlayerGame.processHold(100);
@@ -557,6 +595,7 @@ public class GameTest {
 		assertEquals(100, multiPlayerGame.getRollScores());
 		multiPlayerGame.processHold(-100);
 		assertEquals(-100, multiPlayerGame.getRollScores());
+	
 	}
 	
 	/**
@@ -564,6 +603,7 @@ public class GameTest {
 	 */
 	@Test
 	public void testProcessRoll() {
+		
 		// Test for single player game
 		
 		// The roll number and roll score should be initially 0
@@ -630,6 +670,7 @@ public class GameTest {
 		// The roll number should be 2 and the roll score should be 50
 		assertEquals(2, multiPlayerGame.getCurrentPlayer().getRollNumber());
 		assertEquals(50, multiPlayerGame.getRollScores());
+	
 	}
 	
 	/**
@@ -637,6 +678,7 @@ public class GameTest {
 	 */
 	@Test
 	public void testResetGame() {
+		
 		// Test reset on a single player game
 		
 		/* Test for turn number = 1, game score = 0, roll number = 0, roll score = 0, turnScores is empty,
@@ -760,6 +802,7 @@ public class GameTest {
 		assertTrue(multiPlayerGame.getCurrentPlayer().getTurnScores().isEmpty());
 		assertTrue(multiPlayerGame.getCurrentPlayer().getRollScore().isEmpty());	
 		assertTrue(multiPlayerGame.getCurrentPlayer().equals(multiPlayerGame.getPlayers()[1]));			
+	
 	}
 	
 	/**
@@ -767,6 +810,7 @@ public class GameTest {
 	 */
 	@Test
 	public void testResetHighScore() {
+		
 		// Set the high score, and then reset it to make sure it is reset to 0. This is
 		// a Preference, so it will be the same regardless of setting and getting 
 		// it through the single player game or multi player game
@@ -776,6 +820,7 @@ public class GameTest {
 		singlePlayerGame.resetHighScore();
 		assertEquals(0, singlePlayerGame.getHighScore());
 		assertEquals(0, multiPlayerGame.getHighScore());			
+	
 	}
 }
 

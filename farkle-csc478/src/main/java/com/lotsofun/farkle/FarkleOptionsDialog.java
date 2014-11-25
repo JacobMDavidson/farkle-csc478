@@ -497,6 +497,8 @@ public class FarkleOptionsDialog extends JDialog implements MouseListener {
 			
 			// Make the playerTwoNamePanel visible, enabled, and clear the name 
 			playerTwoNamePanel.setVisible(true);
+			playerTwoNameLabel.setEnabled(true);
+			playerTwoNamePanel.setEnabled(true);
 			playerTwoName.setEnabled(true);
 			playerTwoName.setText("");
 			
@@ -591,5 +593,63 @@ public class FarkleOptionsDialog extends JDialog implements MouseListener {
 	@Override
 	public void mouseReleased(MouseEvent e) {
 
+	}
+	
+	/**
+	 * This method is used to get JLabels for testing
+	 * @return Component representing an option the user selected
+	 */
+	public JLabel getJLabel(int componentNumber) {
+		
+		// Return the selected JLabel
+		switch(componentNumber) {
+		case 1:
+			return singlePlayerLabel;
+		case 2:
+			return multiplayerLabel;
+		case 3:
+			return humanPlayerLabel;
+		case 4:
+			return computerPlayerLabel;
+		case 5:
+			return playerTwoNameLabel;
+		default:
+			return null;
+		}
+		
+	}
+	
+	/**
+	 * This method is used to get JPanels for testing
+	 * @return JPanel
+	 */
+	public JPanel getJPanel(int panelNumber) {
+		
+		// Return the selected JPanel
+		switch(panelNumber) {
+		case 1:
+			return playerTypeSelectionPanel;
+		case 2:
+			return playerTwoNamePanel;
+		default:
+			return null;
+		}		
+		
+	}
+	
+	/**
+	 * This method is used to get JTextFields for testing
+	 * @return JTextField
+	 */
+	public JTextField getJTextField(int textFieldNumber) {
+		
+		// Return the selected JTextField
+		switch(textFieldNumber) {
+		case 1:
+			return playerTwoName;
+		default:
+			return null;
+		}	
+		
 	}
 }
