@@ -25,79 +25,102 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
-/*
- ****************************************************************************
- * 1.0.0
- * 
- * Select Game Mode Option Box - Upon opening the application, the user is
+/**
+ * Displays a dialog box used to select game mode options, including single
+ * player or two player, human opponent or computer opponent, and setting
+ * appropriate names for each player. Fulfills requirement 1.0.0:<br /><br />
+ * "Select Game Mode Option Box - Upon opening the application, the user is
  * greeted with an option box that includes all configuration options for
  * gameplay. These options include "1 Player Mode", "2 Player Mode", "Human
  * Opponent" (if two player mode is selected), "Computer Opponent" (if two
  * player mode is selected), and text fields to enter the associated player
  * names. Also included is a "Start" button and a "Close" button (both of which
- * are always enabled). This option dialog box should pop up over the main GUI.
- *
- ****************************************************************************
- */
-/**
- * Displays a dialog box used to select game mode options, including single
- * player or two player, human opponent or computer opponent, and setting
- * appropriate names for each player.
+ * are always enabled). This option dialog box should pop up over the main GUI."
  * @author Jacob Davidson
  * @version 3.0.0
  */
 public class FarkleOptionsDialog extends JDialog implements MouseListener {
 	
-	// Serialize this to comply with component conventions
+	/** Serialize this to comply with component conventions */
 	private static final long serialVersionUID = 1L;
 	
-	// The primary background color
+	/** The primary background color */
 	private Color greenBackground = new Color(35, 119, 34);
 	
-	// The JLabels for the JDialog box
+	/** The label for the player mode selection */
 	private JLabel playerModeSelectLabel = new JLabel(" Select Player Mode:");
+	
+	/** The single player mode selection label */
 	private JLabel singlePlayerLabel = new JLabel("One Player Mode",
 			SwingConstants.CENTER);
+	
+	/** The two player mode selection label */
 	private JLabel multiplayerLabel = new JLabel("Two Player Mode",
 			SwingConstants.CENTER);
+	
+	/** The label for the opponent player type selection */
 	private JLabel playerTypeSelectLabel = new JLabel(" Select Opponent Type:");
+	
+	/** The human opponent player type selection label */
 	private JLabel humanPlayerLabel = new JLabel("Human Opponent",
 			SwingConstants.CENTER);
+	
+	/** The computer opponent player type selection label */
 	private JLabel computerPlayerLabel = new JLabel("Computer Opponent",
 			SwingConstants.CENTER);
+	
+	/** The label for the title of the game mode options menu */
 	private JLabel gameModeOptionTitle = new JLabel("Game Mode Options",
 			SwingConstants.CENTER);
+	
+	/** The title of the enter player names portion of the JDialog */
 	private JLabel playerNamesLabel = new JLabel("Enter Player Names:");
+	
+	/** The label for entering player onne's name */
 	private JLabel playerOneNameLabel = new JLabel("Player One:");	
+	
+	/** The label for entering player two's name */
 	private JLabel playerTwoNameLabel = new JLabel("Player Two:");
 	
-	// The JPanels used in the JDialog box
+	/** The panel for entering player one's name */
 	private JPanel playerOneNamePanel = new JPanel();
+	
+	/** The panel for entering player two's name */
 	private JPanel playerTwoNamePanel = new JPanel();
+	
+	/** The panel for player mode selection */
 	private JPanel playerModeSelectionPanel = new JPanel();
+	
+	/** The panel for player type selection */
 	private JPanel playerTypeSelectionPanel = new JPanel();
 
-	// The JTextFields used in the JDialog box
+	/** The text field for entering player one's name */
 	private JTextField playerOneName = new JTextField(5);
+	
+	/** The text field for entering player two's name */
 	private JTextField playerTwoName = new JTextField(5);
 	
-	// The "Start" and "Close" buttons
+	/** The "Start" button */
 	private JButton startButton = new JButton("Start");
+	
+	/** The "Close" button */
 	private JButton closeButton = new JButton("Close");
 
-	// String variables for the provided player names
+	/** The provided name for player 1 */
 	private String player1Name = "";
+	
+	/** The provided name for player 2 */
 	private String player2Name = "";
 	
-	// Variable for the selected game mode
+	/** The selected game mode */
 	private GameMode gameMode = GameMode.SINGLEPLAYER;
 	
-	// Variable for the selected player type
+	/** The selected opponent player type */
 	private PlayerType playerType = PlayerType.USER;
 
 
 	/**
-	 * Construct the Farkle Options Dialog Window
+	 * The Farkle Options Dialog box constructor
 	 * @param frame The parent JFrame for this dialog
 	 */
 	public FarkleOptionsDialog(JFrame frame) {
@@ -132,13 +155,11 @@ public class FarkleOptionsDialog extends JDialog implements MouseListener {
 				.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 		gameModePanel.setBackground(greenBackground);
 
-		/*
-		 ********************************************************
+		/*********************************************************
 		 * 1.1.2 - The "1 Player Mode" is highlighted by default when the
 		 * application is first opened, and a blank text field for player one's
 		 * name is displayed.
-		 *******************************************************
-		 */
+		 ********************************************************/
 		
 		// Create the single player option and highlight it as the default
 		singlePlayerLabel.setName("1");
@@ -313,12 +334,11 @@ public class FarkleOptionsDialog extends JDialog implements MouseListener {
 		// Add the "start" button to the buttonPanel
 		buttonPanel.add(startButton);
 
-		/*
-		 **********************************************
+		/**********************************************
 		 * 1.1.1 If the user selects the "Close" button at any time, the
 		 * application closes.
-		 *********************************************
-		 */
+		 **********************************************/
+
 		closeButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -379,7 +399,7 @@ public class FarkleOptionsDialog extends JDialog implements MouseListener {
 	
 	/**
 	 * Set the opponent player type
-	 * @param playerType - PlayerType.USER or PlayerType.COMPUTER
+	 * @param playerType PlayerType.USER or PlayerType.COMPUTER
 	 */
 	public void setPlayerType(PlayerType playerType) {
 		this.playerType = playerType;
@@ -387,7 +407,7 @@ public class FarkleOptionsDialog extends JDialog implements MouseListener {
 
 	/**
 	 * Get the provided player 1 name String
-	 * @return the provided player 1 name
+	 * @return The provided player 1 name
 	 */
 	public String getPlayer1Name() {
 		return player1Name;
@@ -395,7 +415,7 @@ public class FarkleOptionsDialog extends JDialog implements MouseListener {
 	
 	/**
 	 * Set the player 1 name String
-	 * @param player1Name - Set the player 1 name String
+	 * @param player1Name Set the player 1 name String
 	 */
 	public void setPlayer1Name(String player1Name) {
 		this.player1Name = player1Name;
@@ -403,7 +423,7 @@ public class FarkleOptionsDialog extends JDialog implements MouseListener {
 
 	/**
 	 * Get the provided player 2 name String
-	 * @return the provided player 2 name
+	 * @return The provided player 2 name
 	 */
 	public String getPlayer2Name() {
 		return player2Name;
@@ -411,7 +431,7 @@ public class FarkleOptionsDialog extends JDialog implements MouseListener {
 	
 	/**
 	 * Set the player 2 name String
-	 * @param player2Name - Set the player 1 name String
+	 * @param player2Name Set the player 1 name String
 	 */
 	public void setPlayer2Name(String player2Name) {
 		this.player2Name = player2Name;
@@ -427,7 +447,7 @@ public class FarkleOptionsDialog extends JDialog implements MouseListener {
 	
 	/**
 	 * Set the Game Mode
-	 * @param gameMode - (GameMode.SINGLEPLAYER or GameMode.MULTIPLAYER)
+	 * @param gameMode GameMode.SINGLEPLAYER or GameMode.MULTIPLAYER
 	 */
 	public void setGameMode(GameMode gameMode) {
 		this.gameMode = gameMode;
@@ -466,14 +486,13 @@ public class FarkleOptionsDialog extends JDialog implements MouseListener {
 		}
 		
 		// The two player game mode has been selected
-		/*
-		 **************************************************************
+
+		/***************************************************************
 		 * 1.1.3 - If the user highlights the "2 Player Mode" option, the "1
 		 * Player Mode" option is deselected, and two more options appear
 		 * ("Human Opponent" and "Computer Opponent"). The "Human Opponent"
 		 * option is highlighted by default.
-		 *************************************************************
-		 */
+		 **************************************************************/
 		else if (e.getComponent().getName().equals("2")) {
 			
 			// Deselect the singlePlayerLabel
@@ -507,13 +526,12 @@ public class FarkleOptionsDialog extends JDialog implements MouseListener {
 		}
 		
 		// The human opponent player type has been selected
-		/*
-		 ****************************************************************
+		
+		/****************************************************************
 		 * 1.1.4 - When the "Human Opponent" option is highlighted, two text
 		 * fields are displayed, labeled "Player One Name", and "Player Two
 		 * Name".
-		 ***************************************************************
-		 */
+		 ***************************************************************/
 		else if (e.getComponent().getName().equals("3")) {
 			
 			// Highlight the humanPlayerLabel
@@ -535,12 +553,11 @@ public class FarkleOptionsDialog extends JDialog implements MouseListener {
 		}
 		
 		// The Computer opponent player type has been selected
-		/*
-		 ****************************************************************
+
+		/****************************************************************
 		 * 1.1.5 - When the "Computer Opponent" option is highlighted, only one
 		 * text field is displayed, labeled "Player One Name".
-		 ***************************************************************
-		 */
+		 ****************************************************************/
 		else if (e.getComponent().getName().equals("4")) {
 
 			// Deselect the humanPlayerLabel
@@ -597,12 +614,13 @@ public class FarkleOptionsDialog extends JDialog implements MouseListener {
 	
 	/**
 	 * This method is used to get JLabels for testing
+	 * @param labelNumber Specifies the JLabel to return
 	 * @return Component representing an option the user selected
 	 */
-	public JLabel getJLabel(int componentNumber) {
+	public JLabel getJLabel(int labelNumber) {
 		
 		// Return the selected JLabel
-		switch(componentNumber) {
+		switch(labelNumber) {
 		case 1:
 			return singlePlayerLabel;
 		case 2:
@@ -621,6 +639,7 @@ public class FarkleOptionsDialog extends JDialog implements MouseListener {
 	
 	/**
 	 * This method is used to get JPanels for testing
+	 * @param panelNumber Specifies the JPanel to return
 	 * @return JPanel
 	 */
 	public JPanel getJPanel(int panelNumber) {
@@ -639,6 +658,7 @@ public class FarkleOptionsDialog extends JDialog implements MouseListener {
 	
 	/**
 	 * This method is used to get JTextFields for testing
+	 * @param textFieldNumber Specifies the TextField to return
 	 * @return JTextField
 	 */
 	public JTextField getJTextField(int textFieldNumber) {
