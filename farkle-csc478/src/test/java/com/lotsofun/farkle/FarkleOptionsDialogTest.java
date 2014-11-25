@@ -20,12 +20,16 @@ import org.junit.Test;
  */
 public class FarkleOptionsDialogTest {
 	
-	// The FarkleOptionsDialog object to test
+	/** The FarkleOptionsDialog object to test */
 	FarkleOptionsDialog farkleOptionsDialog;
 	
-	// The primary background color
+	/** The primary background color */
 	private Color greenBackground = new Color(35, 119, 34);
 	
+	/**
+	 * Instantiate the objects before testing begins
+	 * @throws Exception
+	 */
 	@Before
 	public void setUp() throws Exception {
 		
@@ -34,6 +38,10 @@ public class FarkleOptionsDialogTest {
 		
 	}
 	
+	/**
+	 * Dispose the window at the completion of testing
+	 * @throws Exception
+	 */
 	@After
 	public void tearDown() throws Exception {
 		

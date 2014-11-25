@@ -7,16 +7,26 @@ import java.util.HashMap;
 import org.junit.Before;
 import org.junit.Test;
 
+/**
+ * Tests the Player Class
+ * and the calculateScore(List<Integer>, boolean) methods
+ * @author Jacob Davidson
+ * @version 3.0.0
+ */
 public class PlayerTest {
-	// The Player object used for testing
+	/** The Player object used for testing */
 	Player player;
 	
-	// rollScore Hash Map used for testing
+	/** rollScore Hash Map used for testing */
 	HashMap<Integer, Integer> rollScore;
 	
-	// An array list of turn scores used for testing
+	/** An array list of turn scores used for testing */
 	ArrayList<Integer> turnScores;
 
+	/**
+	 * Instantiate all objects before testing begins
+	 * @throws Exception
+	 */
 	@Before
 	public void setUp() throws Exception {
 		// Instantiate the player object used for testing

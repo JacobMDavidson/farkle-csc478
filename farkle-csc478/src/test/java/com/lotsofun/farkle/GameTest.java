@@ -13,15 +13,19 @@ import org.junit.Test;
  */
 public class GameTest {
 	
-	// The FarkleController object used for testing
+	/** The FarkleController object used for testing */
 	FarkleController farkleController;
 	
-	// The Single Player Game object used for testing
+	/** The Single Player Game object used for testing */
 	Game singlePlayerGame;
 	
-	// The Multi Player Game object used for testing
+	/** The Multi Player Game object used for testing */
 	Game multiPlayerGame;
 	
+	/**
+	 * Instantiate all objects before testing begins
+	 * @throws Exception
+	 */
 	@Before
 	public void setUp() throws Exception {
 		

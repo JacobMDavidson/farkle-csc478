@@ -19,33 +19,37 @@ import org.junit.Test;
  */
 public class GameCalculateScoreTest {
 
-	// The game object used for testing
+	/** The game object used for testing */
 	private Game game;
 	
-	// The FarkleController object used for testing
+	/** The FarkleController object used for testing */
 	private FarkleController farkleController;
 	
-	// The list of lists of permutations for a given roll to be tested
+	/** The list of lists of permutations for a given roll to be tested */
 	List<List<Integer>> myPermutations;
 	
-	// List of strings representing rolls for permutations of die that are not 1 or 5
+	/** List of strings representing rolls for permutations of die that are not 1 or 5 */
 	List<String> automatedPermutations;
 	
-	// Retrieved score for a given roll
+	/** Retrieved score for a given roll */
 	int score = 0;
 	
-	// Three of kind die value
+	/** Three of kind die value */
 	int dieOneValue = 0;
 	
-	// The value of the second three of a kind die if two three of a kinds rolled at once
+	/** The value of the second three of a kind die if two three of a kinds rolled at once */
 	int dieTwoValue = 0;
 	
-	// The object array used to store the returned array from the calculateHighestScore method
+	/** The object array used to store the returned array from the calculateHighestScore method */
 	Object[] highestScore;
 	
-	// List of integers indicating the highest roll
+	/** List of integers indicating the highest roll */
 	List<Integer> highestRoll;
 	
+	/**
+	 * Instantiate the objects before testing begins
+	 * @throws Exception
+	 */
 	@Before
 	public void setUp() throws Exception {
 		
@@ -203,7 +207,9 @@ public class GameCalculateScoreTest {
 	
 	/**
 	 * This method tests the calculateScore method of the Game class for all permutations of 1 die,
-	 * requirements 6.1.0 and 6.2.0
+	 * requirements 6.1.0 and 6.2.0: <br /><br />
+	 * 6.1.0 Each 1 rolled is worth 100 points<br />
+	 * 6.2.0 Each 5 rolled is worth 50 points
 	 */
 	@SuppressWarnings("unchecked")
 	@Test
@@ -289,7 +295,9 @@ public class GameCalculateScoreTest {
 	
 	/**
 	 * This method tests the calculateScore method of the Game class for all permutations of 2 dice,
-	 * requirement 6.1.0 and 6.2.0.
+	 * requirement 6.1.0 and 6.2.0. <br /><br />
+	 * 6.1.0 Each 1 rolled is worth 100 points<br />
+	 * 6.2.0 Each 5 rolled is worth 50 points
 	 */
 	@SuppressWarnings("unchecked")
 	@Test
@@ -506,7 +514,12 @@ public class GameCalculateScoreTest {
 	
 	/**
 	 * This method tests the calculateScore method of the Game class for all permutations of 3 dice,
-	 * requirements 6.1.0, 6.2.0, 6.3.0, and 6.4.0.
+	 * requirements 6.1.0, 6.2.0, 6.3.0, and 6.4.0. <br /><br />
+	 * 6.1.0 Each 1 rolled is worth 100 points<br />
+	 * 6.2.0 Each 5 rolled is worth 50 points<br />
+	 * 6.3.0 Three 1’s are worth 1000 points<br />
+	 * 6.4.0 Three of a kind of any value other than 1 is worth 100 times the value of the die (e.g. 
+	 * three 4’s is worth 400 points).
 	 */
 	@SuppressWarnings("unchecked")
 	@Test
@@ -981,7 +994,14 @@ public class GameCalculateScoreTest {
 
 	/**
 	 * This method tests the calculateScore method of the Game class for all permutations of 4 dice,
-	 * requirements 6.1.0, 6.2.0, 6.3.0, 6.4.0, and 6.5.0
+	 * requirements 6.1.0, 6.2.0, 6.3.0, 6.4.0, and 6.5.0: <br /><br />
+	 * 6.1.0 Each 1 rolled is worth 100 points<br />
+	 * 6.2.0 Each 5 rolled is worth 50 points<br />
+	 * 6.3.0 Three 1’s are worth 1000 points<br />
+	 * 6.4.0 Three of a kind of any value other than 1 is worth 100 times the value of the die (e.g. 
+	 * three 4’s is worth 400 points).<br />
+	 * 6.5.0 Four, five, or six of a kind is scored by doubling the three of a kind value for every 
+	 * additional matching die (e.g. five 3’s would be scored as 300 X 2 X 2 = 1200.
 	 */
 	@SuppressWarnings("unchecked")
 	@Test
@@ -1778,7 +1798,14 @@ public class GameCalculateScoreTest {
 
 	/**
 	 * This method tests the calculateScore method of the Game class for all permutations of 5 dice,
-	 * requirements 6.1.0, 6.2.0, 6.3.0, 6.4.0, and 6.5.0.
+	 * requirements 6.1.0, 6.2.0, 6.3.0, 6.4.0, and 6.5.0:<br /><br />
+	 * 6.1.0 Each 1 rolled is worth 100 points<br />
+	 * 6.2.0 Each 5 rolled is worth 50 points<br />
+	 * 6.3.0 Three 1’s are worth 1000 points<br />
+	 * 6.4.0 Three of a kind of any value other than 1 is worth 100 times the value of the die (e.g. 
+	 * three 4’s is worth 400 points).<br />
+	 * 6.5.0 Four, five, or six of a kind is scored by doubling the three of a kind value for every 
+	 * additional matching die (e.g. five 3’s would be scored as 300 X 2 X 2 = 1200.
 	 */
 	@SuppressWarnings("unchecked")
 	@Test
@@ -3178,7 +3205,17 @@ public class GameCalculateScoreTest {
 	
 	/**
 	 * This method tests the calculateScore method of the Game class for all permutations of 6 dice,
-	 * requirements 6.1.0, 6.2.0, 6.3.0, 6.4.0, 6.5.0, 6.6.0, and 6.7.0
+	 * requirements 6.1.0, 6.2.0, 6.3.0, 6.4.0, 6.5.0, 6.6.0, and 6.7.0:<br /><br />
+	 * 6.1.0 Each 1 rolled is worth 100 points<br />
+	 * 6.2.0 Each 5 rolled is worth 50 points<br />
+	 * 6.3.0 Three 1’s are worth 1000 points<br />
+	 * 6.4.0 Three of a kind of any value other than 1 is worth 100 times the value of the die (e.g. 
+	 * three 4’s is worth 400 points).<br />
+	 * 6.5.0 Four, five, or six of a kind is scored by doubling the three of a kind value for every 
+	 * additional matching die (e.g. five 3’s would be scored as 300 X 2 X 2 = 1200.<br />
+	 * 6.6.0 Three doubles (e.g. 1-1-2-2-3-3) is worth 750 points.<br />
+	 * 6.7.0 A straight (e.g. 1-2-3-4-5-6), which can only be achieved when all 6 dice are rolled, 
+	 * is worth 1500 points.
 	 */
 	@SuppressWarnings("unchecked")
 	@Test
