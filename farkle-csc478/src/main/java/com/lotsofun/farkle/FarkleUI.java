@@ -1,6 +1,7 @@
 package com.lotsofun.farkle;
 
 import java.awt.Color;
+import java.awt.Dialog.ModalityType;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridLayout;
@@ -767,7 +768,7 @@ public class FarkleUI extends JFrame {
 	public void displayMessage(String message, String title) {
 		JOptionPane pane = new JOptionPane(message);
 		JDialog dialog = pane.createDialog(title);
-		dialog.setModal(false);
+		dialog.setModalityType(ModalityType.APPLICATION_MODAL);
 		dialog.show();
 	}
 
