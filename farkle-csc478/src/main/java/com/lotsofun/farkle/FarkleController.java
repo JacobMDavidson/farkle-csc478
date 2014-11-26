@@ -75,10 +75,8 @@ public class FarkleController implements ActionListener, MouseListener {
 		farkleUI.disableDice();
 		farkleUI.setRunningScore(0);
 		farkleUI.setRollScore(0);
-		farkleUI.setEnabled(false);
 		farkleUI.getFarkleMessage().setLocationRelativeTo(farkleUI);
 		farkleUI.getFarkleMessage().setVisible(true);
-		farkleUI.setEnabled(true);
 		farkleUI.unHighlightAllTurnScores(farkleGame
 				.getPlayerNumberForCurrentPlayer());
 		setTurnScore(farkleGame.getPlayerNumberForCurrentPlayer(),
