@@ -167,6 +167,7 @@ public class FarkleUI extends JFrame {
 		if (rollBtn.getActionListeners().length == 0) {
 			rollBtn.addActionListener(controller);
 		}
+		rollBtn.setPreferredSize(new Dimension (112, 29));
 		buttonPanels[0].add(rollBtn);
 		buttonPanels[0].setBackground(greenBackground);
 
@@ -177,6 +178,7 @@ public class FarkleUI extends JFrame {
 		if (selectAllBtn.getActionListeners().length == 0) {
 			selectAllBtn.addActionListener(controller);
 		}
+		selectAllBtn.setPreferredSize(new Dimension (112, 29));
 		buttonPanels[1].add(selectAllBtn);
 		selectAllBtn.setEnabled(false);
 		buttonPanels[1].setBackground(greenBackground);
@@ -188,6 +190,7 @@ public class FarkleUI extends JFrame {
 		if (bankBtn.getActionListeners().length == 0) {
 			bankBtn.addActionListener(controller);
 		}
+		bankBtn.setPreferredSize (new Dimension (112, 29));
 		buttonPanels[2].add(bankBtn);
 		buttonPanels[2].setBackground(greenBackground);
 		getBankBtn().setEnabled(false);
@@ -812,21 +815,20 @@ public class FarkleUI extends JFrame {
 	 * selects all held dice
 	 */
 	public void selectAllDice() {
-		if (getDice(DieState.HELD).size() == 0) {
-			ArrayList<Die> dice = getDice(DieState.UNHELD);
-			for (Die d : dice) {
-				d.dispatchEvent(new MouseEvent(d, MouseEvent.MOUSE_PRESSED,
-						System.currentTimeMillis(), MouseEvent.BUTTON1, d
-								.getX(), d.getY(), 1, false));
-			}
-		} else {
-			ArrayList<Die> dice = getDice(DieState.HELD);
-			for (Die d : dice) {
-				d.dispatchEvent(new MouseEvent(d, MouseEvent.MOUSE_PRESSED,
-						System.currentTimeMillis(), MouseEvent.BUTTON1, d
-								.getX(), d.getY(), 1, false));
-			}
+		
+		ArrayList<Die> dice = getDice(DieState.HELD);
+		for (Die d : dice) {
+			d.dispatchEvent(new MouseEvent(d, MouseEvent.MOUSE_PRESSED,
+					System.currentTimeMillis(), MouseEvent.BUTTON1, d
+							.getX(), d.getY(), 1, false));
 		}
+		
+		dice = getDice(DieState.UNHELD);
+		for (Die d : dice) {
+		d.dispatchEvent(new MouseEvent(d, MouseEvent.MOUSE_PRESSED,
+				System.currentTimeMillis(), MouseEvent.BUTTON1, d
+						.getX(), d.getY(), 1, false));
+		}					
 	}
 
 	public void setPlayerName(int playerNumber, String name) {
