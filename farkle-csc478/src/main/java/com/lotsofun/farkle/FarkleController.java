@@ -71,6 +71,7 @@ public class FarkleController implements ActionListener, MouseListener {
 		farkleUI.setRunningScore(0);
 		farkleUI.setRollScore(0);
 		farkleUI.getSelectAllBtn().setEnabled(false);
+		farkleUI.getRollBtn().setEnabled(false);
 		if(isTest == false) {
 			farkleUI.getFarkleMessage().setLocationRelativeTo(farkleUI);
 			farkleUI.getFarkleMessage().setVisible(true);
@@ -93,8 +94,9 @@ public class FarkleController implements ActionListener, MouseListener {
 		if (farkleGame.getPlayerTypeForCurrentPlayer() == PlayerType.COMPUTER) {
 			farkleUI.setRunningScore(0);
 			asynchronousRoll();
+		} else {
+			farkleUI.getRollBtn().setEnabled(true);
 		}
-		farkleUI.getRollBtn().setEnabled(true);
 	}
 
 	/**
