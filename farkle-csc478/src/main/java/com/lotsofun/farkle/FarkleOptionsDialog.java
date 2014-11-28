@@ -306,7 +306,6 @@ public class FarkleOptionsDialog extends JDialog implements MouseListener {
 				setPlayer1Name(playerOneName.getText());
 				setPlayer2Name(playerTwoName.getText());
 
-				// Easteregg created by Curtis
 				try {
 					if (("Ginuwine").equalsIgnoreCase(getPlayer1Name())) {
 						URL gSound = getClass()
