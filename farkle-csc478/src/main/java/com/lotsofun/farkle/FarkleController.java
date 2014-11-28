@@ -140,7 +140,7 @@ public class FarkleController implements ActionListener, MouseListener {
 	}
 
 	public boolean checkHighScore(int playerNumber) {
-		if (farkleGame.getGameScoreForCurrentPlayer() >= farkleGame
+		if (farkleGame.getGameScoreForPlayer(playerNumber) >= farkleGame
 				.getHighScore()) {
 			farkleGame.setHighScore(farkleGame.getGameScoreForPlayer(playerNumber));
 			farkleUI.setHighScore(farkleGame.getHighScore());
