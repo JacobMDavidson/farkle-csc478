@@ -892,7 +892,7 @@ public class FarkleUI extends JFrame {
 			for (Integer i : valuesNeeded) {
 				if (d.getValue() == i) {
 					Thread.sleep(500);
-					d.dispatchEvent(new MouseEvent(d, MouseEvent.MOUSE_PRESSED,
+					d.dispatchEvent(new DieClickEvent(d, MouseEvent.MOUSE_PRESSED,
 							System.currentTimeMillis(), MouseEvent.BUTTON1, d
 									.getX(), d.getY(), 1, false));
 					valuesNeeded.remove(i);

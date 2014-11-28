@@ -454,95 +454,106 @@ public class FarkleController implements ActionListener, MouseListener {
 
 	@Override
 	public void mousePressed(MouseEvent arg0) {
-		// TODO: CuBr / BrMu - Exception handling for die cast
-		Die d = (Die) arg0.getSource();
-
-		/****************************************************
-		 * 1.2.9 - During a current roll, current dice selected by the user
-		 * shall be indicated with a yellow border around each selected die, and
-		 * the score for the currently selected dice shall be updated above the
-		 * dice.
-		 *****************************************************/
-		// If the value of the die >
-		// toggle its state
-		if (d.getValue() > 0 && d.getState() != DieState.DISABLED) {
-			if (d.getState() == DieState.HELD) {
-				d.setState(DieState.UNHELD);
-			} else if (d.getState() == DieState.UNHELD) {
-				d.setState(DieState.HELD);
-			}
-
-			// If the die's state is not SCORED
-			if (d.isScored() == false) {
-
-				// Get the value of the HELD dice
-				int rollScore = farkleGame.calculateScore(
-						farkleUI.getDieValues(DieState.HELD), true);
-
-				// Tell the model about it
-				farkleGame.processHold(rollScore);
-				farkleUI.setRollScore(rollScore);
-
-				// Get the running score from the model
-				int runningScore = farkleGame.getRollScores();
-
-				// Update the UI based on the model's response
-				if (runningScore > 0
-						&& farkleGame.getPlayerTypeForCurrentPlayer() != PlayerType.COMPUTER) {
-					farkleUI.getRollBtn().setEnabled(true);
-				} else {
-					farkleUI.getRollBtn().setEnabled(false);
+		boolean isClickIgnored;
+		
+		if(farkleGame.getPlayerTypeForCurrentPlayer() == PlayerType.COMPUTER &&
+				(arg0 instanceof DieClickEvent) == false) {
+			isClickIgnored = true;
+		} else {
+			isClickIgnored = false;
+		}
+		
+		if(isClickIgnored == false) {
+			// TODO: CuBr / BrMu - Exception handling for die cast
+			Die d = (Die) arg0.getSource();
+	
+			/****************************************************
+			 * 1.2.9 - During a current roll, current dice selected by the user
+			 * shall be indicated with a yellow border around each selected die, and
+			 * the score for the currently selected dice shall be updated above the
+			 * dice.
+			 *****************************************************/
+			// If the value of the die >
+			// toggle its state
+			if (d.getValue() > 0 && d.getState() != DieState.DISABLED) {
+				if (d.getState() == DieState.HELD) {
+					d.setState(DieState.UNHELD);
+				} else if (d.getState() == DieState.UNHELD) {
+					d.setState(DieState.HELD);
 				}
-
-				/*********************************************
-				 * 4.5.0: If the current turn point total is greater than or
-				 * equal to 300, the bank button is enabled.
-				 *********************************************/
-
-				// Enable the bank button if the score is >= 300
-				if (runningScore >= 300
-						&& farkleGame.getPlayerTypeForCurrentPlayer() != PlayerType.COMPUTER) {
-					farkleUI.getBankBtn().setEnabled(true);
-				} else {
-					farkleUI.getBankBtn().setEnabled(false);
+	
+				// If the die's state is not SCORED
+				if (d.isScored() == false) {
+	
+					// Get the value of the HELD dice
+					int rollScore = farkleGame.calculateScore(
+							farkleUI.getDieValues(DieState.HELD), true);
+	
+					// Tell the model about it
+					farkleGame.processHold(rollScore);
+					farkleUI.setRollScore(rollScore);
+	
+					// Get the running score from the model
+					int runningScore = farkleGame.getRollScores();
+	
+					// Update the UI based on the model's response
+					if (runningScore > 0
+							&& farkleGame.getPlayerTypeForCurrentPlayer() != PlayerType.COMPUTER) {
+						farkleUI.getRollBtn().setEnabled(true);
+					} else {
+						farkleUI.getRollBtn().setEnabled(false);
+					}
+	
+					/*********************************************
+					 * 4.5.0: If the current turn point total is greater than or
+					 * equal to 300, the bank button is enabled.
+					 *********************************************/
+	
+					// Enable the bank button if the score is >= 300
+					if (runningScore >= 300
+							&& farkleGame.getPlayerTypeForCurrentPlayer() != PlayerType.COMPUTER) {
+						farkleUI.getBankBtn().setEnabled(true);
+					} else {
+						farkleUI.getBankBtn().setEnabled(false);
+					}
+	
+					/*********************************************************
+					 * 4.4.0: When all of the selected dice contribute to the point
+					 * total for the roll, the roll button is enabled and the roll
+					 * point total is added to the running point total for the
+					 * current turn.
+					 *********************************************************/
+	
+					// Don't allow a user to roll with no scoring dice held
+					if (rollScore > 0
+							&& farkleGame.getPlayerTypeForCurrentPlayer() != PlayerType.COMPUTER) {
+						farkleUI.getRollBtn().setEnabled(true);
+					} else {
+						farkleUI.getRollBtn().setEnabled(false);
+						farkleUI.getBankBtn().setEnabled(false);
+					}
+	
+					/***********************************************************
+					 * 4.7.0: If all six dice have been selected, and they all
+					 * contribute to the turns point total, the player is issued a
+					 * bonus roll. All selected dice are deselected, and the process
+					 * returns to requirement 4.1.0.
+					 ***********************************************************/
+					if ((farkleUI.getDice(DieState.HELD).size()
+							+ farkleUI.getDice(DieState.SCORED).size() == 6)
+							&& (rollScore > 0)) {
+						farkleUI.disableDice();
+						farkleUI.playBonusSound();
+						/****************************
+						 * 1.3.4 - Turn Highlighting
+						 ****************************/
+						farkleUI.highlightTurnScore(
+								farkleGame.getPlayerNumberForCurrentPlayer(),
+								farkleGame.getTurnNumberForCurrentPlayer(), true);
+						farkleGame.setBonusTurn(true);
+					}
+					farkleUI.setRunningScore(runningScore);
 				}
-
-				/*********************************************************
-				 * 4.4.0: When all of the selected dice contribute to the point
-				 * total for the roll, the roll button is enabled and the roll
-				 * point total is added to the running point total for the
-				 * current turn.
-				 *********************************************************/
-
-				// Don't allow a user to roll with no scoring dice held
-				if (rollScore > 0
-						&& farkleGame.getPlayerTypeForCurrentPlayer() != PlayerType.COMPUTER) {
-					farkleUI.getRollBtn().setEnabled(true);
-				} else {
-					farkleUI.getRollBtn().setEnabled(false);
-					farkleUI.getBankBtn().setEnabled(false);
-				}
-
-				/***********************************************************
-				 * 4.7.0: If all six dice have been selected, and they all
-				 * contribute to the turns point total, the player is issued a
-				 * bonus roll. All selected dice are deselected, and the process
-				 * returns to requirement 4.1.0.
-				 ***********************************************************/
-				if ((farkleUI.getDice(DieState.HELD).size()
-						+ farkleUI.getDice(DieState.SCORED).size() == 6)
-						&& (rollScore > 0)) {
-					farkleUI.disableDice();
-					farkleUI.playBonusSound();
-					/****************************
-					 * 1.3.4 - Turn Highlighting
-					 ****************************/
-					farkleUI.highlightTurnScore(
-							farkleGame.getPlayerNumberForCurrentPlayer(),
-							farkleGame.getTurnNumberForCurrentPlayer(), true);
-					farkleGame.setBonusTurn(true);
-				}
-				farkleUI.setRunningScore(runningScore);
 			}
 		}
 	}
