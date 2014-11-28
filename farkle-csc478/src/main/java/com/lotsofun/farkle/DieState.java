@@ -7,6 +7,9 @@ package com.lotsofun.farkle;
  * 			scoring selection
  * SCORED - Not available to be rolled or selected for scoring
  * DISABED - Prevents die selection
+ * 
+ * @author Curtis Brown
+ * @version 3.0.0
  *
  */
 public enum DieState {
