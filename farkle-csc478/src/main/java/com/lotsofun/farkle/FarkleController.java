@@ -464,7 +464,6 @@ public class FarkleController implements ActionListener, MouseListener {
 		}
 		
 		if(isClickIgnored == false) {
-			// TODO: CuBr / BrMu - Exception handling for die cast
 			Die d = (Die) arg0.getSource();
 	
 			/****************************************************
@@ -821,7 +820,6 @@ public class FarkleController implements ActionListener, MouseListener {
 		try {
 			farkleUI.selectDice(highestScoringDieValues);
 		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 
@@ -915,7 +913,6 @@ public class FarkleController implements ActionListener, MouseListener {
 					Thread.sleep(1000);
 					rollHandler();
 				} catch (InterruptedException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 			}
