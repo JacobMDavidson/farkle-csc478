@@ -18,15 +18,20 @@ public class FarkleController implements ActionListener, MouseListener {
 	final int POINT_THRESHOLD = 10000;
 	boolean isLastTurn = false;
 	FarkleOptionsDialog farkleOptions = null;
+	boolean isTest = false;
 
 	public static void main(String[] args) {
-		final FarkleController controller = new FarkleController();
+		final FarkleController controller = new FarkleController(false);
 		EventQueue.invokeLater(new Runnable() {
 			@Override
 			public void run() {
 				new FarkleUI(controller);
 			}
 		});
+	}
+	
+	public FarkleController(boolean isTest) {
+		this.isTest = isTest;
 	}
 
 	/**
@@ -36,16 +41,6 @@ public class FarkleController implements ActionListener, MouseListener {
 	 */
 	public void setUI(FarkleUI farkle) {
 		this.farkleUI = farkle;
-	}
-
-	/**
-	 * Set a reference to the game object
-	 * 
-	 * @param g
-	 */
-	public void setGame(Game g) {
-		this.farkleGame = g;
-
 	}
 
 	/**
@@ -75,8 +70,11 @@ public class FarkleController implements ActionListener, MouseListener {
 		farkleUI.disableDice();
 		farkleUI.setRunningScore(0);
 		farkleUI.setRollScore(0);
-		farkleUI.getFarkleMessage().setLocationRelativeTo(farkleUI);
-		farkleUI.getFarkleMessage().setVisible(true);
+		farkleUI.getSelectAllBtn().setEnabled(false);
+		if(isTest == false) {
+			farkleUI.getFarkleMessage().setLocationRelativeTo(farkleUI);
+			farkleUI.getFarkleMessage().setVisible(true);
+		}
 		farkleUI.unHighlightAllTurnScores(farkleGame
 				.getPlayerNumberForCurrentPlayer());
 		setTurnScore(farkleGame.getPlayerNumberForCurrentPlayer(),
@@ -133,9 +131,9 @@ public class FarkleController implements ActionListener, MouseListener {
 		}
 		if (farkleGame.getPlayerTypeForCurrentPlayer() == PlayerType.COMPUTER) {
 			farkleUI.setRunningScore(0);
+			farkleUI.getRollBtn().setEnabled(false);
 			asynchronousRoll();
 		}
-
 		farkleUI.getRollBtn().setEnabled(true);
 	}
 
@@ -189,7 +187,7 @@ public class FarkleController implements ActionListener, MouseListener {
 							"Congrats! You achieved a new high score.",
 							"High Score");
 				}
-				endGame(false, false);
+				endGame(false, false, false);
 			}
 		} else if (farkleGame.getGameMode() == GameMode.MULTIPLAYER) {
 			int player1Score = farkleGame.getGameScoreForPlayer(1);
@@ -215,38 +213,49 @@ public class FarkleController implements ActionListener, MouseListener {
 				 ***************************************************/
 				if (!isLastTurn) {
 					int player = (player1Score >= POINT_THRESHOLD) ? 1 : 2;
-					farkleUI.displayMessage(
-							farkleGame.getPlayerName(player)
-									+ " has scored "
-									+ ""
-									+ farkleGame.getGameScoreForPlayer(player)
-									+ " points\n"
-									+ "This is your last turn to try to beat them.\n"
-									+ "Good Luck!", "Last Turn");
+					if(isTest == false) {
+						farkleUI.displayMessage(
+								farkleGame.getPlayerName(player)
+										+ " has scored "
+										+ ""
+										+ farkleGame.getGameScoreForPlayer(player)
+										+ " points\n"
+										+ "This is your last turn to try to beat them.\n"
+										+ "Good Luck!", "Last Turn");
+					}
 					isLastTurn = true;
 				} else {
 					isLastTurn = false;
-					endGame(false, false);
+					endGame(false, false, false);
 				}
 			}
 		}
 	}
 
-	public void endGame(boolean resetOnly, boolean mainMenu) {
+	public void endGame(boolean resetOnly, boolean mainMenu, boolean testReplayGame) {
 
-		boolean replayGame = gameEnded(resetOnly, mainMenu);
+		boolean replayGame = (isTest) ? testReplayGame : gameEnded(resetOnly, mainMenu);
+		farkleUI.unHighlightAllTurnScores(1);
+		if(farkleGame.getGameMode() == GameMode.MULTIPLAYER) {
+			farkleUI.unHighlightAllTurnScores(2);
+		}
 		if (replayGame) {
 			replayGame();
 			farkleUI.diceFirstRun();
 		} else {
+			replayGame();
 			farkleUI.initUI();
 		}
 	}
 
-	public void newGame() {
-		// Get the game options
-		farkleOptions = new FarkleOptionsDialog(farkleUI);
-		farkleOptions.showWindow();
+	public void newGame(FarkleOptionsDialog options) {
+		if(null == options) {
+			// Get the game options
+			farkleOptions = new FarkleOptionsDialog(farkleUI);
+			farkleOptions.showWindow();
+		} else {
+			farkleOptions = options;
+		}
 
 		/****************************************************************
 		 * 2.2.0 - When 2 two player mode against a live person is selected, the
@@ -330,6 +339,7 @@ public class FarkleController implements ActionListener, MouseListener {
 
 		// Reset the dice
 		farkleUI.diceFirstRun();
+
 
 		/****************************
 		 * 1.3.4 - Turn Highlighting
@@ -680,6 +690,10 @@ public class FarkleController implements ActionListener, MouseListener {
 			bank();
 			farkleUI.playBankSound();
 		}
+		
+		if(farkleGame.getPlayerTypeForCurrentPlayer() == PlayerType.COMPUTER) {
+			farkleUI.getRollBtn().setEnabled(false);
+		}
 	}
 
 	public void rollHandler() {
@@ -837,6 +851,24 @@ public class FarkleController implements ActionListener, MouseListener {
 			return true;
 		}
 		return false;
+	}
+	
+	
+	/**
+	 * Since Swing and, consequently, our design isn't thread-safe, 
+	 * don't allow the game to be reset or a new game
+	 * to be created while the automated player is 
+	 * taking its turn.
+	 * 
+	 * @return boolean
+	 */
+	public boolean isResetOrNewGameAvailable() {
+		if(farkleGame.getGameMode() == GameMode.MULTIPLAYER && 
+				farkleGame.getPlayerTypeForCurrentPlayer() == PlayerType.COMPUTER) {
+			return false;
+		} else {
+			return true;
+		}
 	}
 
 	public int getHighestPossibleScore() {

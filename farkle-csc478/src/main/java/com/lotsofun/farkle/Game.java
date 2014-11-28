@@ -597,6 +597,10 @@ public class Game {
 		return this.getCurrentPlayer().getType();
 	}
 	
+	public PlayerType getPlayerTypeForPlayer(int playerNumber) {
+		return players[playerNumber - 1].getType();
+	}
+	
 	/**
 	 * Set the player type for a chosen player
 	 * @param playerNumber The player for which the type is to be set

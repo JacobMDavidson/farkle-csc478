@@ -6,7 +6,6 @@ import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.Image;
-import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
@@ -84,6 +83,7 @@ public class FarkleUI extends JFrame {
 	private JPanel player2ScorePanel = null;
 	private JScrollBar player2ScrollBar = null;
 	private boolean isFirstRun = true;
+	private boolean isTest;
 
 	/**
 	 * Constructor Get a reference to the controller object and fire up the UI
@@ -92,6 +92,7 @@ public class FarkleUI extends JFrame {
 	 */
 	public FarkleUI(FarkleController f) {
 		controller = f;
+		isTest = controller.isTest;
 		initUI();
 	}
 
@@ -120,6 +121,21 @@ public class FarkleUI extends JFrame {
 
 		// Clear the content if this isn't the first init call
 		this.getContentPane().removeAll();
+		if(null != player1ScoreLabels) {
+			player1ScoreLabels.clear();
+		}
+		
+		if(null != player1Scores) {
+			player1Scores.clear();
+		}
+		
+		if(null != player2ScoreLabels) {
+			player2ScoreLabels.clear();
+		}
+		
+		if(null!= player2Scores) {
+			player2Scores.clear();
+		}
 
 		
 		GridLayout layout = new GridLayout(1, 3, 10, 10);
@@ -132,9 +148,13 @@ public class FarkleUI extends JFrame {
 
 		
 		
-		this.setVisible(true);
 		this.setEnabled(true);
-		this.setVisible(true);
+		
+		if(isTest == false) {
+			this.setVisible(true);
+		} else {
+			this.setVisible(false);
+		}
 		
 		// Add the menu bar
 		this.setJMenuBar(createFarkleMenuBar());
@@ -145,9 +165,11 @@ public class FarkleUI extends JFrame {
 		// Call to create score panel
 		createScoreGuidePanel();
 
-		// Tell the controller we're done
-		controller.newGame();
-
+		if(isTest == false) {
+			// Tell the controller we're done
+			controller.newGame(null);
+		}
+		
 		pack();
 	}
 	
@@ -167,7 +189,9 @@ public class FarkleUI extends JFrame {
 		if (rollBtn.getActionListeners().length == 0) {
 			rollBtn.addActionListener(controller);
 		}
-		rollBtn.setPreferredSize(new Dimension (112, 29));
+		rollBtn.setPreferredSize(bankBtn.getMinimumSize());
+		rollBtn.setAlignmentX(CENTER_ALIGNMENT);
+		rollBtn.setAlignmentY(CENTER_ALIGNMENT);
 		buttonPanels[0].add(rollBtn);
 		buttonPanels[0].setBackground(greenBackground);
 
@@ -178,7 +202,9 @@ public class FarkleUI extends JFrame {
 		if (selectAllBtn.getActionListeners().length == 0) {
 			selectAllBtn.addActionListener(controller);
 		}
-		selectAllBtn.setPreferredSize(new Dimension (112, 29));
+		selectAllBtn.setPreferredSize(bankBtn.getMinimumSize());
+		selectAllBtn.setAlignmentX(CENTER_ALIGNMENT);
+		selectAllBtn.setAlignmentY(CENTER_ALIGNMENT);
 		buttonPanels[1].add(selectAllBtn);
 		selectAllBtn.setEnabled(false);
 		buttonPanels[1].setBackground(greenBackground);
@@ -190,7 +216,9 @@ public class FarkleUI extends JFrame {
 		if (bankBtn.getActionListeners().length == 0) {
 			bankBtn.addActionListener(controller);
 		}
-		bankBtn.setPreferredSize (new Dimension (112, 29));
+		bankBtn.setPreferredSize (bankBtn.getMinimumSize());
+		bankBtn.setAlignmentX(CENTER_ALIGNMENT);
+		bankBtn.setAlignmentY(CENTER_ALIGNMENT);
 		buttonPanels[2].add(bankBtn);
 		buttonPanels[2].setBackground(greenBackground);
 		getBankBtn().setEnabled(false);
@@ -314,7 +342,7 @@ public class FarkleUI extends JFrame {
 		dicePanel.setBackground(greenBackground);
 		dicePanel.setBorder(BorderFactory.createCompoundBorder(
 				BorderFactory.createLineBorder(Color.WHITE, 3),
-				BorderFactory.createEmptyBorder(3, 17, 3, 17)));
+				BorderFactory.createEmptyBorder(3, 10, 3, 10)));
 
 		return dicePanel;
 	}
@@ -328,25 +356,37 @@ public class FarkleUI extends JFrame {
 			// Create and add the name and score panels for player 1
 			JScrollPane player1ScrollPanel = createPlayerScorePanel(1, 10);
 			player1ScrollBar = player1ScrollPanel.getVerticalScrollBar();
-			player1ScrollPanel.setBorder(BorderFactory.createEmptyBorder());
-			playersPanel.add(createPlayerNamePanel(1));
+			player1ScrollPanel.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 6));
+			JPanel player1NamePanel = createPlayerNamePanel(1);
+			player1NamePanel.setBorder(BorderFactory
+					.createMatteBorder(0, 0, 6, 0, Color.WHITE));
+			playersPanel.add(player1NamePanel);
 			player1ScrollPanel.setPreferredSize(new Dimension(350, 568));
+			player1ScrollPanel.setBackground(greenBackground);
 			playersPanel.add(player1ScrollPanel);
 		} else if (null != gameMode && gameMode == GameMode.MULTIPLAYER) {
 			// Create and add the name and score panels for player 1
 			JScrollPane player1ScrollPanel = createPlayerScorePanel(1, 5);
 			player1ScrollBar = player1ScrollPanel.getVerticalScrollBar();
-			player1ScrollPanel.setBorder(BorderFactory.createEmptyBorder());
+			player1ScrollPanel.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 6));
 			player1ScrollPanel.setPreferredSize(new Dimension(350, 249));
-			playersPanel.add(createPlayerNamePanel(1));
+			JPanel player1NamePanel = createPlayerNamePanel(1);
+			player1NamePanel.setBorder(BorderFactory
+					.createMatteBorder(0, 0, 6, 0, Color.WHITE));
+			playersPanel.add(player1NamePanel);
+			player1ScrollPanel.setBackground(greenBackground);
 			playersPanel.add(player1ScrollPanel);
 
 			// Create and add the name and score panels for player 2
 			JScrollPane player2ScrollPanel = createPlayerScorePanel(2, 5);
 			player2ScrollBar = player2ScrollPanel.getVerticalScrollBar();
-			player2ScrollPanel.setBorder(BorderFactory.createEmptyBorder());
+			player2ScrollPanel.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 6));
 			player2ScrollPanel.setPreferredSize(new Dimension(350, 249));
-			playersPanel.add(createPlayerNamePanel(2));
+			JPanel player2NamePanel = createPlayerNamePanel(2);
+			player2NamePanel.setBorder(BorderFactory
+					.createMatteBorder(6, 0, 6, 0, Color.WHITE));
+			playersPanel.add(player2NamePanel);
+			player2ScrollPanel.setBackground(greenBackground);
 			playersPanel.add(player2ScrollPanel);
 			playersPanel.setBackground(greenBackground);
 		}
@@ -369,7 +409,10 @@ public class FarkleUI extends JFrame {
 	 ***********************************************************/
 
 	private JPanel createPlayerNamePanel(int playerNumber) {
-		JPanel playerNamePanel = new JPanel(new GridLayout(0, 2, 0, 0));
+		GridLayout gridLayout = new GridLayout(0, 2, 0, 0);
+		gridLayout.setHgap(0);
+		gridLayout.setVgap(0);
+		JPanel playerNamePanel = new JPanel(gridLayout);
 		JLabel playerNameLabel = (playerNumber == 1) ? player1NameLabel
 				: player2NameLabel;
 		JLabel playerName = (playerNumber == 1) ? player1Name : player2Name;
@@ -383,11 +426,11 @@ public class FarkleUI extends JFrame {
 		if (playerNumber == 1) {
 			playerNameLabel.setBorder(BorderFactory.createCompoundBorder(
 					BorderFactory.createMatteBorder(0, 0, 1, 0, Color.WHITE),
-					BorderFactory.createEmptyBorder(12, 3, 15, 0)));
+					BorderFactory.createEmptyBorder(15, 3, 15, 0)));
 		} else {
 			playerNameLabel.setBorder(BorderFactory.createCompoundBorder(
-					BorderFactory.createMatteBorder(6, 0, 1, 0, Color.WHITE),
-					BorderFactory.createEmptyBorder(12, 3, 15, 0)));
+					BorderFactory.createMatteBorder(0, 0, 1, 0, Color.WHITE),
+					BorderFactory.createEmptyBorder(15, 3, 15, 0)));
 		}
 		playerNamePanel.add(playerNameLabel);
 
@@ -396,11 +439,11 @@ public class FarkleUI extends JFrame {
 		if (playerNumber == 1) {
 			playerName.setBorder(BorderFactory.createCompoundBorder(
 					BorderFactory.createMatteBorder(0, 0, 1, 0, Color.WHITE),
-					BorderFactory.createEmptyBorder(17, 3, 15, 3)));
+					BorderFactory.createEmptyBorder(15, 13, 15, 3)));
 		} else {
 			playerName.setBorder(BorderFactory.createCompoundBorder(
-					BorderFactory.createMatteBorder(6, 0, 1, 0, Color.WHITE),
-					BorderFactory.createEmptyBorder(17, 3, 15, 3)));
+					BorderFactory.createMatteBorder(0, 0, 1, 0, Color.WHITE),
+					BorderFactory.createEmptyBorder(15, 13, 15, 3)));
 		}
 		playerNamePanel.add(playerName);
 
@@ -410,15 +453,13 @@ public class FarkleUI extends JFrame {
 		 *****************************************************/
 		playerGameScoreLabel.setForeground(Color.WHITE);
 		playerGameScoreLabel.setFont(new Font("Arial Black", Font.BOLD, 14));
-		playerGameScoreLabel.setBorder(BorderFactory.createCompoundBorder(
-				BorderFactory.createMatteBorder(0, 0, 6, 0, Color.WHITE),
-				BorderFactory.createEmptyBorder(15, 3, 15, 3)));
+		playerGameScoreLabel.setBorder(
+				BorderFactory.createEmptyBorder(15, 3, 15, 3));
 		playerNamePanel.add(playerGameScoreLabel);
 		playerGameScore.setForeground(Color.WHITE);
 		playerGameScore.setFont(new Font("Arial Black", Font.BOLD, 14));
-		playerGameScore.setBorder(BorderFactory.createCompoundBorder(
-				BorderFactory.createMatteBorder(0, 0, 6, 0, Color.WHITE),
-				BorderFactory.createEmptyBorder(15, 3, 15, 3)));
+		playerGameScore.setBorder(
+				BorderFactory.createEmptyBorder(15, 13, 15, 3));
 		playerNamePanel.add(playerGameScore);
 		playerNamePanel.setBackground(greenBackground);
 		playerNamePanel.setPreferredSize(new Dimension(350, 110));
@@ -452,7 +493,7 @@ public class FarkleUI extends JFrame {
 		}
 
 		playerPanel.setBackground(greenBackground);
-		playerPanel.setBorder(BorderFactory.createEmptyBorder(3, 17, 3, 17));
+		playerPanel.setBorder(BorderFactory.createEmptyBorder(3, 6, 3, 17));
 
 		JScrollPane playerScrollPane = new JScrollPane(playerPanel,
 				ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED,
@@ -475,8 +516,9 @@ public class FarkleUI extends JFrame {
 		highScorePanel.add(highScore);
 		highScorePanel.setBackground(greenBackground);
 		highScorePanel.setMaximumSize(new Dimension(350, 50));
-		highScorePanel.setBorder(BorderFactory.createMatteBorder(6, 0, 0, 0,
-				Color.WHITE));
+		highScorePanel.setBorder(BorderFactory.createCompoundBorder(
+				BorderFactory.createMatteBorder(6, 0, 0, 0, Color.WHITE),
+				BorderFactory.createEmptyBorder(0, 3, 0, 0)));
 		panel.add(highScorePanel);
 	}
 
@@ -490,6 +532,7 @@ public class FarkleUI extends JFrame {
 
 		// Add the labels for each turn
 		JLabel turnLabel = new JLabel("Roll " + (turnNumber) + ": ");
+		turnLabel.setBorder(BorderFactory.createEmptyBorder(0, 10, 0, 0));
 		turnLabel.setForeground(Color.WHITE);
 		turnLabel.setFont(new Font("Arial Black", Font.BOLD, 14));
 		turnLabel.setMaximumSize(new Dimension(175, 20));
@@ -561,11 +604,34 @@ public class FarkleUI extends JFrame {
 				: player2GameScore;
 		gameScore.setText("" + score);
 	}
+	
+	public int getGameScore(int playerNumber) {
+		JLabel gameScore = (playerNumber == 1) ? player1GameScore
+				: player2GameScore;
+		
+		try {
+			return Integer.parseInt(gameScore.getText());
+		} catch(NumberFormatException e) {
+			e.printStackTrace();
+			return -10000;
+		}
+	}
 
 	public void setHighScore(int score) {
 		this.highScore.setText("" + score);
 	}
 
+	
+	public int getHighScore() {
+		try {
+			return Integer.parseInt(this.highScore.getText());
+		} catch(NumberFormatException e) {
+			e.printStackTrace();
+			return -5000;
+		}
+	}
+	
+	
 	public int getRunningScore() {
 		try {
 			return Integer.valueOf(runningScore.getText());
@@ -692,6 +758,24 @@ public class FarkleUI extends JFrame {
 		ArrayList<JLabel> scores = getPlayerScores(player);
 		scores.get(turn - 1).setText("" + score);
 	}
+	
+	public int getTurnScore(int player, int turn) {
+		ArrayList<JLabel> scores = getPlayerScores(player);
+		if(scores.size() >= turn) {
+			if(null != scores.get(turn - 1).getText() && "".equals(scores.get(turn - 1).getText())) {
+				return 0;
+			} else {
+				try {
+					return Integer.parseInt(scores.get(turn - 1).getText());
+				} catch(NumberFormatException e) {
+					e.printStackTrace();
+					return 0;
+				}
+			}
+		} else {
+			return -5000;
+		}
+	}
 
 	/**
 	 * Update the running score label with the specified score
@@ -704,6 +788,15 @@ public class FarkleUI extends JFrame {
 
 	public void setRollScore(int score) {
 		rollScore.setText("" + score);
+	}
+	
+	public int getRollScore() {
+		try {
+			return Integer.parseInt(this.rollScore.getText());
+		} catch (NumberFormatException e) {
+			e.printStackTrace();
+			return -10000;
+		}
 	}
 
 	/**
@@ -920,6 +1013,7 @@ public class FarkleUI extends JFrame {
 			score.setText("BONUS ROLL!");
 			score.setBackground(Color.YELLOW);
 			score.setForeground(Color.BLACK);
+			score.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 3));
 		}
 	}
 
@@ -978,6 +1072,8 @@ public class FarkleUI extends JFrame {
 			@Override
 			public void menuSelected(MenuEvent e) {
 				hintAction.setEnabled(controller.isHintAvailable());
+				newAction.setEnabled(controller.isResetOrNewGameAvailable());
+				resetAction.setEnabled(controller.isResetOrNewGameAvailable());
 			}
 
 			@Override
@@ -998,7 +1094,7 @@ public class FarkleUI extends JFrame {
 			newAction.addActionListener(new ActionListener() {
 				@Override
 				public void actionPerformed(ActionEvent arg0) {
-					controller.endGame(false, true);
+					controller.endGame(false, true, false);
 				}
 			});
 		}
@@ -1012,7 +1108,7 @@ public class FarkleUI extends JFrame {
 			resetAction.addActionListener(new ActionListener() {
 				@Override
 				public void actionPerformed(ActionEvent arg0) {
-					controller.endGame(true, false);
+					controller.endGame(true, false, false);
 				}
 			});
 		}

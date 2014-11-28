@@ -30,7 +30,7 @@ public class GameTest {
 	public void setUp() throws Exception {
 		
 		// Instantiate the farklecontroller
-		farkleController = new FarkleController();
+		farkleController = new FarkleController(true);
 		
 		// Instantiate the single player game object
 		singlePlayerGame = new Game(GameMode.SINGLEPLAYER, farkleController);

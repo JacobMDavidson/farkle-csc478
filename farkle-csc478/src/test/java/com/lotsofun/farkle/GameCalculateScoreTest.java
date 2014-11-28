@@ -54,7 +54,7 @@ public class GameCalculateScoreTest {
 	public void setUp() throws Exception {
 		
 		// Instantiate the FarkleController object
-		farkleController = new FarkleController();
+		farkleController = new FarkleController(true);
 		
 		// Instantiate the game option. The Game Mode used does not change the results of this test
 		game = new Game(GameMode.SINGLEPLAYER, farkleController);
