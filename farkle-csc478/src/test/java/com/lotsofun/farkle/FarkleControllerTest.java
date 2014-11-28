@@ -176,7 +176,7 @@ public class FarkleControllerTest {
 		assertEquals(game.getHighScore(), 5000);
 		assertEquals(ui.getDice(DieState.DISABLED).size(), 0);
 		assertEquals(game.getPlayerNumberForCurrentPlayer(), 1);
-		assertFalse(controller.checkHighScore());
+		assertFalse(controller.checkHighScore(game.getPlayerNumberForCurrentPlayer()));
 				
 		// Call Bank
 		controller.bank();
@@ -190,7 +190,7 @@ public class FarkleControllerTest {
 		game.processHold(50);
 		assertEquals(ui.getGameScore(1), 5000);
 		assertEquals(game.getHighScore(), 5000);
-		assertTrue(controller.checkHighScore());
+		assertTrue(controller.checkHighScore(game.getPlayerNumberForCurrentPlayer()));
 	}
 	
 	@Test

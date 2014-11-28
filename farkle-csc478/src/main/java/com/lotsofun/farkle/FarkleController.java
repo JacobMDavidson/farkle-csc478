@@ -118,7 +118,7 @@ public class FarkleController implements ActionListener, MouseListener {
 		farkleUI.setGameScore(player, farkleGame.bank());
 		farkleUI.getBankBtn().setEnabled(false);
 		farkleUI.getSelectAllBtn().setEnabled(false);
-		checkHighScore();
+		checkHighScore(player);
 		tryToEndGame();
 
 		/****************************
@@ -139,10 +139,10 @@ public class FarkleController implements ActionListener, MouseListener {
 		farkleUI.getRollBtn().setEnabled(true);
 	}
 
-	public boolean checkHighScore() {
+	public boolean checkHighScore(int playerNumber) {
 		if (farkleGame.getGameScoreForCurrentPlayer() >= farkleGame
 				.getHighScore()) {
-			farkleGame.setHighScore(farkleGame.getGameScoreForCurrentPlayer());
+			farkleGame.setHighScore(farkleGame.getGameScoreForPlayer(playerNumber));
 			farkleUI.setHighScore(farkleGame.getHighScore());
 			return true;
 		}
@@ -184,7 +184,7 @@ public class FarkleController implements ActionListener, MouseListener {
 				 * score, a congratulatory message is displayed, and the player�s
 				 * score replaces the previous high score.
 				 *****************************************************/
-				if (checkHighScore()) {
+				if (checkHighScore(1)) {
 					farkleUI.displayMessage(
 							"Congrats! You achieved a new high score.",
 							"High Score");

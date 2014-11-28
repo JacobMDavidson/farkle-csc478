@@ -248,6 +248,13 @@ public class GameTest {
 		assertEquals(5000, singlePlayerGame.getHighScore());
 		assertEquals(5000, multiPlayerGame.getHighScore());
 		
+		// Because we can't rely on the JUnits to necessarily fire in
+		// the order in which they're written, this preference needs
+		//  to be reset to prevent it from persisting in the build environment.
+		singlePlayerGame.setHighScore(0);
+		assertEquals(0, singlePlayerGame.getHighScore());
+		assertEquals(0, multiPlayerGame.getHighScore());
+		
 	}
 	
 	/**
