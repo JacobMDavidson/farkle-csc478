@@ -1,20 +1,17 @@
 package com.lotsofun.farkle;
 
 import static org.junit.Assert.*;
-
-import java.awt.Color;
-import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collection;
 import java.util.List;
-
-import javax.swing.Icon;
 import javax.swing.ImageIcon;
-
 import org.junit.Test;
 
+/**
+ * Test the Die class
+ * @author Curtis Brown
+ * @version 3.0.0
+ */
 public class DieTest {
 
 	/**
@@ -39,13 +36,17 @@ public class DieTest {
 	 */
 	@Test
 	public void testRoll() {
+		
+		// Instantiate a controller and assert it is not null
 		FarkleController c = new FarkleController(true);
 		assertNotNull(c);
 		
+		// Assert that the value of a newly instantiated die is 0
 		Die d = new Die(c);
 		assertNotNull(d);
 		assertEquals(d.getValue(), 0);
 		
+		// Roll the die 100 times and assert it is in the range of 1 to 6 (inclusive).
 		List<Integer> possibleValues = Arrays.asList(1, 2, 3, 4, 5, 6);
 		int lcv = 100;		
 		while(lcv >= 0) {
@@ -55,8 +56,13 @@ public class DieTest {
 		}
 	}
 	
+	/**
+	 * Test the setIcon() and getIcon() methods
+	 */
 	@Test
-	public void testGetIcon() {
+	public void testGetAndSetIcon() {
+		
+		// Instantiate a controller and assert it is not null
 		FarkleController c = new FarkleController(true);
 		assertNotNull(c);
 		
@@ -64,146 +70,137 @@ public class DieTest {
 		BufferedImage bi = new BufferedImage(55, 55, BufferedImage.TYPE_INT_ARGB);
 		assertNotNull(bi);
 		
-		// Create a new Die
+		// Create a new Die and assert it is not null
 		Die d = new Die(c);
 		assertNotNull(d);
-		assertNull(d.getIcon()); // Check that it has no icon
+		
+		// Assert that the die icon is not null
+		assertNull(d.getIcon());
+		
+		// create a new Image Icon
+		ImageIcon newImageIcon = new ImageIcon(bi);
 		
 		// Set it to the BufferedImage
-		d.setIcon(new ImageIcon(bi));
-		assertNotNull(d.getIcon()); // Make sure it worked
+		d.setIcon(newImageIcon);
+		
+		// Make sure it worked
+		assertNotNull(d.getIcon()); 
+		assertTrue(d.getIcon().equals(newImageIcon));
 	}
 	
+	/**
+	 * Test the getValue() and setValue() methods
+	 */
 	@Test
-	public void testPaintComponent() {
+	public void testGetAndSetValue() {
+		
+		// Instantiate a controller and assert it is not null
 		FarkleController c = new FarkleController(true);
 		assertNotNull(c);
 		
-		Die d = new Die(c);
-		assertNotNull(d);
-
-		// TODO: CuBr - Figure out how to test this
-	}
-	
-
-	
-	@Test
-	public void testSetIcon() {
-		FarkleController c = new FarkleController(true);
-		assertNotNull(c);
-		
-		// Create a new BufferedImage
-		BufferedImage bi = new BufferedImage(55, 55, BufferedImage.TYPE_INT_ARGB);
-		assertNotNull(bi);
-		
-		// Create a new Die
-		Die d = new Die(c);
-		assertNotNull(d);
-		assertNull(d.getIcon()); // Check that it has no icon
-		
-		// Set it to the BufferedImage
-		d.setIcon(new ImageIcon(bi));
-		assertNotNull(d.getIcon()); // Make sure it worked
-	}
-	
-	
-	@Test
-	public void testGetValue() {
-		FarkleController c = new FarkleController(true);
-		assertNotNull(c);
-		
+		// Assert that the value of a newly instantiated die is 0
 		Die d = new Die(c);
 		assertNotNull(d);
 		assertEquals(d.getValue(), 0);
 
+		// Set the die value to '3' and assert getValue returns 3
 		d.setValue('3');
 		assertEquals(d.getValue(), 3);
 		assertNotEquals(d.getValue(), 5);
 	}
 	
-	@Test
-	public void testSetValue() {
-		FarkleController c = new FarkleController(true);
-		assertNotNull(c);
-		
-		Die d = new Die(c);
-		assertNotNull(d);
-		assertEquals(d.getValue(), 0);
-
-		d.setValue('3');
-		assertEquals(d.getValue(), 3);
-		assertNotEquals(d.getValue(), 5);
-	}
-	
+	/**
+	 * Test the isHeld() method
+	 */
 	@Test
 	public void testIsHeld() {
+		
+		// Instantiate a controller and assert it is not null
 		FarkleController c = new FarkleController(true);
 		assertNotNull(c);
 		
+		// Create a new Die and assert it is not null
 		Die d = new Die(c);
 		assertNotNull(d);
 		
+		// Assert that the newly created die is not in a HELD state
 		assertFalse(d.isHeld());		
+		
+		// Set the die to a HELD state and assert it is in a HELD state
 		d.setState(DieState.HELD);
 		assertTrue(d.isHeld());
 	}
 	
+	/**
+	 * Test the isScored() method
+	 */
 	@Test
 	public void testIsScored() {
+		
+		// Instantiate a controller and assert it is not null
 		FarkleController c = new FarkleController(true);
 		assertNotNull(c);
 		
+		// Create a new Die and assert it is not null
 		Die d = new Die(c);
 		assertNotNull(d);
 		
+		// Assert that the newly created die is not in a SCORED state
 		assertFalse(d.isScored());		
+		
+		// Set the die to a SCORED state and assert it is in a SCORED state
 		d.setState(DieState.SCORED);
 		assertTrue(d.isScored());
 	}
 	
+	/**
+	 * Test the isUnheld() method
+	 */
 	@Test
 	public void testIsUnheld() {
+		
+		// Instantiate a controller and assert it is not null
 		FarkleController c = new FarkleController(true);
 		assertNotNull(c);
 		
+		// Create a new Die and assert it is not null
 		Die d = new Die(c);
 		assertNotNull(d);
 		
-		assertTrue(d.isUnheld());		
+		// Assert that the newly created die is in a HELD state
+		assertTrue(d.isUnheld());	
+		
+		// Set the die to a HELD state and assert it is not in an UNHELD state
 		d.setState(DieState.HELD);
 		assertFalse(d.isUnheld());
 	}
 	
+	/**
+	 * Test the setState() and getState() methods
+	 */
 	@Test
-	public void testSetState() {
+	public void testSetAndGetState() {
+		
+		// Instantiate a controller and assert it is not null
 		FarkleController c = new FarkleController(true);
 		assertNotNull(c);
 		
+		// Create a new Die and assert it is not null
 		Die d = new Die(c);
 		assertNotNull(d);
 		
+		// Assert that the newly created die is in an UNHELD state
 		assertEquals(d.getState(), DieState.UNHELD);
+		
+		// Set the die to a SCORED state and assert it is in a SCORED state
 		d.setState(DieState.SCORED);
 		assertEquals(d.getState(), DieState.SCORED);
+		
+		// Set the die to a HELD state and assert it is in a HELD state
 		d.setState(DieState.HELD);
 		assertEquals(d.getState(), DieState.HELD);
-		d.setState(DieState.UNHELD);
-		assertEquals(d.getState(), DieState.UNHELD);
-	}
-	
-	@Test
-	public void testGetState() {
-		FarkleController c = new FarkleController(true);
-		assertNotNull(c);
 		
-		Die d = new Die(c);
-		assertNotNull(d);
-		
-		assertEquals(d.getState(), DieState.UNHELD);
-		d.setState(DieState.SCORED);
-		assertEquals(d.getState(), DieState.SCORED);
-		d.setState(DieState.HELD);
-		assertEquals(d.getState(), DieState.HELD);
+		// Set the die to an UNHELD state and assert it is in an UNHELD state
 		d.setState(DieState.UNHELD);
 		assertEquals(d.getState(), DieState.UNHELD);
 	}

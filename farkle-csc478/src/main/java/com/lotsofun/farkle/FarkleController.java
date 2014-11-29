@@ -972,127 +972,125 @@ public class FarkleController implements ActionListener, MouseListener {
 	 * outcome and player type.
 	 */
 	public void rollHandler() {
-		
-		if (farkleUI.getRollBtnText().equals("Roll Dice")) {
 			
-			// If the previos roll was a bonus turn, set BonusTurn to false
-			if (farkleGame.isBonusTurn()) {
-				farkleGame.setBonusTurn(false);
-			}
-			
-			// If the dice are disabled (which occurs during a bank or farkle), reset them
-			if(farkleUI.getDieValues(DieState.DISABLED).size() > 0) {
-				farkleUI.resetDice();
-			}
-
-			/********************************************************************
-			 * 1.2.6 - After each roll, dice that are have previously been
-			 * selected, scored, and locked shall be highlightedshaded to
-			 * indicate they will not be available on the next roll, and the
-			 * selected turn accumulated point totalscore shall be displayed
-			 * above the dice updated.
-			 ********************************************************************/
-
-			/********************************************************************
-			 * 4.6.0 - If the player elects to roll again the selected dice are
-			 * locked, the remaining dice are rolled, and the process returns to
-			 * requirement 4.2.0.
-			 ********************************************************************/
-			
-			// Lock all scored dice
-			farkleUI.lockScoredDice();
-
-			// Create a timer to animate the roll
-			Timer rollAnimationTimer = new Timer();
-			rollAnimationTimer.scheduleAtFixedRate(new TimerTask() {
-				
-				// The variable used to count the number of times the dice have rolled
-				int count = 0;
-
-				@Override
-				public void run() {
-					
-					// Roll the dice ten times
-					farkleUI.rollDice();
-					count++;
-					
-					// After the tenth roll, process it
-					if (count >= 10) {
-						
-						// Tell the model this is a completed roll
-						farkleGame.processRoll();
-
-						/***************************************************
-						 * 4.2.0: The resulting roll is analyzed according to
-						 * requirement 6.0.0 to determine if the player farkled.
-						 * A farkle occurs if the roll results in 0 points.
-						 ***************************************************/
-						// Score any UNHELD dice
-						int rollScore = farkleGame.calculateScore(
-								farkleUI.getDieValues(DieState.UNHELD), false);
-
-						// If it's farkle
-						if (rollScore == 0) {
-							
-							// Call the farkle method to update the model and view
-							farkle();
-
-							// Disable the bank button
-							farkleUI.getBankBtn().setEnabled(false);
-							
-							// If the next player is not a computer player, enable the roll button
-							if (farkleGame.getPlayerTypeForCurrentPlayer() != PlayerType.COMPUTER) {
-								farkleUI.getRollBtn().setEnabled(true);
-							}
-
-						// Else, this roll did not result in a farkle
-						} else {
-							
-							// If the player is a computer player, determine the computers decision
-							if (farkleGame.getPlayerTypeForCurrentPlayer() == PlayerType.COMPUTER) {
-								compDecision();
-							}
-						}
-						
-						// Cancel this timer task
-						this.cancel();
-					}
-				}
-
-			}, 0, 50);
-
-			// Play roll sound
-			farkleUI.playRollSound();
-
-			/*************************************************
-			 * 4.3.0 - If the player did not farkle, he or she must select at
-			 * least one scoring die. The score for the selected dice is
-			 * calculated according to requirement 5.0.0, and is updated after
-			 * each die selection. Only scoring die can be selected.The score
-			 * for the selected dice is displayed in accordance with section
-			 * 1.2.9. If any of the selected dice does not contribute to the
-			 * score, a selected dice score of 0 is displayed and the "Roll
-			 * Dice" and "Bank Score" buttons are disabled.
-			 *************************************************/
-			// Disable the Roll and Bank buttons
-			farkleUI.getRollBtn().setEnabled(false);
-			farkleUI.getBankBtn().setEnabled(false);
-
-			// Enable Select All Button if this is not the computer player
-			if (farkleGame.getPlayerTypeForCurrentPlayer() != PlayerType.COMPUTER) {
-				farkleUI.getSelectAllBtn().setEnabled(true);
-			}
-
-			/****************************
-			 * 1.3.4 - Turn Highlighting
-			 ****************************/
-			farkleUI.highlightTurnScore(
-					farkleGame.getPlayerNumberForCurrentPlayer(),
-					farkleGame.getTurnNumberForCurrentPlayer(), false);
-			
-			// Set the roll score to 0 
-			farkleUI.setRollScore(0);
+		// If the previos roll was a bonus turn, set BonusTurn to false
+		if (farkleGame.isBonusTurn()) {
+			farkleGame.setBonusTurn(false);
 		}
+		
+		// If the dice are disabled (which occurs during a bank or farkle), reset them
+		if(farkleUI.getDieValues(DieState.DISABLED).size() > 0) {
+			farkleUI.resetDice();
+		}
+
+		/********************************************************************
+		 * 1.2.6 - After each roll, dice that are have previously been
+		 * selected, scored, and locked shall be highlightedshaded to
+		 * indicate they will not be available on the next roll, and the
+		 * selected turn accumulated point totalscore shall be displayed
+		 * above the dice updated.
+		 ********************************************************************/
+
+		/********************************************************************
+		 * 4.6.0 - If the player elects to roll again the selected dice are
+		 * locked, the remaining dice are rolled, and the process returns to
+		 * requirement 4.2.0.
+		 ********************************************************************/
+		
+		// Lock all scored dice
+		farkleUI.lockScoredDice();
+
+		// Create a timer to animate the roll
+		Timer rollAnimationTimer = new Timer();
+		rollAnimationTimer.scheduleAtFixedRate(new TimerTask() {
+			
+			// The variable used to count the number of times the dice have rolled
+			int count = 0;
+
+			@Override
+			public void run() {
+				
+				// Roll the dice ten times
+				farkleUI.rollDice();
+				count++;
+				
+				// After the tenth roll, process it
+				if (count >= 10) {
+					
+					// Tell the model this is a completed roll
+					farkleGame.processRoll();
+
+					/***************************************************
+					 * 4.2.0: The resulting roll is analyzed according to
+					 * requirement 6.0.0 to determine if the player farkled.
+					 * A farkle occurs if the roll results in 0 points.
+					 ***************************************************/
+					// Score any UNHELD dice
+					int rollScore = farkleGame.calculateScore(
+							farkleUI.getDieValues(DieState.UNHELD), false);
+
+					// If it's farkle
+					if (rollScore == 0) {
+						
+						// Call the farkle method to update the model and view
+						farkle();
+
+						// Disable the bank button
+						farkleUI.getBankBtn().setEnabled(false);
+						
+						// If the next player is not a computer player, enable the roll button
+						if (farkleGame.getPlayerTypeForCurrentPlayer() != PlayerType.COMPUTER) {
+							farkleUI.getRollBtn().setEnabled(true);
+						}
+
+					// Else, this roll did not result in a farkle
+					} else {
+						
+						// If the player is a computer player, determine the computers decision
+						if (farkleGame.getPlayerTypeForCurrentPlayer() == PlayerType.COMPUTER) {
+							compDecision();
+						}
+					}
+					
+					// Cancel this timer task
+					this.cancel();
+				}
+			}
+
+		}, 0, 50);
+
+		// Play roll sound
+		farkleUI.playRollSound();
+
+		/*************************************************
+		 * 4.3.0 - If the player did not farkle, he or she must select at
+		 * least one scoring die. The score for the selected dice is
+		 * calculated according to requirement 5.0.0, and is updated after
+		 * each die selection. Only scoring die can be selected.The score
+		 * for the selected dice is displayed in accordance with section
+		 * 1.2.9. If any of the selected dice does not contribute to the
+		 * score, a selected dice score of 0 is displayed and the "Roll
+		 * Dice" and "Bank Score" buttons are disabled.
+		 *************************************************/
+		// Disable the Roll and Bank buttons
+		farkleUI.getRollBtn().setEnabled(false);
+		farkleUI.getBankBtn().setEnabled(false);
+
+		// Enable Select All Button if this is not the computer player
+		if (farkleGame.getPlayerTypeForCurrentPlayer() != PlayerType.COMPUTER) {
+			farkleUI.getSelectAllBtn().setEnabled(true);
+		}
+
+		/****************************
+		 * 1.3.4 - Turn Highlighting
+		 ****************************/
+		farkleUI.highlightTurnScore(
+				farkleGame.getPlayerNumberForCurrentPlayer(),
+				farkleGame.getTurnNumberForCurrentPlayer(), false);
+		
+		// Set the roll score to 0 
+		farkleUI.setRollScore(0);
+
 	}
 
 	/**
@@ -1143,7 +1141,6 @@ public class FarkleController implements ActionListener, MouseListener {
 			goal = 1000;
 		}
 
-		System.out.println(goal);
 		/* If the current turn score is less than the goal, or the computer acheived a bonus turn, 
 		 * the computer should always roll again.
 		 */ 

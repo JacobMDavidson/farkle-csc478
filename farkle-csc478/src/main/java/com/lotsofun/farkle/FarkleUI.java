@@ -1654,12 +1654,4 @@ public class FarkleUI extends JFrame {
 	public JDialog getFarkleMessage() {
 		return farkleMessage;
 	}
-
-	/**
-	 * Get the "Roll Dice" button text
-	 * @return String of the "Roll Dice" button text
-	 */
-	public String getRollBtnText() {
-		return this.rollBtn.getText();
-	}
 }

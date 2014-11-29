@@ -9,13 +9,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-import java.io.IOException;
-import java.net.URL;
-import javax.sound.sampled.AudioInputStream;
-import javax.sound.sampled.AudioSystem;
-import javax.sound.sampled.Clip;
-import javax.sound.sampled.LineUnavailableException;
-import javax.sound.sampled.UnsupportedAudioFileException;
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JDialog;
@@ -305,25 +298,6 @@ public class FarkleOptionsDialog extends JDialog implements MouseListener {
 				// Set the provided player names
 				setPlayer1Name(playerOneName.getText());
 				setPlayer2Name(playerTwoName.getText());
-
-				try {
-					if (("Ginuwine").equalsIgnoreCase(getPlayer1Name())) {
-						URL gSound = getClass()
-								.getResource("/sounds/roll5.wav");
-
-						AudioInputStream audioStream;
-						audioStream = AudioSystem.getAudioInputStream(gSound);
-						Clip clip = AudioSystem.getClip();
-						clip.open(audioStream);
-						clip.start();
-					}
-				} catch (UnsupportedAudioFileException x) {
-					x.printStackTrace();
-				} catch (LineUnavailableException y) {
-					y.printStackTrace();
-				} catch (IOException z) {
-					z.printStackTrace();
-				}
 				
 				// Hide this panel
 				FarkleOptionsDialog.this.setVisible(false);
