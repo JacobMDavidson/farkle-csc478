@@ -149,12 +149,12 @@ public class FarkleOptionsDialog extends JDialog implements MouseListener {
 				.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 		gameModePanel.setBackground(greenBackground);
 
-		/*********************************************************
-		 * 1.1.2 - The "1 Player Mode" is highlighted by default when the
-		 * application is first opened, and a blank text field for player one's
-		 * name is displayed.
-		 ********************************************************/
-		
+		/****************************************************
+		 * 1.1.2 - The "1 Player Mode" is highlighted by 
+		 * default when the application is first opened, and 
+		 * a blank text field for player one's name is 
+		 * displayed.
+		 ***************************************************/
 		// Create the single player option and highlight it as the default
 		singlePlayerLabel.setName("1");
 		singlePlayerLabel.setOpaque(true);
@@ -308,11 +308,10 @@ public class FarkleOptionsDialog extends JDialog implements MouseListener {
 		// Add the "start" button to the buttonPanel
 		buttonPanel.add(startButton);
 
-		/**********************************************
-		 * 1.1.1 If the user selects the "Close" button at any time, the
-		 * application closes.
-		 **********************************************/
-
+		/****************************************************
+		 * 1.1.1 If the user selects the "Close" button at 
+		 * any time, the application closes.
+		 ****************************************************/
 		closeButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -458,15 +457,15 @@ public class FarkleOptionsDialog extends JDialog implements MouseListener {
 			// Set the game mode to GameMode.SINGLEPLAYER
 			setGameMode(GameMode.SINGLEPLAYER);
 		}
-		
-		// The two player game mode has been selected
 
-		/***************************************************************
-		 * 1.1.3 - If the user highlights the "2 Player Mode" option, the "1
-		 * Player Mode" option is deselected, and two more options appear
-		 * ("Human Opponent" and "Computer Opponent"). The "Human Opponent"
-		 * option is highlighted by default.
-		 **************************************************************/
+		/****************************************************
+		 * 1.1.3 - If the user highlights the "2 Player Mode" 
+		 * option, the "1 Player Mode" option is deselected, 
+		 * and two more options appear ("Human Opponent" and 
+		 * "Computer Opponent"). The "Human Opponent" option 
+		 * is highlighted by default.
+		 ****************************************************/
+		// Else if the two player game mode has been selected
 		else if (e.getComponent().getName().equals("2")) {
 			
 			// Deselect the singlePlayerLabel
@@ -499,13 +498,12 @@ public class FarkleOptionsDialog extends JDialog implements MouseListener {
 			setGameMode(GameMode.MULTIPLAYER);
 		}
 		
-		// The human opponent player type has been selected
-		
-		/****************************************************************
-		 * 1.1.4 - When the "Human Opponent" option is highlighted, two text
-		 * fields are displayed, labeled "Player One Name", and "Player Two
-		 * Name".
-		 ***************************************************************/
+		/****************************************************
+		 * 1.1.4 - When the "Human Opponent" option is 
+		 * highlighted, two text fields are displayed, labeled 
+		 * "Player One Name", and "Player Two Name".
+		 ****************************************************/
+		// Else if the human opponent player type has been selected
 		else if (e.getComponent().getName().equals("3")) {
 			
 			// Highlight the humanPlayerLabel
@@ -525,15 +523,15 @@ public class FarkleOptionsDialog extends JDialog implements MouseListener {
 			// Set the opponent player type to PlayerType.USER
 			setPlayerType(PlayerType.USER);
 		}
-		
-		// The Computer opponent player type has been selected
 
-		/****************************************************************
-		 * 1.1.5 - When the "Computer Opponent" option is highlighted, the
-		 * text fields for "Player One Name" and "Player Two Name" are displayed,
-		 * but the "Player Two Name" field is disabled, and "Computer" is
-		 * supplied for the "Player Two Name".
-		 ****************************************************************/
+		/****************************************************
+		 * 1.1.5 - When the "Computer Opponent" option is 
+		 * highlighted, the text fields for "Player One Name" 
+		 * and "Player Two Name" are displayed, but the 
+		 * "Player Two Name" field is disabled, and "Computer" 
+		 * is supplied for the "Player Two Name".
+		 ****************************************************/
+		// Else if the Computer opponent player type has been selected
 		else if (e.getComponent().getName().equals("4")) {
 
 			// Deselect the humanPlayerLabel
