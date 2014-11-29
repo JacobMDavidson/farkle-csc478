@@ -1,10 +1,9 @@
 package com.lotsofun.farkle;
 
 /**
- * 
- * Simple Enum for Game Modes
- * SINGLEPLAYER - Single player game
- * MULTIPLAYER - two player game
+ * Simple Enum for Game Modes 
+ * SINGLEPLAYER - Single player game 
+ * MULTIPLAYER - Two player game
  *
  * @author Curtis Brown
  * @version 3.0.0

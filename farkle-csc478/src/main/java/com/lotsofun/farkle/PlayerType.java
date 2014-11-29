@@ -1,8 +1,8 @@
 package com.lotsofun.farkle;
 
 /**
- * Simple enum for player types
- * USER - live player
+ * Simple enum for player types 
+ * USER - live player 
  * COMPUTER - computer player
  *
  * @author Curtis Brown

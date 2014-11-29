@@ -22,6 +22,7 @@ import javax.swing.Timer;
 
 /**
  * Displays a Farkle message on the screen, and plays the Farkle sound
+ * 
  * @author Curtis Brown
  * @version 3.0.0
  *
@@ -33,13 +34,13 @@ public class FarkleMessage extends JDialog {
 
 	/** The center Farkle Message JLabel */
 	JLabel farkleCenterMsg = null;
-	
+
 	/** The left Farkle Message JLabel */
 	JLabel farkleLeftMsg = null;
-	
+
 	/** The right Farkle Message JLabel */
 	JLabel farkleRightMsg = null;
-	
+
 	/** The location of the farkle sound */
 	URL farkleSound = null;
 
@@ -47,10 +48,10 @@ public class FarkleMessage extends JDialog {
 	 * Constructor: Build the Farkle Message JDialog
 	 */
 	public FarkleMessage() {
-		
+
 		// Set the modality to display this in front of all windows
 		this.setModalityType(ModalityType.APPLICATION_MODAL);
-		
+
 		// Instantiate the image objects for the Farkle Message
 		Image farkleCenterImg = null;
 		Image farkleLeftImg = null;
@@ -60,7 +61,7 @@ public class FarkleMessage extends JDialog {
 		this.setPreferredSize(new Dimension(1024, 768));
 		this.setUndecorated(true);
 		this.setBackground(new Color(0, 0, 0, 0));
-		
+
 		// Set the Farkle Images and sound
 		try {
 			farkleCenterImg = ImageIO.read(getClass().getResource(
@@ -85,38 +86,39 @@ public class FarkleMessage extends JDialog {
 						Image.SCALE_SMOOTH)));
 		farkleLeftMsg = new JLabel(new ImageIcon(
 				farkleLeftImg.getScaledInstance(1000, 755, Image.SCALE_SMOOTH)));
-		
 
 		// Add the JLabels to this JDialog
 		this.add(farkleCenterMsg);
 		this.add(farkleRightMsg);
 		this.add(farkleLeftMsg);
-		
-		// Size the window to fit the preferred size and layout of its subcomponents
+
+		// Size the window to fit the preferred size and layout of its
+		// subcomponents
 		this.pack();
 
 	}
 
 	/**
-	 * Animates the Farkle Message, and plays
-	 * the farkle sound.
-	 * @param visible Set to true to display the Farkle Message
+	 * Animates the Farkle Message, and plays the farkle sound.
+	 * 
+	 * @param visible
+	 *            Boolean - display the Farkle Message
 	 */
 	@Override
 	public void setVisible(boolean visible) {
 
 		// If visible is true, display the Farkle message
 		if (visible) {
-			
+
 			// Timer used to animate the message
 			final Timer fadeTimer = new Timer(50, null);
-			
+
 			// ActionListener for the fade timer
 			ActionListener listener = new ActionListener() {
-				
+
 				// Set the opacity to 1
 				BigDecimal opacity = BigDecimal.valueOf(1);
-				
+
 				// Number of steps in the animation of the Farkle message
 				int step = 4;
 
@@ -125,16 +127,18 @@ public class FarkleMessage extends JDialog {
 				 */
 				@Override
 				public void actionPerformed(ActionEvent e) {
-					
-					// Start playing the Farkle sound when the JDialog is first diaplayed
+
+					// Start playing the Farkle sound when the JDialog is first
+					// diaplayed
 					if (step == 4) {
 						playFarkleSound();
 						step--;
 					}
 
-					/* If step = 0, the animation is complete, reset to farkle left message,
-					 * set step back to 4, and hide this JDialog
-					 */ 
+					/*
+					 * If step = 0, the animation is complete, reset to farkle
+					 * left message, set step back to 4, and hide this JDialog
+					 */
 					if (step == 0) {
 						fadeTimer.stop();
 						FarkleMessage.this.setVisible(false);
@@ -142,11 +146,12 @@ public class FarkleMessage extends JDialog {
 						step = 4;
 					}
 
-					// If the opacity hasn't gone to 0, keep fading
+					// If the opacity != 0, keep fading
 					if (opacity.compareTo(BigDecimal.valueOf(0)) > 0) {
 						fade();
-						
-					// If the opacity is less than or equal to 0, change the JLabel and decrement step
+
+						// If the opacity <= 0, change the
+						// JLabel and decrement step
 					} else if (opacity.compareTo(BigDecimal.valueOf(0)) <= 0) {
 						switch (step) {
 						case 3:
@@ -176,21 +181,25 @@ public class FarkleMessage extends JDialog {
 				}
 
 				/**
-				 * Remove the provided JLabel, add a different JLabel, and set opacity 
-				 * to 1. 
-				 * @param c the JLabel to remove
+				 * Remove the provided JLabel, add a different JLabel, and set
+				 * opacity to 1.
+				 * 
+				 * @param c
+				 *            the JLabel to remove
 				 */
 				public void remove(Component c) {
-					
+
 					// Remove the provided JLabel
 					FarkleMessage.this.remove(c);
-					
-					// If the message has not finished playing, set the opacity to 1
+
+					// If the message has not finished playing, set the opacity
+					// to 1
 					if (step > 0) {
 						opacity = BigDecimal.valueOf(1.00);
 					}
 
-					// Add the next JLabel in the sequence based in the removed JLabel
+					// Add the next JLabel in the sequence based in the removed
+					// JLabel
 					if (c.equals(farkleLeftMsg)) {
 						FarkleMessage.this.getContentPane().add(farkleRightMsg);
 					} else if (c.equals(farkleRightMsg)) {
@@ -198,7 +207,8 @@ public class FarkleMessage extends JDialog {
 								.add(farkleCenterMsg);
 					}
 
-					// Size the window to fit the preferred size and layout of its subcomponents
+					// Size the window to fit the preferred size and layout of
+					// its subcomponents
 					FarkleMessage.this.pack();
 
 					// Play the farkle sound again
@@ -211,11 +221,11 @@ public class FarkleMessage extends JDialog {
 			// Add the action listener to the fade timer and start it
 			fadeTimer.addActionListener(listener);
 			fadeTimer.start();
-			
+
 			// Show this JDialog
 			super.setVisible(true);
 		} else {
-			
+
 			// Hide this JDialog
 			super.setVisible(false);
 		}
@@ -225,7 +235,7 @@ public class FarkleMessage extends JDialog {
 	 * Play the Farkle sound
 	 */
 	public void playFarkleSound() {
-		
+
 		// Use AudioStream and Clip to play the Farkle Sound
 		try {
 			AudioInputStream audioStream;
