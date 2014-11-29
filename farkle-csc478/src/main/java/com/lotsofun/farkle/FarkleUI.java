@@ -188,7 +188,6 @@ public class FarkleUI extends JFrame {
 			// Create and set up the main Window
 			this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 			this.setPreferredSize(new Dimension(1024, 768));
-			this.setTitle("Farkle");
 			this.setResizable(false);
 			
 			// Pack the main window
@@ -331,12 +330,6 @@ public class FarkleUI extends JFrame {
 		return buttonPanels;
 	}
 
-	/*******************************************************************************
-	 * 1.2.1 The center of the screen shall display the six dice used
-	 * during gameplay. These dice shall display the name of the game, Farkle,
-	 * until the user selects the roll button for the first time.
-	 *******************************************************************************/
-
 	/**
 	 * Combine the diceHeader and diceGrid panels in to a single panel which can
 	 * be added to the frame
@@ -373,9 +366,8 @@ public class FarkleUI extends JFrame {
 	/********************************************************************************
 	 * 1.2.2 - The total turn score shall be displayed above the dice in the
 	 * center of the screen, and the score for the selected dice of the current
-	 * roll shall be displayed directly
-	 * below the turn score in the center of the screen. This score shall be
-	 * updated as each die is selected.
+	 * roll shall be displayed directly below the turn score in the center of the 
+	 * screen. This score shall be updated as each die is selected.
 	 ********************************************************************************/
 
 	/**
@@ -448,6 +440,11 @@ public class FarkleUI extends JFrame {
 		return diceHeaderPanel;
 	}
 
+	/*******************************************************************************
+	 * 1.2.1 The center of the screen shall display the six dice used
+	 * during gameplay. These dice shall display the name of the game, "Farkle",
+	 * until the user selects the roll button for the first time.
+	 *******************************************************************************/
 	/**
 	 * Create a JPanel with six Dice, the running score JLabels and the Roll and
 	 * Bank buttons
@@ -456,14 +453,11 @@ public class FarkleUI extends JFrame {
 	 */
 	public JPanel createDiceGridPanel() {
 		
+		/***********************************************
+		 * 3.0.0: Dice
+		 ***********************************************/
 		// Create the panel
 		JPanel dicePanel = new JPanel(new GridLayout(0, 3, 0, 0));
-
-		/***********************************************
-		 * 1.3.1: The center of the screen shall display the six dice used
-		 * during gameplay. These dice shall display nothing until the user
-		 * presses the roll button for the first time.
-		 ***********************************************/
 
 		/***********************************************
 		 * 3.1.0: Farkle is played with six standard 6 sided dice with each side
@@ -515,6 +509,9 @@ public class FarkleUI extends JFrame {
 		playersPanel.setLayout(new BoxLayout(playersPanel, BoxLayout.Y_AXIS));
 		playersPanel.setBorder(BorderFactory.createLineBorder(Color.WHITE, 3));
 
+		/*************************************************
+		 * 1.3.0 - One player mode graphic user interface
+		 *************************************************/
 		// If the selected game mode is GameMode.SINGLEPLAYER
 		if (null != gameMode && gameMode == GameMode.SINGLEPLAYER) {
 			
@@ -548,20 +545,36 @@ public class FarkleUI extends JFrame {
 			/**********************************************************
 			 * 1.3.5 - The current highest achieved score shall be displayed on the
 			 * lower left hand corner of the screen below the overall point total
-			 * for the current game. This score shall initially be set to 5000
+			 * for the current game. This score shall initially be set to 0
 			 * points.
 			 **********************************************************/
 			// Add the high score to the players panel
 			addHighScore(playersPanel);
 		
+		/*************************************************
+		 * 1.4.0 - Two player mode graphic user interface
+		 *************************************************/
 		// Else if the game mode is GameMode.MULTIPLAYER
 		} else if (null != gameMode && gameMode == GameMode.MULTIPLAYER) {
 	
+			/*************************************************
+			 * 1.4.2.a - Each player shall be indicated in the following manner: 
+			 * “Player: “ along with the provided player’s name, or “Computer” 
+			 * if a “Computer Opponent” has been selected, followed by the 
+			 * running point total for the current game for that player.
+			 *************************************************/
+			
+			/*************************************************
+			 * 1.4.5 - The turn totals for each player shall be displayed in a 
+			 * scroll pane below that player’s name and game score. This scroll 
+			 * pane shall initially display 5 turns, adding additional turns 
+			 * after they are taken. The scrolling ability shall be enabled at 
+			 * the beginning of the 11th turn.
+			 *************************************************/
 			// Create the scroll pane for player 1 and add an empty border
 			JScrollPane player1ScrollPanel = createPlayerScorePanel(1, 5);
 			player1ScrollBar = player1ScrollPanel.getVerticalScrollBar();
 			player1ScrollPanel.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 6));
-			
 			
 			// Create the player 1 name panel
 			JPanel player1NamePanel = createPlayerNamePanel(1);
@@ -636,7 +649,14 @@ public class FarkleUI extends JFrame {
 		
 		/***********************************************************
 		 * 1.3.2 - The overall point total for the current game shall be displayed
-		 * on the lower left hand corner of the screen.
+		 * on the upper left hand corner of the screen, just below the player's 
+		 * name.
+		 ***********************************************************/
+		/***********************************************************
+		 * 1.4.2 - The left side of the screen shall have an area to display the 
+		 * overall accumulated point total for each player. This takes the place 
+		 * of the area displaying the point total for each turn in the one player 
+		 * mode graphic user interface. 
 		 ***********************************************************/
 		// Add the player score label and the player score
 		JLabel playerGameScoreLabel = (playerNumber == 1) ? player1GameScoreLabel
@@ -1070,6 +1090,11 @@ public class FarkleUI extends JFrame {
 		this.bankBtn.setEnabled(false);
 	}
 	
+	/*******************************************************************************
+	 * 1.2.1 The center of the screen shall display the six dice used
+	 * during gameplay. These dice shall display the name of the game, "Farkle",
+	 * until the user selects the roll button for the first time.
+	 *******************************************************************************/
 	/**
 	 * Initialize the dice to display the word "Farkle" at the beginning 
 	 * of a game
@@ -1438,14 +1463,13 @@ public class FarkleUI extends JFrame {
 	public void highlightTurn(JLabel scoreLabel, JLabel score,
 			boolean isBonusTurn) {
 
-		/***********************************************************************
-		 * 1.3.4 - The current turn shall be indicated by highlighting that turn
-		 * on the left side of the screen. This turn shall be highlighted as
-		 * soon as the previous turn ends (which occurs after the player selects
-		 * the “Bank Score” button, or the user selects the “OK” button in the
-		 * Farkle message dialog box), and before the player selects the “Roll
-		 * Dice” button for the current turn.
-		 ************************************************************************/
+		/*****************************************
+		 * 1.3.4 - The current turn shall be indicated by highlighting that turn 
+		 * on the left side of the screen. This turn shall be highlighted as soon 
+		 * as the previous turn ends (which occurs after the player selects the 
+		 * “Bank Score” button, or after the Farkle message animation completes), 
+		 * and before the player selects the “Roll Dice” button for the current turn.
+		 *****************************************/
 
 		/* Highlight given turn in white, and set font to black if it's not a 
 		 * bonus turn
@@ -1529,11 +1553,12 @@ public class FarkleUI extends JFrame {
 	 * @return The Farkle menu bar
 	 */
 	public JMenuBar createFarkleMenuBar() {
+		
 		// Menu Bar
 		/******************************************************
-		 * 1.2.10 A menu shall be displayed at the top of the main GUI with one
-		 * main option, File, and three sub options: New Game, Restart
-		 * Game, and Quit.
+		 * 1.2.10 - A menu shall be displayed at the top of the main GUI 
+		 * with one main option, “File”, and four five options: “Hint”, 
+		 * “New Game”, “Restart Game”, “Reset High Score”, and “Quit”.
 		 ******************************************************/
 		
 		// Instantiate the JMenuBar
@@ -1563,7 +1588,17 @@ public class FarkleUI extends JFrame {
 
 			@Override
 			public void menuSelected(MenuEvent e) {
+				
+				/********************************************************
+				 * 1.2.10.e - The “Hint” option shall only be available after a 
+				 * player has rolled, and before that player has selected any dice.
+				 ********************************************************/
 				hintAction.setEnabled(controller.isHintAvailable());
+				
+				/********************************************************
+				 * 1.2.10.g - The “New Game” option and the “Reset Game” option 
+				 * shall be disabled while the computer is taking its turn.
+				 ********************************************************/
 				newAction.setEnabled(controller.isResetOrNewGameAvailable());
 				resetAction.setEnabled(controller.isResetOrNewGameAvailable());
 			}
@@ -1580,7 +1615,7 @@ public class FarkleUI extends JFrame {
 
 		/********************************************************
 		 * 1.2.10.a If the user selects the New Game option, the select game
-		 * mode option box (section 1.1.0) is displayed.
+		 * mode option box is displayed.
 		 ********************************************************/
 		if (newAction.getActionListeners().length == 0) {
 			newAction.addActionListener(new ActionListener() {
@@ -1605,7 +1640,10 @@ public class FarkleUI extends JFrame {
 			});
 		}
 		
-		// Add an action listener for the reset high scores option
+		/****************************************************************
+		 * 1.2.10.f - If the user selects the “Reset High Score” option, the 
+		 * high score is reset to 0.
+		 ****************************************************************/
 		if(resetHighScoreAction.getActionListeners().length == 0) {
 			resetHighScoreAction.addActionListener(new ActionListener() {
 				@Override
@@ -1616,7 +1654,7 @@ public class FarkleUI extends JFrame {
 		}
 
 		/****************************************************************
-		 * 1.2.10.c If the user selects the Quit option, the application is
+		 * 1.2.10.c If the user selects the "Quit" option, the application is
 		 * closed.
 		 ****************************************************************/
 		if (exitAction.getActionListeners().length == 0) {
@@ -1628,7 +1666,10 @@ public class FarkleUI extends JFrame {
 			});
 		}
 
-		// Add an action listener for the hint option
+		/****************************************************************
+		 * 1.2.10.d - If the user selects the “Hint” option, the dice combination 
+		 * for the highest possible score for the current roll is displayed.
+		 ****************************************************************/
 		if (hintAction.getActionListeners().length == 0) {
 			hintAction.addActionListener(new ActionListener() {
 				@Override

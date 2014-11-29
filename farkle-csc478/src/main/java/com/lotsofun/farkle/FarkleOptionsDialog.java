@@ -21,14 +21,15 @@ import javax.swing.SwingConstants;
 /**
  * Displays a dialog box used to select game mode options, including single
  * player or two player, human opponent or computer opponent, and setting
- * appropriate names for each player. Fulfills requirement 1.0.0:<br /><br />
+ * appropriate names for each player. <br /><br />Fulfills requirement 1.0.0:<br /><br />
  * "Select Game Mode Option Box - Upon opening the application, the user is
  * greeted with an option box that includes all configuration options for
  * gameplay. These options include "1 Player Mode", "2 Player Mode", "Human
  * Opponent" (if two player mode is selected), "Computer Opponent" (if two
  * player mode is selected), and text fields to enter the associated player
  * names. Also included is a "Start" button and a "Close" button (both of which
- * are always enabled). This option dialog box should pop up over the main GUI."
+ * are always enabled). This option dialog box should pop up over the main GUI set
+ * to a solid green color."
  * @author Jacob Davidson
  * @version 3.0.0
  */
@@ -528,8 +529,10 @@ public class FarkleOptionsDialog extends JDialog implements MouseListener {
 		// The Computer opponent player type has been selected
 
 		/****************************************************************
-		 * 1.1.5 - When the "Computer Opponent" option is highlighted, only one
-		 * text field is displayed, labeled "Player One Name".
+		 * 1.1.5 - When the "Computer Opponent" option is highlighted, the
+		 * text fields for "Player One Name" and "Player Two Name" are displayed,
+		 * but the "Player Two Name" field is disabled, and "Computer" is
+		 * supplied for the "Player Two Name".
 		 ****************************************************************/
 		else if (e.getComponent().getName().equals("4")) {
 

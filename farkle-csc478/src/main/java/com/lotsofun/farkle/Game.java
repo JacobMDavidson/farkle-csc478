@@ -68,19 +68,20 @@ public class Game {
 	 * Calculate the score of a list of integers representing a roll of dice per the 
 	 * rules of this version of Farkle. This method calculates the scores in accordance 
 	 * with the following requirements: <br /><br />
-	 * 6.1.0: Each 1 rolled is worth 100 points<br />
-	 * 6.2.0: Each 5 rolled is worth 50 points<br />
-	 * 6.3.0: Three 1's are worth 1000 points<br />
-	 * 6.4.0: Three of a kind of any value other than 1 is worth 100 times the value 
+	 * 6.0.0 - Scoring <br />
+	 * 6.1.0 - Each 1 rolled is worth 100 points<br />
+	 * 6.2.0 - Each 5 rolled is worth 50 points<br />
+	 * 6.3.0 - Three 1's are worth 1000 points<br />
+	 * 6.4.0 - Three of a kind of any value other than 1 is worth 100 times the value 
 	 * of the die (e.g. three 4's is worth 400 points).<br />
-	 * 6.4.5: Four, five, or six of a kind is scored by doubling the three of a kind 
+	 * 6.5.0 - Four, five, or six of a kind is scored by doubling the three of a kind 
 	 * value for every additional matching die (e.g. five 3's would be scored as 
 	 * 300 X 2 X 2 = 1200.<br />
-	 * 6.6.0: Three distinct doubles (e.g. 1-1-2-2-3-3) are worth 750 points. This 
+	 * 6.6.0 - Three distinct doubles (e.g. 1-1-2-2-3-3) are worth 750 points. This 
 	 * scoring rule does not include the condition of rolling four of a kind along with 
 	 * a pair (e.g. 2-2-2-2-3-3 does not satisfy the three distinct doubles scoring rule).
 	 * <br />
-	 * 6.7.0: A straight (e.g. 1-2-3-4-5-6), which can only be achieved when all 6 dice 
+	 * 6.7.0 - A straight (e.g. 1-2-3-4-5-6), which can only be achieved when all 6 dice 
 	 * are rolled, is worth 1500 points.
 	 * 
 	 * @param roll A List of Integers representing the roll of dice for which the
