@@ -173,7 +173,10 @@ public class FarkleController implements ActionListener, MouseListener {
 		farkleUI.setGameScore(player, farkleGame.bank());
 		farkleUI.getBankBtn().setEnabled(false);
 		farkleUI.getSelectAllBtn().setEnabled(false);
-		checkHighScore(player);
+		
+		// If this is a single player game, check the high score
+		if(farkleGame.getGameMode() == GameMode.SINGLEPLAYER)
+			checkHighScore(player);
 		
 		// Determine if the game has ended
 		tryToEndGame();
@@ -412,6 +415,12 @@ public class FarkleController implements ActionListener, MouseListener {
 		 * button disabled, and player one highlighted indicating it is his
 		 * turn.
 		 ****************************************************************/
+		
+		// Build the dice panel
+		farkleUI.buildDicePanel();
+		
+		// Build the scoring guide panel
+		farkleUI.createScoreGuidePanel();
 		
 		// Build the player panel for the selected game mode
 		farkleUI.buildPlayerPanel(farkleOptions.getGameMode());
