@@ -387,6 +387,9 @@ public class FarkleController implements ActionListener, MouseListener {
 	 */
 	public void newGame(FarkleOptionsDialog options) {
 		
+		// Repaint the farkleUI to remove all panels before displaying options
+		farkleUI.repaint();
+		
 		// If option is null, display the farkle options dialog
 		if(null == options) {
 			// Get the game options
