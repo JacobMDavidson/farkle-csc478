@@ -426,10 +426,33 @@ public class FarkleController implements ActionListener, MouseListener {
 		boolean replayGame = (isTest) ? testReplayGame : gameEnded(resetOnly,
 				mainMenu);
 
-		// Unhighlight all player turns
+		// Unhighlight all player turns for player 1
 		farkleUI.unHighlightAllTurnScores(1);
+		
+		// If two player mode, unhighlight player turns for player 2 and reset
+		// the turn score labels
 		if (farkleGame.getGameMode() == GameMode.MULTIPLAYER) {
+			
 			farkleUI.unHighlightAllTurnScores(2);
+
+			// Rebuild the GUI to clear scpre labels for both players
+			farkleUI.getContentPane().removeAll();
+			
+			// Clear the score labels and scores for both players
+			farkleUI.getPlayerScoreLabels(1).clear();
+			farkleUI.getPlayerScoreLabels(2).clear();
+			farkleUI.getPlayerScores(1).clear();
+			farkleUI.getPlayerScores(2).clear();
+			
+			// Build the dice panel
+			farkleUI.buildDicePanel();
+
+			// Build the scoring guide panel
+			farkleUI.createScoreGuidePanel();
+			
+			// Build the player panel for the selected game mode
+			farkleUI.buildPlayerPanel(farkleOptions.getGameMode());
+
 		}
 
 		// If replayGame is true, reset the current game
@@ -459,7 +482,7 @@ public class FarkleController implements ActionListener, MouseListener {
 		// Repaint the farkleUI to remove all panels before displaying options
 		farkleUI.repaint();
 
-		// If option is null, display the farkle options dialog
+		// If options is null, display the farkle options dialog
 		if (null == options) {
 			// Get the game options
 			farkleOptions = new FarkleOptionsDialog(farkleUI);
