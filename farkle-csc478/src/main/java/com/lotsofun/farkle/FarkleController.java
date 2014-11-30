@@ -1319,6 +1319,23 @@ public class FarkleController implements ActionListener, MouseListener {
 			return true;
 		}
 	}
+	
+	/**
+	 * Returns true if the game mode is GameMode.SINGLEPLAYER.
+	 * Used to enable/disable the reset high score option in the file menu.
+	 * 
+	 * @return boolean true if a reset high score is available
+	 */
+	public boolean isResetHighScoreAvailable() {
+		// If the game mode is GameMode.MULTIPLAYER return false
+		if (farkleGame.getGameMode() == GameMode.MULTIPLAYER) {
+			return false;
+
+			// Else, return true
+		} else {
+			return true;
+		}
+	}
 
 	/**
 	 * Get the highest possible score of the rolled dice

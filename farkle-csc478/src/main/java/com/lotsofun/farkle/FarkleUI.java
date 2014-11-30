@@ -1674,6 +1674,9 @@ public class FarkleUI extends JFrame {
 				 ****************************************************/
 				newAction.setEnabled(controller.isResetOrNewGameAvailable());
 				resetAction.setEnabled(controller.isResetOrNewGameAvailable());
+				
+				// Determine if the reset high score menu option is available
+				resetHighScoreAction.setEnabled(controller.isResetHighScoreAvailable());
 			}
 
 			@Override
