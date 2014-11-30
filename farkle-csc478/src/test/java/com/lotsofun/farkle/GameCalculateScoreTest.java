@@ -221,8 +221,7 @@ public class GameCalculateScoreTest {
 
 	/**
 	 * This method tests the calculateScore method of the Game class for all
-	 * permutations of 1 die, requirements 6.1.0 and 6.2.0: <br />
-	 * <br />
+	 * permutations of 1 die, requirements 6.1.0 and 6.2.0: <br /><br />
 	 * 6.1.0 Each 1 rolled is worth 100 points<br />
 	 * 6.2.0 Each 5 rolled is worth 50 points
 	 */

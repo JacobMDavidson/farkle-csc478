@@ -34,8 +34,14 @@ public class FarkleControllerTest {
 
 		// The ui instance ids should match
 		assertEquals(ui, currentUI);
+		
 	}
 
+	/**************************************************************************
+	 * 4.2.0 - The resulting roll is analyzed according to requirement 6.0.0 to
+	 * determine if the player farkled. A farkle occurs if the roll results in 0
+	 * points.
+	 **************************************************************************/
 	/**
 	 * Test the farkle() method
 	 */
@@ -51,7 +57,14 @@ public class FarkleControllerTest {
 		FarkleUI ui = new FarkleUI(controller);
 		controller.newGame(options);
 		Game game = controller.farkleGame;
-
+		
+		/**********************************************************************
+		 * 3.1.0 - Farkle is played with six standard 6 sided dice with each
+		 * side numbered from 1 through 6 (inclusive).
+		 **********************************************************************/
+		ArrayList<Die> dice = ui.getDice(DieState.UNHELD);
+		assertEquals(dice.size(), 6);
+		
 		// Set up random game conditions
 		ui.setRunningScore(50);
 		assertEquals(ui.getRunningScore(), 50);
@@ -98,6 +111,11 @@ public class FarkleControllerTest {
 		assertEquals(game.getPlayerNumberForCurrentPlayer(), 2);
 	}
 
+	
+	/**************************************************************************
+	 * 4.8.0 - If the player selects the bank button, the current turn point
+	 * total is added to the player’s game point total, and the turn is over.
+	 **************************************************************************/	
 	/**
 	 * Test the bank() method
 	 */
@@ -165,6 +183,10 @@ public class FarkleControllerTest {
 		assertEquals(game.getPlayerNumberForCurrentPlayer(), 2);
 	}
 
+	/**************************************************************************
+	 * 2.1.2 - The game ends at the conclusion of the tenth turn, and the
+	 * player’s score is compared to the current high score.
+	 **************************************************************************/	
 	/**
 	 * Test the checkHighScore() method
 	 */
@@ -211,6 +233,10 @@ public class FarkleControllerTest {
 				.getPlayerNumberForCurrentPlayer()));
 	}
 
+	/**************************************************************************
+	 * 1.2.10.f If the user selects the “Reset High Score” option, the high
+	 * score is reset to 0.
+	 **************************************************************************/		
 	/**
 	 * Test the resetHighScore() method
 	 */
@@ -240,6 +266,18 @@ public class FarkleControllerTest {
 		assertEquals(game.getHighScore(), 0);
 	}
 
+	/**************************************************************************
+	 * 2.1.2 - The game ends at the conclusion of the tenth turn, and the
+	 * player’s score is compared to the current high score.
+	 **************************************************************************/
+	/**************************************************************************
+	 * 2.2.3 - The other player has one more turn to try and surpass the point
+	 * total of the first player to surpass 10,000 points.
+	 **************************************************************************/
+	/**************************************************************************
+	 * 2.3.4 - The other player has one more turn to try and surpass the point
+	 * total of the first player to surpass 10,000 points.
+	 **************************************************************************/
 	/**
 	 * Test the tryToEndGame() method
 	 */
@@ -299,6 +337,15 @@ public class FarkleControllerTest {
 		assertTrue(controller.isLastTurn);
 	}
 
+	/**************************************************************************
+	 * 1.5.1.a - If the user selects the "Play Again?" button, the game will be
+	 * restarted with all of the same configuration options of the previous game
+	 * (player mode, player’s names, and player types).
+	 **************************************************************************/
+	/**************************************************************************
+	 * 1.5.1.b - If the user selects the “Main Menu” button, the select game
+	 * mode option box will be displayed (see section 1.1.0).
+	 **************************************************************************/
 	/**
 	 * Test the endGame() method
 	 */

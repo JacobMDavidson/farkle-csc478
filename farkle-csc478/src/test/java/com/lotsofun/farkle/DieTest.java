@@ -53,6 +53,10 @@ public class DieTest {
 		assertNotNull(d);
 		assertEquals(d.getValue(), 0);
 
+		/****************************************************
+		 * 3.2.0 - Each die that is rolled shall be assigned a random value from
+		 * 1 to 6 (inclusive) at the conclusion of the roll.
+		 ****************************************************/
 		// Roll the die 100 times and assert it is in the range of 1 to 6
 		// (inclusive).
 		List<Integer> possibleValues = Arrays.asList(1, 2, 3, 4, 5, 6);

@@ -69,6 +69,10 @@ public class GameTest {
 
 	}
 
+	/**************************************************************************
+	 * 4.8.0 - If the player selects the bank button, the current turn point
+	 * total is added to the player’s game point total, and the turn is over.
+	 **************************************************************************/
 	/**
 	 * Test the bank() method
 	 */
@@ -105,6 +109,11 @@ public class GameTest {
 
 	}
 
+	/**************************************************************************
+	 * 4.2.0 - The resulting roll is analyzed according to requirement 6.0.0 to
+	 * determine if the player farkled. A farkle occurs if the roll results in 0
+	 * points.
+	 **************************************************************************/
 	/**
 	 * Test the farkle() method
 	 */
@@ -616,7 +625,7 @@ public class GameTest {
 	}
 
 	/**
-	 * Test the isBonusTuen() and setBonusTurn(boolean) methods
+	 * Test the isBonusTurn() and setBonusTurn(boolean) methods
 	 */
 	@Test
 	public void testIsAndSetBonusTurn() {
@@ -742,6 +751,16 @@ public class GameTest {
 
 	}
 
+	/**************************************************************************
+	 * 1.2.10.b - If the user selects the "Restart Game" option, the current
+	 * game with all current configurations (player mode, player names, and
+	 * player types) is restarted.
+	 **************************************************************************/
+	/**************************************************************************
+	 * 1.5.1.a - If the user selects the "Play Again?" button, the game will be
+	 * restarted with all of the same configuration options of the previous game
+	 * (player mode, player’s names, and player types).
+	 **************************************************************************/
 	/**
 	 * Test the resetGame() method
 	 */
@@ -889,6 +908,10 @@ public class GameTest {
 
 	}
 
+	/**************************************************************************
+	 * 1.2.10.f - If the user selects the "Reset High Score" option, the high
+	 * score is reset to 0.
+	 **************************************************************************/	
 	/**
 	 * Test the resetHighScore() method
 	 */

@@ -194,8 +194,7 @@ public class FarkleOptionsDialogTest {
 		JTextField playerTwoName = farkleOptionsDialog.getJTextField(1);
 
 		// Instantiate MouseEvent objects that simulate the user clicking on the
-		// above
-		// JLabels
+		// above JLabels
 		MouseEvent singlePlayerLabelClicked = new MouseEvent(singlePlayerLabel,
 				1, 1, 0, 0, 0, 1, false);
 		MouseEvent multiPlayerLabelClicked = new MouseEvent(multiPlayerLabel,
@@ -205,6 +204,12 @@ public class FarkleOptionsDialogTest {
 		MouseEvent computerPlayerLabelClicked = new MouseEvent(
 				computerPlayerLabel, 1, 1, 0, 0, 0, 1, false);
 
+		/****************************************************
+		 * 1.1.3 - If the user highlights the "2 Player Mode" option, the "1
+		 * Player Mode" option is deselected, and two more options appear
+		 * ("Human Opponent" and "Computer Opponent"). The "Human Opponent"
+		 * option is highlighted by default.
+		 ****************************************************/
 		/*
 		 * When the dialog box opens, the singlePlayerLabel is highlighted, test
 		 * the click on the multiPlayerLabel.
@@ -240,6 +245,12 @@ public class FarkleOptionsDialogTest {
 		// Assert that the playerTwoName is empty
 		assertTrue(playerTwoName.getText().isEmpty());
 
+		/****************************************************
+		 * 1.1.5 - When the "Computer Opponent" option is highlighted, the text
+		 * fields for "Player One Name" and "Player Two Name" are displayed, but
+		 * the "Player Two Name" field is disabled, and "Computer" is supplied
+		 * for the "Player Two Name".
+		 ****************************************************/
 		/*
 		 * Two Player Mode is highlighted, simulate a click on
 		 * "Computer Opponent"
@@ -302,7 +313,12 @@ public class FarkleOptionsDialogTest {
 
 		// Assert that the playerTwoName is empty
 		assertTrue(playerTwoName.getText().isEmpty());
-
+		
+		/****************************************************
+		 * 1.1.4 - When the "Human Opponent" option is highlighted, two text
+		 * fields are displayed, labeled "Player One Name", and "Player Two
+		 * Name".
+		 ****************************************************/
 		/*
 		 * One player mode is highlighted. The user clicks on multiPlayerMode,
 		 * computer, then human opponent

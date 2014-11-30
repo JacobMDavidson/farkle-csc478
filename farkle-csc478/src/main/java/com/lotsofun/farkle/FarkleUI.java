@@ -547,9 +547,8 @@ public class FarkleUI extends JFrame {
 
 			/****************************************************
 			 * 1.3.5 - The current highest achieved score shall be displayed on
-			 * the lower left hand corner of the screen below the overall point
-			 * total for the current game. This score shall initially be set to
-			 * 0 points.
+			 * the lower left hand corner of the screen. This score shall
+			 * initially be set to 0 points.
 			 ****************************************************/
 			// Add the high score to the players panel
 			addHighScore(playersPanel);
