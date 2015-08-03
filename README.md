@@ -4,6 +4,7 @@ For the software engineering capstone course at University of Illinois at Spring
 
 ## Traditional Rules of Farkle
 Farkle is a game typically played with six dice and more than one player. The traditional rules dictate that each player takes turns rolling the dice in succession, with each turn producing a score. The score produced from the players current turn is added to that players previous score accumulation. The goal is to be the first player to reach 10,000 points. The scoring is generated as follows:
+
 1. At the beginning of the turn, the player rolls all 6 dice.
 2. Scoring for each roll is as follows: Each 1 = 100 points, each 5 = 50 points, (3) 1s = 1000 points, (3) 2s = 200 points, (3) 3s = 300 points, (3) 4s = 400 points, (3) 5s = 500 points, (3) 6s = 600 points, a straight = 1500 points, (3) pair = 750 points, and more than three of a kind doubles the value for each additional match (e.g. (5) 3s = 300 x 2 x 2 = 1200 points).
 3. Dice resulting in a score are chosen and removed by the player (the player must pick up at least one scoring die, but does not need to pick up all scoring die), and the player decides if they want to roll with the remaining dice or pass to the next player.
